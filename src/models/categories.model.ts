@@ -3,8 +3,9 @@ import mongoose, { Document, Model } from "mongoose";
     _id: string; // MongoDB ObjectId as a string
     category_name: string;
     url_slug: string;
-    parent_category_id: string | null; // null for top-level categories
     status: "active" | "inactive";
+    meta_description:string,
+    meta_keywords:string;
     image_url: string;
     created_at: Date;
     updated_at: Date;
