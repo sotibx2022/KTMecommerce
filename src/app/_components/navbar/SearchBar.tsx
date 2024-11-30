@@ -1,30 +1,17 @@
-"use client"
-import React, { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import Link from 'next/link'
+import React from 'react'
 import PrimaryButton from '../primaryButton/PrimaryButton'
+import Link from 'next/link'
 const SearchBar = () => {
-  const[searchValue, setSearchValue] = useState("");
-  const router = useRouter();
   return (
-    <>
-    <div className='container flex justify-center items-center'>
-    <div className="logoArea">
-      <img src='../assets/brand/logo.png' alt='logo' className='w-[200px] h-[200px]' />
+    <div className='container flex justify-between items-center gap-4 my-4'>
+      <Link href="/">
+      <img src='../assets/brand/logo.png' className='w-auto h-[50px]'/>
+      </Link>
+      <div className="searchArea flex" >
+      <input type='text' placeholder='Search the product' className='min-w-[300px] bg-background text-primaryDark border-b-2 border-primaryDark border-solid focus:outline-none focus:placeholder-opacity-0'/>
+      <PrimaryButton searchText='Search'/>
+      </div>
     </div>
-    <div className="formItem flex flex-col justify-start gap-4 min-w-[15rem]">
-    <input 
-    type='text' 
-    id="searchInput" 
-    placeholder='Book Name, Author, Keyword...'
-    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchValue(e.target.value)}
-/>
-<Link href={`http://localhost:3000/search?searchValue=${searchValue}`}>
-  <PrimaryButton text="Search" />
-</Link>
-    </div>
-  </div>
-  </>
   )
 }
 export default SearchBar

@@ -1,9 +1,9 @@
 "use client"
 const links = [
   { href: "/", text: "Home" },
-  { href: "/categories", text: "Categories" },
-  { href: "/best-sellers", text: "Best Sellers" },
-  { href: "/new-arrivals", text: "New Arrivals" },
+  { href: "/carreers", text: "Carreers" },
+  { href: "/help", text: "Help" },
+  { href: "/terms", text: "Terms" },
   { href: "/contact", text: "Contact Us" },
 ];
 import Link from 'next/link'

@@ -1,30 +1,11 @@
-"use client"
-import React, { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import Link from 'next/link'
-import PrimaryButton from '../primaryButton/PrimaryButton'
-const SearchBar = () => {
-  const[searchValue, setSearchValue] = useState("");
-  const router = useRouter();
+interface PrimaryButton{
+    searchText:string
+}
+const PrimaryButton:React.FC<PrimaryButton> = ({searchText}) => {
   return (
-    <>
-    <div className='container flex justify-center items-center'>
-    <div className="logoArea">
-      {/* <img src='../assets/brand/logo.png' alt='logo' className='w-[200px] h-[200px]' /> */}
+        <div className='py-6 text-white border-2  border-primaryDark relative cursor-pointer min-w-[200px]'>
+      <div className='absolute top-[5px] left-[5px]  w-full h-full bg-primaryDark transition-all duration-500 hover:top-0 hover:left-0 flex justify-center items-center cursor-pointer'>{searchText}</div>
     </div>
-    <div className="formItem flex flex-col justify-start gap-4 min-w-[15rem]">
-    <input 
-    type='text' 
-    id="searchInput" 
-    placeholder='Book Name, Author, Keyword...'
-    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchValue(e.target.value)}
-/>
-<Link href={`http://localhost:3000/search?searchValue=${searchValue}`}>
-  <PrimaryButton text="Search" />
-</Link>
-    </div>
-  </div>
-  </>
   )
 }
-export default SearchBar
+export default PrimaryButton
