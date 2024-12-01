@@ -99,3 +99,6 @@ html {
 .formItem input[type='text']{
   @apply bg-background outline-none border-2 border-primaryDark rounded-lg p-2;
 }
+.responsiveHeaderIcon{
+  @apply text-primaryDark w-[30px] h-[30px]
+}
