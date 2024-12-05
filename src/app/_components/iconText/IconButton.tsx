@@ -15,7 +15,7 @@ const IconButton: React.FC<IconButtonProps> = ({ icon, name, number }) => {
           {number}
         </span>
       )}
-      <h2 className="text-primaryDark ">{name}</h2>
+      <h2 className="text-primaryDark z-10">{name}</h2>
       {/* Hover effect background */}
       <div className="absolute top-0 left-0 w-full h-full bg-helper transform scale-y-0 group-hover:scale-y-100 transition-transform duration-500 origin-top z-0"></div>
     </div>

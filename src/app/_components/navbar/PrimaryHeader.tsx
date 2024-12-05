@@ -10,18 +10,22 @@ import Link from 'next/link'
 import React from 'react';
 import LinkComponent from '../linkComponent/LinkComponent';
 import SecondaryButton from '../secondaryButton/SecondaryButton';
-const PrimaryHeader =() =>{
+interface PrimaryHeader{
+  classStyles?:string,
+  classStyles2?:string,
+}
+const PrimaryHeader:React.FC<PrimaryHeader> =({classStyles,classStyles2}) =>{
   return (
-      <div className="wrapper bg-primaryDark">
-        <nav className="container py-1 flex justify-between items-center">
-        <div className="flex-between w-[60%]">
+      <div className="wrapper flex">
+        <nav className={classStyles}>
+        <ul className='flex flex-wrap'>
       {links.map((link, index) => (
-        <li className='text-white list-none' key={index} >
+        <li className='text-primaryDark list-none bg-primaryLight p-2 m-2 text-white' key={index} >
           <LinkComponent   href={link.href} text={link.text}/>
         </li>
       ))}
-    </div>
-        <div className="flex justify-end items-center h-[2rem] w-[20%] gap-1">
+    </ul>
+        <div className="flex items-center h-[2rem] w-[20%] gap-2">
   <Link href="/auth/login">
     <SecondaryButton text="login"/>
   </Link>

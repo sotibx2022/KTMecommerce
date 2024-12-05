@@ -5,7 +5,7 @@ const page = () => {
   return (
     <>
       <NavBar/>
-      <ResponsiveHeader/>
+      {/* <ResponsiveHeader/> */}
     </>
   )
 }
