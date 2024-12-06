@@ -20,6 +20,7 @@ const MainPrimaryHeader: React.FC = () => {
   useEffect(() => {
     const findWindowSize = () => {
       setWindowSize(window.innerWidth);
+      console.log(window.innerWidth)
     };
     window.addEventListener("resize", findWindowSize);
     return () => {
@@ -47,15 +48,16 @@ const MainPrimaryHeader: React.FC = () => {
   };
   return (
     <div className="flex bg-primaryDark">
-      <nav className="container flex justify-between items-center">
-      <ul className={`${windowSize < 700 ? 'hidden' : 'flex'}`}>
+      <nav className="container flex justify-between items-center py-1">
+      <ul className={`${windowSize < 700 ? 'hidden' : 'flex justify-center items-center gap-4'}`}>
           {links.map((link, index) => (
             <li className="text-background" key={index}>
               <LinkComponent href={link.href} text={link.text} />
             </li>
           ))}
         </ul>
-        <div className="flex items-center h-[2rem] gap-1">
+        <div className="flex gap-4 items-center">
+        <div className={`${windowSize<700?'hidden':'flex justify-center items-center gap-4'}`}>
           <Link href="/auth/login">
             <SecondaryButton text="login" />
           </Link>
@@ -68,6 +70,7 @@ const MainPrimaryHeader: React.FC = () => {
           className="text-white cursor-pointer transition-transform transform hover:scale-125 hover:rotate-12"
           onClick={toggleResponsiveMenu}
         />
+        </div>
       </nav>
       <div className="responsiveHeader absolute top-0  w-full h-full bg-black bg-opacity-80 flex z-10">
       <ResponsiveHeader onSendData={handleChildData} />
