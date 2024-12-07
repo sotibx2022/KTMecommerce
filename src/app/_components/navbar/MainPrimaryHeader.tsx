@@ -1,12 +1,12 @@
-"use client";
-import React, { useEffect, useState } from "react";
+"use client"
+import React, { useEffect, useRef, useState } from "react";
 import LinkComponent from "../linkComponent/LinkComponent";
 import SecondaryButton from "../secondaryButton/SecondaryButton";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import ResponsiveHeader from "./responsiveHeader/ResponsiveHeader";
-import gsap from 'gsap'
+import gsap from "gsap";
 const links = [
   { href: "/", text: "Home" },
   { href: "/carreers", text: "Carreers" },
@@ -16,40 +16,49 @@ const links = [
 ];
 const MainPrimaryHeader: React.FC = () => {
   const [windowSize, setWindowSize] = useState<number>(window.innerWidth);
-  const [showResponsiveMenu, setShowResponsiveMenu] = useState(windowSize<700? true:false);
+  const [showResponsiveMenu, setShowResponsiveMenu] = useState<boolean>(false);
+  const responsiveHeaderRef = useRef<HTMLDivElement | null>(null); // Ref for the responsive header
   useEffect(() => {
     const findWindowSize = () => {
       setWindowSize(window.innerWidth);
-      console.log(window.innerWidth)
     };
     window.addEventListener("resize", findWindowSize);
     return () => {
       window.removeEventListener("resize", findWindowSize);
     };
   }, []);
+  useEffect(() => {
+    const responsiveHeader = responsiveHeaderRef.current;
+    if (responsiveHeader) {
+      if (showResponsiveMenu) {
+        gsap.to(responsiveHeader, {
+          left: "0%", // Slide in
+          duration: 0.5,
+          ease: "power2.out",
+        });
+      } else {
+        gsap.to(responsiveHeader, {
+          left: "100%", // Slide out
+          duration: 0.5,
+          ease: "power2.in",
+        });
+      }
+    }
+  }, [showResponsiveMenu]); // Trigger animation on state change
   const toggleResponsiveMenu = () => {
-    setShowResponsiveMenu(!showResponsiveMenu);
+    setShowResponsiveMenu((prev) => !prev);
   };
-  let responsiveHeader = document.querySelector(".responsiveHeader")
-  if (showResponsiveMenu) {
-    gsap.to(responsiveHeader, {
-      left: "100%",          
-      duration: 0.3,    
-    });
-  } else {
-    gsap.to(responsiveHeader, {
-      left:0,    
-      duration: 0.3,    
-    });
-  }
   const handleChildData = (data: boolean) => {
-    console.log("Data received from child:", data);
-    setShowResponsiveMenu(data); 
+    setShowResponsiveMenu(data);
   };
   return (
     <div className="flex bg-primaryDark">
       <nav className="container flex justify-between items-center py-1">
-      <ul className={`${windowSize < 700 ? 'hidden' : 'flex justify-center items-center gap-4'}`}>
+        <ul
+          className={`${
+            windowSize < 700 ? "hidden" : "flex justify-center items-center gap-4"
+          }`}
+        >
           {links.map((link, index) => (
             <li className="text-background" key={index}>
               <LinkComponent href={link.href} text={link.text} />
@@ -57,25 +66,35 @@ const MainPrimaryHeader: React.FC = () => {
           ))}
         </ul>
         <div className="flex gap-4 items-center">
-        <div className={`${windowSize<700?'hidden':'flex justify-center items-center gap-4'}`}>
-          <Link href="/auth/login">
-            <SecondaryButton text="login" />
-          </Link>
-          <Link href="/auth/signup">
-            <SecondaryButton text="Signup" />
-          </Link>
-        </div>
-        <FontAwesomeIcon
-          icon={faBars}
-          className="text-white cursor-pointer transition-transform transform hover:scale-125 hover:rotate-12"
-          onClick={toggleResponsiveMenu}
-        />
+          <div
+            className={`${
+              windowSize < 700 ? "hidden" : "flex justify-center items-center gap-4"
+            }`}
+          >
+            <Link href="/auth/login">
+              <SecondaryButton text="Login" />
+            </Link>
+            <Link href="/auth/signup">
+              <SecondaryButton text="Signup" />
+            </Link>
+          </div>
+          <FontAwesomeIcon
+            icon={faBars}
+            className="text-white cursor-pointer transition-transform transform hover:scale-125 hover:rotate-12"
+            onClick={toggleResponsiveMenu}
+          />
         </div>
       </nav>
-      <div className="responsiveHeader absolute top-0  w-full h-full bg-black bg-opacity-80 flex z-10">
-      <ResponsiveHeader onSendData={handleChildData} />
+      {/* Responsive header */}
+      <div
+        ref={responsiveHeaderRef} // Attach the ref here
+        className="responsiveHeader absolute top-0 left-[100%] w-full h-full bg-black bg-opacity-80 flex z-10"
+      >
+        {showResponsiveMenu && (
+          <ResponsiveHeader onSendData={handleChildData} />
+        )}
       </div>
     </div>
   );
 };
-export default MainPrimaryHeader;
+export default MainPrimaryHeader

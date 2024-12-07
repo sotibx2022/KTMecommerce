@@ -47,7 +47,7 @@ const ResponsiveHeader: React.FC<ResponsiveHeaderProps> = ({ onSendData }) => {
           <FontAwesomeIcon
             icon={faTimes}
             className="responsiveHeaderIcon "
-            onClick={() => onSendData(true)} 
+            onClick={() => onSendData(false)} 
           />
           <FontAwesomeIcon icon={faSearch} className="responsiveHeaderIcon" />
           <FontAwesomeIcon icon={faHeart} className="responsiveHeaderIcon" />
