@@ -9,8 +9,10 @@ const NavBar = () => {
   return (
     <nav>
       <MainPrimaryHeader/>
-      {window.innerWidth>700 && <SearchBar/>}
-      {window.innerWidth>700 && <SecondaryHeader />}
+      <div className="hidden lg:block">
+  <SearchBar />
+  <SecondaryHeader />
+</div>
     </nav>
   )
 }
