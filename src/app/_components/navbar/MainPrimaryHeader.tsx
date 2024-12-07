@@ -15,18 +15,8 @@ const links = [
   { href: "/contact", text: "Contact Us" },
 ];
 const MainPrimaryHeader: React.FC = () => {
-  const [windowSize, setWindowSize] = useState<number>(window.innerWidth);
   const [showResponsiveMenu, setShowResponsiveMenu] = useState<boolean>(false);
   const responsiveHeaderRef = useRef<HTMLDivElement | null>(null); // Ref for the responsive header
-  useEffect(() => {
-    const findWindowSize = () => {
-      setWindowSize(window.innerWidth);
-    };
-    window.addEventListener("resize", findWindowSize);
-    return () => {
-      window.removeEventListener("resize", findWindowSize);
-    };
-  }, []);
   useEffect(() => {
     const responsiveHeader = responsiveHeaderRef.current;
     if (responsiveHeader) {
@@ -52,13 +42,9 @@ const MainPrimaryHeader: React.FC = () => {
     setShowResponsiveMenu(data);
   };
   return (
-    <div className="flex bg-primaryDark">
+    <div className="bg-background lg:bg-primaryDark">
       <nav className="container flex justify-between items-center py-1">
-        <ul
-          className={`${
-            windowSize < 700 ? "hidden" : "flex justify-center items-center gap-4"
-          }`}
-        >
+        <ul className="hidden lg:flex justify-center items-center gap-4">
           {links.map((link, index) => (
             <li className="text-background" key={index}>
               <LinkComponent href={link.href} text={link.text} />
@@ -66,11 +52,7 @@ const MainPrimaryHeader: React.FC = () => {
           ))}
         </ul>
         <div className="flex gap-4 items-center">
-          <div
-            className={`${
-              windowSize < 700 ? "hidden" : "flex justify-center items-center gap-4"
-            }`}
-          >
+          <div className="hidden lg:flex justify-center items-center gap-4">
             <Link href="/auth/login">
               <SecondaryButton text="Login" />
             </Link>
@@ -78,9 +60,15 @@ const MainPrimaryHeader: React.FC = () => {
               <SecondaryButton text="Signup" />
             </Link>
           </div>
+          <div className="flex sm:hidden">
+            <img
+              src="../assets/brand/logo.png"
+              className="w-auto h-[50px] min-w-[150px] filter-1"
+            />
+          </div>
           <FontAwesomeIcon
             icon={faBars}
-            className="text-white cursor-pointer transition-transform transform hover:scale-125 hover:rotate-12"
+            className="text-primaryDark cursor-pointer transition-transform transform hover:scale-125 hover:rotate-12 lg:text-background "
             onClick={toggleResponsiveMenu}
           />
         </div>
@@ -97,4 +85,4 @@ const MainPrimaryHeader: React.FC = () => {
     </div>
   );
 };
-export default MainPrimaryHeader
+export default MainPrimaryHeader;

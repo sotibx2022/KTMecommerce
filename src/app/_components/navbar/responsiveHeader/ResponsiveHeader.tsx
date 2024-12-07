@@ -35,7 +35,7 @@ const ResponsiveHeader: React.FC<ResponsiveHeaderProps> = ({ onSendData }) => {
     <div>
       <div className="responsiveleftBar flex-1 justify-center items-center" />
       <div className="responsiveSidebar w-[400px] h-full bg-background p-4">
-        <div className="responsiveLogoArea justify-self-center">
+        <div className="responsiveLogoArea justify-self-center mb-4">
           <Link href="/">
             <img
               src="../assets/brand/logo.png"
@@ -43,10 +43,10 @@ const ResponsiveHeader: React.FC<ResponsiveHeaderProps> = ({ onSendData }) => {
             />
           </Link>
         </div>
-        <div className="responsiveIcons flex justify-between items-center">
-          <FontAwesomeIcon
+        <div className="responsiveIcons flex-center gap-4">
+        <FontAwesomeIcon
             icon={faTimes}
-            className="responsiveHeaderIcon "
+            className="responsiveHeaderIcon"
             onClick={() => onSendData(false)} 
           />
           <FontAwesomeIcon icon={faSearch} className="responsiveHeaderIcon" />

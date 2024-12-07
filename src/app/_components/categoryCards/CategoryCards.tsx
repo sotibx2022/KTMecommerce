@@ -56,7 +56,7 @@ const cardDatas: CardData[] = [
 ];
 const CategoryCards = () => {
   return (
-    <div className="flex flex-wrap w-1/2">
+    <div className="flex flex-wrap w-full lg:w-1/2">
       {cardDatas.map((card, index) => (
         <div key={index} className="w-1/2 h-1/2 relative">
           <img
@@ -73,14 +73,11 @@ const CategoryCards = () => {
     slidesPerView={1}
     autoplay={{ delay: 3000, disableOnInteraction: false }}>
              {card.products.map((product, i) => (
-             
                 <SwiperSlide key={i}>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center">
                   <h2 className="text-primaryDark cursor-pointer hover:underline hover:font-bold transition-all duration-300 font-normal">{product}</h2>
-                  <FontAwesomeIcon icon={faCaretRight} className="text-primaryDark" />
                   </div>
                   </SwiperSlide>
-              
               ))}
              </Swiper>
           </div>

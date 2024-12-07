@@ -1,3 +1,4 @@
+"use client"
 import React from 'react'
 import PrimaryHeader from './PrimaryHeader'
 import SearchBar from './SearchBar'
@@ -8,9 +9,8 @@ const NavBar = () => {
   return (
     <nav>
       <MainPrimaryHeader/>
-      <SearchBar/>
-      <SecondaryHeader />
-      {/* <ResponsiveHeader/> */}
+      {window.innerWidth>700 && <SearchBar/>}
+      {window.innerWidth>700 && <SecondaryHeader />}
     </nav>
   )
 }
