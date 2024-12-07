@@ -4,6 +4,7 @@ import SecondaryButton from '../secondaryButton/SecondaryButton';
 import { truncateText } from '@/app/services/helperFunctions/functions';
 const ProductCard: React.FC<Product> = ({ brand, mobileName, mobileDescription, mobileFeatures, price, stockAvailability, variant, url_slug, image, remarks, _id})=>{
     return (
+        <Link href={`/singleProduct/id:${_id}and,slug:${url_slug}`}>
         <div className="border shadow-primaryLight mb-4 flex flex-col items-start w-[300px] h-[400px] p-2 cursor-pointer">
         <div className="imageArea w-full h-[70%] relative">
             <img src={image} alt={mobileName} className="w-full h-full object-cover" />
@@ -20,7 +21,7 @@ const ProductCard: React.FC<Product> = ({ brand, mobileName, mobileDescription, 
                 <p className="text-background bg-helper p-2 rounded-md">Only at ${price}</p>
             </div>
         </div>
-    </div>
+    </div></Link>
     );
 };
 export default ProductCard;

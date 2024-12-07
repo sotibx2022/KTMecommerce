@@ -3,11 +3,8 @@ import { product } from "@/models/products.model";
 import { NextRequest, NextResponse } from "next/server";
 export async function GET(request: NextRequest, response: NextResponse) {
   try {
-    // Establish connection to the database
     await connectToDB();
-    // Retrieve all products from the database
     const products = await product.find();
-    // Check if products are found
     if (products && products.length > 0) {
       return NextResponse.json({
         message: "Products found successfully",
