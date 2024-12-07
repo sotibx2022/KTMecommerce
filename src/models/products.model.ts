@@ -19,4 +19,4 @@ const ProductSchema = new mongoose.Schema<Product>({
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
   });
-  export const productModel:Model<Product> = mongoose.models.productModel || mongoose.model("productModel", ProductSchema);
+  export const product:Model<Product> = mongoose.models.product || mongoose.model("product", ProductSchema);
