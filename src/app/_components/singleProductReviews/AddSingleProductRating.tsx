@@ -1,3 +1,4 @@
+"use client"
 import React, { useState } from "react";
 import StarRatings from "react-star-ratings";
 const AddSingleProductRating = () => {

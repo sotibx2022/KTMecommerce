@@ -9,7 +9,7 @@ const AddSingleProductReviews = () => {
         <input type='text' placeholder='email' className='formItem'/>
         <textarea
   placeholder="Product Review.....Maximum 100 words"
-  className="formItem"></textarea>
+  className="formItem"/>
         <AddSingleProductRating/>
         <PrimaryButton searchText='Add'/>
     </div>
