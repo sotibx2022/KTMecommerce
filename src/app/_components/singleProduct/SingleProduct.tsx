@@ -1,0 +1,41 @@
+import React from 'react'
+import {Product} from "../../types/products"
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCaretRight } from '@fortawesome/free-solid-svg-icons'
+const SingleProduct:React.FC<Product> = ({mobileName,mobileDescription,brand,price,stockAvailability,mobileFeatures,image}) => {
+  return (
+    <div className='container flex-col md:flex-row flex justify-between items-center py-4 gap-4 min-h-[50vh]'>
+          <div className="singleProductLeft w-1/2">
+            <h1 className='subHeading'>{mobileName}</h1>
+            <p className='primaryParagraph'>{mobileDescription}</p>
+            <div className="productDetails flex  items-center gap-4 my-2">
+                <p className="text-background bg-helper p-2 rounded-md">Brand: {brand}</p>
+                <p className="text-background bg-helper p-2 rounded-md">Only at ${price}</p>
+                <h3
+  className={`text-background p-2 rounded-md ${
+    stockAvailability ? "bg-green-500" : "bg-red-500"
+  }`}
+>
+  {stockAvailability ? "In Stock" : "Out of Stock"}
+</h3>
+            </div>
+            <ul className='primaryList'>
+              <h2 className='primaryHeading'>Features</h2>
+              {mobileFeatures.map((feature: string, index: number) => (
+                <li key={index} className='text-primaryDark'>
+                  <FontAwesomeIcon icon={faCaretRight}className='mr-2' />
+                  {feature}</li>
+              ))}
+            </ul>
+          </div>
+          <div className="ight w-1/2">
+            <img
+              src={image}
+              alt={mobileName}
+              className="max-w-full rounded-lg"
+            />
+          </div>
+        </div>
+  )
+}
+export default SingleProduct
