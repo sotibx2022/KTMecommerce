@@ -1,10 +1,13 @@
+"use client"
 import React from 'react'
 import {Product} from "../../types/products"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCaretRight } from '@fortawesome/free-solid-svg-icons'
+import PrimaryButton from '../primaryButton/PrimaryButton'
 const SingleProduct:React.FC<Product> = ({mobileName,mobileDescription,brand,price,stockAvailability,mobileFeatures,image}) => {
   return (
-    <div className='container flex-col md:flex-row flex justify-between items-center py-4 gap-4 min-h-[50vh]'>
+    <div className='container'>
+    <div className=' flex-col md:flex-row flex justify-between items-center py-4 gap-4 min-h-[50vh]'>
           <div className="singleProductLeft w-1/2">
             <h1 className='subHeading'>{mobileName}</h1>
             <p className='primaryParagraph'>{mobileDescription}</p>
@@ -19,16 +22,17 @@ const SingleProduct:React.FC<Product> = ({mobileName,mobileDescription,brand,pri
   {stockAvailability ? "In Stock" : "Out of Stock"}
 </h3>
             </div>
+            <h2 className='primaryHeading'>Features</h2>
             <ul className='primaryList'>
-              <h2 className='primaryHeading'>Features</h2>
               {mobileFeatures.map((feature: string, index: number) => (
-                <li key={index} className='text-primaryDark'>
+                <li key={index} className='text-primaryDark flex items-center gap-1'>
                   <FontAwesomeIcon icon={faCaretRight}className='mr-2' />
-                  {feature}</li>
+                  <p>{feature}</p>
+                  </li>
               ))}
             </ul>
           </div>
-          <div className="ight w-1/2">
+          <div className="w-1/2">
             <img
               src={image}
               alt={mobileName}
@@ -36,6 +40,12 @@ const SingleProduct:React.FC<Product> = ({mobileName,mobileDescription,brand,pri
             />
           </div>
         </div>
+        <div className="productActions flex gap-4 my-4">
+        <PrimaryButton searchText='To Cart'/>
+        <PrimaryButton searchText='To WishList'/>
+        <PrimaryButton searchText='To Others'/>
+      </div>
+      </div>
   )
 }
 export default SingleProduct

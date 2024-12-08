@@ -57,7 +57,9 @@ const Page = () => {
     <div className='remarks-container shadow-primaryLight w-full lg:w-1/2 p-2'>
   {singleProduct && Array.isArray(singleProduct.remarks) && singleProduct.remarks.length > 0 ? (
     singleProduct.remarks.map((remark: Remark, index: number) => (
-      <SingleProductReviews {...remark}/>
+      <div key={index}>
+        <SingleProductReviews {...remark}/>
+      </div>
     ))
   ) : (
       <p className='text-red-500'>No remarks available</p>
