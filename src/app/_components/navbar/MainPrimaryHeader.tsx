@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useEffect, useRef, useState } from "react";
 import LinkComponent from "../linkComponent/LinkComponent";
 import SecondaryButton from "../secondaryButton/SecondaryButton";
@@ -7,15 +7,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import ResponsiveHeader from "./responsiveHeader/ResponsiveHeader";
 import gsap from "gsap";
+import LoginComponent from "../authComponent/LoginComponent";
 const links = [
   { href: "/", text: "Home" },
-  { href: "/carreers", text: "Carreers" },
+  { href: "/carreers", text: "Careers" },
   { href: "/help", text: "Help" },
   { href: "/terms", text: "Terms" },
   { href: "/contact", text: "Contact Us" },
 ];
 const MainPrimaryHeader: React.FC = () => {
   const [showResponsiveMenu, setShowResponsiveMenu] = useState<boolean>(false);
+  const [showLoginComponent, setShowLoginComponent] = useState(false);
   const responsiveHeaderRef = useRef<HTMLDivElement | null>(null); // Ref for the responsive header
   useEffect(() => {
     const responsiveHeader = responsiveHeaderRef.current;
@@ -53,22 +55,29 @@ const MainPrimaryHeader: React.FC = () => {
         </ul>
         <div className="flex gap-4 items-center">
           <div className="hidden lg:flex justify-center items-center gap-4">
-            <Link href="/auth/login">
-              <SecondaryButton text="Login" />
-            </Link>
-            <Link href="/auth/signup">
-              <SecondaryButton text="Signup" />
-            </Link>
+            <div className="flex items-center h-[2rem] w-auto gap-2">
+              <div
+                className="LoginButton"
+                onClick={() => setShowLoginComponent(!showLoginComponent)}
+              >
+                <SecondaryButton text="Login" onClick={() => setShowLoginComponent(!showLoginComponent)}/>
+              </div>
+              <Link href="/pages/auth/signup">
+                <SecondaryButton text="Signup" onClick={() => setShowLoginComponent(!showLoginComponent)} />
+              </Link>
+              {showLoginComponent && <LoginComponent/>}
+            </div>
           </div>
-          <div className="flex sm:hidden">
+          <div className="sm:hidden">
             <img
               src="../assets/brand/logo.png"
+              alt="Brand Logo"
               className="w-auto h-[50px] min-w-[150px] filter-1"
             />
           </div>
           <FontAwesomeIcon
             icon={faBars}
-            className="text-primaryDark cursor-pointer transition-transform transform hover:scale-125 hover:rotate-12 lg:text-background "
+            className="text-primaryDark cursor-pointer transition-transform transform hover:scale-125 hover:rotate-12 lg:text-background"
             onClick={toggleResponsiveMenu}
           />
         </div>
@@ -76,7 +85,8 @@ const MainPrimaryHeader: React.FC = () => {
       {/* Responsive header */}
       <div
         ref={responsiveHeaderRef} // Attach the ref here
-        className="responsiveHeader absolute top-0 left-[100%] w-full h-full bg-black bg-opacity-80 flex z-10"
+        className="responsiveHeader absolute top-0 left-[100%] w-full h-full flex z-10"
+        style={{ background: "var(--gradientwithOpacity)" }}
       >
         {showResponsiveMenu && (
           <ResponsiveHeader onSendData={handleChildData} />

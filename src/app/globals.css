@@ -36,8 +36,8 @@ html {
 .primaryHeading{
   @apply text-primaryDark sm:text-3xl md:text-5xl text-2xl;
 }
-.secondayHeading{
-  @apply text-primaryDark sm:text-2xl  text-lg;
+.secondaryHeading{
+  @apply text-primaryDark text-lg;
 }
 .subHeading{
   @apply text-helper sm:text-2xl md:text-3xl text-lg relative pl-4 my-4 shadow-primaryDark py-2;
@@ -85,7 +85,7 @@ html {
   @apply max-w-[90vw] mx-auto;
 }
 .link{
-  @apply text-helper underline text-lg transition-colors duration-300;
+  @apply text-helper underline text-lg transition-colors duration-300 cursor-pointer;
 }
 .link:hover{
   @apply text-helper font-semibold

@@ -7,14 +7,16 @@ const links = [
   { href: "/contact", text: "Contact Us" },
 ];
 import Link from 'next/link'
-import React from 'react';
+import React, { useState } from 'react';
 import LinkComponent from '../linkComponent/LinkComponent';
 import SecondaryButton from '../secondaryButton/SecondaryButton';
+import LoginComponent from '../authComponent/LoginComponent';
 interface PrimaryHeader{
   classStyles?:string,
   classStyles2?:string,
 }
 const PrimaryHeader:React.FC<PrimaryHeader> =({classStyles,classStyles2}) =>{
+  const[showLoginComponent, setShowLoginComponent] = useState(false);
   return (
       <div className="wrapper flex">
         <nav className={classStyles}>
@@ -26,12 +28,13 @@ const PrimaryHeader:React.FC<PrimaryHeader> =({classStyles,classStyles2}) =>{
       ))}
     </ul>
         <div className="flex items-center h-[2rem] w-[20%] gap-2">
-  <Link href="/auth/login">
-    <SecondaryButton text="login"/>
-  </Link>
-  <Link href="/auth/signup">
-    <SecondaryButton text="Signup"/>
-  </Link>
+  <div className='LoginButton' onClick={()=>setShowLoginComponent(!showLoginComponent)}>
+    <SecondaryButton text="login" onClick={() => setShowLoginComponent(!showLoginComponent)}/>
+  </div>
+  {showLoginComponent && <LoginComponent/>}
+  <div className='signupButton'>
+    <SecondaryButton text="Signup" onClick={() => setShowLoginComponent(!showLoginComponent)}/>
+  </div>
 </div>
       </nav>
       </div>
