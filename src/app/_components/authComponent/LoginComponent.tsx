@@ -4,13 +4,15 @@ import PrimaryButton from '@/app/_components/primaryButton/PrimaryButton';
 import { faFacebookF, faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { faCaretRight, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
+import React, { useContext } from 'react';
 import SocialMediaAuth from './SocialMediaAuth';
+import { DisplayContext } from '@/app/context/DisplayComponents';
 const LoginComponent = () => {
+  const {setVisibleComponent} = useContext(DisplayContext);
   return (
     <>
       <div
-        className="absolute top-0 left-0 w-screen h-screen flex flex-col justify-center items-center z-1000"
+        className="absolute top-0 left-0 w-screen h-screen flex flex-col justify-center items-center z-10"
         style={{ background: "var(--gradientwithOpacity)" }}
       >
         <div className="bg-background w-[400px] p-6 rounded-lg shadow-lg relative flex flex-col justify-center items-center">
@@ -19,6 +21,7 @@ const LoginComponent = () => {
             <FontAwesomeIcon
               icon={faTimes}
               className="text-background bg-helper w-[30px] h-[30px] absolute top-0 right-0 cursor-pointer"
+onClick={()=>setVisibleComponent('')}
             />
             <h2 className="subHeading mb-4">Login</h2>
             <input
@@ -44,7 +47,7 @@ const LoginComponent = () => {
             </div>
           </form>
         {/* Social Media Auth Section */}
-        <SocialMediaAuth />
+        <SocialMediaAuth action="Login"/>
       </div>
       </div>
     </>

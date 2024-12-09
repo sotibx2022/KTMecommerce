@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   faArrowRight,
   faBars,
@@ -18,7 +18,9 @@ import { Category } from "@/models/categories.model";
 import LinkComponent from "../../linkComponent/LinkComponent";
 import Link from "next/link";
 import PrimaryHeader from "../PrimaryHeader";
+import { DisplayContext } from "@/app/context/DisplayComponents";
 const ResponsiveHeader = () => {
+  const {setVisibleComponent} = useContext(DisplayContext)
   const { data: NavItems = [] } = useQuery({
     queryKey: ["categories"],
     queryFn: getAllCategories,
@@ -29,7 +31,7 @@ const ResponsiveHeader = () => {
     setActiveCategory((prevState) => (prevState === index ? null : index));
   };
   return (
-    <div className="absolute top-0 left-0 w-full h-full" style={{ background: "var(--gradientwithOpacity)" }}>
+    <div className="absolute top-0 left-0 w-full h-full z-10" style={{ background: "var(--gradientwithOpacity)" }}>
       <div className="responsiveleftBar flex-1 justify-center items-center" />
       <div className="responsiveSidebar w-[400px] h-full bg-background p-4">
         <div className="responsiveLogoArea justify-self-center mb-4">
@@ -44,6 +46,7 @@ const ResponsiveHeader = () => {
         <FontAwesomeIcon
             icon={faTimes}
             className="responsiveHeaderIcon"
+            onClick={()=>setVisibleComponent('')}
           />
           <FontAwesomeIcon icon={faSearch} className="responsiveHeaderIcon" />
           <FontAwesomeIcon icon={faHeart} className="responsiveHeaderIcon" />

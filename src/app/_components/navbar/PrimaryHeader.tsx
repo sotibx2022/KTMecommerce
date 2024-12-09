@@ -7,18 +7,18 @@ const links = [
   { href: "/contact", text: "Contact Us" },
 ];
 import Link from 'next/link'
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import LinkComponent from '../linkComponent/LinkComponent';
 import SecondaryButton from '../secondaryButton/SecondaryButton';
 import LoginComponent from '../authComponent/LoginComponent';
 import RegisterComponent from '../authComponent/RegisterComponent';
+import { DisplayContext } from '@/app/context/DisplayComponents';
 interface PrimaryHeader{
   classStyles?:string,
   classStyles2?:string,
 }
 const PrimaryHeader:React.FC<PrimaryHeader> =({classStyles,classStyles2}) =>{
-  const[showLoginComponent, setShowLoginComponent] = useState(false);
-  const[showRegisterComponent,setShowRegisterComponent] = useState(false);
+const {setVisibleComponent} = useContext(DisplayContext);
   return (
       <div className="wrapper flex">
         <nav className={classStyles}>
@@ -31,8 +31,8 @@ const PrimaryHeader:React.FC<PrimaryHeader> =({classStyles,classStyles2}) =>{
     </ul>
         <div className="flex items-center h-[2rem] w-[20%] gap-2">
         <div className="flex items-center h-[2rem] w-auto gap-2">
-                <SecondaryButton text="Login" onClick={() => setShowLoginComponent(!showLoginComponent)}/>
-                <SecondaryButton text="Signup" onClick={() => setShowRegisterComponent(!showRegisterComponent)} />
+                <SecondaryButton text="Login" onClick={() => setVisibleComponent('login')}/>
+                <SecondaryButton text="Signup" onClick={() => setVisibleComponent('register')} />
             </div>
 </div>
       </nav>

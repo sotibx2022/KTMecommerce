@@ -1,14 +1,11 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import LinkComponent from "../linkComponent/LinkComponent";
 import SecondaryButton from "../secondaryButton/SecondaryButton";
-import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
-import ResponsiveHeader from "./responsiveHeader/ResponsiveHeader";
 import gsap from "gsap";
-import LoginComponent from "../authComponent/LoginComponent";
-import RegisterComponent from "../authComponent/RegisterComponent";
+import { DisplayContext } from "@/app/context/DisplayComponents";
 const links = [
   { href: "/", text: "Home" },
   { href: "/carreers", text: "Careers" },
@@ -17,34 +14,32 @@ const links = [
   { href: "/contact", text: "Contact Us" },
 ];
 const MainPrimaryHeader: React.FC = () => {
-  const [showResponsiveMenu, setShowResponsiveMenu] = useState<boolean>(false);
-  const [showLoginComponent, setShowLoginComponent] = useState(false);
-  const [showRegisterComponent, setShowRegisterComponent] = useState(false);
+const {setVisibleComponent} = useContext(DisplayContext)
   const responsiveHeaderRef = useRef<HTMLDivElement | null>(null); // Ref for the responsive header
-  useEffect(() => {
-    const responsiveHeader = responsiveHeaderRef.current;
-    if (responsiveHeader) {
-      if (showResponsiveMenu) {
-        gsap.to(responsiveHeader, {
-          left: "0%", // Slide in
-          duration: 0.5,
-          ease: "power2.out",
-        });
-      } else {
-        gsap.to(responsiveHeader, {
-          left: "100%", // Slide out
-          duration: 0.5,
-          ease: "power2.in",
-        });
-      }
-    }
-  }, [showResponsiveMenu]); // Trigger animation on state change
-  const toggleResponsiveMenu = () => {
-    setShowResponsiveMenu((prev) => !prev);
-  };
-  const handleChildData = (data: boolean) => {
-    setShowResponsiveMenu(data);
-  };
+  // useEffect(() => {
+  //   const responsiveHeader = responsiveHeaderRef.current;
+  //   if (responsiveHeader) {
+  //     if (showResponsiveMenu) {
+  //       gsap.to(responsiveHeader, {
+  //         left: "0%", // Slide in
+  //         duration: 0.5,
+  //         ease: "power2.out",
+  //       });
+  //     } else {
+  //       gsap.to(responsiveHeader, {
+  //         left: "100%", // Slide out
+  //         duration: 0.5,
+  //         ease: "power2.in",
+  //       });
+  //     }
+  //   }
+  // }, [showResponsiveMenu]); // Trigger animation on state change
+  // const toggleResponsiveMenu = () => {
+  //   setShowResponsiveMenu((prev) => !prev);
+  // };
+  // const handleChildData = (data: boolean) => {
+  //   setShowResponsiveMenu(data);
+  // };
   return (
     <div className="bg-background lg:bg-primaryDark">
       <nav className="container flex justify-between items-center py-1">
@@ -57,9 +52,9 @@ const MainPrimaryHeader: React.FC = () => {
         </ul>
         <div className="flex gap-4 items-center">
           <div className="hidden lg:flex justify-center items-center gap-4">
-            <div className="flex items-center h-[2rem] w-auto gap-2 bg-red-500">
-                <SecondaryButton text="Login" onClick={() => setShowLoginComponent(!showLoginComponent)}/>
-                <SecondaryButton text="Signup" onClick={() => setShowRegisterComponent(!showRegisterComponent)} />
+            <div className="flex items-center h-[2rem] w-auto gap-2">
+                <SecondaryButton text="Login" onClick={()=>setVisibleComponent('login')}/>
+                <SecondaryButton text='Register' onClick={()=>setVisibleComponent('register')} />
             </div>
           </div>
           <div className="sm:hidden">
@@ -72,7 +67,7 @@ const MainPrimaryHeader: React.FC = () => {
           <FontAwesomeIcon
             icon={faBars}
             className="text-primaryDark cursor-pointer transition-transform transform hover:scale-125 hover:rotate-12 lg:text-background"
-            onClick={toggleResponsiveMenu}
+            onClick={()=>setVisibleComponent('responsiveHeader')}
           />
         </div>
       </nav>
