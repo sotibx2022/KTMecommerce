@@ -11,12 +11,14 @@ import React, { useState } from 'react';
 import LinkComponent from '../linkComponent/LinkComponent';
 import SecondaryButton from '../secondaryButton/SecondaryButton';
 import LoginComponent from '../authComponent/LoginComponent';
+import RegisterComponent from '../authComponent/RegisterComponent';
 interface PrimaryHeader{
   classStyles?:string,
   classStyles2?:string,
 }
 const PrimaryHeader:React.FC<PrimaryHeader> =({classStyles,classStyles2}) =>{
   const[showLoginComponent, setShowLoginComponent] = useState(false);
+  const[showRegisterComponent,setShowRegisterComponent] = useState(false);
   return (
       <div className="wrapper flex">
         <nav className={classStyles}>
@@ -28,13 +30,10 @@ const PrimaryHeader:React.FC<PrimaryHeader> =({classStyles,classStyles2}) =>{
       ))}
     </ul>
         <div className="flex items-center h-[2rem] w-[20%] gap-2">
-  <div className='LoginButton' onClick={()=>setShowLoginComponent(!showLoginComponent)}>
-    <SecondaryButton text="login" onClick={() => setShowLoginComponent(!showLoginComponent)}/>
-  </div>
-  {showLoginComponent && <LoginComponent/>}
-  <div className='signupButton'>
-    <SecondaryButton text="Signup" onClick={() => setShowLoginComponent(!showLoginComponent)}/>
-  </div>
+        <div className="flex items-center h-[2rem] w-auto gap-2">
+                <SecondaryButton text="Login" onClick={() => setShowLoginComponent(!showLoginComponent)}/>
+                <SecondaryButton text="Signup" onClick={() => setShowRegisterComponent(!showRegisterComponent)} />
+            </div>
 </div>
       </nav>
       </div>

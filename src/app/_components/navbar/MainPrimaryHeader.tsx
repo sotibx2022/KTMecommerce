@@ -8,6 +8,7 @@ import { faBars } from "@fortawesome/free-solid-svg-icons";
 import ResponsiveHeader from "./responsiveHeader/ResponsiveHeader";
 import gsap from "gsap";
 import LoginComponent from "../authComponent/LoginComponent";
+import RegisterComponent from "../authComponent/RegisterComponent";
 const links = [
   { href: "/", text: "Home" },
   { href: "/carreers", text: "Careers" },
@@ -18,6 +19,7 @@ const links = [
 const MainPrimaryHeader: React.FC = () => {
   const [showResponsiveMenu, setShowResponsiveMenu] = useState<boolean>(false);
   const [showLoginComponent, setShowLoginComponent] = useState(false);
+  const [showRegisterComponent, setShowRegisterComponent] = useState(false);
   const responsiveHeaderRef = useRef<HTMLDivElement | null>(null); // Ref for the responsive header
   useEffect(() => {
     const responsiveHeader = responsiveHeaderRef.current;
@@ -55,17 +57,9 @@ const MainPrimaryHeader: React.FC = () => {
         </ul>
         <div className="flex gap-4 items-center">
           <div className="hidden lg:flex justify-center items-center gap-4">
-            <div className="flex items-center h-[2rem] w-auto gap-2">
-              <div
-                className="LoginButton"
-                onClick={() => setShowLoginComponent(!showLoginComponent)}
-              >
+            <div className="flex items-center h-[2rem] w-auto gap-2 bg-red-500">
                 <SecondaryButton text="Login" onClick={() => setShowLoginComponent(!showLoginComponent)}/>
-              </div>
-              <Link href="/pages/auth/signup">
-                <SecondaryButton text="Signup" onClick={() => setShowLoginComponent(!showLoginComponent)} />
-              </Link>
-              {showLoginComponent && <LoginComponent/>}
+                <SecondaryButton text="Signup" onClick={() => setShowRegisterComponent(!showRegisterComponent)} />
             </div>
           </div>
           <div className="sm:hidden">
@@ -82,17 +76,7 @@ const MainPrimaryHeader: React.FC = () => {
           />
         </div>
       </nav>
-      {/* Responsive header */}
-      <div
-        ref={responsiveHeaderRef} // Attach the ref here
-        className="responsiveHeader absolute top-0 left-[100%] w-full h-full flex z-10"
-        style={{ background: "var(--gradientwithOpacity)" }}
-      >
-        {showResponsiveMenu && (
-          <ResponsiveHeader onSendData={handleChildData} />
-        )}
-      </div>
-    </div>
+     </div>
   );
 };
 export default MainPrimaryHeader;
