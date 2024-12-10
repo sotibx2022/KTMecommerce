@@ -3,7 +3,7 @@ export const validateWord = (
     value: string,
     minValue: number,
     maxValue: number
-  ): string => {
+  ): string | true => {
     const trimmedValue = value.trim();
     if (trimmedValue.length < minValue) {
       return `Min. ${minValue} characters required in ${fieldName}.`;
@@ -15,14 +15,14 @@ export const validateWord = (
     if (!regex.test(trimmedValue)) {
       return `${fieldName} should only contain letters.`;
     }
-    return '';
+    return true;
   };
   export const validateNumber = (
     fieldName: string,
     value: string,
     minValue: number,
     maxValue: number
-  ): string => {
+  ): string | true => {
     const trimmedValue = value.trim();
     const regex = /^[0-9]+$/;
     if (!regex.test(trimmedValue)) {
@@ -34,21 +34,21 @@ export const validateWord = (
     if (trimmedValue.length > maxValue) {
       return `Max. ${maxValue} digits allowed in ${fieldName}.`;
     }
-    return '';
+    return true;
   };
-  export const validateEmail = (fieldName: string, value: string): string => {
+  export const validateEmail = (fieldName: string, value: string): string | true => {
     const trimmedValue = value.trim();
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!regex.test(trimmedValue)) {
       return `${fieldName} must be a valid email.`;
     }
-    return '';
+    return true;
   };
   export const validatePassword = (
     fieldName: string,
     value: string,
     minLength: number
-  ): string => {
+  ): string | true => {
     const trimmedValue = value.trim();
     const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     if (trimmedValue.length < minLength) {
@@ -58,15 +58,15 @@ export const validateWord = (
       return `${fieldName} must have:
       atleast 1 UpperCase, LowerCase, Special Character and Number.`
     }
-    return '';
+    return true;
   };
   export const validateConfirmPassword = (
     fieldName: string,
     password: string,
     confirmPassword: string
-  ): string => {
+  ): string | true => {
     if (password !== confirmPassword) {
       return `${fieldName} must match password.`;
     }
-    return '';
+    return true;
   };

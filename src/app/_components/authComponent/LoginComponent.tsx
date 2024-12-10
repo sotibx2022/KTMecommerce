@@ -7,8 +7,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useContext } from 'react';
 import SocialMediaAuth from './SocialMediaAuth';
 import { DisplayContext } from '@/app/context/DisplayComponents';
+import { useForm } from 'react-hook-form';
+import { LoginData } from '@/app/types/formData';
+import { validateEmail, validatePassword } from '@/app/services/helperFunctions/validatorFunctions';
+import SubmitError from '../submit/SubmitError';
 const LoginComponent = () => {
   const {setVisibleComponent} = useContext(DisplayContext);
+  const {register, formState:{errors}, handleSubmit} = useForm<LoginData>({mode:'all'})
+  const onSubmit=(data:LoginData)=>{
+    console.log(data)
+    alert("clicked");
+  }
   return (
     <>
       <div
@@ -16,7 +25,7 @@ const LoginComponent = () => {
         style={{ background: "var(--gradientwithOpacity)" }}
       >
         <div className="bg-background w-[400px] p-6 rounded-lg shadow-lg relative flex flex-col justify-center items-center">
-          <form className="flex flex-col gap-2">
+          <form className="flex flex-col gap-2" onSubmit={handleSubmit(onSubmit)}>
             {/* Close Icon */}
             <FontAwesomeIcon
               icon={faTimes}
@@ -27,14 +36,23 @@ onClick={()=>setVisibleComponent('')}
             <input
               type="email"
               placeholder="Email"
-              className="formItem"
+              className="formItem" id='email'
+              {...register("email",{
+                validate:(value)=>validateEmail("Email",value)
+              })}
             />
+            {errors.email?.message && <SubmitError message={errors.email.message}/>}
             <input
               type="password"
               placeholder="Password"
-              className="formItem"
+              className="formItem" id='password'
+              {...register("password",{
+                validate:(value)=>validatePassword("Password",value,8)
+              })}
             />
-            <PrimaryButton searchText="Login" />
+            {errors.password?.message && <SubmitError message={errors.password.message}/>}
+            <PrimaryButton searchText='Login'/>
+            </form>
             <div className="usefulLinks my-2">
               <p className="secondaryHeading">
                 <FontAwesomeIcon icon={faCaretRight} className="mr-2" />
@@ -45,7 +63,6 @@ onClick={()=>setVisibleComponent('')}
                 Forget Password ? <span className="link">Reset Password</span>
               </p>
             </div>
-          </form>
         {/* Social Media Auth Section */}
         <SocialMediaAuth action="Login"/>
       </div>

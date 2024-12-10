@@ -10,11 +10,12 @@ import { DisplayContext } from '@/app/context/DisplayComponents'
 import { useForm } from 'react-hook-form'
 import SubmitError from '../submit/SubmitError'
 import { validateConfirmPassword, validateEmail, validateNumber, validatePassword, validateWord } from '@/app/services/helperFunctions/validatorFunctions'
+import { RegisterData } from '@/app/types/formData'
 const RegisterComponent = () => {
   const {setVisibleComponent} = useContext(DisplayContext);
   const {register,formState:{errors},getValues,handleSubmit} = useForm<RegisterData>({mode:'all'})
   const onSubmit=(data:RegisterData)=>{
-    console.log(data)
+    alert("clicked.")
   }
   return (
     <>
@@ -82,7 +83,7 @@ const RegisterComponent = () => {
       }
     />
     {errors.confirmPassword?.message && <SubmitError message={errors.confirmPassword.message}/>}
-    <PrimaryButton searchText="Register" />
+    <PrimaryButton searchText='Register'/>
    </form>
     <div className="usefulLinks my-2">
     <p className='secondaryHeading'><FontAwesomeIcon icon={faCaretRight} className='mr-2' />Already have an account? <span className='link'>Login</span></p>
