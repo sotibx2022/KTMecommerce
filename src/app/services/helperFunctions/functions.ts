@@ -42,27 +42,4 @@ export const truncateText = (text: string) => {
     // Combine initials
     return firstInitial + secondInitial;
   };
-  export const validateWord = (
-    fieldName: string,
-    value: string,
-    minValue: number,
-    maxValue: number
-  ): string => {
-    // Trim spaces from the value
-    const trimmedValue = value.trim();
-    // Check if the length is less than the minimum value
-    if (trimmedValue.length < minValue) {
-      return `Minimum ${minValue} characters are required in the ${fieldName} field.`;
-    }
-    // Check if the length is greater than the maximum value
-    if (trimmedValue.length > maxValue) {
-      return `No more than ${maxValue} characters are allowed for the ${fieldName} field.`;
-    }
-    // Check if the value contains only letters
-    const regex = /^[a-zA-Z]+$/;
-    if (!regex.test(trimmedValue)) {
-      return `The ${fieldName} field should contain only letters.`;
-    }
-    // If all validations pass, return an empty string
-    return '';
-  };
+  

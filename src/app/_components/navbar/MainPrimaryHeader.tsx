@@ -16,30 +16,7 @@ const links = [
 const MainPrimaryHeader: React.FC = () => {
 const {setVisibleComponent} = useContext(DisplayContext)
   const responsiveHeaderRef = useRef<HTMLDivElement | null>(null); // Ref for the responsive header
-  // useEffect(() => {
-  //   const responsiveHeader = responsiveHeaderRef.current;
-  //   if (responsiveHeader) {
-  //     if (showResponsiveMenu) {
-  //       gsap.to(responsiveHeader, {
-  //         left: "0%", // Slide in
-  //         duration: 0.5,
-  //         ease: "power2.out",
-  //       });
-  //     } else {
-  //       gsap.to(responsiveHeader, {
-  //         left: "100%", // Slide out
-  //         duration: 0.5,
-  //         ease: "power2.in",
-  //       });
-  //     }
-  //   }
-  // }, [showResponsiveMenu]); // Trigger animation on state change
-  // const toggleResponsiveMenu = () => {
-  //   setShowResponsiveMenu((prev) => !prev);
-  // };
-  // const handleChildData = (data: boolean) => {
-  //   setShowResponsiveMenu(data);
-  // };
+
   return (
     <div className="bg-background lg:bg-primaryDark">
       <nav className="container flex justify-between items-center py-1">
