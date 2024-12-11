@@ -1,10 +1,10 @@
 "use client"
 const links = [
   { href: "/", text: "Home" },
-  { href: "/carreers", text: "Carreers" },
-  { href: "/help", text: "Help" },
-  { href: "/terms", text: "Terms" },
-  { href: "/contact", text: "Contact Us" },
+  { href: "/pages/carreers", text: "Carreers" },
+  { href: "/pages/help", text: "Help" },
+  { href: "/pages/terms", text: "Terms" },
+  { href: "/pages/contact", text: "Contact Us" },
 ];
 import Link from 'next/link'
 import React, { useContext, useState } from 'react';

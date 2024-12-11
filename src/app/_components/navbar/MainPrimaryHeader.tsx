@@ -8,15 +8,14 @@ import gsap from "gsap";
 import { DisplayContext } from "@/app/context/DisplayComponents";
 const links = [
   { href: "/", text: "Home" },
-  { href: "/carreers", text: "Careers" },
-  { href: "/help", text: "Help" },
-  { href: "/terms", text: "Terms" },
-  { href: "/contact", text: "Contact Us" },
+  { href: "/pages/carreers", text: "Careers" },
+  { href: "/pages/help", text: "Help" },
+  { href: "/pages/terms", text: "Terms" },
+  { href: "/pages/contact", text: "Contact Us" },
 ];
 const MainPrimaryHeader: React.FC = () => {
 const {setVisibleComponent} = useContext(DisplayContext)
   const responsiveHeaderRef = useRef<HTMLDivElement | null>(null); // Ref for the responsive header
-
   return (
     <div className="bg-background lg:bg-primaryDark">
       <nav className="container flex justify-between items-center py-1">
