@@ -13,7 +13,6 @@ const SingleProduct:React.FC<Product> = ({productName,productDescription,brand,p
             <p className='primaryParagraph'>{productDescription}</p>
             <div className="productDetails flex  items-center gap-4 my-2">
                 <p className="text-background bg-helper p-2 rounded-md">Brand: {brand}</p>
-                <p className="text-background bg-helper p-2 rounded-md">Only at ${price}</p>
                 <h3
   className={`text-background p-2 rounded-md ${
     stockAvailability ? "bg-green-500" : "bg-red-500"
@@ -21,6 +20,7 @@ const SingleProduct:React.FC<Product> = ({productName,productDescription,brand,p
 >
   {stockAvailability ? "In Stock" : "Out of Stock"}
 </h3>
+<p className="price-highlight">${price}</p>
             </div>
             <h2 className='primaryHeading'>Features</h2>
             <ul className='primaryList'>

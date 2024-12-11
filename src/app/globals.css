@@ -105,3 +105,6 @@ html {
 .formItem{
   @apply w-full p-3 border border-helper bg-background rounded-md shadow-helper shadow-sm focus:outline-none text-primaryDark
 }
+.price-highlight {
+  @apply text-orange-500 font-bold text-lg bg-gradient-to-r from-yellow-100 to-yellow-300 p-2 rounded-md shadow-md text-center;
+}

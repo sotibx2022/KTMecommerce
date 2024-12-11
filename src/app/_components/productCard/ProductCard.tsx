@@ -16,9 +16,11 @@ const ProductCard: React.FC<Product> = ({ brand, productName, productDescription
             <p className="text-md">
                 {truncateText(productDescription)}
             </p>
-            <div className="productDetails flex gap-4">
-                <p className="text-background bg-helper p-2 rounded-md">Brand: {brand}</p>
-                <p className="text-background bg-helper p-2 rounded-md">Only at ${price}</p>
+            <div className="productDetails flex gap-2">
+                <p className="text-background bg-primaryDark p-2  rounded-md flex items-center">Brand: {brand}</p>
+                <p className="price-highlight">
+  ${price}
+</p>
             </div>
         </div>
     </div></Link>
