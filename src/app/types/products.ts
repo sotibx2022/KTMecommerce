@@ -2,9 +2,9 @@ import { Remark } from "./remarks";
 export interface Product {
     _id?: string; // MongoDB auto-generated ID (optional for interface use)
     brand: string; // Brand name, e.g., "Apple"
-    mobileName: string; // Name of the mobile device
-    mobileDescription: string; // Short description of the product
-    mobileFeatures: string[]; // Array of features
+    productName: string; // Name of the mobile device
+    productDescription: string; // Short description of the product
+    productFeatures: string[]; // Array of features
     price: number; // Product price
     stockAvailability: boolean; // Is it in stock
     variant: string; // Variant details, e.g., color
