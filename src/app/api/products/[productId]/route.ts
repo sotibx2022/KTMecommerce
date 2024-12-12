@@ -1,5 +1,5 @@
 import { connectToDB } from "@/config/db";
-import { product } from "@/models/products.model";
+import { productModel } from "@/models/products.model";
 import { NextRequest, NextResponse } from "next/server";
 export async function GET(request: NextRequest) {
   try {
@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
       });
     }
     // Find the product in the database
-    const singleProduct = await product.findOne({ _id: productId });
+    const singleProduct = await productModel.findOne({ _id: productId });
     if (!singleProduct) {
       return NextResponse.json({
         message: "Product not found.",

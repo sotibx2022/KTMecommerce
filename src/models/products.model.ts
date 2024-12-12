@@ -3,9 +3,9 @@ import mongoose, { Model } from "mongoose";
 import { RemarkSchema } from "./remarks.model";
 const ProductSchema = new mongoose.Schema<Product>({
     brand: { type: String, required: true },
-    mobileName: { type: String, required: true },
-    mobileDescription: { type: String, required: true },
-    mobileFeatures: { type: [String], required: true },
+    productName: { type: String, required: true },
+    productDescription: { type: String, required: true },
+    productFeatures: { type: [String], required: true },
     price: { type: Number, required: true },
     stockAvailability: { type: Boolean, required: true },
     variant: { type: String, required: true },
@@ -19,4 +19,4 @@ const ProductSchema = new mongoose.Schema<Product>({
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
   });
-  export const product:Model<Product> = mongoose.models.product || mongoose.model("product", ProductSchema);
+  export const productModel:Model<Product> = mongoose.models.product || mongoose.model("product", ProductSchema);

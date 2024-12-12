@@ -1,10 +1,10 @@
 import { connectToDB } from "@/config/db";
-import { product } from "@/models/products.model";
+import { productModel } from "@/models/products.model";
 import { NextRequest, NextResponse } from "next/server";
 export async function GET(request: NextRequest, response: NextResponse) {
   try {
     await connectToDB();
-    const products = await product.find();
+    const products = await productModel.find();
     if (products && products.length > 0) {
       return NextResponse.json({
         message: "Products found successfully",
