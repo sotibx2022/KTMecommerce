@@ -1,7 +1,10 @@
 "use client"
 import Footer from '@/app/_components/footer/Footer'
+import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponent'
 import NavBar from '@/app/_components/navbar/Navbar'
+import ProductCard from '@/app/_components/productCard/ProductCard'
 import { getSelectedProducts } from '@/app/services/queryFunctions/products'
+import { Product } from '@/app/types/products'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
@@ -18,10 +21,27 @@ const page = () => {
             setSearchValue(value)
         }
     },[])
+    if(isLoading){
+      return <LoadingComponent/>
+    }
   return (
     <>
     <NavBar/>
- {searchValue !== " " && <h1>{searchValue}</h1>}
+    {searchedProduct && searchedProduct.length > 0 ? (
+  <div className="flex justify-between flex-wrap gap-4">
+    {searchedProduct.map((product: Product, index: number) => {
+      return (
+        <div key={index}>
+          <ProductCard {...product} />
+        </div>
+      );
+    })}
+  </div>
+) : (
+  <div className="text-center w-full">
+    <p>There are no products with the provided search text.</p>
+  </div>
+)}
  <Footer/>
     </>
   )

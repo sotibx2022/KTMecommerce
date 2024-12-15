@@ -9,5 +9,5 @@ export const getSingleProduct= async(productId:string)=>{
 }
 export const getSelectedProducts = async (searchValue: string) => {
     const response = await axios.get(`http://localhost:3000/api/products/selectedProducts/${searchValue}`);
-    return response.data.selectedProducts;
+    return response.data.data;
 };
