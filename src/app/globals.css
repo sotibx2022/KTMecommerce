@@ -108,3 +108,6 @@ html {
 .price-highlight {
   @apply text-orange-500 font-bold text-lg bg-gradient-to-r from-yellow-100 to-yellow-300 p-2 rounded-md shadow-md text-center;
 }
+.selectInput{
+  @apply w-full bg-primaryDark p-2 text-background rounded-lg  focus:outline-none focus:bg-primaryDark focus:text-background
+}
