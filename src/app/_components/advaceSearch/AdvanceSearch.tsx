@@ -36,7 +36,6 @@ const AdvanceSearch = () => {
   const handleRatingChange = (selectedRating: number) => {
     setRating(selectedRating);
   };
-  console.log(category, subcategory, values.maxValue, values.minValue, rating);
   return (
     <div className="bg-primaryLight p-6 rounded-lg shadow-md min-w-[300px] h-[800px]">
       <h2 className="text-xl font-semibold text-primaryDark mb-4">Advanced Search</h2>
