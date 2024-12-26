@@ -1,13 +1,7 @@
 import { connectToDB } from '@/config/db';
 import { categoriesModel } from '@/models/categories.model';
 import { productModel } from '@/models/products.model';
-interface SearchResponse {
-  message: string;
-  status: number;
-  success: boolean;
-  products: any[]; // Or a more specific type for your product model
-}
-export async function getProductsByKeyword(keyword: string): Promise<SearchResponse> {
+export async function getProductsByKeyword(keyword: string): Promise<any[]> { 
   try {
     await connectToDB();
     // Category search
@@ -16,22 +10,7 @@ export async function getProductsByKeyword(keyword: string): Promise<SearchRespo
     });
     if (selectedCategory) {
       const categoryId = selectedCategory._id;
-      const products = await productModel.find({ categoryId });
-      if (products && products.length > 0) {
-        return {
-          message: "Products found successfully",
-          status: 200,
-          success: true,
-          products,
-        };
-      } else {
-        return {
-          message: "No products found for this category",
-          status: 404,
-          success: false,
-          products: [],
-        };
-      }
+      return await productModel.find({ categoryId }); 
     }
     // Subcategory search
     const selectedSubCategory = await categoriesModel.findOne({
@@ -48,79 +27,19 @@ export async function getProductsByKeyword(keyword: string): Promise<SearchRespo
       );
       if (matchingSubCategory) {
         const subCategoryId = matchingSubCategory._id.toString();
-        const products = await productModel.find({ subCategoryId });
-        if (products && products.length > 0) {
-          return {
-            message: "Products found",
-            status: 200,
-            success: true,
-            products,
-          };
-        } else {
-          return {
-            message: "No products found for this subcategory",
-            status: 404,
-            success: false,
-            products: [],
-          };
-        }
-      } else {
-        // Full-text search
-        const products = await productModel.find({
-          $or: [
-            { productName: { $regex: new RegExp(`.*${keyword}.*`, 'i') } },
-            { productDescription: { $regex: new RegExp(`.*${keyword}.*`, 'i') } },
-            { productBrand: { $regex: new RegExp(`.*${keyword}.*`, 'i') } },
-          ],
-        });
-        if (products && products.length > 0) {
-          return {
-            message: "Products found",
-            status: 200,
-            success: true,
-            products,
-          };
-        } else {
-          return {
-            message: "No products found",
-            status: 404,
-            success: false,
-            products: [],
-          };
-        }
-      }
-    } else {
-      // Full-text search
-      const products = await productModel.find({
-        $or: [
-          { productName: { $regex: new RegExp(`.*${keyword}.*`, 'i') } },
-          { productDescription: { $regex: new RegExp(`.*${keyword}.*`, 'i') } },
-          { productBrand: { $regex: new RegExp(`.*${keyword}.*`, 'i') } },
-        ],
-      });
-      if (products && products.length > 0) {
-        return {
-          message: "Products found",
-          status: 200,
-          success: true,
-          products,
-        };
-      } else {
-        return {
-          message: "No products found",
-          status: 404,
-          success: false,
-          products: [],
-        };
-      }
+        return await productModel.find({ subCategoryId }); 
+      } 
     }
+    // Full-text search
+    return await productModel.find({
+      $or: [
+        { productName: { $regex: new RegExp(`.*${keyword}.*`, 'i') } },
+        { productDescription: { $regex: new RegExp(`.*${keyword}.*`, 'i') } },
+        { productBrand: { $regex: new RegExp(`.*${keyword}.*`, 'i') } },
+      ],
+    });
   } catch (error) {
     console.error('Error extracting parameters:', error);
-    return {
-      message: 'An error occurred while extracting parameters',
-      status: 500,
-      success: false,
-      products: [],
-    };
+    throw error; // Re-throw the error to be handled by the calling function
   }
 }
