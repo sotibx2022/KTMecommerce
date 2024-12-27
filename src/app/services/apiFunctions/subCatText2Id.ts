@@ -6,7 +6,7 @@ const subCategoryText2Id = async (subCategoryText: string): Promise<string | und
     const selectedSubCategory = await categoriesModel.findOne({
       "subcategories": {
         $elemMatch: {
-          "subcategory_name": { $regex: new RegExp(`.*${subCategoryText}.*`, 'i') },
+          "category_name": { $regex: new RegExp(`.*${subCategoryText}.*`, 'i') },
         },
       },
     });
