@@ -7,61 +7,74 @@ import categoryText2Id from "@/app/services/apiFunctions/categoryText2Id";
 import subCategoryText2Id from "@/app/services/apiFunctions/subCatText2Id";
 export async function GET(request: NextRequest, response: NextResponse) {
   try {
-    await connectToDB(); // Connect to the database
+    await connectToDB();
     const url = new URL(request.url);
     const searchParams = new URLSearchParams(url.search);
-    // Extract query parameters
     const keyword = searchParams.get('keyword');
     const category = searchParams.get('category');
     const subcategory = searchParams.get('subcategory');
     const minPrice = searchParams.get('minprice');
     const maxPrice = searchParams.get('maxprice');
     const rating = searchParams.get('rating');
+    const page = parseInt(searchParams.get('page') || '1', 10);
+    const limit = parseInt(searchParams.get('limit') || '10', 10);
     let products: Product[] = [];
-    // If keyword is provided, search using it
+    let totalProductsCount: number = 0;
     if (keyword) {
-      products = await getProductsByKeyword(keyword);
+      const { products, totalItems, totalPages } = await getProductsByKeyword(keyword, page, limit);
       if (products.length > 0) {
-        return NextResponse.json({ products });
+        return NextResponse.json({
+          pagination: {
+            currentPage: page,
+            totalPages: totalPages,
+            totalItems: totalItems,
+            limit: limit,
+          },
+          products,
+        });
       } else {
         return NextResponse.json({ message: "No products found with provided keyword." });
       }
     } else {
-      let filterQuery: any = {}; // Initialize an empty filter query object
-      // If category is provided, resolve categoryId
+      let filterQuery: any = {};
       if (category) {
         const categoryId = await categoryText2Id(category);
         if (categoryId) {
-          filterQuery.categoryId = categoryId; // Set categoryId in filter query
+          filterQuery.categoryId = categoryId;
         }
       }
-      // If subcategory is provided, resolve subCategoryId
       if (subcategory) {
         const subCategoryId = await subCategoryText2Id(subcategory);
         if (subCategoryId) {
-          filterQuery.subCategoryId = subCategoryId; // Set subCategoryId in filter query
+          filterQuery.subCategoryId = subCategoryId;
         }
       }
-      // If price range is provided, add to the filter query
       if (minPrice && maxPrice) {
         filterQuery.price = {
           $gte: parseFloat(minPrice),
           $lte: parseFloat(maxPrice),
-        }; // Price filter
+        };
       }
-      // If rating is provided, add rating to the filter query
       if (rating) {
-        filterQuery.overallRating = { $gte: parseFloat(rating) }; // Rating filter
+        filterQuery.overallRating = { $gte: parseFloat(rating) };
       }
-      // Fetch products based on the filter query
-      products = await productModel.find(filterQuery);
-      // Return appropriate response based on whether products are found
+      totalProductsCount = await productModel.countDocuments(filterQuery);
+      products = await productModel
+        .find(filterQuery)
+        .skip((page - 1) * limit)
+        .limit(limit);
       if (products.length > 0) {
         return NextResponse.json({
           message: "Products found",
           status: 200,
           success: true,
-          products,
+          pagination: {
+            currentPage: page,
+            totalPages: Math.ceil(totalProductsCount / limit),
+            totalItems: totalProductsCount,
+            limit: limit,
+          },
+          products,  
         });
       } else {
         return NextResponse.json({
