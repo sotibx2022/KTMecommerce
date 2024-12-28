@@ -4,11 +4,13 @@ import { useQuery } from '@tanstack/react-query'
 import React, { useState } from 'react'
 import LoadingComponent from '../loadingComponent/LoadingComponent'
 import { Category } from '@/models/categories.model'
+import { findCategoryObjfromCategoryText } from '@/app/services/apiFunctions/categoryText2CategoryObj'
 interface SearchByCategoryProps {
-  sendCategoryToParent: (value: Category | null) => void;  // Corrected type to expect null when no category is selected
+  sendCategoryToParent: (value: Category | null) => void; 
+  categoryFromUrl?:string; // Corrected type to expect null when no category is selected
 }
-const SearchByCategory: React.FC<SearchByCategoryProps> = ({ sendCategoryToParent }) => {
-  const [category, setCategory] = useState<string>("");  // Still using string to hold serialized object
+const SearchByCategory: React.FC<SearchByCategoryProps> = ({ sendCategoryToParent,categoryFromUrl }) => {
+  const [category, setCategory] = useState<string>(categoryFromUrl ? categoryFromUrl :"");  // Still using string to hold serialized object
   const { data: categories = [], isLoading, isError } = useQuery({
     queryKey: ['categoreis'],
     queryFn: getAllCategories
@@ -18,7 +20,12 @@ const SearchByCategory: React.FC<SearchByCategoryProps> = ({ sendCategoryToParen
     if (selectedCategory) {
       const categoryObj = JSON.parse(selectedCategory);  // Parse the string back into an object
       setCategory(selectedCategory);  // Store the serialized object
-      sendCategoryToParent(categoryObj);  // Send the full object to parent
+      const updateCategory = async() =>{
+        if(categoryFromUrl){
+          const category = await findCategoryObjfromCategoryText(categoryFromUrl)
+          sendCategoryToParent(categoryObj);
+        }
+      }
     } else {
       setCategory("");  // Reset the category if nothing is selected
       sendCategoryToParent(null);  // Correctly send null when no category is selected

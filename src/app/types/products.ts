@@ -16,6 +16,7 @@ export interface Product {
     image: string; // URL to the product image
     url_slug:string;
     remarks: Remark[]; // Array of reviews
+    overallRating:number;
     createdAt: Date; // Timestamp for product creation
     updatedAt: Date; // Timestamp for last product update
   }

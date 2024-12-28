@@ -1,16 +1,17 @@
 import mongoose, { Document, Model } from "mongoose";
-  export interface Category extends Document {
-    _id: string; // MongoDB ObjectId as a string
-    category_name: string;
-    url_slug: string;
-    status: "active" | "inactive";
-    meta_description:string,
-    meta_keywords:string;
-    image_url: string;
-    created_at: Date;
-    updated_at: Date;
-    subcategories?: [this]; // Optional
-  }
+export interface Category extends Document {
+  _id: string; // MongoDB ObjectId as a string
+  category_name: string;
+  url_slug: string;
+  status: "active" | "inactive";
+  meta_description: string;
+  meta_keywords: string;
+  image_url: string;
+  created_at: Date;
+  updated_at: Date;
+  subcategories?: Category[]; // Corrected to an array of Category (not a tuple)
+}
+// Define the schema for categories
 const categoriesSchema = new mongoose.Schema<Category>(
   {
     category_name: {
@@ -25,7 +26,7 @@ const categoriesSchema = new mongoose.Schema<Category>(
     },
     status: {
       type: String,
-      enum: ["active", "inactive"], // Corrected enum syntax
+      enum: ["active", "inactive"],
       required: true,
     },
     image_url: {
@@ -40,9 +41,12 @@ const categoriesSchema = new mongoose.Schema<Category>(
       type: String,
       required: true,
     },
-    subcategories:[this]
+    subcategories: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Category",
+    }],
   },
-  { timestamps: true } 
+  { timestamps: true }
 );
-export const categoriesModel:Model<Category> =
+export const categoriesModel: Model<Category> =
   mongoose.models.Category || mongoose.model("Category", categoriesSchema);

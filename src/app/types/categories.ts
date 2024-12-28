@@ -1,5 +1,5 @@
 export interface Category  {
-    _id: string; // MongoDB ObjectId as a string
+    _id?: string; // MongoDB ObjectId as a string
     category_name: string;
     url_slug: string;
     status: "active" | "inactive";

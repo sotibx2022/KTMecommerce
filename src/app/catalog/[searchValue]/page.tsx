@@ -1,34 +1,55 @@
 "use client"
+import AdvanceSearch from '@/app/_components/advaceSearch/AdvanceSearch'
 import Footer from '@/app/_components/footer/Footer'
 import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponent'
 import NavBar from '@/app/_components/navbar/Navbar'
 import ProductCard from '@/app/_components/productCard/ProductCard'
-import { getSelectedProducts } from '@/app/services/queryFunctions/products'
+import { getSelectedProducts, SearchParams } from '@/app/services/queryFunctions/products'
 import { Product } from '@/app/types/products'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 const page = () => {
-    const[searchValue, setSearchValue] = useState<string>("")
-    const {data:searchedProduct, isLoading, isError} = useQuery({queryKey:['searchedProduct',searchValue],
-        queryFn:()=>getSelectedProducts(searchValue),
-        enabled: Boolean(searchValue)
-    })
-    useEffect(()=>{
-        if(typeof window !== "undefined"){
-            const PageUrl = window.location.href;
-            const value = PageUrl.split("=")[1];
-            setSearchValue(value)
-        }
-    },[])
-    if(isLoading){
-      return <LoadingComponent/>
+  const [searchValues, setSearchValues] = useState<SearchParams>({
+    keyword: undefined,
+    category: undefined,
+    subcategory: undefined,
+    minprice: undefined,
+    maxprice: undefined,
+    rating: undefined,
+  });
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const queryString = window.location.href.split("/").pop();
+      const queryParams = new URLSearchParams(queryString);
+      setSearchValues({
+        keyword: queryParams.get("keyword") || "",  // Default to empty string if no keyword is found
+        category: queryParams.get("category") || "",  // Default to empty string if no category is found
+        subcategory: queryParams.get("subcategory") || undefined,  // Default to undefined if subcategory is missing
+        minprice: queryParams.has("minprice") ? parseFloat(queryParams.get("minprice")!) : undefined,  // Default to null if no minPrice
+        maxprice: queryParams.has("maxprice") ? parseFloat(queryParams.get("maxprice")!) : undefined,  // Default to null if no maxPrice
+        rating: queryParams.has("rating") ? parseFloat(queryParams.get("rating")!) : undefined,  // Default to null if no rating
+      });
     }
+  }, []);
+  const { data: searchedProduct = [], isLoading, isError } = useQuery({
+    queryKey: ['selectedProducts', searchValues],
+    queryFn: () => getSelectedProducts({ ...searchValues }),
+    enabled: !!searchValues?.category || !!searchValues?.keyword?.trim(), // At least one must be present
+  });
+  if(isLoading){
+    return <LoadingComponent/>
+  }
+  if(isError){
+    return <h1>Error</h1>
+  }
   return (
     <>
     <NavBar/>
+    <div className='productsPageContainer container flex justify-start gap-2 my-4'>
+      <AdvanceSearch/>
     {searchedProduct && searchedProduct.length > 0 ? (
-  <div className="flex justify-between flex-wrap gap-4">
+  <div className="flex justify-start flex-wrap gap-4">
     {searchedProduct.map((product: Product, index: number) => {
       return (
         <div key={index}>
@@ -42,6 +63,7 @@ const page = () => {
     <p>There are no products with the provided search text.</p>
   </div>
 )}
+    </div>
  <Footer/>
     </>
   )
