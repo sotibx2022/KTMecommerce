@@ -1,18 +1,46 @@
-import mongoose, { Document, Model } from "mongoose";
-export interface Category extends Document {
-  _id: string; // MongoDB ObjectId as a string
-  category_name: string;
-  url_slug: string;
-  status: "active" | "inactive";
-  meta_description: string;
-  meta_keywords: string;
-  image_url: string;
-  created_at: Date;
-  updated_at: Date;
-  subcategories?: Category[]; // Corrected to an array of Category (not a tuple)
-}
-// Define the schema for categories
-const categoriesSchema = new mongoose.Schema<Category>(
+import mongoose, { Schema, Document } from 'mongoose';
+// Define the Subcategory Schema
+const subcategorySchema = new Schema(
+  {
+    category_name: {
+      type: String,
+      required: true,
+    },
+    url_slug: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    status: {
+      type: String,
+      enum: ['active', 'inactive'],
+      required: true,
+    },
+    image_url: {
+      type: String,
+      required: true,
+    },
+    meta_description: {
+      type: String,
+      required: false, // Optional field
+    },
+    meta_keywords: {
+      type: String,
+      required: false, // Optional field
+    },
+    created_at: {
+      type: Date,
+      default: Date.now,
+    },
+    updated_at: {
+      type: Date,
+      default: Date.now,
+    },
+  },
+  { _id: true }
+);
+// Define the Category Schema
+const categorySchema = new Schema(
   {
     category_name: {
       type: String,
@@ -26,27 +54,25 @@ const categoriesSchema = new mongoose.Schema<Category>(
     },
     status: {
       type: String,
-      enum: ["active", "inactive"],
+      enum: ['active', 'inactive'],
       required: true,
     },
     image_url: {
       type: String,
       required: true,
     },
-    meta_description: {
-      type: String,
-      required: true,
+    subcategories: [subcategorySchema], // Embedded subcategory documents
+    created_at: {
+      type: Date,
+      default: Date.now,
     },
-    meta_keywords: {
-      type: String,
-      required: true,
+    updated_at: {
+      type: Date,
+      default: Date.now,
     },
-    subcategories: [{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Category",
-    }],
   },
-  { timestamps: true }
+  { timestamps: true } // Automatically handles created_at and updated_at
 );
-export const categoriesModel: Model<Category> =
-  mongoose.models.Category || mongoose.model("Category", categoriesSchema);
+// Create a Model from the schema
+const CategoryModel = mongoose.models.Category || mongoose.model('Category', categorySchema);
+export default CategoryModel;

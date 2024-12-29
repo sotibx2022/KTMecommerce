@@ -9,13 +9,17 @@ import ResponsiveHeader from '../navbar/responsiveHeader/ResponsiveHeader'
 import LoginComponent from '../authComponent/LoginComponent'
 import RegisterComponent from '../authComponent/RegisterComponent'
 import { DisplayContext } from '@/app/context/DisplayComponents'
+import AdvanceSearch from '../advaceSearch/AdvanceSearch'
 const ClientPage = () => {
   const { visibleComponent } = useContext(DisplayContext)
   return (
     <>
       <NavBar />
       <HeroLayout />
+      <div className="flex">
+      <AdvanceSearch/>
       <HomeProducts />
+      </div>
       <Footer />
       {visibleComponent === 'responsiveHeader' && <ResponsiveHeader />}
       {visibleComponent === 'login' && <LoginComponent/>}

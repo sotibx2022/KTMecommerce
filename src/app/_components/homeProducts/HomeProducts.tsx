@@ -9,15 +9,12 @@ const HomeProducts = () => {
     const {data:products=[],isLoading, isError} = useQuery({queryKey:['products'],queryFn:getAllProducts})
   return (
     <div className='bg-primaryDark '>
-        <div className="container pt-4 flex justify-between gap-4">
-          <AdvanceSearch/>
         <div className='flex justify-between flex-wrap gap-4'> {products.map((product:Product,index:number)=>{
             return <div key={index}>
                 <ProductCard {...product}/>
                 </div>
         })}</div>
         </div>
-    </div>
   )
 }
 export default HomeProducts

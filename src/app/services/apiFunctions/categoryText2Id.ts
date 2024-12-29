@@ -1,8 +1,8 @@
-import { categoriesModel } from "@/models/categories.model";
+import CategoryModel from "@/models/categories.model";
 const categoryText2Id = async (categoryText: string): Promise<string | undefined> => {
   try {
     // Search for the category matching the text
-    const selectedCategory = await categoriesModel.findOne({
+    const selectedCategory = await CategoryModel.findOne({
       category_name: { $regex: new RegExp(`.*${categoryText}.*`, 'i') }, // Use categoryText, not keyword
     });
     // Return the category ID if found

@@ -1,9 +1,10 @@
-import { categoriesModel } from "@/models/categories.model";
+import { Subcategory } from "@/app/types/categories";
+import CategoryModel from "@/models/categories.model";
 // Subcategory search
 const subCategoryText2Id = async (subCategoryText: string): Promise<string | undefined> => {
   try {
     // Search for the category containing the subcategory text
-    const selectedSubCategory = await categoriesModel.findOne({
+    const selectedSubCategory = await CategoryModel.findOne({
       "subcategories": {
         $elemMatch: {
           "category_name": { $regex: new RegExp(`.*${subCategoryText}.*`, 'i') },
@@ -14,7 +15,7 @@ const subCategoryText2Id = async (subCategoryText: string): Promise<string | und
     if (selectedSubCategory) {
       // Find the matching subcategory
       const matchingSubCategory = selectedSubCategory.subcategories?.find(
-        (subCategory) =>
+        (subCategory:Subcategory) =>
           subCategory.category_name.toLowerCase().includes(subCategoryText.toLowerCase()) // Corrected to subcategory_name
       );
       // If a matching subcategory is found, return the subcategory ID

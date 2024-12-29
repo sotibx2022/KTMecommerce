@@ -1,9 +1,10 @@
-import { categoriesModel } from "@/models/categories.model";
+import { Subcategory } from "@/app/types/categories";
+import CategoryModel from "@/models/categories.model";
 // Function to find category object from category text
 export const findCategoryObjfromCategoryText = async (categoryText: string) => {
   try {
     // Find category by name
-    const category = await categoriesModel.findOne({ category_name: categoryText });
+    const category = await CategoryModel.findOne({ category_name: categoryText });
     if (category) {
       return category;
     } else {
@@ -21,7 +22,7 @@ export const findSubCatObjfromSubCatText = async (
 ) => {
   try {
     // Find the category first by category name
-    const category = await categoriesModel.findOne({ category_name: categoryText });
+    const category = await CategoryModel.findOne({ category_name: categoryText });
     // Check if category exists
     if (!category) {
       console.error(`Category ${categoryText} not found`);
@@ -29,7 +30,7 @@ export const findSubCatObjfromSubCatText = async (
     }
     // Find the subcategory within the found category
     const subCategory = category.subcategories?.find(
-      (subcategory) => subcategory.category_name === subCategoryText
+      (subcategory:Subcategory) => subcategory.category_name === subCategoryText
     );
     // Return the subcategory if found, else return null
     return subCategory || null;

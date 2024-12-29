@@ -1,5 +1,6 @@
 "use client"
 import AdvanceSearch from '@/app/_components/advaceSearch/AdvanceSearch'
+import AdvanceSearchProvider from '@/app/_components/advaceSearch/AdvanceSearchProvider'
 import Footer from '@/app/_components/footer/Footer'
 import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponent'
 import NavBar from '@/app/_components/navbar/Navbar'
@@ -45,6 +46,7 @@ const page = () => {
   }
   return (
     <>
+    <AdvanceSearchProvider>
     <NavBar/>
     <div className='productsPageContainer container flex justify-start gap-2 my-4'>
       <AdvanceSearch/>
@@ -65,6 +67,7 @@ const page = () => {
 )}
     </div>
  <Footer/>
+ </AdvanceSearchProvider>
     </>
   )
 }

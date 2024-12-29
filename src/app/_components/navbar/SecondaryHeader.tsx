@@ -7,7 +7,7 @@ import { Category } from '@/app/types/categories';
 import DropDownList from './DropDownList';
 const SecondaryHeader = () => {
   const { data: navItems = [], isLoading, isError } = useQuery({
-    queryKey: ['category'],
+    queryKey: ['categories'],
     queryFn: getAllCategories,
   });
   const [activeCategory, setActiveCategory] = useState<number | null>(null); // Track active category index

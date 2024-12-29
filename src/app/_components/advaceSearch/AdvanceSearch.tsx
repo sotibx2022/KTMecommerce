@@ -1,26 +1,56 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import dynamic from 'next/dynamic';
 import SearchByCategory from './SearchByCategory';
 import SearchBySubCategory from './SearchBySubCategory';
 import SearchByPrice from './SearchByPrice';
-import { Category } from '@/app/types/categories';
-import { useRouter, useSearchParams } from 'next/navigation'; // Import useSearchParams from next/navigation
-import { findCategoryObjfromCategoryText, findSubCatObjfromSubCatText } from '@/app/services/apiFunctions/categoryText2CategoryObj';
-const ProductByRating = dynamic(() => import('./ProductByRating'), { ssr: false });
+import { useRouter } from 'next/navigation'; // Import useRouter for navigation
+import { AdvanceSearchContext } from '@/app/context/AdvanceSearchContext';
+const ProductByRating = dynamic(
+  () => import('./ProductByRating'), 
+  { 
+    ssr: false, 
+    loading: () => <p>Loading...</p>  // Optionally, show loading while the component is being imported
+  }
+);
 const AdvanceSearch = () => {
+  const context = useContext(AdvanceSearchContext);
+  if (!context) {
+    throw new Error("Context is Undefined");
+  }
+  const router = useRouter(); // Initialize Next.js router
+  const { advanceSearchValues } = context;
+  const { category, subCategory, rating, minPrice, maxPrice } = advanceSearchValues;
+  useEffect(() => {
+    // Create an object to hold only the available query parameters
+    const queryParams: Record<string, string> = {};
+    if (category) queryParams.category = category.category_name;
+    if (subCategory) queryParams.subcategory = subCategory.category_name;
+    if (minPrice) queryParams.minprice = minPrice.toString();
+    if (maxPrice) queryParams.maxprice = maxPrice.toString();
+    if (rating) queryParams.rating = rating.toString();
+    // If there are any query parameters, construct the URL and redirect
+    if (Object.keys(queryParams).length > 0) {
+      const queryString = new URLSearchParams(queryParams).toString();
+      router.push(`/catalog/${queryString}`);
+    }
+  }, [category, subCategory, minPrice, maxPrice, rating, router]);
   return (
     <div className="bg-primaryLight p-6 rounded-lg shadow-md min-w-[300px] w-[400px] h-[800px]">
       <h2 className="text-xl font-semibold text-primaryDark mb-4">Advanced Search</h2>
       {/* Category Component */}
-      <SearchByCategory/>
+      <SearchByCategory />
       {/* Subcategory Component */}
-      <SearchBySubCategory/>
+      <SearchBySubCategory />
       {/* Price Component */}
-      <SearchByPrice/>
+      <SearchByPrice />
       {/* Product Rating Component */}
-      {[5, 4, 3, 2, 1].map((ratingValue) => (
-        <ProductByRating/>
-      ))}
+      <div>
+        {[5, 4, 3, 2, 1].map((ratingValue) => (
+          <div key={ratingValue}>
+            <ProductByRating rating={ratingValue} />
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
