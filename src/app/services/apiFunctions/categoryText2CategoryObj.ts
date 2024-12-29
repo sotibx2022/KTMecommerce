@@ -1,5 +1,4 @@
 import { categoriesModel } from "@/models/categories.model";
-import { Category } from "../../types/categories";
 // Function to find category object from category text
 export const findCategoryObjfromCategoryText = async (categoryText: string) => {
   try {
