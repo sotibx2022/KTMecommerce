@@ -11,11 +11,15 @@ import { useForm } from 'react-hook-form'
 import SubmitError from '../submit/SubmitError'
 import { validateConfirmPassword, validateEmail, validateNumber, validatePassword, validateWord } from '@/app/services/helperFunctions/validatorFunctions'
 import { RegisterData } from '@/app/types/formData'
+import registerUser from '@/app/services/firebaseFunctions/registerUser'
 const RegisterComponent = () => {
   const {setVisibleComponent} = useContext(DisplayContext);
   const {register,formState:{errors},getValues,handleSubmit} = useForm<RegisterData>({mode:'all'})
-  const onSubmit=(data:RegisterData)=>{
-    alert("clicked.")
+  const onSubmit=async(data:RegisterData)=>{
+  const user = await registerUser(data.email,data.password);
+  if(user){
+    // post data to the api route.
+  }
   }
   return (
     <>
