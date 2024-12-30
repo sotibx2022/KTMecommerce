@@ -1,7 +1,7 @@
 "use client"
 const links = [
   { href: "/", text: "Home" },
-  { href: "/pages/carreers", text: "Carreers" },
+  { href: "/pages/careers", text: "Careers" },
   { href: "/pages/help", text: "Help" },
   { href: "/pages/terms", text: "Terms" },
   { href: "/pages/contact", text: "Contact Us" },

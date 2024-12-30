@@ -8,8 +8,8 @@ import AdvanceSearch from '../advaceSearch/AdvanceSearch'
 const HomeProducts = () => {
     const {data:products=[],isLoading, isError} = useQuery({queryKey:['products'],queryFn:getAllProducts})
   return (
-    <div className='bg-primaryDark '>
-        <div className='flex justify-between flex-wrap gap-4'> {products.map((product:Product,index:number)=>{
+    <div className='bg-primaryDark mt-4 pt-4'>
+        <div className='flex justify-between flex-wrap gap-4 container'> {products.map((product:Product,index:number)=>{
             return <div key={index}>
                 <ProductCard {...product}/>
                 </div>

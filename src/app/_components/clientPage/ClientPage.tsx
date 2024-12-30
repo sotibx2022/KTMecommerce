@@ -16,10 +16,7 @@ const ClientPage = () => {
     <>
       <NavBar />
       <HeroLayout />
-      <div className="flex">
-      <AdvanceSearch/>
       <HomeProducts />
-      </div>
       <Footer />
       {visibleComponent === 'responsiveHeader' && <ResponsiveHeader />}
       {visibleComponent === 'login' && <LoginComponent/>}

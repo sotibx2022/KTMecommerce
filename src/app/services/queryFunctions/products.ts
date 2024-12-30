@@ -36,11 +36,9 @@ export const getSelectedProducts = async ({
       url = url.slice(0, -1);
     }
     // Make the API call
-    console.log("Final URL:", url);
     const response = await axios.get(url);
     return response.data.products || []; // Ensure a valid return value
   } catch (error) {
-    console.error("Error in getSelectedProducts:", error);
     return []; // Return an empty array on error
   }
 };

@@ -14,11 +14,11 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useQuery } from "@tanstack/react-query";
 import { getAllCategories } from "@/app/services/queryFunctions/categoreis";
-import { Category } from "@/models/categories.model";
 import LinkComponent from "../../linkComponent/LinkComponent";
 import Link from "next/link";
 import PrimaryHeader from "../PrimaryHeader";
 import { DisplayContext } from "@/app/context/DisplayComponents";
+import { Category, Subcategory } from "@/app/types/categories";
 const ResponsiveHeader = () => {
   const {setVisibleComponent} = useContext(DisplayContext)
   const { data: NavItems = [] } = useQuery({
@@ -60,7 +60,7 @@ const ResponsiveHeader = () => {
             <li key={item.url_slug || index}>
               <div className="categoryHeader flex justify-between items-center text-xl text-primaryDark shadow-helper p-2">
                 <LinkComponent
-                  href={item.url_slug}
+                  href={`/catalog/category=${item.category_name}`}
                   text={item.category_name}
                 />
                 <FontAwesomeIcon
@@ -74,13 +74,13 @@ const ResponsiveHeader = () => {
                 index === activeCategory && (
                   <ul className="ml-8 flex flex-col gap-4 pt-2">
                     {item.subcategories.map(
-                      (subItem: Category, subIndex: number) => (
+                      (subItem: Subcategory, subIndex: number) => (
                         <li
                           key={subItem.url_slug || subIndex}
                           className="text-xl text-primaryDark"
                         >
                           <LinkComponent
-                            href={subItem.url_slug}
+                            href={`/catalog/category=${item.category_name}&subcategory=${subItem.category_name}`}
                             text={subItem.category_name}
                           />
                         </li>

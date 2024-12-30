@@ -21,16 +21,16 @@ const AdvanceSearch = () => {
   const { advanceSearchValues } = context;
   const { category, subCategory, rating, minPrice, maxPrice } = advanceSearchValues;
   useEffect(() => {
-    // Create an object to hold only the available query parameters
-    const queryParams: Record<string, string> = {};
-    if (category) queryParams.category = category.category_name;
-    if (subCategory) queryParams.subcategory = subCategory.category_name;
-    if (minPrice) queryParams.minprice = minPrice.toString();
-    if (maxPrice) queryParams.maxprice = maxPrice.toString();
-    if (rating) queryParams.rating = rating.toString();
-    // If there are any query parameters, construct the URL and redirect
-    if (Object.keys(queryParams).length > 0) {
-      const queryString = new URLSearchParams(queryParams).toString();
+    const currentQuery = new URLSearchParams(window.location.search);
+    // Append parameters conditionally
+    if (category) currentQuery.append('category', category.category_name);
+    if (subCategory) currentQuery.append('subcategory', subCategory.category_name);
+    if (minPrice) currentQuery.append('minprice', minPrice.toString());
+    if (maxPrice) currentQuery.append('maxprice', maxPrice.toString());
+    if (rating) currentQuery.append('rating', rating.toString());
+    // Update the URL
+    const queryString = currentQuery.toString();
+    if (queryString) {
       router.push(`/catalog/${queryString}`);
     }
   }, [category, subCategory, minPrice, maxPrice, rating, router]);

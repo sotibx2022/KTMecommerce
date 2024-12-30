@@ -7,7 +7,6 @@ const SearchBySubCategory = () => {
     throw new Error("The context is undefined");
   }
   const { advanceSearchValues, setAdvanceSearchValues } = context;
-  console.log(advanceSearchValues);
   const subcategories = advanceSearchValues.category?.subcategories;
   return (
     <div>
