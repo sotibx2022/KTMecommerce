@@ -1,13 +1,16 @@
-import { initializeApp } from "firebase/app";
-import {config} from "../config/configuration";
+// firebaseConfig.ts
+import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
+// Directly write Firebase configuration here
 const firebaseConfig = {
-    apiKey: process.env.FIREBASE_API_KEY!,
-    authDomain: process.env.FIREBASE_AUTH_DOMAIN!,
-    projectId: process.env.FIREBASE_PROJECT_ID!,
-    storageBucket: process.env.FIREBASE_STORAGE_BUCKET!,
-    messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID!,
-    appId: process.env.FIREBASE_APP_ID!,
+  apiKey: "AIzaSyBXsN29EmAh_b6PhyaO0-P1Y13jXmaZqJ8",
+  authDomain: "ktmecommerce-f5d04.firebaseapp.com",
+  projectId: "ktmecommerce-f5d04",
+  storageBucket: "ktmecommerce-f5d04.firebasestorage.app",
+  messagingSenderId: "393872513950",
+  appId: "1:393872513950:web:4f95544304fd5c007ad48f",
 };
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
+const auth = getAuth(app);
+export { auth };

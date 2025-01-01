@@ -19,6 +19,7 @@ const RegisterComponent = () => {
   const user = await registerUser(data.email,data.password);
   if(user){
     // post data to the api route.
+    //create model for user.
   }
   }
   return (
