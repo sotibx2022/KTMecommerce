@@ -1,7 +1,10 @@
-import Footer from '@/app/_components/footer/Footer';
-import NavBar from '@/app/_components/navbar/Navbar';
+interface RegisterUserInput {
+  fullName: string;
+  email: string;
+  phoneNumber: string;
+  firebaseId: string;
+}
 import PrimaryButton from '@/app/_components/primaryButton/PrimaryButton';
-import { faFacebookF, faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { faCaretRight, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useContext } from 'react';
@@ -13,29 +16,39 @@ import { validateConfirmPassword, validateEmail, validateNumber, validatePasswor
 import { RegisterData } from '@/app/types/formData';
 import registerUser from '@/app/services/firebaseFunctions/registerUser';
 import { useMutation } from '@tanstack/react-query';
-import { createUserMutaion } from '@/app/services/queryFunctions/users';
+import { APIResponseError, APIResponseSuccess, createUserMutation } from '@/app/services/queryFunctions/users';
+import { IUser } from '@/app/types/user';
 const RegisterComponent = () => {
-  const { setVisibleComponent } = useContext(DisplayContext);
-  const { register, formState: { errors }, getValues, handleSubmit } = useForm<RegisterData>({ mode: 'all' });
-  const mutation = useMutation(createUserMutaion, {
+  const mutation = useMutation<APIResponseSuccess<IUser> | APIResponseError, Error, RegisterUserInput>(
+   { mutationFn:createUserMutation,
     onSuccess: (response) => {
-      console.log("User registered successfully:", response);
+      alert(response.message);
     },
     onError: (error) => {
-      console.log("There is something wrong", error);
-    }
-  });
+      alert(error.message);
+    }}
+  );
+  const { setVisibleComponent } = useContext(DisplayContext);
+  const { register, formState: { errors }, getValues, handleSubmit } = useForm<RegisterData>({ mode: 'all' });
   const onSubmit = async (data: RegisterData) => {
+    // Extract necessary data from the form input
+    const { fullName, email, phoneNumber } = data;
     // Register user with Firebase and get the user object (including firebaseId)
-    const user = await registerUser(data.email, data.password);
-    if (user) {
-      const firebaseId = user.uid; 
-      mutation.mutate({
-        fullName: data.fullName,
-        email: data.email,
-        phoneNumber: data.phoneNumber,
-        firebaseId,
-      });
+    try {
+      const user = await registerUser(data.email, data.password);
+      if (user) {
+        console.log(user); // Inspect the user object
+        const uid = user.uid; // Access the UID
+        console.log('User UID:', uid);
+        mutation.mutate({
+          fullName,
+          email,
+          phoneNumber,
+          firebaseId: user.uid, // Ensure that user.uid is available
+        });
+      }
+    } catch (error) {
+      console.error("Error registering user:", error);
     }
   };
   return (

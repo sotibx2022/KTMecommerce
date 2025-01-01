@@ -25,7 +25,7 @@ const UserSchema: Schema = new Schema<IUser>(
             type: Boolean,
             default: false,
         },
-        firebaseID: {
+        firebaseId: {
             type: String,
             required: true, // Firebase ID is mandatory
             unique: true, // Ensure uniqueness to avoid duplicate users
@@ -54,7 +54,7 @@ const UserSchema: Schema = new Schema<IUser>(
                 ref: "Product",
             },
         ],
-        cart: [
+        carts: [
             {
                 product: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
                 quantity: { type: Number, default: 1 },
