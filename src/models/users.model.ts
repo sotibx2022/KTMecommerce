@@ -1,21 +1,5 @@
+import { IUser } from "@/app/types/user";
 import mongoose, { Schema, Document, Model } from "mongoose";
-// Define the interface for a User document
-interface IUser extends Document {
-    fullName: string;
-    email: string;
-    phoneNumber: string;
-    isAdmin: boolean;
-    accountStatus: "registered" | "customer" | "admin";
-    roles: string[];
-    addresses?: { street: string; city: string; state: string; zip: string; country: string }[];
-    wishlist?: mongoose.Types.ObjectId[]; // References to products
-    cart?: { product: mongoose.Types.ObjectId; quantity: number }[];
-    orderHistory?: mongoose.Types.ObjectId[]; // References to orders
-    profileImage?: string; // URL or file path
-    createdAt?: Date;
-    updatedAt?: Date;
-}
-// Create the schema for the User
 const UserSchema: Schema = new Schema<IUser>(
     {
         fullName: {
@@ -40,6 +24,11 @@ const UserSchema: Schema = new Schema<IUser>(
         isAdmin: {
             type: Boolean,
             default: false,
+        },
+        firebaseID: {
+            type: String,
+            required: true, // Firebase ID is mandatory
+            unique: true, // Ensure uniqueness to avoid duplicate users
         },
         accountStatus: {
             type: String,
