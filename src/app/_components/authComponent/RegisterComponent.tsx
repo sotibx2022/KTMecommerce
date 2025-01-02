@@ -7,7 +7,7 @@ interface RegisterUserInput {
 import PrimaryButton from '@/app/_components/primaryButton/PrimaryButton';
 import { faCaretRight, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import SocialMediaAuth from './SocialMediaAuth';
 import { DisplayContext } from '@/app/context/DisplayComponents';
 import { useForm } from 'react-hook-form';
@@ -18,37 +18,39 @@ import registerUser from '@/app/services/firebaseFunctions/registerUser';
 import { useMutation } from '@tanstack/react-query';
 import { APIResponseError, APIResponseSuccess, createUserMutation } from '@/app/services/queryFunctions/users';
 import { IUser } from '@/app/types/user';
+import LoadingButton from '../primaryButton/LoadingButton';
+import toast from 'react-hot-toast';
 const RegisterComponent = () => {
-  const mutation = useMutation<APIResponseSuccess<IUser> | APIResponseError, Error, RegisterUserInput>(
+  const[isLoading,setIsLoading] = useState(false)
+  const mutation = useMutation<APIResponseSuccess | APIResponseError, Error, RegisterUserInput>(
    { mutationFn:createUserMutation,
     onSuccess: (response) => {
-      alert(response.message);
+      toast.success(response.message)
     },
     onError: (error) => {
-      alert(error.message);
+      toast.error(error.message)
     }}
   );
   const { setVisibleComponent } = useContext(DisplayContext);
   const { register, formState: { errors }, getValues, handleSubmit } = useForm<RegisterData>({ mode: 'all' });
   const onSubmit = async (data: RegisterData) => {
-    // Extract necessary data from the form input
+    setIsLoading(true);
     const { fullName, email, phoneNumber } = data;
-    // Register user with Firebase and get the user object (including firebaseId)
     try {
       const user = await registerUser(data.email, data.password);
       if (user) {
-        console.log(user); // Inspect the user object
         const uid = user.uid; // Access the UID
-        console.log('User UID:', uid);
         mutation.mutate({
           fullName,
           email,
           phoneNumber,
           firebaseId: user.uid, // Ensure that user.uid is available
         });
+        setIsLoading(false);
       }
     } catch (error) {
-      console.error("Error registering user:", error);
+      toast.error("Error To Register User !")
+      setIsLoading(false);
     }
   };
   return (
@@ -116,7 +118,7 @@ const RegisterComponent = () => {
                 })}
               />
               {errors.confirmPassword?.message && <SubmitError message={errors.confirmPassword.message} />}
-              <PrimaryButton searchText='Register' />
+              {isLoading ? <LoadingButton/>:<PrimaryButton searchText='Register' />}
             </form>
             <div className="usefulLinks my-2">
               <p className='secondaryHeading'>

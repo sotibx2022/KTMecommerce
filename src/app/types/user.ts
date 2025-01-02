@@ -10,7 +10,7 @@ export interface IUser {
     fullName: string;
     email: string;
     phoneNumber: string;
-    firebaseID: string;
+    firebaseId: string;
     isAdmin?: boolean; // Optional field
     accountStatus?: string; // Optional field, e.g., "Registered", "Customer"
     addresses?: string; // Optional field for user address,

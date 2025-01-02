@@ -1,6 +1,6 @@
 import { Product } from "./products";
 import { IUser } from "./user";
-interface IOrder extends Document {
+export interface IOrder extends Document {
     user: IUser
     items: {
         product: Product

@@ -1,26 +1,7 @@
+import { IOrder } from "@/app/types/orders";
 import mongoose, { Schema, Document, Model } from "mongoose";
 // Define the interface for an Order document
-interface IOrder extends Document {
-    user: mongoose.Types.ObjectId; // Reference to the user who placed the order
-    items: {
-        product: mongoose.Types.ObjectId; // Reference to the product
-        quantity: number; // Quantity of the product
-        price: number; // Price of the product at the time of the order
-    }[];
-    totalAmount: number; // Total cost of the order
-    paymentStatus: "pending" | "completed" | "failed"; // Payment status
-    paymentMethod: "credit_card" | "paypal" | "cash_on_delivery"; // Payment method
-    orderStatus: "pending" | "confirmed" | "shipped" | "delivered" | "cancelled"; // Order status
-    shippingAddress: {
-        street: string;
-        city: string;
-        state: string;
-        zip: string;
-        country: string;
-    };
-    createdAt?: Date;
-    updatedAt?: Date;
-}
+
 // Create the schema for the Order
 const OrderSchema: Schema = new Schema<IOrder>(
     {

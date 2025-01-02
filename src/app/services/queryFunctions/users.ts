@@ -1,10 +1,10 @@
+import { LoginData } from "@/app/types/formData";
 import axios from "axios";
 // Interfaces for API Response
-export interface APIResponseSuccess<T> {
+export interface APIResponseSuccess {
   message: string; // A descriptive success message
   status: number;  // HTTP status code (e.g., 200, 201)
   success: true;   // Indicates the operation was successful
-  data: T;         // The data returned from the API (generic type)
 }
 export interface APIResponseError {
   message: string; // A descriptive error message
@@ -19,12 +19,12 @@ export interface ICreateUserMutaion {
   firebaseId: string;
 }
 // Function with Generic Type
-export const createUserMutation = async <T>(
+export const createUserMutation = async (
   userData: ICreateUserMutaion
-): Promise<APIResponseSuccess<T> | APIResponseError> => {
+): Promise<APIResponseSuccess | APIResponseError> => {
   try {
     const response = await axios.post("/api/auth/registerUser", userData);
-    return response.data as APIResponseSuccess<T>; // Explicitly cast to success type
+    return response.data as APIResponseSuccess; // Explicitly cast to success type
   } catch (error) {
     // Check if the error is an Axios error
     if (axios.isAxiosError(error) && error.response) {
@@ -41,5 +41,21 @@ export const createUserMutation = async <T>(
         status: 500,
       };
     }
+  }
+};
+export const loginUserMutation = async (
+  email: string,
+  password: string
+): Promise<APIResponseSuccess | APIResponseError> => {
+  try {
+    const loginData: LoginData = { email, password };
+    const response = await axios.post<APIResponseSuccess>("/api/auth/loginUser", loginData);
+    return response.data;
+  } catch (error: any) {
+    // Check if error is an AxiosError
+    if (axios.isAxiosError(error) && error.response?.data) {
+      return error.response.data as APIResponseError; // Return API error structure
+    }
+    return { message: "Unexpected error occurred.", status: 400, success: false };
   }
 };

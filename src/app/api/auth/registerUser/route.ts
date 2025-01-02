@@ -24,12 +24,19 @@ export async function POST(request: NextRequest) {
         // Create and save the new user
         const newUser = new UserModel({ fullName, email, phoneNumber,firebaseId });
         await newUser.save();
-        return NextResponse.json({
+        const response = NextResponse.json({
             status: 201, // Created
             message: "User registered successfully",
             success: true,
             newUser
         });
+        response.cookies.set("_id", newUser._id.toString(), {
+            httpOnly: true, // Makes the cookie accessible only by the server
+            sameSite: "strict", // Prevents CSRF
+            maxAge: 60 * 60 * 24 * 1, // Cookie valid for 1 day
+            path: "/", // Cookie accessible throughout the site
+          });
+        return response;
     } catch (error) {
         return NextResponse.json({
             status: 500, // Internal Server Error

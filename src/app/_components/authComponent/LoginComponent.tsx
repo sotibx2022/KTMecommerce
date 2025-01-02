@@ -1,22 +1,41 @@
-import Footer from '@/app/_components/footer/Footer';
-import NavBar from '@/app/_components/navbar/Navbar';
 import PrimaryButton from '@/app/_components/primaryButton/PrimaryButton';
-import { faFacebookF, faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { faCaretRight, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import SocialMediaAuth from './SocialMediaAuth';
 import { DisplayContext } from '@/app/context/DisplayComponents';
 import { useForm } from 'react-hook-form';
 import { LoginData } from '@/app/types/formData';
 import { validateEmail, validatePassword } from '@/app/services/helperFunctions/validatorFunctions';
 import SubmitError from '../submit/SubmitError';
+import loginUser from '@/app/services/firebaseFunctions/loginUser';
+import { useMutation } from '@tanstack/react-query';
+import { APIResponseError, APIResponseSuccess, loginUserMutation } from '@/app/services/queryFunctions/users';
+import LoadingButton from '../primaryButton/LoadingButton';
+import toast from 'react-hot-toast';
 const LoginComponent = () => {
   const {setVisibleComponent} = useContext(DisplayContext);
   const {register, formState:{errors}, handleSubmit} = useForm<LoginData>({mode:'all'})
-  const onSubmit=(data:LoginData)=>{
-    console.log(data)
-    alert("clicked");
+  const[isLoading,setIsLoading] = useState(false)
+  const mutation = useMutation<APIResponseSuccess | APIResponseError, Error, LoginData>({
+    mutationFn:loginUserMutation,
+    onSuccess:(response)=>{
+      toast.success(response.message);
+    },
+    onError:(error)=>{
+      toast.error(error.message)
+    }
+  })
+  const onSubmit=async(data:LoginData)=>{
+    setIsLoading(true);
+const {success,message} = await loginUser(data.email,data.password);
+if(success){
+ mutation.mutate({email:data.email,password:data.password});
+ setIsLoading(false)
+}else{
+  setIsLoading(false);
+  toast.error(message)
+}
   }
   return (
     <>
@@ -51,7 +70,7 @@ onClick={()=>setVisibleComponent('')}
               })}
             />
             {errors.password?.message && <SubmitError message={errors.password.message}/>}
-            <PrimaryButton searchText='Login'/>
+            {isLoading ? <LoadingButton/>:<PrimaryButton searchText='Login' />}
             </form>
             <div className="usefulLinks my-2">
               <p className="secondaryHeading">
