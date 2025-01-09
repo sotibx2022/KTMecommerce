@@ -7,6 +7,8 @@ import { faBars } from "@fortawesome/free-solid-svg-icons";
 import gsap from "gsap";
 import { DisplayContext } from "@/app/context/DisplayComponents";
 import { UserDetailsContext } from "@/app/context/UserDetailsContextComponent";
+import RegisteredUsersOption from "./RegisteredUsersOption";
+import NonRegisteredUsersOption from "./NonRegisteredUsersOption";
 const links = [
   { href: "/", text: "Home" },
   { href: "/pages/carreers", text: "Careers" },
@@ -15,12 +17,12 @@ const links = [
   { href: "/pages/contact", text: "Contact Us" },
 ];
 const MainPrimaryHeader: React.FC = () => {
+  const {setVisibleComponent} = useContext(DisplayContext)
   const context = useContext(UserDetailsContext);
   if(!context){
     throw new Error("The User Details context is not working.")
   }
   const {userDetails} = context;
-const {setVisibleComponent} = useContext(DisplayContext)
   const responsiveHeaderRef = useRef<HTMLDivElement | null>(null); // Ref for the responsive header
   return (
     <div className="bg-background lg:bg-primaryDark">
@@ -35,8 +37,7 @@ const {setVisibleComponent} = useContext(DisplayContext)
         <div className="flex gap-4 items-center">
           <div className="hidden lg:flex justify-center items-center gap-4">
             <div className="flex items-center h-[2rem] w-auto gap-2">
-              {userDetails? <h1>{userDetails.fullName}</h1>:<SecondaryButton text="Login" onClick={()=>setVisibleComponent('login')}/>}
-                <SecondaryButton text='Register' onClick={()=>setVisibleComponent('register')} />
+              {userDetails? <RegisteredUsersOption/>:<NonRegisteredUsersOption/>}
             </div>
           </div>
           <div className="sm:hidden">
