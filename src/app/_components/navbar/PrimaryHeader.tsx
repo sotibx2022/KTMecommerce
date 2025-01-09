@@ -10,14 +10,16 @@ import Link from 'next/link'
 import React, { useContext, useState } from 'react';
 import LinkComponent from '../linkComponent/LinkComponent';
 import SecondaryButton from '../secondaryButton/SecondaryButton';
-import LoginComponent from '../authComponent/LoginComponent';
-import RegisterComponent from '../authComponent/RegisterComponent';
 import { DisplayContext } from '@/app/context/DisplayComponents';
+import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
 interface PrimaryHeader{
   classStyles?:string,
   classStyles2?:string,
 }
 const PrimaryHeader:React.FC<PrimaryHeader> =({classStyles,classStyles2}) =>{
+  const context = useContext(UserDetailsContext);
+  console.log("console at primary Header is visible.")
+  console.log(context)
 const {setVisibleComponent} = useContext(DisplayContext);
   return (
       <div className="wrapper flex">
@@ -31,8 +33,8 @@ const {setVisibleComponent} = useContext(DisplayContext);
     </ul>
         <div className="flex items-center h-[2rem] w-[20%] gap-2">
         <div className="flex items-center h-[2rem] w-auto gap-2">
-                <SecondaryButton text="Login" onClick={() => setVisibleComponent('login')}/>
-                <SecondaryButton text="Signup" onClick={() => setVisibleComponent('register')} />
+          <SecondaryButton text="Login" onClick={() => setVisibleComponent('login')}/>
+          <SecondaryButton text="Signup" onClick={() => setVisibleComponent('register')} />
             </div>
 </div>
       </nav>

@@ -1,0 +1,21 @@
+import { IUser } from "@/app/types/user";
+import axios from "axios";
+interface APIResponse {
+    message: string;
+    success: boolean;
+    status: number;
+    userDetails?: IUser;
+}
+export const getUserDetails = async (): Promise<IUser | null> => {
+    try {
+        const response = await axios.get<APIResponse>("/api/userId"); // Use GET if the API is designed for GET
+        if (response.data.success) {
+            return response.data.userDetails || null; // Safely return userDetails or null
+        }
+        console.error("Error fetching user details:", response.data.message);
+        return null; // Return null if success is false
+    } catch (error) {
+        console.error("Error during API call:", error);
+        return null; // Return null in case of an error
+    }
+};

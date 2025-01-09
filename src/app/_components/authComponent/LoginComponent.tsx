@@ -27,6 +27,7 @@ const LoginComponent = () => {
     }
   })
   const onSubmit=async(data:LoginData)=>{
+    console.log(data.email,data.password);
     setIsLoading(true);
 const {success,message} = await loginUser(data.email,data.password);
 if(success){
@@ -65,6 +66,7 @@ onClick={()=>setVisibleComponent('')}
               type="password"
               placeholder="Password"
               className="formItem" id='password'
+              autoComplete='off'
               {...register("password",{
                 validate:(value)=>validatePassword("Password",value,8)
               })}

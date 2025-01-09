@@ -44,17 +44,15 @@ export const createUserMutation = async (
   }
 };
 export const loginUserMutation = async (
-  email: string,
-  password: string
+  loginData: LoginData
 ): Promise<APIResponseSuccess | APIResponseError> => {
   try {
-    const loginData: LoginData = { email, password };
     const response = await axios.post<APIResponseSuccess>("/api/auth/loginUser", loginData);
     return response.data;
   } catch (error: any) {
-    // Check if error is an AxiosError
+    // Handle axios errors
     if (axios.isAxiosError(error) && error.response?.data) {
-      return error.response.data as APIResponseError; // Return API error structure
+      return error.response.data as APIResponseError;
     }
     return { message: "Unexpected error occurred.", status: 400, success: false };
   }

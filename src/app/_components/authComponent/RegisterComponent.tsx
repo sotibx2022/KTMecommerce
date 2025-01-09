@@ -74,7 +74,7 @@ const RegisterComponent = () => {
                 className="formItem"
                 id='firstName'
                 {...register("fullName", {
-                  validate: (value) => validateWord("Full Name", value, 3, 10)
+                  validate: (value) => validateWord("Full Name", value, 3, 20)
                 })}
               />
               {errors.fullName?.message && <SubmitError message={errors.fullName.message} />}
@@ -102,6 +102,7 @@ const RegisterComponent = () => {
                 type="password"
                 placeholder="Password"
                 className="formItem"
+                autoComplete='off'
                 id='password'
                 {...register("password", {
                   validate: (value) => validatePassword("Password", value, 8)
@@ -113,6 +114,7 @@ const RegisterComponent = () => {
                 placeholder="Confirm Password"
                 className="formItem"
                 id='confirmPassword'
+                autoComplete='off'
                 {...register("confirmPassword", {
                   validate: (value) => validateConfirmPassword("Confirm Password", getValues("password"), value)
                 })}
