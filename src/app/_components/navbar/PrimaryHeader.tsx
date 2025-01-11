@@ -7,6 +7,7 @@ import SecondaryButton from '../secondaryButton/SecondaryButton';
 import { DisplayContext } from '@/app/context/DisplayComponents';
 import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
 import NonRegisteredUsersOption from './NonRegisteredUsersOption';
+import useLogout from '@/app/services/apiFunctions/logoutUser';
 interface PrimaryHeader {
   classStyles?: string;
   classStyles2?: string;
@@ -29,8 +30,7 @@ const PrimaryHeader: React.FC<PrimaryHeader> = ({ classStyles, classStyles2 }) =
   const handleDashboardClick = () => {
     router.push("/account");
   };
-  const handleLogout =() =>{
-  }
+const logout = useLogout()
   return (
     <div className="wrapper flex">
       <nav className={classStyles}>
@@ -49,7 +49,7 @@ const PrimaryHeader: React.FC<PrimaryHeader> = ({ classStyles, classStyles2 }) =
             {userDetails ? (
               <>
               <SecondaryButton text="Account" onClick={handleDashboardClick} />
-              <SecondaryButton text="LogOut" onClick={handleLogout} />
+              <SecondaryButton text="LogOut" onClick={logout.mutate} />
               </>
             ) : (
               <NonRegisteredUsersOption />

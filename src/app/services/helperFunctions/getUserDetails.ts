@@ -12,7 +12,6 @@ export const getUserDetails = async (): Promise<IUser | null> => {
         if (response.data.success) {
             return response.data.userDetails || null; // Safely return userDetails or null
         }
-        console.error("Error fetching user details:", response.data.message);
         return null; // Return null if success is false
     } catch (error) {
         console.error("Error during API call:", error);

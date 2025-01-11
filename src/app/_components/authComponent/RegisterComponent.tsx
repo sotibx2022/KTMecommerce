@@ -20,12 +20,15 @@ import { APIResponseError, APIResponseSuccess, createUserMutation } from '@/app/
 import { IUser } from '@/app/types/user';
 import LoadingButton from '../primaryButton/LoadingButton';
 import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 const RegisterComponent = () => {
   const[isLoading,setIsLoading] = useState(false)
+  const router = useRouter()
   const mutation = useMutation<APIResponseSuccess | APIResponseError, Error, RegisterUserInput>(
    { mutationFn:createUserMutation,
     onSuccess: (response) => {
-      toast.success(response.message)
+      toast.success(response.message);
+      window.location.reload()
     },
     onError: (error) => {
       toast.error(error.message)

@@ -21,6 +21,7 @@ const LoginComponent = () => {
     mutationFn:loginUserMutation,
     onSuccess:(response)=>{
       toast.success(response.message);
+      window.location.reload()
     },
     onError:(error)=>{
       toast.error(error.message)

@@ -5,6 +5,9 @@ import SecondaryButton from '../secondaryButton/SecondaryButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import UserOptions from './UserOptions';
+import useLogout, { logoutUser } from '@/app/services/apiFunctions/logoutUser';
+import { useMutation } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
 const RegisteredUsersOption = () => {
     const[showUserOptions, setShowUserOptions] = useState(false);
     const context = useContext(UserDetailsContext);
@@ -12,9 +15,7 @@ const RegisteredUsersOption = () => {
       throw new Error("The User Details context is not working.")
     }
     const {userDetails} = context;
-    function logoutHandler(): void {
-        throw new Error('Function not implemented.');
-    }
+    const logout = useLogout()
   return (
     <div className='flex-center gap-4 '>
         <div className="userDetails flex-center gap-2 relative cursor-pointer"  
@@ -26,7 +27,7 @@ const RegisteredUsersOption = () => {
             <FontAwesomeIcon icon={showUserOptions ? faCaretUp : faCaretDown} className='text-background' />
             {showUserOptions && <UserOptions/>}
         </div>
-        <SecondaryButton text='Log Out' onClick={logoutHandler}/>
+        <SecondaryButton text='Log Out' onClick={logout.mutate}/>
     </div>
   )
 }
