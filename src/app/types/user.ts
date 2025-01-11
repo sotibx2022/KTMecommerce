@@ -18,7 +18,7 @@ export interface IUser {
     carts?:ICarts
     profileImage?: string; // Optional field for profile image URL
     roles?: string; // Optional field, default 'user'
-    createdAt?: Date; // Optional field for the user creation date
-    updatedAt?: Date; // Optional field for the user last updated date
+    createdAt?: Date | string; // Optional field for the user creation date
+    updatedAt?: Date | string; // Optional field for the user last updated date
     orderHistory:IOrder[]
   }

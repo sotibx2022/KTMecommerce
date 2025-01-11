@@ -111,3 +111,6 @@ html {
 .selectInput{
   @apply w-full bg-primaryDark p-2 text-background rounded-lg  focus:outline-none focus:bg-primaryDark focus:text-background
 }
+.formLabel{
+  @apply text-primaryDark
+}
