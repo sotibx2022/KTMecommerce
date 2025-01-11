@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import LinkComponent from '../linkComponent/LinkComponent';
 const userOptions = [
-    { title: "Profile", href: "/profile" },
-    { title: "Orders", href: "/orders" },
-    { title: "Wishlist", href: "/wishlist" },
-    { title: "Cart", href: "/cart" },
-    { title: "Notifications", href: "/notifications" },
-    { title: "Settings", href: "/settings" }
+    { title: "Profile", href: "/dashboard/profile" },
+    { title: "Orders", href: "/dashboard/orders" },
+    { title: "Wishlist", href: "/dashboard/wishlist" },
+    { title: "Cart", href: "/dashboard/cart" },
+    { title: "Notifications", href: "/dashboard/notifications" },
+    { title: "Settings", href: "/dashboard/settings" }
   ];
 const UserOptions = () => {
      const [activeCategory, setActiveCategory] = useState<number | null>(null);

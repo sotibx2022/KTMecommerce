@@ -23,7 +23,6 @@ import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 const RegisterComponent = () => {
   const[isLoading,setIsLoading] = useState(false)
-  const router = useRouter()
   const mutation = useMutation<APIResponseSuccess | APIResponseError, Error, RegisterUserInput>(
    { mutationFn:createUserMutation,
     onSuccess: (response) => {
