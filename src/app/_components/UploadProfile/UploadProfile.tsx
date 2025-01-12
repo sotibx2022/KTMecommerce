@@ -5,8 +5,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useState } from 'react'
 interface UploadProfileProps{
   profileImageURL:(file:File)=>void;
+  imageFromDb?:string
 }
-const UploadProfile:React.FC<UploadProfileProps> = ({profileImageURL}) => {
+const UploadProfile:React.FC<UploadProfileProps> = ({profileImageURL,imageFromDb}) => {
     const [imageUrl, setImageUrl] = useState<string>(dummyImageUrl);
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0]; // Get the first file if exists
@@ -21,7 +22,7 @@ const UploadProfile:React.FC<UploadProfileProps> = ({profileImageURL}) => {
   return (
     <div className="profileImageArea relative w-[200px] h-[200px]">
     <img
-      src={imageUrl}
+      src={imageFromDb?imageFromDb:dummyImageUrl}
       alt="Profile"
       className="object-cover rounded-lg w-full h-full"
     />

@@ -17,7 +17,7 @@ export interface IUser {
     wishlist?:Product[];
     carts?:ICarts
     profileImage?: string; // Optional field for profile image URL
-    ProfileFileOriginalName?:string;
+    profileFileOriginalName?:string;
 profileFileSize?:string;
 profileFileType?:string;
     roles?: string; // Optional field, default 'user'

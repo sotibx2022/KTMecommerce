@@ -5,10 +5,9 @@ import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
 import ProfileAdditionalDetails from '@/app/_components/ProfileAdditionalDetails/ProfileAdditionalDetails';
 import UploadProfile from '@/app/_components/UploadProfile/UploadProfile';
 import { useForm } from 'react-hook-form';
-import { validateEmail, validateNumber, validateWord } from '@/app/services/helperFunctions/validatorFunctions';
+import { validateNumber, validateWord } from '@/app/services/helperFunctions/validatorFunctions';
 import SubmitError from '@/app/_components/submit/SubmitError';
 import { IUpdateUserData } from '@/app/types/formData';
-import { error } from 'console';
 import toast from 'react-hot-toast';
 import { APIResponseError, APIResponseSuccess, updateUserMutation } from '@/app/services/queryFunctions/users';
 import { useMutation } from '@tanstack/react-query';
@@ -21,11 +20,11 @@ const Page = () => {
     throw new Error("The User Details Context is not defined");
   }
   const { userDetails } = context;
-  console.log(userDetails);
   const {register,formState:{errors},handleSubmit,setValue} = useForm<IUpdateUserData>({mode:"all"})
   const mutation = useMutation({mutationFn:updateUserMutation,onSuccess:(response:APIResponseSuccess | APIResponseError)=>{
     toast.success(response.message)
     setIsLoading(false);
+    window.location.reload();
   },onError:(error:Error)=>{
     toast.error(error.message)
     setIsLoading(false);
@@ -39,9 +38,9 @@ const Page = () => {
   const formData = new FormData();
   // Append all user data to FormData
   formData.append("fullName", data.fullName);
-  formData.append("email", data.email);
   formData.append("phoneNumber", data.phoneNumber);
   formData.append("fullAddress", data.fullAddress);
+  formData.append("email",data.email)
   // If profileFile exists, append it to the FormData object
   if (profileFile) {
     formData.append("profileFile", profileFile);  // Append the file to FormData
@@ -57,12 +56,15 @@ const Page = () => {
     setProfileFile(file)
   }
   useEffect(()=>{
-    if(userDetails){
-      setValue("fullName",userDetails.fullName);
-      setValue("email",userDetails.email);
-      setValue("phoneNumber",userDetails.phoneNumber);
+  if(userDetails){
+    setValue("fullName",userDetails.fullName);
+    setValue("phoneNumber",userDetails.phoneNumber);
+    setValue("email",userDetails.email);
+    if(userDetails.address){
+      setValue("fullAddress",userDetails.address)
     }
-  },[])
+  }
+  },[userDetails])
   return (
     <form className='container my-4' onSubmit={handleSubmit(onSubmit)}>
       <div className="flex justify-between mb-4">
@@ -78,11 +80,8 @@ const Page = () => {
           </div>
           <div>
             <label className="formLabel">Email</label>
-            <input type="text" className="formItem " placeholder="example@email.com" id='email'
-           {...register("email", {
-                            validate: (value) => validateEmail("Email", value)
-                          })}/>
-                          {errors.email?.message && <SubmitError message={errors.email?.message}/>}
+            <input type="text" className="formItem " placeholder="example@email.com" id='email' readOnly
+            {...register("email")}/>
           </div>
           <div>
             <label className="formLabel">Phone Number</label>
@@ -116,7 +115,7 @@ const Page = () => {
         </div>
         <div className="w-2/5">
           <div className="flex flex-col w-full h-full ">
-           <UploadProfile profileImageURL ={receiveImageURL}/>
+           <UploadProfile profileImageURL ={receiveImageURL} imageFromDb={userDetails?.profileImage}/>
             <ProfileAdditionalDetails />
           </div>
         </div>

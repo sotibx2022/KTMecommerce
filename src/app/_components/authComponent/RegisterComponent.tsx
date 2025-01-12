@@ -31,8 +31,8 @@ const RegisterComponent = () => {
       window.location.reload()
     },
     onError: (error) => {
-      setIsLoading(false);
       toast.error(error.message)
+      setIsLoading(false);
     }}
   );
   const { setVisibleComponent } = useContext(DisplayContext);
@@ -50,11 +50,9 @@ const RegisterComponent = () => {
           phoneNumber,
           firebaseId: user.uid, // Ensure that user.uid is available
         });
-        setIsLoading(false);
       }
     } catch (error) {
       toast.error("Error To Register User !")
-      setIsLoading(false);
     }
   };
   return (
