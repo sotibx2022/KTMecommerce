@@ -4,7 +4,7 @@ const dummyImageUrl = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAL8AAACUCAM
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useState } from 'react'
 interface UploadProfileProps{
-  profileImageURL:(url:string)=>void;
+  profileImageURL:(file:File)=>void;
 }
 const UploadProfile:React.FC<UploadProfileProps> = ({profileImageURL}) => {
     const [imageUrl, setImageUrl] = useState<string>(dummyImageUrl);
@@ -12,7 +12,7 @@ const UploadProfile:React.FC<UploadProfileProps> = ({profileImageURL}) => {
         const file = event.target.files?.[0]; // Get the first file if exists
         if (file) {
           setImageUrl(URL.createObjectURL(file));
-          profileImageURL(URL.createObjectURL(file))
+          profileImageURL(file)
         }
       };
       const handleCameraClick = () => {

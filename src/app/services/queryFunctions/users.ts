@@ -1,4 +1,4 @@
-import { LoginData } from "@/app/types/formData";
+import { IUpdateUserData, LoginData } from "@/app/types/formData";
 import axios from "axios";
 // Interfaces for API Response
 export interface APIResponseSuccess {
@@ -55,5 +55,26 @@ export const loginUserMutation = async (
       return error.response.data as APIResponseError;
     }
     return { message: "Unexpected error occurred.", status: 400, success: false };
+  }
+};
+export const updateUserMutation = async (
+  formData: FormData // Change this to accept FormData
+): Promise<APIResponseSuccess | APIResponseError> => {
+  try {
+    // Send the FormData as the body of the POST request
+    const response = await axios.post("/api/auth/updateUser", formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data', // Important for handling file uploads
+      },
+    });
+    return response.data; // Return the response data from the API
+  } catch (error) {
+    // Handle the error gracefully
+    console.error('Error updating user:', error);
+    return {
+      message: "There was something wrong while updating the user.",
+      success: false,
+      status: 400,
+    };
   }
 };

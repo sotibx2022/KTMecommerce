@@ -1,6 +1,6 @@
 "use client";
 import PrimaryButton from '@/app/_components/primaryButton/PrimaryButton';
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
 import ProfileAdditionalDetails from '@/app/_components/ProfileAdditionalDetails/ProfileAdditionalDetails';
 import UploadProfile from '@/app/_components/UploadProfile/UploadProfile';
@@ -10,26 +10,51 @@ import SubmitError from '@/app/_components/submit/SubmitError';
 import { IUpdateUserData } from '@/app/types/formData';
 import { error } from 'console';
 import toast from 'react-hot-toast';
+import { APIResponseError, APIResponseSuccess, updateUserMutation } from '@/app/services/queryFunctions/users';
+import { useMutation } from '@tanstack/react-query';
+import LoadingButton from '@/app/_components/primaryButton/LoadingButton';
 const Page = () => {
+  const[isLoading,setIsLoading] = useState(false);
+  const[profileFile,setProfileFile] = useState<undefined | File>(undefined)
   const context = useContext(UserDetailsContext);
   if (!context) {
     throw new Error("The User Details Context is not defined");
   }
   const { userDetails } = context;
+  console.log(userDetails);
   const {register,formState:{errors},handleSubmit,setValue} = useForm<IUpdateUserData>({mode:"all"})
+  const mutation = useMutation({mutationFn:updateUserMutation,onSuccess:(response:APIResponseSuccess | APIResponseError)=>{
+    toast.success(response.message)
+    setIsLoading(false);
+  },onError:(error:Error)=>{
+    toast.error(error.message)
+    setIsLoading(false);
+  }})
   const onSubmit = (data:IUpdateUserData) => {
-    if(!data.profileUrl){
+    setIsLoading(true);
+    if(!profileFile){
+      setIsLoading(false);
       toast.error("Please upload the Image first !")
-    }else if(data.fullName === userDetails?.fullName && data.email === userDetails.email &&
-data.phoneNumber === userDetails.phoneNumber && data.fullAddress === userDetails.addresses && data.profileUrl ===userDetails.profileImage){
-  toast.error("There is Nothing to Update !")
-}else{
-  toast.success("Now you can update the details");
-  console.log(data);
+    }else{
+  const formData = new FormData();
+  // Append all user data to FormData
+  formData.append("fullName", data.fullName);
+  formData.append("email", data.email);
+  formData.append("phoneNumber", data.phoneNumber);
+  formData.append("fullAddress", data.fullAddress);
+  // If profileFile exists, append it to the FormData object
+  if (profileFile) {
+    formData.append("profileFile", profileFile);  // Append the file to FormData
+    formData.append("profileFileOriginalName", profileFile.name); // Original file name
+    formData.append("profileFileSize", String(profileFile.size)); // Convert the size to string
+    formData.append("profileFileType", profileFile.type); // File type
+}
+  mutation.mutate(formData)
 }
   };
-  const receiveImageURL =(imageUrl:string) =>{
-    setValue("profileUrl",imageUrl)
+  const receiveImageURL =(file:File) =>{
+    setValue("profileUrl",URL.createObjectURL(file))
+    setProfileFile(file)
   }
   useEffect(()=>{
     if(userDetails){
@@ -96,7 +121,7 @@ data.phoneNumber === userDetails.phoneNumber && data.fullAddress === userDetails
           </div>
         </div>
       </div>
-      <PrimaryButton searchText="Update" />
+      {isLoading ? <LoadingButton/> :<PrimaryButton searchText="Update" />}
     </form>
   );
 };

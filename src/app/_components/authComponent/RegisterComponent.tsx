@@ -27,9 +27,11 @@ const RegisterComponent = () => {
    { mutationFn:createUserMutation,
     onSuccess: (response) => {
       toast.success(response.message);
+      setIsLoading(false);
       window.location.reload()
     },
     onError: (error) => {
+      setIsLoading(false);
       toast.error(error.message)
     }}
   );

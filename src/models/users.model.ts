@@ -39,15 +39,10 @@ const UserSchema: Schema = new Schema<IUser>(
             type: [String],
             default: ["user"], // Default role is "user"
         },
-        addresses: [
-            {
-                street: { type: String },
-                city: { type: String },
-                state: { type: String },
-                zip: { type: String },
-                country: { type: String },
-            },
-        ],
+        address: {
+            type:String,
+            required:true
+        },
         wishlist: [
             {
                 type: mongoose.Schema.Types.ObjectId,
@@ -69,6 +64,9 @@ const UserSchema: Schema = new Schema<IUser>(
         profileImage: {
             type: String,
         },
+        ProfileFileOriginalName:{type:String},
+profileFileSize:{type:String},
+profileFileType:{type:String},
     },
     {
         timestamps: true, // Automatically adds `createdAt` and `updatedAt`

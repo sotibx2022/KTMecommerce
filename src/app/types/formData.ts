@@ -16,5 +16,9 @@ export interface IUpdateUserData{
   password: string;
   confirmPassword: string;
   fullAddress:string;
-  profileUrl:string;
+  profileFile:File;
+  profileFileOriginalName:string;
+  profileFileSize:number;
+  profileFileType:string;
+  profileUrl?:string
 }

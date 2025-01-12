@@ -13,10 +13,13 @@ export interface IUser {
     firebaseId: string;
     isAdmin?: boolean; // Optional field
     accountStatus?: string; // Optional field, e.g., "Registered", "Customer"
-    addresses?: string; // Optional field for user address,
+    address?: string; // Optional field for user address,
     wishlist?:Product[];
     carts?:ICarts
     profileImage?: string; // Optional field for profile image URL
+    ProfileFileOriginalName?:string;
+profileFileSize?:string;
+profileFileType?:string;
     roles?: string; // Optional field, default 'user'
     createdAt?: Date | string; // Optional field for the user creation date
     updatedAt?: Date | string; // Optional field for the user last updated date
