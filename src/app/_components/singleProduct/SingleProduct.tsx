@@ -1,10 +1,17 @@
 "use client"
-import React from 'react'
+import React, { useContext } from 'react'
 import {Product} from "../../types/products"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCaretRight } from '@fortawesome/free-solid-svg-icons'
 import PrimaryButton from '../primaryButton/PrimaryButton'
-const SingleProduct:React.FC<Product> = ({productName,productDescription,brand,price,stockAvailability,productFeatures,image}) => {
+import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent'
+import { useDispatch } from 'react-redux'
+import { addToCart } from '@/app/redux/cartSlice'
+import { ICartItem } from '@/app/types/user'
+import useAddItemToCart from './useAddItemToCart'
+const SingleProduct:React.FC<ICartItem> = ({...cartItemDetails}) => {
+  const {productName,productDescription,brand,price,stockAvailability,productFeatures,_id,image} = cartItemDetails;
+ const addItemToCart = useAddItemToCart()
   return (
     <div className='container'>
     <div className=' flex-col md:flex-row flex justify-between items-center py-4 gap-4 min-h-[50vh]'>
@@ -24,7 +31,7 @@ const SingleProduct:React.FC<Product> = ({productName,productDescription,brand,p
             </div>
             <h2 className='primaryHeading'>Features</h2>
             <ul className='primaryList'>
-              {productFeatures.map((feature: string, index: number) => (
+              {productFeatures && productFeatures.map((feature: string, index: number) => (
                 <li key={index} className='text-primaryDark flex items-center gap-1'>
                   <FontAwesomeIcon icon={faCaretRight}className='mr-2' />
                   <p>{feature}</p>
@@ -41,7 +48,7 @@ const SingleProduct:React.FC<Product> = ({productName,productDescription,brand,p
           </div>
         </div>
         <div className="productActions flex gap-4 my-4">
-        <PrimaryButton searchText='To Cart'/>
+        <PrimaryButton searchText='To Cart' onClick={()=>addItemToCart({...cartItemDetails})}/>
         <PrimaryButton searchText='To WishList'/>
         <PrimaryButton searchText='To Others'/>
       </div>

@@ -6,7 +6,6 @@ interface DropDownCategory {
     category:string, 
 }
 const DropDownList: React.FC<DropDownCategory> = ({ subCategory,category }) => {
-    console.log(subCategory,category)
     const [activeCategory, setActiveCategory] = useState<number | null>(null);
     return (
         <div className='absolute top-[100%] left-0 shadow-helper p-4 bg-primaryLight z-10'  >

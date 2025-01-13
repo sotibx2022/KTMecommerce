@@ -23,7 +23,6 @@ export async function POST(request: NextRequest) {
       email,
       phoneNumber,
       firebaseId,
-      address: address || null, // Explicitly initialize `address`
     });
     console.log("New user before saving:", newUser);
     await newUser.save();

@@ -42,7 +42,6 @@ const UserSchema: Schema = new Schema<IUser>(
     address: {
       type: String,
       default:null,
-      required:false,
     },
     wishlist: [
       {

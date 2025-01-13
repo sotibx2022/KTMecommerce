@@ -1,8 +1,18 @@
 import { IOrder } from "./orders";
 import { Product } from "./products";
 export interface ICartItem{
-    Product:Product,quantity:number
-}
+    productName:string,
+    productId?:string,
+    productDescription?:string,
+    brand:string,
+    price:string,
+    stockAvailability?:number,
+    image:string,
+    quantity:number,
+    _id:string,
+    productFeatures?:[],
+    category:string
+  }
 export interface ICarts{
     cartItems:ICartItem[]
 }

@@ -1,4 +1,5 @@
 import { IUpdateUserData, LoginData } from "@/app/types/formData";
+import { ICartItem } from "@/app/types/user";
 import axios from "axios";
 // Interfaces for API Response
 export interface APIResponseSuccess {
@@ -76,5 +77,13 @@ export const updateUserMutation = async (
       success: false,
       status: 400,
     };
+  }
+};
+export const updatedCartItems = async (cartItemDetails: ICartItem):Promise<APIResponseSuccess | APIResponseError> => {
+  try {
+    const response = await axios.post("/api/cart", cartItemDetails);
+    return response.data;
+  } catch (error: any) {
+    return {message:"There is issuse with API Call function",status:400, success:false}
   }
 };
