@@ -7,14 +7,12 @@ import AddSingleProductRating from '@/app/_components/singleProductReviews/AddSi
 import AddSingleProductReviews from '@/app/_components/singleProductReviews/AddSingleProductReviews';
 import SingleProductReviews from '@/app/_components/singleProductReviews/SingleProductReviews';
 import { UserDetailsContextComponent } from '@/app/context/UserDetailsContextComponent';
-import { store } from '@/app/redux/store';
 import { getSingleProduct } from '@/app/services/queryFunctions/products';
 import { Remark } from '@/app/types/remarks';
 import { faCaretRight, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useQuery } from '@tanstack/react-query';
 import React, { useEffect, useState } from 'react';
-import { Provider } from 'react-redux';
 const Page = () => {
   const [productId, setProductId] = useState<string>("");
   const[showReviews, setShowReviews] = useState<boolean>(true)
@@ -42,7 +40,6 @@ const Page = () => {
   return (
     <>
     <UserDetailsContextComponent>
-      <Provider store={store}>
       <NavBar />
       {singleProduct && (
         <SingleProduct {...singleProduct}/>
@@ -74,7 +71,6 @@ const Page = () => {
       }
       </div>
       <Footer />
-      </Provider>
       </UserDetailsContextComponent>
     </>
   );
