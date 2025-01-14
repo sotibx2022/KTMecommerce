@@ -2,15 +2,12 @@ import { IOrder } from "./orders";
 import { Product } from "./products";
 export interface ICartItem{
     productName:string,
-    productId?:string,
-    productDescription?:string,
+    productId:string,
     brand:string,
     price:string,
-    stockAvailability?:number,
     image:string,
     quantity:number,
-    _id:string,
-    productFeatures?:[],
+    userId:string,
     category:string
   }
 export interface ICarts{

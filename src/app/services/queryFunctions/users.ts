@@ -81,7 +81,7 @@ export const updateUserMutation = async (
 };
 export const updatedCartItems = async (cartItemDetails: ICartItem):Promise<APIResponseSuccess | APIResponseError> => {
   try {
-    const response = await axios.post("/api/cart", cartItemDetails);
+    const response = await axios.post("/api/cart/addToCart", cartItemDetails);
     return response.data;
   } catch (error: any) {
     return {message:"There is issuse with API Call function",status:400, success:false}

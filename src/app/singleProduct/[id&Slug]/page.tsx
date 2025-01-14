@@ -7,7 +7,7 @@ import AddSingleProductRating from '@/app/_components/singleProductReviews/AddSi
 import AddSingleProductReviews from '@/app/_components/singleProductReviews/AddSingleProductReviews';
 import SingleProductReviews from '@/app/_components/singleProductReviews/SingleProductReviews';
 import { UserDetailsContextComponent } from '@/app/context/UserDetailsContextComponent';
-import store from '@/app/redux/store';
+import { store } from '@/app/redux/store';
 import { getSingleProduct } from '@/app/services/queryFunctions/products';
 import { Remark } from '@/app/types/remarks';
 import { faCaretRight, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';

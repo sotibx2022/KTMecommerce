@@ -9,7 +9,18 @@ import { useDispatch } from 'react-redux'
 import { addToCart } from '@/app/redux/cartSlice'
 import { ICartItem } from '@/app/types/user'
 import useAddItemToCart from './useAddItemToCart'
-const SingleProduct:React.FC<ICartItem> = ({...cartItemDetails}) => {
+interface IProductDetails{
+  productName:string,
+  productDescription:string,
+  brand:string,
+  price:string,
+  stockAvailability:boolean,
+  productFeatures:string[],
+  _id:string,
+  image:string,
+  productId:string, quantity:number, userId:string, category:string
+}
+const SingleProduct:React.FC<IProductDetails> = ({...cartItemDetails}) => {
   const {productName,productDescription,brand,price,stockAvailability,productFeatures,_id,image} = cartItemDetails;
  const addItemToCart = useAddItemToCart()
   return (

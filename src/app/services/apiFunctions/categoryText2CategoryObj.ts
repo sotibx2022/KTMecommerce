@@ -39,3 +39,7 @@ export const findSubCatObjfromSubCatText = async (
     return null; // Return null if there's an error
   }
 };
+export const findCategoryNamefromCategoryId=async(categoryId:Object) =>{
+  const category = await CategoryModel.findOne({_id:categoryId});
+  return category.category_name
+}

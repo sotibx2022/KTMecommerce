@@ -10,6 +10,8 @@ import ResponsiveHeader from '../_components/navbar/responsiveHeader/ResponsiveH
 import LoginComponent from '../_components/authComponent/LoginComponent'
 import RegisterComponent from '../_components/authComponent/RegisterComponent'
 import QueryProvider from '../provider/queryProvider'
+import { Provider } from 'react-redux'
+import { store } from '../redux/store'
 interface DashboardLayoutProps{
     children:ReactNode
 }
@@ -18,6 +20,7 @@ const DashboardLayout:React.FC<DashboardLayoutProps> = ({children}) => {
   return (
     <>
     <QueryProvider>
+      <Provider store={store}>
     <UserDetailsContextComponent>
       <AdvanceSearchProvider>
         <DisplayComponents>
@@ -31,6 +34,7 @@ const DashboardLayout:React.FC<DashboardLayoutProps> = ({children}) => {
     </DisplayComponents>
       </AdvanceSearchProvider>
     </UserDetailsContextComponent>
+    </Provider>
     </QueryProvider>
   </>
   )
