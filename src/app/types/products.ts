@@ -1,22 +1,39 @@
+import { Types } from "mongoose";
 import { Remark } from "./remarks";
-export interface Product {
-    _id?: string; // MongoDB auto-generated ID (optional for interface use)
-    brand: string; // Brand name, e.g., "Apple"
-    productName: string; // Name of the mobile device
-    productDescription: string; // Short description of the product
-    productFeatures: string[]; // Array of features
-    price: number; // Product price
-    stockAvailability: boolean; // Is it in stock
-    variant: string; // Variant details, e.g., color
-    categoryId?: string; // Foreign key for category
-    isNewArrivals: boolean; // Is it a new arrival
-    isTrendingNow: boolean; // Is it trending now
-    isTopSell: boolean; // Is it a top seller
-    isOfferItem: boolean; // Is it an offer item
-    image: string; // URL to the product image
-    url_slug:string;
-    remarks: Remark[]; // Array of reviews
-    overallRating:number;
-    createdAt: Date; // Timestamp for product creation
-    updatedAt: Date; // Timestamp for last product update
-  }
+// Interface for Product creation (DB use)
+export interface IProductCreate {
+  _id?: Types.ObjectId; // _id is required for DB but optional when creating a new product
+  brand: string;
+  productName: string;
+  productDescription: string;
+  productFeatures: string[];
+  price: number; // Price is a number in DB
+  stockAvailability: boolean;
+  variant: string;
+  categoryId?: Types.ObjectId; // Foreign key for category (optional)
+  isNewArrivals: boolean;
+  isTrendingNow: boolean;
+  isTopSell: boolean;
+  isOfferItem: boolean;
+  image: string;
+  url_slug: string;
+  remarks?: Remark[]; // Array of reviews (optional)
+  overallRating?: number; // Overall rating (optional)
+  createdAt?: Date; // Timestamp for product creation (optional for new products)
+  updatedAt?: Date; // Timestamp for last update (optional for new products)
+}
+// Interface for displaying product details on UI
+export interface IProductDisplay {
+  productName: string;
+  productDescription: string;
+  brand: string;
+  price: string; // Price is a string in UI for formatting
+  stockAvailability: boolean;
+  productFeatures: string[];
+  _id: string; // _id as string for display
+  image: string;
+  productId: string; // productId is ObjectId type for DB interactions
+  quantity: number;
+  userId: string;
+  category: string;
+}

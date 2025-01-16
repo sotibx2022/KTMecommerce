@@ -19,7 +19,11 @@ import Link from "next/link";
 import PrimaryHeader from "../PrimaryHeader";
 import { DisplayContext } from "@/app/context/DisplayComponents";
 import { Category, Subcategory } from "@/app/types/categories";
+import IconButton from "../../iconText/IconButton";
+import { useSelector } from "react-redux";
+import { CartState } from "@/app/redux/cartSlice";
 const ResponsiveHeader = () => {
+  const cartItems = useSelector((state: { cart: CartState }) => state.cart.cartItems);
   const {setVisibleComponent} = useContext(DisplayContext)
   const { data: NavItems = [] } = useQuery({
     queryKey: ["categories"],
@@ -43,17 +47,10 @@ const ResponsiveHeader = () => {
           </Link>
         </div>
         <div className="responsiveIcons flex-center gap-4">
-        <FontAwesomeIcon
-            icon={faTimes}
-            className="responsiveHeaderIcon"
-            onClick={()=>setVisibleComponent('')}
-          />
-          <FontAwesomeIcon icon={faSearch} className="responsiveHeaderIcon" />
-          <FontAwesomeIcon icon={faHeart} className="responsiveHeaderIcon" />
-          <FontAwesomeIcon
-            icon={faShoppingCart}
-            className="responsiveHeaderIcon"
-          />
+          <IconButton icon={faTimes} name="Close"  onClick={()=>setVisibleComponent('')}/>
+          <IconButton icon={faSearch} name="Search"/>
+          <IconButton icon={faHeart} name="Wishlist"/>
+          <IconButton icon={faShoppingCart} name="Cart" number={cartItems.length}/>
         </div>
         <ul className="categories flex flex-col gap-4 mt-4">
           {NavItems.map((item: Category, index: number) => (

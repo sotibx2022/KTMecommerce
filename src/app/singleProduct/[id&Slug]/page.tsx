@@ -1,19 +1,17 @@
 "use client";
-import Footer from '@/app/_components/footer/Footer';
 import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponent';
-import NavBar from '@/app/_components/navbar/Navbar';
 import SingleProduct from '@/app/_components/singleProduct/SingleProduct';
-import AddSingleProductRating from '@/app/_components/singleProductReviews/AddSingleProductRating';
 import AddSingleProductReviews from '@/app/_components/singleProductReviews/AddSingleProductReviews';
 import SingleProductReviews from '@/app/_components/singleProductReviews/SingleProductReviews';
-import { UserDetailsContextComponent } from '@/app/context/UserDetailsContextComponent';
+import { DisplayContext } from '@/app/context/DisplayComponents';
 import { getSingleProduct } from '@/app/services/queryFunctions/products';
 import { Remark } from '@/app/types/remarks';
-import { faCaretRight, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
+import {  faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useQuery } from '@tanstack/react-query';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 const Page = () => {
+  const { visibleComponent } = useContext(DisplayContext)
   const [productId, setProductId] = useState<string>("");
   const[showReviews, setShowReviews] = useState<boolean>(true)
   const toggleReviews=(value:boolean)=>{
@@ -39,8 +37,6 @@ const Page = () => {
   }
   return (
     <>
-    <UserDetailsContextComponent>
-      <NavBar />
       {singleProduct && (
         <SingleProduct {...singleProduct}/>
       )}
@@ -70,8 +66,6 @@ const Page = () => {
       </div>
       }
       </div>
-      <Footer />
-      </UserDetailsContextComponent>
     </>
   );
 };

@@ -1,15 +1,6 @@
+import { ICartItem, ICreateCart } from "@/app/types/cart";
 import mongoose, { Schema, Document } from "mongoose";
-export interface ICartItem extends Document {
-  productName: string;
-  productId: mongoose.Types.ObjectId;
-  brand: string;
-  price: string;
-  image: string;
-  quantity: number;
-  userId: mongoose.Types.ObjectId;
-  category: string;
-}
-const cartSchema = new Schema<ICartItem>(
+const cartSchema = new Schema<ICreateCart>(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
@@ -52,4 +43,4 @@ const cartSchema = new Schema<ICartItem>(
   }
 );
 export const CartModel =
-  mongoose.models.Cart || mongoose.model<ICartItem>("Cart", cartSchema);
+  mongoose.models.Cart || mongoose.model<ICreateCart>("Cart", cartSchema);

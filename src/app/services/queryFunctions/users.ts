@@ -1,5 +1,5 @@
+import { ICartItem } from "@/app/types/cart";
 import { IUpdateUserData, LoginData } from "@/app/types/formData";
-import { ICartItem } from "@/app/types/user";
 import axios from "axios";
 // Interfaces for API Response
 export interface APIResponseSuccess {

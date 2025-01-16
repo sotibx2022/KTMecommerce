@@ -1,18 +1,6 @@
 import { IOrder } from "./orders";
 import { Product } from "./products";
-export interface ICartItem{
-    productName:string,
-    productId:string,
-    brand:string,
-    price:string,
-    image:string,
-    quantity:number,
-    userId:string,
-    category:string
-  }
-export interface ICarts{
-    cartItems:ICartItem[]
-}
+import { ICartItem } from "./cart";
 export interface IUser {
     fullName: string;
     email: string;
@@ -22,7 +10,7 @@ export interface IUser {
     accountStatus?: string; // Optional field, e.g., "Registered", "Customer"
     address?: string; // Optional field for user address,
     wishlist?:Product[];
-    carts?:ICarts
+    carts?:ICartItem[]
     profileImage?: string; // Optional field for profile image URL
     profileFileOriginalName?:string;
 profileFileSize?:string;

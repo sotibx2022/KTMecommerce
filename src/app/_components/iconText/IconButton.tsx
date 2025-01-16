@@ -4,14 +4,17 @@ import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 interface IconButtonProps {
   icon: IconDefinition; // Correct type for FontAwesome icons
   name: string;
-  number?: number; // Optional
+  number?: number;
+  onClick?:()=>void;
 }
-const IconButton: React.FC<IconButtonProps> = ({ icon, name, number }) => {
+const IconButton: React.FC<IconButtonProps> = ({ icon, name, number,onClick }) => {
+  const isZeroOrUndefined = number === 0 || number === undefined;
   return (
-    <div className="group relative text-primaryDark cursor-pointer rounded-full p-2 box-border grid place-items-center border-2 border-primaryDark w-[100px] overflow-hidden">
-      <FontAwesomeIcon icon={icon} className="w-[30px]  z-10" />
-      {number && (
-        <span className=" absolute top-0 left-0  bg-helper w-8 h-8 text-sm rounded-full grid place-items-center text-primaryDark p-[0.1rem]  z-10">
+    <div className="group relative text-primaryDark cursor-pointer rounded-full p-2 box-border grid place-items-center border-2 border-primaryDark w-[100px] overflow-hidden"
+    onClick={onClick}>
+      <FontAwesomeIcon icon={icon} className="w-[30px] z-10" />
+      {!isZeroOrUndefined &&(
+        <span className="absolute top-0 left-0 bg-helper w-8 h-8 text-sm rounded-full grid place-items-center text-primaryDark p-[0.1rem]  z-10">
           {number}
         </span>
       )}

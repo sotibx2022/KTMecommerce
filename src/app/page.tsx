@@ -5,8 +5,10 @@ import AdvanceSearchProvider from './_components/advaceSearch/AdvanceSearchProvi
 import { Toaster } from 'react-hot-toast'
 import { UserDetailsContextComponent } from './context/UserDetailsContextComponent'
 import { Provider } from "react-redux";
+import store from './redux/store'
 const page = () => {
   return (
+    <Provider store={store}>
       <UserDetailsContextComponent>
         <AdvanceSearchProvider>
           <DisplayComponents>
@@ -15,6 +17,7 @@ const page = () => {
           <Toaster />
         </AdvanceSearchProvider>
       </UserDetailsContextComponent>
+      </Provider>
   )
 }
 export default page

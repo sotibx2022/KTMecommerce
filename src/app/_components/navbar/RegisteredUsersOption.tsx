@@ -1,13 +1,15 @@
 "use client"
 import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import SecondaryButton from '../secondaryButton/SecondaryButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import UserOptions from './UserOptions';
 import useLogout, { logoutUser } from '@/app/services/apiFunctions/logoutUser';
-import { useMutation } from '@tanstack/react-query';
-import toast from 'react-hot-toast';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { setCart } from '@/app/redux/cartSlice';
+import { useDispatch } from 'react-redux';
+import { fetchCartFromDatabase } from '@/app/services/apiFunctions/cartItems';
 const RegisteredUsersOption = () => {
     const[showUserOptions, setShowUserOptions] = useState(false);
     const context = useContext(UserDetailsContext);
@@ -15,7 +17,14 @@ const RegisteredUsersOption = () => {
       throw new Error("The User Details context is not working.")
     }
     const {userDetails} = context;
-    const logout = useLogout()
+    const logout = useLogout();
+    const dispatch = useDispatch();
+    const {data:cartItems} = useQuery({queryKey:['cartItems'],queryFn:fetchCartFromDatabase})
+   useEffect(()=>{
+    if(cartItems){
+      dispatch(setCart(cartItems));
+    }
+   },[cartItems])
   return (
     <div className='flex-center gap-4 '>
         <div className="userDetails flex-center gap-2 relative cursor-pointer"  

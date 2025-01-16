@@ -1,3 +1,4 @@
+"use client"
 import PrimaryButton from '@/app/_components/primaryButton/PrimaryButton';
 import { faCaretRight, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

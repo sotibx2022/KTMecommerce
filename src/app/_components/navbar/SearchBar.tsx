@@ -2,11 +2,13 @@
 import React, { useState } from 'react'
 import PrimaryButton from '../primaryButton/PrimaryButton'
 import Link from 'next/link'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faLuggageCart } from '@fortawesome/free-solid-svg-icons';
 import IconButton from '../iconText/IconButton';
 import { useRouter } from 'next/navigation';
+import { useSelector } from 'react-redux';
+import { CartState } from '@/app/redux/cartSlice';
 const SearchBar = () => {
+    const cartItems = useSelector((state: { cart: CartState }) => state.cart.cartItems);
   const[searchValue, setSearchValue] = useState("");
   const router = useRouter();
   const handleSearch = () => {
@@ -27,7 +29,7 @@ const SearchBar = () => {
       <PrimaryButton searchText='Search' onClick={handleSearch}/>
       </div>
       <div className="cartIdea flex gap-2 z-0">
-        <Link href="/pages/cart"><IconButton icon={faLuggageCart} name="Cart" number={3} /></Link>
+        <Link href="/pages/cart"><IconButton icon={faLuggageCart} name="Cart" number={cartItems.length}/></Link>
         <Link href="/pages/wishlist"><IconButton icon={faHeart} name="Wishlist"/></Link>
       </div>
     </div>

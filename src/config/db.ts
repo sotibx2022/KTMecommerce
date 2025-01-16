@@ -17,7 +17,7 @@ export const connectToDB = async () => {
       console.log("MongoDB Disconnected.");
     });
     // Establish connection only if not already connected
-    await mongoose.connect(config.connectionString as string)
+    await mongoose.connect("mongodb+srv://sbinayaraj:uJYI9Q5aXU0L9Wp1@cluster0.v7zrc.mongodb.net/ecommerceKTM?retryWrites=true&w=majority&appName=Cluster0" as string)
     ;
     isConnected = true; // Set the flag to true after successful connection
   } catch (error) {

@@ -1,3 +1,4 @@
+"use client"
 interface RegisterUserInput {
   fullName: string;
   email: string;
