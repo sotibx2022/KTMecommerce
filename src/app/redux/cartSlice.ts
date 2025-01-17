@@ -39,9 +39,19 @@ const cartSlice = createSlice({
       if (existingItemIndex !== -1) {
         state.cartItems.splice(existingItemIndex, 1);
       }
+    },
+    updateCartItem: (state, action) => {
+      const existingItemIndex = state.cartItems.findIndex((item: ICartItem) => {
+        return item.productId === action.payload.productId;
+      });
+      // Check if the item exists (index is not -1)
+      if (existingItemIndex !== -1) {
+        // Update the quantity of the existing item
+        state.cartItems[existingItemIndex].quantity = action.payload.quantity;
+      }
     }
   },
 });
 // Export actions and reducer
-export const { setCart, addToCart,removeFromCart } = cartSlice.actions;
+export const { setCart, addToCart,removeFromCart,updateCartItem } = cartSlice.actions;
 export default cartSlice.reducer;
