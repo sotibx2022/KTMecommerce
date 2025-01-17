@@ -1,6 +1,6 @@
 import { IOrder } from "./orders";
-import { Product } from "./products";
 import { ICartItem } from "./cart";
+import { IProductCreate } from "./products";
 export interface IUser {
     fullName: string;
     email: string;
@@ -9,7 +9,7 @@ export interface IUser {
     isAdmin?: boolean; // Optional field
     accountStatus?: string; // Optional field, e.g., "Registered", "Customer"
     address?: string; // Optional field for user address,
-    wishlist?:Product[];
+    wishlist?:IProductCreate[];
     carts?:ICartItem[]
     profileImage?: string; // Optional field for profile image URL
     profileFileOriginalName?:string;

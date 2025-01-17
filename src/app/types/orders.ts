@@ -1,9 +1,9 @@
-import { Product } from "./products";
+import { IProductCreate } from "./products";
 import { IUser } from "./user";
 export interface IOrder extends Document {
     user: IUser
     items: {
-        product: Product
+        product: IProductCreate
         quantity: number; // Quantity of the product
         price: number; // Price of the product at the time of the order
     }[];

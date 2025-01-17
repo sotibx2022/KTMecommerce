@@ -14,7 +14,6 @@ const SearchBar = () => {
   const handleSearch = () => {
     console.log(searchValue)
     if(searchValue){
-      console.log("condition passed.")
       router.push(`/catalog/keyword=${searchValue}`);
     }
   };

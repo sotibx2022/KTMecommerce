@@ -6,6 +6,7 @@ import { getAllCategories } from '@/app/services/queryFunctions/categoreis';
 import { Category } from '@/app/types/categories';
 import DropDownList from './DropDownList';
 const SecondaryHeader = () => {
+
   const { data: navItems = [], isLoading, isError } = useQuery({
     queryKey: ['categories'],
     queryFn: getAllCategories,

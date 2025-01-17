@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { ICartItem } from '../types/user';
+import { ICartItem } from '../types/cart';
 // Define the CartState interface
 export interface CartState {
   cartItems: ICartItem[];
@@ -31,8 +31,17 @@ const cartSlice = createSlice({
         category,
       });
     },
+    removeFromCart: (state, action) => {
+      const productId  = action.payload;
+      const existingItemIndex = state.cartItems.findIndex((item: ICartItem) => {
+        return item.productId === productId;
+      });
+      if (existingItemIndex !== -1) {
+        state.cartItems.splice(existingItemIndex, 1);
+      }
+    }
   },
 });
 // Export actions and reducer
-export const { setCart, addToCart } = cartSlice.actions;
+export const { setCart, addToCart,removeFromCart } = cartSlice.actions;
 export default cartSlice.reducer;
