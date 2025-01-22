@@ -1,10 +1,11 @@
+import { config } from "@/config/configuration";
 import axios from "axios";
 export const getAllProducts = async () => {
-  const response = await axios.get(`http://localhost:3000/api/products`);
+  const response = await axios.get(`${config.websiteUrl}/api/products`);
   return response.data.products;
 };
 export const getSingleProduct = async (productId: string) => {
-  const response = await axios.get(`http://localhost:3000/api/products/${productId}`);
+  const response = await axios.get(`${config.websiteUrl}/api/products/${productId}`);
   return response.data.singleProduct;
 };
 export interface SearchParams {

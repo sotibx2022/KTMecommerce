@@ -1,14 +1,15 @@
 // firebaseConfig.ts
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
-// Directly write Firebase configuration here
+import { config } from './configuration';
+// Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBXsN29EmAh_b6PhyaO0-P1Y13jXmaZqJ8",
-  authDomain: "ktmecommerce-f5d04.firebaseapp.com",
-  projectId: "ktmecommerce-f5d04",
-  storageBucket: "ktmecommerce-f5d04.firebasestorage.app",
-  messagingSenderId: "393872513950",
-  appId: "1:393872513950:web:4f95544304fd5c007ad48f",
+  apiKey: config.firebase.apiKey,
+  authDomain: config.firebase.authDomain,
+  projectId: config.firebase.projectId,
+  storageBucket: config.firebase.storageBucket,
+  messagingSenderId: config.firebase.messagingSenderId,
+  appId: config.firebase.appId,
 };
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);

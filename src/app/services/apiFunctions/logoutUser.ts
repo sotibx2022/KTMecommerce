@@ -1,3 +1,4 @@
+import { config } from "@/config/configuration";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useRouter } from "next/navigation";
@@ -8,7 +9,7 @@ interface APIResponse{
     status:number,
 }
 export const logoutUser = async():Promise<APIResponse> =>{
-    const response = await axios.get("/api/auth/logoutUser");
+    const response = await axios.get(`${config.websiteUrl}/api/auth/logoutUser`);
     return response.data
   }
   const useLogout = () => {

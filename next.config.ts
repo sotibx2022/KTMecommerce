@@ -1,7 +1,7 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  /* config options here */
+require('dotenv').config();
+module.exports = {
+  env: {
+    API_URL: process.env.API_URL,
+    CONNECTION_STRING:process.env.CONNECTION_STRING,
+  },
 };
-
-export default nextConfig;
