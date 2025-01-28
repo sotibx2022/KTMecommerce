@@ -4,8 +4,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSquareCheck } from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from 'react-redux';
 import { CartState } from '@/app/redux/cartSlice';
-const CartSummary = () => {
+import { useRouter } from 'next/navigation';
+import { config } from '@/config/configuration';
+interface ICartSummary{
+  order?:boolean
+}
+const CartSummary:React.FC<ICartSummary> = ({order}) => {
     const cartItems = useSelector((state: { cart: CartState }) => state.cart.cartItems);
+    const router = useRouter()
+    const handleOrderProducts =() =>{
+router.push(`${config.websiteUrl}/dashboard/orders`)
+    }
     const calculateTotals = () => {
         const totalItems = cartItems.reduce((acc, item) => acc + item.quantity, 0);
         const totalCost = cartItems.reduce((acc, item) => acc + parseInt(item.price) * item.quantity, 0);
@@ -44,7 +53,7 @@ const CartSummary = () => {
       <span className="cartSummaryTitle secondaryHeading  uppercase">Gross Total</span>
       <span className="cartSummaryData secondaryHeading price-highlight">${grossTotal.toFixed(2)}</span>
     </div>
-    <PrimaryButton searchText="Order" />
+    {order && <PrimaryButton searchText="Order" onClick={handleOrderProducts}/>}
   </div>
   )
 }
