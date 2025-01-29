@@ -1,9 +1,11 @@
+"use client"
+import CategoryCards from '@/app/_components/categoryCards/CategoryCards'
 import React from 'react'
-
 const page = () => {
   return (
-    <div>page</div>
+    <div>
+      <CategoryCards/>
+    </div>
   )
 }
-
 export default page

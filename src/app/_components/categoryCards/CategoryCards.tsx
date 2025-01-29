@@ -1,88 +1,89 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretRight } from "@fortawesome/free-solid-svg-icons";
-import { useGSAP } from "@gsap/react";
-import gsap from 'gsap'
 import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
-import 'swiper/css/navigation';
 import { Autoplay } from 'swiper/modules';
-interface CardData {
-  title: string;
-  image_url: string;
-  products: string[];
-}
-const cardDatas: CardData[] = [
-  {
-    title: "New Arrivals",
-    image_url: "https://picsum.photos/id/101/200/200",
-    products: [
-      "Apple iPhone 15 Pro Max",
-      "Dell XPS 13 Plus (12th Gen Intel Core)",
-      "Samsung Galaxy Watch 6 Classic",
-      "Sony WF-1000XM5 Wireless Earbuds",
-    ],
-  },
-  {
-    title: "Trending Now",
-    image_url: "https://picsum.photos/id/102/200/200",
-    products: [
-      "Sony PlayStation 5",
-      "DJI Mini 3 Pro Drone",
-      "Meta Quest 3 VR Headset",
-      "Apple iPad Pro 12.9-inch (M2 Chip)",
-    ],
-  },
-  {
-    title: "Top Sell",
-    image_url: "https://picsum.photos/id/103/200/200",
-    products: [
-      "LG C3 OLED 55-inch 4K TV",
-      "JBL Charge 5 Bluetooth Speaker",
-      "Asus ROG Zephyrus G14 Gaming Laptop",
-      "Kindle Paperwhite Signature Edition",
-    ],
-  },
-  {
-    title: "Offer Item",
-    image_url: "https://picsum.photos/id/104/200/200",
-    products: [
-      "Anker PowerCore 26800mAh Portable Charger",
-      "Bose QuietComfort 45 Noise-Cancelling Headphones",
-      "Fitbit Charge 6 Fitness Tracker",
-      "Ring Stick Up Cam Battery (3rd Gen)",
-    ],
-  },
-];
+import { useQuery } from "@tanstack/react-query";
+import { SpecificProducts } from "@/app/services/apiFunctions/productsQuery";
+import { IProductDisplay } from "@/app/types/products";
+import LoadingComponent from "../loadingComponent/LoadingComponent";
+import {config} from './../../../config/configuration'
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/autoplay';
+import LinkComponent from "../linkComponent/LinkComponent";
 const CategoryCards = () => {
+  // Add unique query keys for each query
+  const { data: newArrivals = [], isPending } = useQuery({ 
+    queryKey: ['newArrivals'], 
+    queryFn: () => SpecificProducts('isNewArrivals') 
+  });
+  const { data: trendingItems = [] } = useQuery({ 
+    queryKey: ['trendingItems'], 
+    queryFn: () => SpecificProducts('isTrendingNow') 
+  });
+  const { data: topSells = [] } = useQuery({ 
+    queryKey: ['topSells'], 
+    queryFn: () => SpecificProducts('isTopSell') 
+  });
+  const { data: offerItems = [] } = useQuery({ 
+    queryKey: ['offerItems'], 
+    queryFn: () => SpecificProducts('isOfferItem') 
+  });
+  interface ICardData {
+    title: string,
+    products: IProductDisplay[]
+  }
+  const cardDatas: ICardData[] = [
+    { title: "New Arrivals", products: newArrivals },
+    { title: "Trending Now", products: trendingItems },
+    { title: "Top Sell", products: topSells },
+    { title: "Offer Item", products: offerItems }
+  ];
   return (
-    <div className="flex flex-wrap w-full lg:w-1/2">
-      {cardDatas.map((card, index) => (
-        <div key={index} className="w-1/2 h-1/2 relative">
-          <img
-            className="object-cover w-full h-full"
-            src={card.image_url}
-            alt={card.title}
-          />
-          <h2 className="absolute top-0 left-1/2 transform -translate-x-1/2 w-[150px] bg-helper py-1 text-center flex gap-1 justify-center items-center cursor-pointer hover:underline hover:text-white hover:bg-opacity-80 transition-opacity duration-300">
-            {card.title}
-            <FontAwesomeIcon icon={faCaretRight} />
-          </h2>
-          <div className="cardContent absolute bottom-0 left-0  bg-background border-r-2 border-b-2 border-helper h-[30px] w-full p-1 overflow-hidden">
-          <Swiper modules={[Autoplay]} // Load Swiper modules
-    slidesPerView={1}
-    autoplay={{ delay: 3000, disableOnInteraction: false }}>
-             {card.products.map((product, i) => (
-                <SwiperSlide key={i}>
-                  <div className="flex items-center">
-                  <h2 className="text-primaryDark cursor-pointer hover:underline hover:font-bold transition-all duration-300 font-normal">{product}</h2>
-                  </div>
+    <div className="space-y-8">
+      {isPending ? (
+        <LoadingComponent />
+      ) : (
+        <div className="flex-center flex-wrap gap-1 w-[600px]">
+          {cardDatas.map((card: ICardData, index: number) => (
+          <div key={index} className="mb-8 w-[290px]">
+           <div className="bg-helper text-xl text-primaryDark p-1 flex justify-between">
+           <LinkComponent href={`${config.websiteUrl}/pages/${card.title.toLowerCase().replace(/\s+/g, '-')}`} text= {card.title}>
+           </LinkComponent>
+           <FontAwesomeIcon icon={faCaretRight}/>
+           </div>
+            <div className="relative h-[150px]">
+              <Swiper
+                modules={[Autoplay]}
+                slidesPerView={1}
+                spaceBetween={30}
+                autoplay={{ 
+                  delay: 3000, 
+                  disableOnInteraction: false,
+                  pauseOnMouseEnter: true
+                }}
+              >
+                {card.products?.map((product: IProductDisplay, i) => (
+                  <SwiperSlide key={i}> {/* Slide height */}
+                    <div className="flex flex-col items-center justify-center h-full relative">
+                      <img 
+                        src={product.image} 
+                        alt={product.productName} 
+                        className="w-full h-auto max-h-[150px] object-fit mb-4"
+                      />
+                      <h3 className="absolute top-0 left-0 w-full h-[30px] bg-primaryDark text-background">
+                        {product.productName}
+                      </h3>
+                    </div>
                   </SwiperSlide>
-              ))}
-             </Swiper>
+                ))}
+              </Swiper>
+            </div>
           </div>
+        ))}
         </div>
-      ))}
+      )}
     </div>
   );
 };
