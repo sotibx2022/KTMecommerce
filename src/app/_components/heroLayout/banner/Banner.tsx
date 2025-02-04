@@ -94,7 +94,7 @@ const Banner = () => {
     resetTitlePosition()
   };
   return (
-    <div className="swipperWrapper w-1/2 h-[400px] lg:w-1/2">
+    <div className="swipperWrapper w-full h-[500px] lg:w-1/2">
       <Swiper
     modules={[ Scrollbar, A11y, Autoplay]} // Load Swiper modules
     spaceBetween={50}
