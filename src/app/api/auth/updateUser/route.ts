@@ -2,7 +2,7 @@ import { uploadImage } from "@/app/services/helperFunctions/uploadImage";
 import { connectToDB } from "@/config/db";
 import UserModel from "@/models/users.model";
 import { NextRequest, NextResponse } from "next/server";
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
   try {
     const formData = await req.formData();
     const fullName = (formData.get('fullName') as string) || '';
