@@ -28,17 +28,22 @@ const CategoryCards = () => {
     queryKey: ["offerItems"],
     queryFn: () => SpecificProducts("isOfferItem"),
   });
-  const [windowWidth, setWindowWidth] = useState(0);
-  const imageWidth = 290; // Approx width of one card
-  const imagesPerRow = Math.floor(windowWidth / imageWidth);
+  const [windowWidth, setWindowWidth] = useState<number | undefined>(undefined);
+  const [imagesPerRow,setImagesPerRow] = useState(1)
+  const imageWidth = 290; 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const handleResize = () => setWindowWidth(window.innerWidth);
+      const handleResize = () => {
+        setWindowWidth(window.innerWidth);
+        setImagesPerRow(Math.floor(window.innerWidth / imageWidth));
+      };
       window.addEventListener("resize", handleResize);
+      // Initial set to ensure correct value on first render
+      handleResize();
       return () => window.removeEventListener("resize", handleResize);
     }
-  }, []);
-  const cardDatas = [
+  }, [imageWidth]); // Dependency on imageWidth to recalculate when it changes
+    const cardDatas = [
     { title: "New Arrivals", products: newArrivals },
     { title: "Trending Now", products: trendingItems },
     { title: "Top Sell", products: topSells },
@@ -49,7 +54,7 @@ const CategoryCards = () => {
       {isPending ? (
         <LoadingComponent />
       ) : (
-        <div className="flex flex-wrap gap-4 w-full min-h-[500px]">
+        <div className="flex flex-wrap gap-4 w-full min-h-[500px] h-full">
           {cardDatas.map((card, index) => (
             <div
               key={index}
