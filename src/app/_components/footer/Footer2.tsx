@@ -3,11 +3,11 @@ import React, { useState } from 'react'
 import ResponsiveHeader from '../navbar/responsiveHeader/ResponsiveHeader'
 import { getAllCategories } from '@/app/services/queryFunctions/categoreis';
 import { useQuery } from '@tanstack/react-query';
-import { Category } from '@/models/categories.model';
 import LinkComponent from '../linkComponent/LinkComponent';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
+import {Category, Subcategory} from '../../types/categories';
 const Footer2 = () => {
     const { data: NavItems = [] } = useQuery({
         queryKey: ["categories"],
@@ -32,7 +32,7 @@ const Footer2 = () => {
                  (
                   <ul className=" flex flex-col gap-2 pt-1">
                     {item.subcategories.map(
-                      (subItem: Category, subIndex: number) => (
+                      (subItem: Subcategory, subIndex: number) => (
                         <li
                           key={subItem.url_slug || subIndex}
                           className="text-md"
