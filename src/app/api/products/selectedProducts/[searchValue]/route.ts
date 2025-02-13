@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 import categoryText2Id from "@/app/services/apiFunctions/categoryText2Id";
 import subCategoryText2Id from "@/app/services/apiFunctions/subCatText2Id";
 import { IProductDisplay } from "@/app/types/products";
-export async function GET(request: NextRequest, response: NextResponse) {
+export async function GET(request: NextRequest) {
   try {
     await connectToDB();
     const url = new URL(request.url);
