@@ -1,9 +1,8 @@
 import Link from 'next/link';
-import { Product } from '@/app/types/products';
-import SecondaryButton from '../secondaryButton/SecondaryButton';
 import { truncateText } from '@/app/services/helperFunctions/functions';
 import DisplaySingleProductRating from '../singleProductReviews/DisplaySingleProductRating';
-const ProductCard: React.FC<Product> = ({ brand, productName, productDescription, productFeatures, price, stockAvailability, variant, url_slug, image, remarks, _id,overallRating})=>{
+import { IProductDisplay } from '@/app/types/products';
+const ProductCard: React.FC<IProductDisplay> = ({ brand, productName, productDescription, productFeatures, price, stockAvailability, variant, url_slug, image, remarks, _id,overallRating})=>{
     return (
         <Link href={`/singleProduct/id:${_id}&,slug:${url_slug}`}>
         <div className="border shadow-primaryLight mb-4 flex flex-col items-start w-[300px] h-[500px] p-2 cursor-pointer">
