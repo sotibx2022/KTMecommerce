@@ -1,7 +1,7 @@
 import { connectToDB } from "@/config/db";
 import { productModel } from "@/models/products.model";
 import { NextRequest, NextResponse } from "next/server";
-export async function GET(request: NextRequest, response: NextResponse) {
+export async function GET(request: NextRequest) {
   try {
     await connectToDB();
     const products = await productModel.find();
