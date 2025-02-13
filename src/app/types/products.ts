@@ -36,4 +36,8 @@ export interface IProductDisplay {
   quantity: number;
   userId: string;
   category: string;
+  variant:string,
+  url_slug:string,
+  remarks:Remark[],
+  overallRating:number
 }

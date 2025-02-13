@@ -1,7 +1,7 @@
-import { Product } from "@/app/types/products";
 import mongoose, { Model } from "mongoose";
 import { RemarkSchema } from "./remarks.model";
-const ProductSchema = new mongoose.Schema<Product>({
+import { IProductCreate } from "@/app/types/products";
+const ProductSchema = new mongoose.Schema<IProductCreate>({
     brand: { type: String, required: true },
     productName: { type: String, required: true },
     productDescription: { type: String, required: true },
@@ -48,4 +48,4 @@ const ProductSchema = new mongoose.Schema<Product>({
     }
     next();
   });
-  export const productModel:Model<Product> = mongoose.models.product || mongoose.model("product", ProductSchema);
+  export const productModel:Model<IProductCreate> = mongoose.models.product || mongoose.model("product", ProductSchema);

@@ -4,7 +4,7 @@ import { productModel } from "@/models/products.model";
 import { NextRequest, NextResponse } from "next/server";
 import categoryText2Id from "@/app/services/apiFunctions/categoryText2Id";
 import subCategoryText2Id from "@/app/services/apiFunctions/subCatText2Id";
-import { IProductDisplay } from "@/app/types/products";
+import { IProductCreate, IProductDisplay } from "@/app/types/products";
 export async function GET(request: NextRequest) {
   try {
     await connectToDB();
@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
     const rating = searchParams.get('rating');
     const page = parseInt(searchParams.get('page') || '1', 10);
     const limit = parseInt(searchParams.get('limit') || '10', 10);
-    let products: IProductDisplay[] = [];
+    let products: IProductCreate[] = [];
     let totalProductsCount: number = 0;
     if (keyword) {
       const { products, totalItems, totalPages } = await getProductsByKeyword(keyword, page, limit);

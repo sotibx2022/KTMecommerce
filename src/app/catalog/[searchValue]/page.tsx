@@ -6,7 +6,7 @@ import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponen
 import NavBar from '@/app/_components/navbar/Navbar'
 import ProductCard from '@/app/_components/productCard/ProductCard'
 import { getSelectedProducts, SearchParams } from '@/app/services/queryFunctions/products'
-import { Product } from '@/app/types/products'
+import { IProductDisplay } from '@/app/types/products'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
@@ -52,7 +52,7 @@ const page = () => {
       <AdvanceSearch/>
     {searchedProduct && searchedProduct.length > 0 ? (
   <div className="flex justify-start flex-wrap gap-4">
-    {searchedProduct.map((product: Product, index: number) => {
+    {searchedProduct.map((product: IProductDisplay, index: number) => {
       return (
         <div key={index}>
           <ProductCard {...product} />
