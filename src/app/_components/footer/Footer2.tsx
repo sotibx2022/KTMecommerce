@@ -1,11 +1,7 @@
 "use client"
 import React, { useState } from 'react'
-import ResponsiveHeader from '../navbar/responsiveHeader/ResponsiveHeader'
 import { getAllCategories } from '@/app/services/queryFunctions/categoreis';
 import { useQuery } from '@tanstack/react-query';
-import LinkComponent from '../linkComponent/LinkComponent';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
 import {Category, Subcategory} from '../../types/categories';
 const Footer2 = () => {

@@ -4,6 +4,7 @@ import {
   faArrowRight,
   faBars,
   faHeart,
+  faLuggageCart,
   faMinus,
   faPlus,
   faSearch,
@@ -22,17 +23,31 @@ import { Category, Subcategory } from "@/app/types/categories";
 import IconButton from "../../iconText/IconButton";
 import { useSelector } from "react-redux";
 import { CartState } from "@/app/redux/cartSlice";
+import { UserDetailsContext } from "@/app/context/UserDetailsContextComponent";
+import { useRouter } from "next/navigation";
+import LoginComponent from "../../authComponent/LoginComponent";
 const ResponsiveHeader = () => {
   const cartItems = useSelector((state: { cart: CartState }) => state.cart.cartItems);
-  const {setVisibleComponent} = useContext(DisplayContext)
+  const user = useContext(UserDetailsContext);
+  const router = useRouter();
+  const {visibleComponent,setVisibleComponent} = useContext(DisplayContext)
   const { data: NavItems = [] } = useQuery({
     queryKey: ["categories"],
     queryFn: getAllCategories,
   });
   const [activeCategory, setActiveCategory] = useState<number | null>(null);
+  const[activescreen, setActiveScreen] = useState(false)
   // Toggle category visibility
   const toggleCategory = (index: number) => {
     setActiveCategory((prevState) => (prevState === index ? null : index));
+  };
+  const handleProtectedRoute = (path:string) => {
+    if (!user?.userDetails) {
+      setVisibleComponent('login');
+      setActiveScreen(true)
+    } else {
+      router.push(path);
+    }
   };
   return (
     <div className="absolute top-0 left-0 w-full h-full z-10" style={{ background: "var(--gradientwithOpacity)" }}>
@@ -48,9 +63,19 @@ const ResponsiveHeader = () => {
         </div>
         <div className="responsiveIcons flex-center gap-4">
           <IconButton icon={faTimes} name="Close"  onClick={()=>setVisibleComponent('')}/>
-          <IconButton icon={faSearch} name="Search"/>
-          <IconButton icon={faHeart} name="Wishlist"/>
-          <IconButton icon={faShoppingCart} name="Cart" number={cartItems.length}/>
+          <IconButton icon={faSearch} name="Search" onClick={()=>setVisibleComponent('pureSearch')}/>
+          <IconButton
+          icon={faLuggageCart}
+          name="Cart"
+          number={cartItems?.length ?? 0}
+          onClick={() => handleProtectedRoute('pages/cart')}
+        />
+         <IconButton
+          icon={faHeart}
+          name="Wishlist"
+          onClick={() => handleProtectedRoute('pages/wishlist')}
+        />
+        {activescreen && visibleComponent === 'login' && <LoginComponent/>}
         </div>
         <ul className="categories flex flex-col gap-4 mt-4">
           {NavItems.map((item: Category, index: number) => (

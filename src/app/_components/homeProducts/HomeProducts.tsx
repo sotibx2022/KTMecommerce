@@ -4,13 +4,11 @@ import { useQuery } from "@tanstack/react-query";
 import { IProductDisplay } from "../../types/products";
 import React from "react";
 import ProductCard from "../productCard/ProductCard";
-
 const HomeProducts = () => {
   const { data: products = [], isLoading, isError } = useQuery({
     queryKey: ["products"],
     queryFn: getAllProducts,
   });
-
   return (
     <div className="bg-primaryDark mt-4 pt-4 px-4">
       <div className="max-w-screen-xl mx-auto">
@@ -23,5 +21,4 @@ const HomeProducts = () => {
     </div>
   );
 };
-
 export default HomeProducts;

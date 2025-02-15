@@ -9,7 +9,9 @@ export async function middleware(request: NextRequest) {
     `${envConfig.websiteUrl}/dashboard/profile`,
     `${envConfig.websiteUrl}/dashboard/setting`,
     `${envConfig.websiteUrl}/dashboard/wishlist`,
-    `${envConfig.websiteUrl}/dashboard/notifications`
+    `${envConfig.websiteUrl}/dashboard/notifications`,
+    `${envConfig.websiteUrl}/pages/cart`,
+    `${envConfig.websiteUrl}/pages/wishlist`
   ];
   const isPrivatePath = privatePaths.includes(path);
   if (isPrivatePath && !tokenCookie) {

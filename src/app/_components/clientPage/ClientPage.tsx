@@ -10,6 +10,7 @@ import LoginComponent from '../authComponent/LoginComponent'
 import RegisterComponent from '../authComponent/RegisterComponent'
 import { DisplayContext } from '@/app/context/DisplayComponents'
 import AdvanceSearch from '../advaceSearch/AdvanceSearch'
+import PureSearch from '../pureSearch/PureSearch'
 const ClientPage = () => {
   const { visibleComponent } = useContext(DisplayContext)
   return (
@@ -21,6 +22,7 @@ const ClientPage = () => {
       {visibleComponent === 'responsiveHeader' && <ResponsiveHeader />}
       {visibleComponent === 'login' && <LoginComponent/>}
       {visibleComponent === 'register' && <RegisterComponent />}
+      {visibleComponent === 'pureSearch' && <PureSearch/>}
     </>
   )
 }

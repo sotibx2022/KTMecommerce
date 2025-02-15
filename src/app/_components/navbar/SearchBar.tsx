@@ -15,8 +15,8 @@ const SearchBar = () => {
   const user = useContext(UserDetailsContext);
   const [searchValue, setSearchValue] = useState("");
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
-  const [redirectPath, setRedirectPath] = useState("");
-  const {setVisibleComponent} = useContext(DisplayContext)
+  const {visibleComponent,setVisibleComponent} = useContext(DisplayContext)
+  const[activescreen, setActiveScreen] = useState(false)
   const router = useRouter();
   const handleSearch = () => {
     if (searchValue) {
@@ -25,6 +25,7 @@ const SearchBar = () => {
   };
   const handleProtectedRoute = (path:string) => {
     if (!user?.userDetails) {
+      setActiveScreen(true)
       setVisibleComponent('login');
     } else {
       router.push(path);
@@ -58,9 +59,7 @@ const SearchBar = () => {
           onClick={() => handleProtectedRoute('pages/wishlist')}
         />
       </div>
-      {showLoginPrompt && (
-        <LoginComponent/>
-      )}
+      {activescreen && visibleComponent === "login" && <LoginComponent/>}
     </div>
   );
 };
