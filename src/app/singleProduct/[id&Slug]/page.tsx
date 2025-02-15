@@ -29,6 +29,7 @@ const Page = () => {
     queryFn:()=>getSingleProduct(productId),
     enabled:!!productId
   });
+  console.log(singleProduct)
   if (isLoading) {
     return <LoadingComponent/>
   }
