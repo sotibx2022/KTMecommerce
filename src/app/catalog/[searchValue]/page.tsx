@@ -5,11 +5,12 @@ import Footer from '@/app/_components/footer/Footer'
 import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponent'
 import NavBar from '@/app/_components/navbar/Navbar'
 import ProductCard from '@/app/_components/productCard/ProductCard'
+import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent'
 import { getSelectedProducts, SearchParams } from '@/app/services/queryFunctions/products'
 import { IProductDisplay } from '@/app/types/products'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 const page = () => {
   const [searchValues, setSearchValues] = useState<SearchParams>({
     keyword: undefined,
@@ -38,6 +39,11 @@ const page = () => {
     queryFn: () => getSelectedProducts({ ...searchValues }),
     enabled: !!searchValues?.category || !!searchValues?.keyword?.trim(), // At least one must be present
   });
+  const context = useContext(UserDetailsContext);
+  if(!context){
+    throw new Error("The User Details context is not working.")
+  }
+  const {userDetails} = context;
   if(isLoading){
     return <LoadingComponent/>
   }

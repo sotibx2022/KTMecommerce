@@ -11,13 +11,16 @@ import RegisterComponent from '../authComponent/RegisterComponent'
 import { DisplayContext } from '@/app/context/DisplayComponents'
 import AdvanceSearch from '../advaceSearch/AdvanceSearch'
 import PureSearch from '../pureSearch/PureSearch'
+import LimitedOffer from '../limitedOffer/LimitedOffer'
+import FeaturedItems from '../featuredItems/FeaturedItems'
 const ClientPage = () => {
   const { visibleComponent } = useContext(DisplayContext)
   return (
     <>
       <NavBar />
       <HeroLayout />
-      <HomeProducts />
+      <LimitedOffer/>
+      <FeaturedItems/>
       <Footer />
       {visibleComponent === 'responsiveHeader' && <ResponsiveHeader />}
       {visibleComponent === 'login' && <LoginComponent/>}
