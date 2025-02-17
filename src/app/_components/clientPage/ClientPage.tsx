@@ -13,6 +13,7 @@ import AdvanceSearch from '../advaceSearch/AdvanceSearch'
 import PureSearch from '../pureSearch/PureSearch'
 import LimitedOffer from '../limitedOffer/LimitedOffer'
 import FeaturedItems from '../featuredItems/FeaturedItems'
+import BookCarousel from '../brandCaurosel/BookCaurosel'
 const ClientPage = () => {
   const { visibleComponent } = useContext(DisplayContext)
   return (
@@ -21,6 +22,7 @@ const ClientPage = () => {
       <HeroLayout />
       <LimitedOffer/>
       <FeaturedItems/>
+      <BookCarousel/>
       <Footer />
       {visibleComponent === 'responsiveHeader' && <ResponsiveHeader />}
       {visibleComponent === 'login' && <LoginComponent/>}
