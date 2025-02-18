@@ -62,7 +62,7 @@ const RegisterComponent = () => {
         className="absolute top-0 left-0 w-screen min-h-screen flex flex-col justify-center items-center z-10"
         style={{ background: "var(--gradientwithOpacity)" }}
       >
-        <div className="bg-background w-[400px] p-6 rounded-lg shadow-lg relative">
+        <div className="bg-background max-w-[400px] p-6 rounded-lg shadow-lg relative">
           <div className="registerComponentWrapper">
             <FontAwesomeIcon
               icon={faTimes}

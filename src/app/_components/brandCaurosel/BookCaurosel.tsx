@@ -78,7 +78,7 @@ const BookCarousel = () => {
   return (
     <section className="container">
       <div className="sectionHeading">
-        <h2 className="subHeading">Recent Uploads</h2>
+        <h2 className="subHeading">Top Brands</h2>
       </div>
       <Swiper
         modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}

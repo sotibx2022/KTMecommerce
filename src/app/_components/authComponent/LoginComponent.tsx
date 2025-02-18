@@ -46,7 +46,7 @@ if(success){
         className="absolute top-0 left-0 w-screen h-screen flex flex-col justify-center items-center z-10"
         style={{ background: "var(--gradientwithOpacity)" }}
       >
-        <div className="bg-background w-[400px] p-6 rounded-lg shadow-lg relative">
+        <div className="bg-background max-w-[400px] p-6 rounded-lg shadow-lg relative">
           <form className="flex flex-col gap-2" onSubmit={handleSubmit(onSubmit)}>
             {/* Close Icon */}
             <FontAwesomeIcon

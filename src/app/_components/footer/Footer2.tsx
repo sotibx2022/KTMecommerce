@@ -16,7 +16,7 @@ const Footer2 = () => {
     //   };
   return (
     <div>
-        <ul className="container categories flex justify-between  gap-4 mt-4">
+        <ul className="container categories flex flex-wrap justify-between  gap-4 mt-4">
           {NavItems.map((item: Category, index: number) => (
             <li key={item.url_slug || index}>
               <div className="categoryHeader flex justify-between items-center text-xl text-primaryDark">

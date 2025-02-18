@@ -39,11 +39,6 @@ const page = () => {
     queryFn: () => getSelectedProducts({ ...searchValues }),
     enabled: !!searchValues?.category || !!searchValues?.keyword?.trim(), // At least one must be present
   });
-  const context = useContext(UserDetailsContext);
-  if(!context){
-    throw new Error("The User Details context is not working.")
-  }
-  const {userDetails} = context;
   if(isLoading){
     return <LoadingComponent/>
   }
@@ -52,10 +47,7 @@ const page = () => {
   }
   return (
     <>
-    <AdvanceSearchProvider>
-    <NavBar/>
     <div className='productsPageContainer container flex justify-start gap-2 my-4'>
-      <AdvanceSearch/>
     {searchedProduct && searchedProduct.length > 0 ? (
   <div className="flex justify-start flex-wrap gap-4">
     {searchedProduct.map((product: IProductDisplay, index: number) => {
@@ -72,8 +64,6 @@ const page = () => {
   </div>
 )}
     </div>
- <Footer/>
- </AdvanceSearchProvider>
     </>
   )
 }
