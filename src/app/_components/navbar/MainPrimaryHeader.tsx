@@ -17,7 +17,8 @@ const links = [
   { href: "/pages/contact", text: "Contact Us" },
 ];
 const MainPrimaryHeader: React.FC = () => {
-  const {setVisibleComponent} = useContext(DisplayContext)
+  const {visibleComponent,setVisibleComponent} = useContext(DisplayContext);
+  console.log(visibleComponent);
   const context = useContext(UserDetailsContext);
   if(!context){
     throw new Error("The User Details context is not working.")

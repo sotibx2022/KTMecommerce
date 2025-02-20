@@ -1,16 +1,10 @@
 "use client"
-import AdvanceSearch from '@/app/_components/advaceSearch/AdvanceSearch'
-import AdvanceSearchProvider from '@/app/_components/advaceSearch/AdvanceSearchProvider'
-import Footer from '@/app/_components/footer/Footer'
 import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponent'
-import NavBar from '@/app/_components/navbar/Navbar'
 import ProductCard from '@/app/_components/productCard/ProductCard'
-import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent'
 import { getSelectedProducts, SearchParams } from '@/app/services/queryFunctions/products'
 import { IProductDisplay } from '@/app/types/products'
 import { useQuery } from '@tanstack/react-query'
-import axios from 'axios'
-import React, { useContext, useEffect, useState } from 'react'
+import React, {useEffect, useState } from 'react'
 const page = () => {
   const [searchValues, setSearchValues] = useState<SearchParams>({
     keyword: undefined,
@@ -49,10 +43,11 @@ const page = () => {
     <>
     <div className='productsPageContainer container flex justify-start gap-2 my-4'>
     {searchedProduct && searchedProduct.length > 0 ? (
-  <div className="flex justify-start flex-wrap gap-4">
+  <div className="flex justify-between flex-wrap gap-4">
     {searchedProduct.map((product: IProductDisplay, index: number) => {
       return (
         <div key={index}>
+          <h1>THis is Catalog page</h1>
           <ProductCard {...product} />
         </div>
       );

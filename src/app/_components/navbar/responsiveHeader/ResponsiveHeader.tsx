@@ -1,16 +1,12 @@
 "use client";
 import React, { useContext, useState } from "react";
 import {
-  faArrowRight,
-  faBars,
   faHeart,
   faLuggageCart,
   faMinus,
   faPlus,
   faSearch,
-  faShoppingCart,
   faTimes,
-  faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useQuery } from "@tanstack/react-query";
