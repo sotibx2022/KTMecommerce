@@ -2,9 +2,9 @@
 const brands = [
     { brandName: "Apple", brandImageUrl: "https://1000logos.net/wp-content/uploads/2016/10/Apple-Logo-500x281.png" },
     { brandName: "Dell", brandImageUrl: "https://upload.wikimedia.org/wikipedia/commons/4/48/Dell_Logo.svg" },
-    { brandName: "Lenovo", brandImageUrl: "https://logos-download.com/wp-content/uploads/2016/06/Lenovo_logo_red.png" },
-    { brandName: "Acer", brandImageUrl: "https://logos-download.com/wp-content/uploads/2016/06/Acer_logo.png" },
-    { brandName: "HP", brandImageUrl: "https://upload.wikimedia.org/wikipedia/commons/3/3e/HP_logo_2012.svg" },
+    { brandName: "Lenovo", brandImageUrl: "https://1000logos.net/wp-content/uploads/2017/03/Lenovo-Logo-500x281.png" },
+    { brandName: "Acer", brandImageUrl: "https://1000logos.net/wp-content/uploads/2016/09/Acer-Logo-500x313.png" },
+    { brandName: "HP", brandImageUrl: "https://1000logos.net/wp-content/uploads/2017/02/HP-Log%D0%BE-500x281.png" },
     { brandName: "Samsung", brandImageUrl: "https://logolook.net/wp-content/uploads/2021/06/Samsung-Logo.png" },
     { brandName: "Google", brandImageUrl: "https://logos-world.net/wp-content/uploads/2020/09/Google-Logo.png" },
     { brandName: "Xiaomi", brandImageUrl: "https://seeklogo.com/images/X/xiaomi-logo-7D46D1B2E3-seeklogo.com.png" },
