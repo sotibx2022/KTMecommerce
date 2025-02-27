@@ -71,30 +71,32 @@ const CategoryCards = () => {
                 <FontAwesomeIcon icon={faCaretRight} />
               </div>
               <div>
+                {newArrivals.length >0  && trendingItems.length >0 && topSells.length>0 && offerItems.length >0 && 
                 <Swiper
-                  modules={[Autoplay]}
-                  slidesPerView={1}
-                  autoplay={{
-                    delay: 3000,
-                    disableOnInteraction: false,
-                    pauseOnMouseEnter: true,
-                  }}
-                >
-                  {card.products?.map((product:IProductDisplay, i:number) => (
-                    <SwiperSlide key={i}>
-                      <div className="flex flex-col items-center justify-center h-full relative">
-                        <img
-                          src={product.image}
-                          alt={product.productName}
-                          className="max-w-[250px] w-full max-h-[200px] min-h-[100px]"
-                        />
-                        <h3 className="absolute top-0 left-0 w-full h-[30px] bg-primaryDark text-background">
-                          {product.productName}
-                        </h3>
-                      </div>
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
+                modules={[Autoplay]}
+                slidesPerView={1}
+                autoplay={{
+                  delay: 3000,
+                  disableOnInteraction: false,
+                  pauseOnMouseEnter: true,
+                }}
+              >
+                {card.products?.map((product:IProductDisplay, i:number) => (
+                  <SwiperSlide key={i}>
+                    <div className="flex flex-col items-center justify-center h-full relative">
+                      <img
+                        src={product.image}
+                        alt={product.productName}
+                        className="max-w-[250px] w-full max-h-[200px] min-h-[100px]"
+                      />
+                      <h3 className="absolute top-0 left-0 w-full h-[30px] bg-primaryDark text-background">
+                        {product.productName}
+                      </h3>
+                    </div>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+              }
               </div>
             </div>
           ))}
