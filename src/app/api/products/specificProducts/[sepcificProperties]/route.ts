@@ -5,17 +5,16 @@ export async function GET(req: NextRequest) {
   const property = url.pathname.split("/").pop();
   const validProperties = ["isNewArrivals", "isTrendingNow", "isTopSell", "isOfferItem"];
   if (!property || !validProperties.includes(property)) {
-    return NextResponse.json(
-      {
-        message: "Invalid property specified.",
-        success: false,
-        status: 400,
-      },
-    );
+    return NextResponse.json({
+      message: "Invalid property specified.",
+      success: false,
+      status: 400,
+    });
   }
   const query = { [property]: true };
   try {
-    const productsWithProperty = await productModel.find(query);
+    // Set query timeout and limit results
+    const productsWithProperty = await productModel.find(query).limit(8).maxTimeMS(5000);
     if (!productsWithProperty.length) {
       return NextResponse.json(
         {
@@ -26,21 +25,18 @@ export async function GET(req: NextRequest) {
         { status: 404 }
       );
     }
-    return NextResponse.json(
-      {
-        message: "Products retrieved successfully.",
-        success: true,
-        status: 200,
-        products: productsWithProperty,
-      },
-    );
+    return NextResponse.json({
+      message: "Products retrieved successfully.",
+      success: true,
+      status: 200,
+      products: productsWithProperty,
+    });
   } catch (error) {
-    return NextResponse.json(
-      {
-        message: "An error occurred while fetching products.",
-        success: false,
-        status: 500,
-      },
-    );
+    console.error("Database query error:", error);
+    return NextResponse.json({
+      message: "An error occurred while fetching products.",
+      success: false,
+      status: 500,
+    });
   }
 }

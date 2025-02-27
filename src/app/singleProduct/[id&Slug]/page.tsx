@@ -25,12 +25,12 @@ const Page = () => {
     }
   }, []);
   // Only initialize the query once the productId is set
-  const { data: singleProduct, isLoading, isError } = useQuery({queryKey:["singleProduct",productId],
+  const { data: singleProduct, isPending, isError } = useQuery({queryKey:["singleProduct",productId],
     queryFn:()=>getSingleProduct(productId),
     enabled:!!productId
   });
   console.log(singleProduct)
-  if (isLoading) {
+  if (isPending) {
     return <LoadingComponent/>
   }
   if (isError) {
