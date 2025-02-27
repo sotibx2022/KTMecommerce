@@ -26,7 +26,7 @@ export const getSelectedProducts = async ({
 }: SearchParams) => {
   try {
     // Construct the URL
-    let url = "http://localhost:3000/api/products/selectedProducts/advanceSearch?";
+    let url = `${config.websiteUrl}/api/products/selectedProducts/advanceSearch?`;
     if (keyword && keyword.trim() !== "") url += `keyword=${encodeURIComponent(keyword)}&`;
     if (category && category.trim() !== "") url += `category=${encodeURIComponent(category)}&`;
     if (subcategory && subcategory.trim() !== "") url += `subcategory=${encodeURIComponent(subcategory)}&`;
