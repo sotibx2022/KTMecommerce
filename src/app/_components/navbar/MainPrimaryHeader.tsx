@@ -5,10 +5,14 @@ import SecondaryButton from "../secondaryButton/SecondaryButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import gsap from "gsap";
-import { DisplayContext } from "@/app/context/DisplayComponents";
+import { DisplayComponents, DisplayContext } from "@/app/context/DisplayComponents";
 import { UserDetailsContext } from "@/app/context/UserDetailsContextComponent";
 import RegisteredUsersOption from "./RegisteredUsersOption";
 import NonRegisteredUsersOption from "./NonRegisteredUsersOption";
+import ResponsiveHeader from "./responsiveHeader/ResponsiveHeader";
+import LoginComponent from "../authComponent/LoginComponent";
+import RegisterComponent from "../authComponent/RegisterComponent";
+import PureSearch from "../pureSearch/PureSearch";
 const links = [
   { href: "/", text: "Home" },
   { href: "/pages/carreers", text: "Careers" },
@@ -18,14 +22,17 @@ const links = [
 ];
 const MainPrimaryHeader: React.FC = () => {
   const {visibleComponent,setVisibleComponent} = useContext(DisplayContext);
-  console.log(visibleComponent);
   const context = useContext(UserDetailsContext);
   if(!context){
     throw new Error("The User Details context is not working.")
   }
   const {userDetails} = context;
   const responsiveHeaderRef = useRef<HTMLDivElement | null>(null); // Ref for the responsive header
+  const setResponsiveHeader=()=>{
+    setVisibleComponent('responsiveHeader');
+  }
   return (
+    <>
     <div className="bg-background lg:bg-primaryDark">
       <nav className="container flex justify-between items-center py-1">
         <ul className="hidden lg:flex justify-center items-center gap-4">
@@ -51,11 +58,16 @@ const MainPrimaryHeader: React.FC = () => {
           <FontAwesomeIcon
             icon={faBars}
             className="text-primaryDark cursor-pointer transition-transform transform hover:scale-125 hover:rotate-12 lg:text-background"
-            onClick={()=>setVisibleComponent('responsiveHeader')}
+            onClick={setResponsiveHeader}
           />
         </div>
       </nav>
      </div>
+     {visibleComponent === "responsiveHeader" && <ResponsiveHeader />}
+     {visibleComponent === "login" && <LoginComponent />}
+     {visibleComponent === "register" && <RegisterComponent />}
+     {visibleComponent === "pureSearch" && <PureSearch />}
+     </>
   );
 };
 export default MainPrimaryHeader;

@@ -16,27 +16,27 @@ interface CatalogPageLayout{
     children:ReactNode
 }
 const CatalogPageLayout:React.FC<CatalogPageLayout> = ({children}) => {
-    const { visibleComponent } = useContext(DisplayContext) || {};
+    const { visibleComponent } = useContext(DisplayContext);
     console.log(visibleComponent)
   return (
     <div>
         <Provider store={store}>
+        <DisplayComponents>
         <QueryProvider>
          <AdvanceSearchProvider>
             <UserDetailsContextComponent>
-            <DisplayComponents>
          <NavBar/>
          {children}
          <Footer/>
-    </DisplayComponents>
-         </UserDetailsContextComponent>
-         </AdvanceSearchProvider>
-         </QueryProvider>
-         </Provider> 
-         {visibleComponent === 'responsiveHeader' && <ResponsiveHeader />}
+         {visibleComponent == 'responsiveHeader' && <ResponsiveHeader />}
       {visibleComponent === 'login' && <LoginComponent/>}
       {visibleComponent === 'register' && <RegisterComponent />}
       {visibleComponent === 'pureSearch' && <PureSearch/>}
+         </UserDetailsContextComponent>
+         </AdvanceSearchProvider>
+         </QueryProvider>
+         </DisplayComponents>
+         </Provider> 
     </div>
   )
 }
