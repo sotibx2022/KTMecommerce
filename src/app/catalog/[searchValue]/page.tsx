@@ -28,12 +28,12 @@ const page = () => {
       });
     }
   }, []);
-  const { data: searchedProduct = [], isLoading, isError } = useQuery({
+  const { data: searchedProduct = [], isPending, isError } = useQuery({
     queryKey: ['selectedProducts', searchValues],
     queryFn: () => getSelectedProducts({ ...searchValues }),
     enabled: !!searchValues?.category || !!searchValues?.keyword?.trim(), // At least one must be present
   });
-  if(isLoading){
+  if(isPending){
     return <LoadingComponent/>
   }
   if(isError){
@@ -47,7 +47,6 @@ const page = () => {
     {searchedProduct.map((product: IProductDisplay, index: number) => {
       return (
         <div key={index}>
-          <h1>THis is Catalog page</h1>
           <ProductCard {...product} />
         </div>
       );

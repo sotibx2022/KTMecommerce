@@ -30,7 +30,7 @@ const CategoryCards = () => {
   });
   const [windowWidth, setWindowWidth] = useState<number | undefined>(undefined);
   const [imagesPerRow,setImagesPerRow] = useState(1)
-  const imageWidth = 290; 
+  const imageWidth = 250; 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const handleResize = () => {
@@ -61,7 +61,6 @@ const CategoryCards = () => {
               className="mb-8 mx-2"
               style={{
                 width: `${imageWidth}px`,
-                flexBasis: `calc(100% / ${imagesPerRow})`, // Adjust flex basis
               }}
             >
               <div className="bg-helper text-xl text-primaryDark p-1 flex justify-between w-full z-10">
@@ -88,7 +87,7 @@ const CategoryCards = () => {
                         <img
                           src={product.image}
                           alt={product.productName}
-                          className="w-full max-h-[200px]"
+                          className="max-w-[250px] w-full max-h-[200px]"
                         />
                         <h3 className="absolute top-0 left-0 w-full h-[30px] bg-primaryDark text-background">
                           {product.productName}
