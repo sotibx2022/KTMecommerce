@@ -70,11 +70,10 @@ const CategoryCards = () => {
                 />
                 <FontAwesomeIcon icon={faCaretRight} />
               </div>
-              <div className="relative h-[150px]">
+              <div>
                 <Swiper
                   modules={[Autoplay]}
                   slidesPerView={1}
-                  spaceBetween={30}
                   autoplay={{
                     delay: 3000,
                     disableOnInteraction: false,
@@ -87,7 +86,7 @@ const CategoryCards = () => {
                         <img
                           src={product.image}
                           alt={product.productName}
-                          className="max-w-[250px] w-full max-h-[200px]"
+                          className="max-w-[250px] w-full max-h-[200px] min-h-[100px]"
                         />
                         <h3 className="absolute top-0 left-0 w-full h-[30px] bg-primaryDark text-background">
                           {product.productName}
