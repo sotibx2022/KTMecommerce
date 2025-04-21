@@ -114,3 +114,12 @@ html {
 .formLabel{
   @apply text-primaryDark
 }
+.social-icon {
+  @apply cursor-pointer 
+         transition-colors 
+         duration-200 
+         bg-primaryDark 
+         p-2 
+         rounded-full 
+         hover:bg-primaryLight;
+}

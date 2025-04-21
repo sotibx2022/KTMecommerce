@@ -77,7 +77,6 @@ const SingleProduct: React.FC<IProductDisplay> = ({ ...cartItemDetails }) => {
         </div>
         <div className="w-1/2">
           <img src={image} alt={productName} className="max-w-full rounded-lg" />
-          <SocialMediaSharing productId={_id} productSlug={productName}/>
         </div>
       </div>
       <div className="productActions flex gap-4 my-4">
