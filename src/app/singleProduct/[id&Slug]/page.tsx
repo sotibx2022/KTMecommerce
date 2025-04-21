@@ -48,9 +48,10 @@ const fetchProduct = async () => {
 }
   return (
     <>
-      {productDetails !== null && (
+      {productDetails !== null ? 
         <SingleProduct {...productDetails}/>
-      )}
+        :<LoadingComponent/>
+      }
       <div className="reviewsContainer container">
         <div className="reviewsHeading flex gap-4 mb-2 items-center">
         <h2 className='primaryHeading'>Reviews</h2>
