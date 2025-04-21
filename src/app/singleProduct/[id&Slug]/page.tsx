@@ -33,11 +33,12 @@ const Page = () => {
 const fetchProduct = async () => {
   if (typeof window !== "undefined") {
     const url = window.location.href
-    const productId = url.split("/")[4]
+    const productId = url.split("/")[4].split("&")[0].split(":")[1];
+    console.log(productId);
     if (productId) {
       try {
         const response = await axios.get(`${config.websiteUrl}/api/products/${productId}`)
-        return response.data.singleProduct
+        return response.data.singleProduct;
       } catch (error) {
         console.error("Error fetching product:", error)
         return null
@@ -48,10 +49,7 @@ const fetchProduct = async () => {
 }
   return (
     <>
-      {productDetails !== null ? 
-        <SingleProduct {...productDetails}/>
-        :<LoadingComponent/>
-      }
+       {productDetails !== null ?  <SingleProduct {...productDetails}/> : <LoadingComponent/>}
       <div className="reviewsContainer container">
         <div className="reviewsHeading flex gap-4 mb-2 items-center">
         <h2 className='primaryHeading'>Reviews</h2>

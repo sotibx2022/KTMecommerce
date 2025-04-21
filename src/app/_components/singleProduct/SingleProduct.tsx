@@ -10,6 +10,8 @@ import { Toaster } from "react-hot-toast";
 import { useSelector } from "react-redux";
 import { CartState } from "@/app/redux/cartSlice";
 import SubmitSuccess from "../submit/SubmitSuccess";
+import DisplaySingleProductRating from "../singleProductReviews/DisplaySingleProductRating";
+import SocialMediaSharing from "../socialMedia/SocialMediaSharing";
 const SingleProduct: React.FC<IProductDisplay> = ({ ...cartItemDetails }) => {
   const cartItems = useSelector((state: { cart: CartState }) => state.cart.cartItems);
   const {
@@ -24,6 +26,7 @@ const SingleProduct: React.FC<IProductDisplay> = ({ ...cartItemDetails }) => {
     quantity,
     userId,
     category,
+    overallRating
   } = cartItemDetails;
   // Construct the dataToSend object based on ICartItem interface
   const dataToSend: ICartItem = {
@@ -43,7 +46,12 @@ const SingleProduct: React.FC<IProductDisplay> = ({ ...cartItemDetails }) => {
     <div className="container">
       <div className="flex-col md:flex-row flex justify-between items-center py-4 gap-4 min-h-[50vh]">
         <div className="singleProductLeft w-1/2">
-          <h1 className="subHeading">{productName}</h1>
+          <h1 className="subHeading">
+            {productName}
+            </h1>
+            <div className="overallRatingArea my-2">
+             <DisplaySingleProductRating rating={overallRating}/>
+            </div>
           <p className="primaryParagraph">{productDescription}</p>
           <div className="productDetails flex items-center gap-4 my-2">
             <p className="text-background bg-helper p-2 rounded-md">Brand: {brand}</p>
@@ -69,6 +77,7 @@ const SingleProduct: React.FC<IProductDisplay> = ({ ...cartItemDetails }) => {
         </div>
         <div className="w-1/2">
           <img src={image} alt={productName} className="max-w-full rounded-lg" />
+          <SocialMediaSharing productId={_id} productSlug={productName}/>
         </div>
       </div>
       <div className="productActions flex gap-4 my-4">
