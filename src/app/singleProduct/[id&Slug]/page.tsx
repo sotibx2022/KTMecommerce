@@ -21,6 +21,7 @@ const Page = () => {
     if (typeof window !== "undefined") {
       const url = window.location.href;
       const splittedUrl = url.split("&")[0].split(":")[3]; // Adjust splitting logic if necessary
+      console.log(splittedUrl);
       setProductId(splittedUrl);
     }
   }, []);

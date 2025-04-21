@@ -22,7 +22,7 @@ const SecondaryHeader = () => {
             onMouseEnter={() => setActiveCategory(index)} // Set the current category as active
             onMouseLeave={() => setActiveCategory(null)} // Reset when mouse leaves
           >
-            <LinkComponent href={`category=${item.category_name}`} text={item.category_name} />
+            <LinkComponent href={`catalog/category=${item.category_name}`} text={item.category_name} />
             {item.subcategories &&
               item.subcategories.length > 0 &&
               activeCategory === index && ( // Show only if this category is active
