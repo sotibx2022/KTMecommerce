@@ -11,6 +11,7 @@ import { config } from "./../../../config/configuration";
 import "swiper/css";
 import "swiper/css/autoplay";
 import LinkComponent from "../linkComponent/LinkComponent";
+import Link from "next/link";
 const CategoryCards = () => {
   const { data: newArrivals = [], isPending } = useQuery({
     queryKey: ["newArrivals"],
@@ -89,8 +90,10 @@ const CategoryCards = () => {
                         alt={product.productName}
                         className="max-w-[250px] w-full max-h-[200px] min-h-[100px]"
                       />
-                      <h3 className="absolute top-0 left-0 w-full h-[30px] bg-primaryDark text-background">
-                        {product.productName}
+                      <h3 className="absolute bottom-0 left-0 w-full h-[30px] bg-primaryLight text-background">
+                        <Link href={`${config.websiteUrl}/singleProduct/id:${product._id}&,slug:${product.productName}`} className="pl-[10px]">
+                          {product.productName}
+                          </Link>
                       </h3>
                     </div>
                   </SwiperSlide>

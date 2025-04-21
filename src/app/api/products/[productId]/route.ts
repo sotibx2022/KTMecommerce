@@ -3,8 +3,6 @@ import { productModel } from "@/models/products.model";
 import { NextRequest, NextResponse } from "next/server";
 export async function GET(request: NextRequest) {
   try {
-    // Connect to the database
-    await connectToDB();
     // Extract the product ID from the URL
     const url = new URL(request.url);
     const pathSegments = url.pathname.split("/");
@@ -19,7 +17,10 @@ export async function GET(request: NextRequest) {
       });
     }
     // Find the product in the database
-    const singleProduct = await productModel.findOne({ _id: productId });
+    const singleProduct = await productModel
+    .findOne({ _id: productId })
+    .select('_id brand price stockAvailability subCategoryId image remarks productDescription productFeatures productName overallRating')
+    .lean();
     if (!singleProduct) {
       return NextResponse.json({
         message: "Product not found.",
