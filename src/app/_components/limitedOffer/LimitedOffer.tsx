@@ -4,10 +4,9 @@ import Image from 'next/image'
 import Timer from './Timer'
 const LimitedOffer = () => {
   return (
-    <section className='bg-primaryLight py-4'>
-        <div className='container'>
+    <section className='py-2 rounded-lg border-2 border-inset border-helper' style={{ background: "var(--gradientwithOpacity)" }}>
+        <div className='offerContainer max-w-[500px]'>
             <div className="LimitedOfferContentArea">
-            <h1 className='subHeading'>Limited Offer</h1>
             <Timer/>
             </div>
         </div>

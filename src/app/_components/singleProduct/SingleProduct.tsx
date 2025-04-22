@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretRight } from "@fortawesome/free-solid-svg-icons";
 import PrimaryButton from "../primaryButton/PrimaryButton";
@@ -12,7 +12,10 @@ import { CartState } from "@/app/redux/cartSlice";
 import SubmitSuccess from "../submit/SubmitSuccess";
 import DisplaySingleProductRating from "../singleProductReviews/DisplaySingleProductRating";
 import SocialMediaSharing from "../socialMedia/SocialMediaSharing";
+import { DisplayContext } from "@/app/context/DisplayComponents";
+import ProductImage from "./ProductImage";
 const SingleProduct: React.FC<IProductDisplay> = ({ ...cartItemDetails }) => {
+  const {visibleComponent,setVisibleComponent} = useContext(DisplayContext);
   const cartItems = useSelector((state: { cart: CartState }) => state.cart.cartItems);
   const {
     productName,
@@ -76,17 +79,18 @@ const SingleProduct: React.FC<IProductDisplay> = ({ ...cartItemDetails }) => {
           </ul>
         </div>
         <div className="w-1/2">
-          <img src={image} alt={productName} className="max-w-full rounded-lg" />
+          <img src={image} alt={productName} className="max-w-[300px] rounded-lg" />
         </div>
       </div>
       <div className="productActions flex gap-4 my-4">
         <PrimaryButton
           searchText="To Cart"
-          onClick={() => addItemToCart(dataToSend)} // Send dataToSend with relevant properties
-          disabled={isAlreadyOnCart} // Disable button if the item is already in the cart
+          onClick={() => addItemToCart(dataToSend)} 
+          disabled={isAlreadyOnCart} 
         />
         <PrimaryButton searchText="To WishList" />
-        <PrimaryButton searchText="To Others" />
+        <PrimaryButton searchText="To Others" onClick={()=>setVisibleComponent('productImage')}/>
+          {visibleComponent === 'productImage' && <ProductImage {...cartItemDetails}/>}
       </div>
       {isAlreadyOnCart && (
   <SubmitSuccess message="This Item is already in the cart. You can update it from the cart page." />

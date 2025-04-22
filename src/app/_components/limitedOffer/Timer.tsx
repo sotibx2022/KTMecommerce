@@ -39,23 +39,23 @@ setVisibleComponent('register');
   }, [targetTime]);
   return (
     <div className="timerContainer">
-      <p className="primaryParagraph">Register now, to secure 10% off on your first purchase!</p>
+      <h1 className="text-helper text-2xl font-bold">Secure 10% off on your first purchase!</h1>
       <div className="timer">
         <div className="days">
-          <h1 className="text-2xl font-bold text-primaryDark">{days}</h1>
-          <span className="text-primaryDark">Days</span>
+          <h1 className="text-2xl font-bold text-background">{days}</h1>
+          <span className="text-background">Days</span>
         </div>
         <div className="hours">
-          <h1 className="text-2xl font-bold text-primaryDark">{hours}</h1>
-          <span className="text-primaryDark">Hours</span>
+          <h1 className="text-2xl font-bold text-background">{hours}</h1>
+          <span className="text-background">Hours</span>
         </div>
         <div className="minutes">
-          <h1 className="text-2xl font-bold text-primaryDark">{minutes}</h1>
-          <span className="text-primaryDark">Minutes</span>
+          <h1 className="text-2xl font-bold text-background">{minutes}</h1>
+          <span className="text-background">Minutes</span>
         </div>
         <div className="seconds">
           <h1 className="text-2xl font-bold text-helper">{seconds}</h1>
-          <span className="text-primaryDark">Seconds</span>
+          <span className="text-background">Seconds</span>
         </div>
       </div>
       <PrimaryButton onClick={handleRegister} searchText="Register"/>

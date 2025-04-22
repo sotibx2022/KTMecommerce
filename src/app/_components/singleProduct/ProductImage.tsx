@@ -2,14 +2,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretRight, faDownload, faTimes } from "@fortawesome/free-solid-svg-icons";
-import SocialMediaSharing from "../socialMedia/SocialMediaSharing";
-import { IProductImage } from "@/app/pages/contact/page";
-import logoImage from '../../../../public/assets/brand/logo.png'
 import { toPng } from 'html-to-image';
 import { faFacebookSquare, faInstagram, faTwitterSquare, faWhatsappSquare } from "@fortawesome/free-brands-svg-icons";
-import { config } from "@/config/configuration";
 import dynamic from "next/dynamic";
 import { DisplayContext } from "@/app/context/DisplayComponents";
+import { ICartItem } from "@/app/types/cart";
+import { IProductDisplay } from "@/app/types/products";
 const DisplaySingleProductRating = dynamic(
     () => import('../singleProductReviews/DisplaySingleProductRating'),
     { 
@@ -17,7 +15,7 @@ const DisplaySingleProductRating = dynamic(
       loading: () => <p>Loading rating...</p> // Optional loading fallback
     }
   );
-const ProductImage: React.FC<IProductImage> = ({ ...cartItemDetails }) => {
+const ProductImage: React.FC<IProductDisplay> = ({ ...cartItemDetails }) => {
     const {setVisibleComponent} = useContext(DisplayContext);
     const[clientSide, setClientSide] = useState<boolean>(false);
     useEffect(()=>{
@@ -42,7 +40,7 @@ const downloadImage = async (name: string) => {
         price,
         stockAvailability,
         productFeatures,
-        _id, // _id is received as a string
+        _id, 
         image,
         overallRating
     } = cartItemDetails;
@@ -97,6 +95,7 @@ const downloadImage = async (name: string) => {
             <FontAwesomeIcon 
   icon={faDownload}
   className="social-icon text-green-600 hover:text-green-800"
+  onClick={()=>downloadImage(productName)}
 />
 <FontAwesomeIcon 
   icon={faFacebookSquare}

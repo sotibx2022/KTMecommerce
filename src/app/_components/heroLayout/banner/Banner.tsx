@@ -8,57 +8,43 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import Image from "next/image";
 import gsap from 'gsap'
+import LimitedOffer from "../../limitedOffer/LimitedOffer";
 const slidesData = [
   {
     "title": "Smartphone",
     "description": "Sleek design, 128GB storage.",
-    "image_url": "https://images.unsplash.com/photo-1592890288564-76628a30a657?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8c21hcnRwaG9uZXxlbnwwfHwwfHx8MA%3D%3D"
+    "image_url": "https://cdn.pixabay.com/photo/2016/11/22/23/40/hands-1851218_960_720.jpg"
   },
   {
     "title": "Laptop",
     "description": "Lightweight, 16GB RAM.",
-    "image_url": "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxzZWFyY2h8MXx8bGFwdG9wfGVufDB8fDB8fHww"
+    "image_url": "https://cdn.pixabay.com/photo/2020/10/21/18/07/laptop-5673901_1280.jpg"
   },
   {
     "title": "Wireless Earbuds",
     "description": "Noise canceling, compact.",
-    "image_url": "https://images.unsplash.com/photo-1577864663715-47341a4f300b?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fFdpcmVsZXNzJTIwRWFyYnVkc3xlbnwwfHwwfHx8MA%3D%3D"
+    "image_url": "https://cdn.pixabay.com/photo/2021/06/26/10/44/airpods-6365870_1280.jpg"
   },
   {
     "title": "Smartwatch",
     "description": "Tracks health, stylish design.",
-    "image_url": "https://plus.unsplash.com/premium_photo-1681147547346-2d73c90988d8?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8c21hcnR3YXRjaHxlbnwwfHwwfHx8MA%3D%3D"
+    "image_url": "https://cdn.pixabay.com/photo/2016/03/27/17/21/wristwatch-1283184_1280.jpg"
   },
   {
     "title": "Gaming Console",
     "description": "4K graphics, immersive play.",
-    "image_url": "https://images.unsplash.com/photo-1593118247619-e2d6f056869e?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8R2FtaW5nJTIwQ29uc29sZXxlbnwwfHwwfHx8MA%3D%3D"
+    "image_url": "https://cdn.pixabay.com/photo/2024/05/24/16/40/ai-generated-8785422_1280.jpg"
   },
   {
     "title": "Tablet",
     "description": "Work & entertainment on the go.",
-    "image_url": "https://images.unsplash.com/photo-1648737966636-2fc3a5fffc8a?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxzZWFyY2h8MXx8dGFibGV0fGVufDB8fDB8fHww"
-  },
-  {
-    "title": "Bluetooth Speaker",
-    "description": "Deep bass, portable.",
-    "image_url": "https://images.unsplash.com/photo-1589256469067-ea99122bbdc4?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Ymx1ZXRvb3RoJTIwc3BlYWtlcnxlbnwwfHwwfHx8MA%3D%3D"
+    "image_url": "https://cdn.pixabay.com/photo/2020/10/03/12/32/tablet-5623396_1280.jpg"
   },
   {
     "title": "Smart TV",
     "description": "55-inch, 4K UHD streaming.",
-    "image_url": "https://images.unsplash.com/photo-1593359677879-a4bb92f829d1?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8c21hcnQlMjB0dnxlbnwwfHwwfHx8MA%3D%3D"
+    "image_url": "https://cdn.pixabay.com/photo/2015/02/07/20/58/tv-627876_1280.jpg"
   },
-  {
-    "title": "Drone",
-    "description": "Compact with HD camera.",
-    "image_url": "https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZHJvbmV8ZW58MHx8MHx8fDA%3D"
-  },
-  {
-    "title": "Gaming Headset",
-    "description": "Surround sound, mic included.",
-    "image_url": "https://images.unsplash.com/photo-1560419015-7c427e8ae5ba?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8R2FtaW5nJTIwSGVhZHNldHxlbnwwfHwwfHx8MA%3D%3D"
-  }
 ]
 const Banner = () => {
   const findTitleHeight =()=>{
@@ -94,7 +80,7 @@ const Banner = () => {
     resetTitlePosition()
   };
   return (
-    <div className="swipperWrapper w-full h-[500px] lg:w-1/2">
+    <div className="swipperWrapper w-full h-[600px] relative">
       <Swiper
     modules={[ Scrollbar, A11y, Autoplay]} // Load Swiper modules
     spaceBetween={50}
@@ -106,7 +92,7 @@ const Banner = () => {
     {slidesData.map((slide, index) => (
       <SwiperSlide key={index}>
         <div className="slideImage relative ">
-          <img src={slide.image_url} alt={`slider${index + 1}`} className="object-cover w-full h-[500px]" />
+          <img src={slide.image_url} alt={`slider${index + 1}`} className="object-cover w-full h-[600px]" />
           <div className="slideOverlay top-0 left-0">
             <div className="absolute top-[10px] left-[10px] w-full p-4 text-white">
               <div className="sliderTitle w-full  md:h-[3rem] h-[2rem] overflow-hidden">
@@ -116,6 +102,9 @@ const Banner = () => {
               <p className="text-xl subTitle translate-x-[100%]">{slide.description}</p>
             </div>
           </div>
+          <div className="limitedOfferWrapper absolute bottom-[10px] right-[10px]">
+    <LimitedOffer/>
+  </div>
         </div>
       </SwiperSlide>
     ))}

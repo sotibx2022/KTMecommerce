@@ -1,37 +1,40 @@
 .timer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
-    margin-top: 1rem;
-    padding: 1rem;
-    flex-wrap: wrap;
-  }
-  .timer > * {
-    border: 2px solid var(--background);
-    padding: 1rem;
-    text-align: center;
-    min-width: 5rem;
-    border-radius: 1rem;
-    transition: all 1s ease-in-out;
-    cursor: pointer;
-    box-shadow: var(--helper);
-  }
-  .timerContainer {
-    padding: 1rem;
-  }
-  .timer > *:hover {
-    background-color: var(--background);
-    color: var(--PrimaryDark);
-  }
-  .timerContainer p{
-      font-size: 1.5rem;
-  }
-  .registerBtn{
-    width: 100%;
-    border: none !important;
-    box-shadow: none !important;
-  }
-  .registerBtn:hover{
-    color:var(--background);
-  }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  flex-wrap: wrap;
+}
+.timer > * {
+  border: 2px solid var(--background);
+  padding: 0.5rem;
+  text-align: center;
+  min-width: 2.5rem;
+  border-radius: 0.5rem;
+  transition: all 1s ease-in-out;
+  cursor: pointer;
+  box-shadow: var(--helper);
+}
+.timerContainer {
+  padding: 0.5rem;
+}
+.timerContainer h3{
+  font-size: 1rem;
+}
+.timer > *:hover {
+  background-color: var(--background);
+  color: var(--PrimaryDark);
+}
+.timerContainer p {
+  font-size: 0.75rem;
+}
+.registerBtn {
+  width: 100%;
+  border: none !important;
+  box-shadow: none !important;
+}
+.registerBtn:hover {
+  color: var(--background);
+}
