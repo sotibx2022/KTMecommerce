@@ -94,7 +94,7 @@ const FeaturedItems = () => {
   return (
     <div className='container  my-4'>
         <h2 className="subHeading">Quick Selections</h2>
-        <div className="allSelections flex flex-wrap justify-center gap-4">
+        <div className="allSelections flex flex-wrap justify-between">
           {products.map((product,index)=>{
             return <div key={index} className='flex flex-wrap flex-center'>
                 <SingleFeaturedItem {...product}/>

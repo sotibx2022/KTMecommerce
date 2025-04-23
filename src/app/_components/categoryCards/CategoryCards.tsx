@@ -6,103 +6,91 @@ import { Autoplay } from "swiper/modules";
 import { useQuery } from "@tanstack/react-query";
 import { SpecificProducts } from "@/app/services/apiFunctions/productsQuery";
 import { IProductDisplay } from "@/app/types/products";
-import LoadingComponent from "../loadingComponent/LoadingComponent";
 import { config } from "./../../../config/configuration";
 import "swiper/css";
 import "swiper/css/autoplay";
 import LinkComponent from "../linkComponent/LinkComponent";
 import Link from "next/link";
-const CategoryCards = () => {
-  const { data: newArrivals = [], isPending } = useQuery({
-    queryKey: ["newArrivals"],
-    queryFn: () => SpecificProducts("isNewArrivals"),
+import LoadingContainer from "../loadingComponent/LoadingContainer";
+interface CategoryCardsProps {
+  categoryType: "isNewArrivals" | "isTrendingNow" | "isTopSell" | "isOfferItem";
+  title: string;
+}
+const CategoryCards = ({ categoryType, title }: CategoryCardsProps) => {
+  const { data: products = [], isPending } = useQuery<IProductDisplay[]>({
+    queryKey: [categoryType],
+    queryFn: () => SpecificProducts(categoryType),
   });
-  const { data: trendingItems = [] } = useQuery({
-    queryKey: ["trendingItems"],
-    queryFn: () => SpecificProducts("isTrendingNow"),
-  });
-  const { data: topSells = [] } = useQuery({
-    queryKey: ["topSells"],
-    queryFn: () => SpecificProducts("isTopSell"),
-  });
-  const { data: offerItems = [] } = useQuery({
-    queryKey: ["offerItems"],
-    queryFn: () => SpecificProducts("isOfferItem"),
-  });
-  const [windowWidth, setWindowWidth] = useState<number | undefined>(undefined);
-  const [imagesPerRow,setImagesPerRow] = useState(1)
-  const imageWidth = 250; 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const handleResize = () => {
-        setWindowWidth(window.innerWidth);
-        setImagesPerRow(Math.floor(window.innerWidth / imageWidth));
-      };
-      window.addEventListener("resize", handleResize);
-      // Initial set to ensure correct value on first render
-      handleResize();
-      return () => window.removeEventListener("resize", handleResize);
-    }
-  }, [imageWidth]); // Dependency on imageWidth to recalculate when it changes
-    const cardDatas = [
-    { title: "New Arrivals", products: newArrivals },
-    { title: "Trending Now", products: trendingItems },
-    { title: "Top Sell", products: topSells },
-    { title: "Offer Item", products: offerItems },
-  ];
+  const imageWidth = 250; // Minimum width for each slide
   return (
-    <div>
+    <div className="w-full">
       {isPending ? (
-        <LoadingComponent />
+        <LoadingContainer />
       ) : (
-        <div className="flex flex-wrap gap-4 w-full min-h-[500px] h-full">
-          {cardDatas.map((card, index) => (
-            <div
-              key={index}
-              className="mb-8 mx-2"
-              style={{
-                width: `${imageWidth}px`,
-              }}
-            >
-              <div className="bg-helper text-xl text-primaryDark p-1 flex justify-between w-full z-10">
-                <LinkComponent
-                  href={`${config.websiteUrl}/pages/${card.title.toLowerCase().replace(/\s+/g, "-")}`}
-                  text={card.title}
-                />
-                <FontAwesomeIcon icon={faCaretRight} />
-              </div>
-              <div>
-                {newArrivals.length >0  && trendingItems.length >0 && topSells.length>0 && offerItems.length >0 && 
-                <Swiper
+        <div className="container w-full my-2 overflow-hidden">
+            <h2 className="subHeading">{title}</h2>
+          <div className="w-full px-4 mt-2">
+            {products.length > 0 && (
+              <Swiper
                 modules={[Autoplay]}
-                slidesPerView={1}
+                slidesPerView="auto"
+                spaceBetween={20}
                 autoplay={{
                   delay: 3000,
                   disableOnInteraction: false,
                   pauseOnMouseEnter: true,
                 }}
+                breakpoints={{
+                  640: { // sm
+                    slidesPerView: 2,
+                  },
+                  768: { // md
+                    slidesPerView: 3,
+                  },
+                  1024: { // lg
+                    slidesPerView: 4,
+                  },
+                  1280: { // xl
+                    slidesPerView: 6,
+                  },
+                  1536: { // 2xl
+                    slidesPerView: 8,
+                  }
+                }}
               >
-                {card.products?.map((product:IProductDisplay, i:number) => (
-                  <SwiperSlide key={i}>
-                    <div className="flex flex-col items-center justify-center h-full relative">
+                {products.map((product, i) => (
+                  <SwiperSlide 
+                    key={i}
+                    className="!h-auto !flex items-center justify-center"
+                  >
+                    <div className="flex flex-col items-center justify-center h-full relative w-full border-2 border-helper bg-primaryLight rounded-lg shadow-helper">
                       <img
                         src={product.image}
                         alt={product.productName}
-                        className="max-w-[250px] w-full max-h-[200px] min-h-[100px]"
+                        className="inline rounded-lg"
                       />
-                      <h3 className="absolute bottom-0 left-0 w-full h-[30px] bg-primaryLight text-background">
-                        <Link href={`${config.websiteUrl}/singleProduct/id:${product._id}&,slug:${product.productName}`} className="pl-[10px]">
+                      <h3 className=" top-[10px] left-0 w-full h-[30px]  text-background"
+                      style={{ background: "var(--gradientwithOpacity)" }}>
+                        <Link
+                          href={`${config.websiteUrl}/singleProduct/id:${product._id}&,slug:${product.productName}`}
+                          className="pl-[10px] line-clamp-1"
+                        >
                           {product.productName}
-                          </Link>
+                        </Link>
                       </h3>
+                      <p className="text-helper font-bold text-lg  bottom-[10px] left-0 w-full h-[30px] text-center" style={{ background: "var(--gradientwithOpacity)" }}>$ {product.price}</p>
                     </div>
                   </SwiperSlide>
                 ))}
               </Swiper>
-              }
-              </div>
-            </div>
-          ))}
+            )}
+          </div>
+          <div className="viewMore text-helper items-center text-xl  my-2 flex justify-center">
+  <LinkComponent 
+    text="View More"
+    href={`${config.websiteUrl}/pages/${title.toLowerCase().replace(/\s+/g, "-")}`}
+  />
+</div>
         </div>
       )}
     </div>

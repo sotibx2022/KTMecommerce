@@ -14,15 +14,31 @@ import PureSearch from '../pureSearch/PureSearch'
 import LimitedOffer from '../limitedOffer/LimitedOffer'
 import FeaturedItems from '../featuredItems/FeaturedItems'
 import BookCarousel from '../brandCaurosel/BookCaurosel'
+import CategoryCards from '../categoryCards/CategoryCards'
 const ClientPage = () => {
   const { visibleComponent } = useContext(DisplayContext)
   return (
     <>
       <NavBar />
       <HeroLayout />
-      <LimitedOffer/>
       <FeaturedItems/>
-      <BookCarousel/>
+    <CategoryCards 
+      categoryType="isNewArrivals"
+      title="New Arrivals in Store"
+    />
+    <CategoryCards 
+      categoryType="isTrendingNow"
+      title="Latest Tranding Items"
+    />
+    <CategoryCards 
+      categoryType="isTopSell"
+      title="Top Sells of Day"
+    />
+    <CategoryCards 
+      categoryType="isOfferItem"
+      title="Limited Offer Items"
+    />
+     <BookCarousel/>
       <Footer />
       {visibleComponent === 'responsiveHeader' && <ResponsiveHeader />}
       {visibleComponent === 'login' && <LoginComponent/>}

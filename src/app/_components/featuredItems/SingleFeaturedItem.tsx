@@ -18,10 +18,10 @@ const SingleFeaturedItem: React.FC<Product> = ({ title, description, data }) => 
       <div className='flex flex-wrap gap-4 justify-between'>
         {data.map((singleData, index) => (
           <div key={index} className='w-full'>
-            <img 
+            {/* <img 
               src={singleData.imageUrl} 
               className='shadow-primaryLight w-[250px] max-h-[100px] object-contain' 
-            />
+            /> */}
             <div className='bg-primaryDark text-background text-center'>
               <LinkComponent href={`/catalog/keyword=${singleData.subTitle}`} text={singleData.subTitle} />
             </div>

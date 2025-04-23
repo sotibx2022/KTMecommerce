@@ -102,7 +102,7 @@ const Banner = () => {
               <p className="text-xl subTitle translate-x-[100%]">{slide.description}</p>
             </div>
           </div>
-          <div className="limitedOfferWrapper absolute bottom-[10px] right-[10px]">
+          <div className="limitedOfferWrapper absolute bottom-0 left-1/2 -translate-x-1/2 transform sm:left-auto sm:right-[10px] sm:translate-x-0 w-full sm:max-w-[400px]">
     <LimitedOffer/>
   </div>
         </div>
