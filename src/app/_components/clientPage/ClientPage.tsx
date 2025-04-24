@@ -21,7 +21,6 @@ const ClientPage = () => {
     <>
       <NavBar />
       <HeroLayout />
-      <FeaturedItems/>
     <CategoryCards 
       categoryType="isNewArrivals"
       title="New Arrivals in Store"

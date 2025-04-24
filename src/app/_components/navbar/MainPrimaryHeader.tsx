@@ -15,7 +15,7 @@ import RegisterComponent from "../authComponent/RegisterComponent";
 import PureSearch from "../pureSearch/PureSearch";
 const links = [
   { href: "/", text: "Home" },
-  { href: "/pages/carreers", text: "Careers" },
+  { href: "/pages/careers", text: "Careers" },
   { href: "/pages/help", text: "Help" },
   { href: "/pages/terms", text: "Terms" },
   { href: "/pages/contact", text: "Contact Us" },
