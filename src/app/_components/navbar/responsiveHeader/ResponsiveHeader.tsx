@@ -46,7 +46,7 @@ const ResponsiveHeader = () => {
     }
   };
   return (
-    <div className="absolute top-0 left-0 w-full h-full min-h-[500px] z-10" style={{ background: "var(--gradientwithOpacity)" }}>
+    <div className="absolute top-0 left-0 w-screen h-screen min-h-[500px] z-10" style={{ background: "var(--gradientwithOpacity)" }}>
       <div className="responsiveleftBar flex-1 justify-center items-center" />
       <div className="responsiveSidebar w-[400px] h-full bg-background p-4">
         <div className="responsiveLogoArea justify-self-center mb-4">

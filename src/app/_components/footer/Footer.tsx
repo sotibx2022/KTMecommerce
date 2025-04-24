@@ -8,7 +8,7 @@ const Footer = () => {
       <hr></hr> */}
       <Footer2/>
       <hr></hr>
-      <div className="container mx-auto flex justify-center items-center h-[30px]">
+      <div className="container mx-auto flex justify-center items-center h-[30px] mt-4">
         <p>This is the project developed by Binayaraj Soti.</p>
       </div>
     </footer>

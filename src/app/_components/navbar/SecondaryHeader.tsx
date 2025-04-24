@@ -6,16 +6,21 @@ import { getAllCategories } from '@/app/services/queryFunctions/categoreis';
 import { Category } from '@/app/types/categories';
 import DropDownList from './DropDownList';
 const SecondaryHeader = () => {
-
   const { data: navItems = [], isLoading, isError } = useQuery({
     queryKey: ['categories'],
     queryFn: getAllCategories,
   });
+  const swappedNavItems = [...navItems];
+  const lastIndex = swappedNavItems.length-1;
+  const secondLastIndex = lastIndex-1;
+  [swappedNavItems[lastIndex],swappedNavItems[secondLastIndex]] = [swappedNavItems[secondLastIndex],swappedNavItems[lastIndex]]
+  console.log(navItems);
+  console.log(swappedNavItems);
   const [activeCategory, setActiveCategory] = useState<number | null>(null); // Track active category index
   return (
     <div className="border-2 border-t-primaryDark border-b-primaryDark py-1">
       <ul className="flex-between container">
-        {navItems.map((item: Category, index: number) => (
+        {swappedNavItems.map((item: Category, index: number) => (
           <li
             key={index}
             className="secondaryHeading uppercase font-bold text-primaryDark relative"

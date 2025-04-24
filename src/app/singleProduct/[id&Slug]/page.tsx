@@ -60,7 +60,7 @@ const fetchProduct = async () => {
                 />
         </div>
       {showReviews && 
-      <div className='flex  items-center gap-4'>
+      <div className='flex  items-center gap-4 flex-col md:flex-row'>
     <div className='remarks-container shadow-primaryLight w-full lg:w-1/2 p-2'>
   {productDetails && Array.isArray(productDetails.remarks) && productDetails.remarks.length > 0 ? (
     productDetails.remarks.map((remark: Remark, index: number) => (

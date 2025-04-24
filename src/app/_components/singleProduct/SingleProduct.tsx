@@ -48,7 +48,7 @@ const SingleProduct: React.FC<IProductDisplay> = ({ ...cartItemDetails }) => {
   return (
     <div className="container">
       <div className="flex-col md:flex-row flex justify-between items-center py-4 gap-4 min-h-[50vh]">
-        <div className="singleProductLeft w-1/2">
+        <div className="singleProductLeft md:w-1/2 w-full">
           <h1 className="subHeading">
             {productName}
             </h1>
@@ -78,11 +78,11 @@ const SingleProduct: React.FC<IProductDisplay> = ({ ...cartItemDetails }) => {
               ))}
           </ul>
         </div>
-        <div className="w-1/2">
-          <img src={image} alt={productName} className="max-w-[300px] rounded-lg" />
+        <div className="md:w-1/2  h-auto">
+          <img src={image} alt={productName} className=" h-auto rounded-lg" />
         </div>
       </div>
-      <div className="productActions flex gap-4 my-4">
+      <div className="productActions flex gap-4 my-4 items-center justify-center md:justify-start">
         <PrimaryButton
           searchText="To Cart"
           onClick={() => addItemToCart(dataToSend)} 
