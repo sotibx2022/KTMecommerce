@@ -1,10 +1,9 @@
 "use client"
-import CategoryCards from '@/app/_components/categoryCards/CategoryCards'
 import React from 'react'
 const page = () => {
   return (
     <div>
-      <CategoryCards/>
+      <h1>This is Help page under development</h1>
     </div>
   )
 }
