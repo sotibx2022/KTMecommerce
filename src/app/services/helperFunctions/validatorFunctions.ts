@@ -1,3 +1,25 @@
+export const validateFullName = (
+  fieldName: string,
+  value: string,
+  minValue: number,
+  maxValue: number
+): string | true => {
+  const trimmedValue = value.trim();
+  if (trimmedValue.length < minValue) {
+    return `Min. ${minValue} characters required in ${fieldName}.`;
+  }
+  if (trimmedValue.length > maxValue) {
+    return `Max. ${maxValue} characters allowed in ${fieldName}.`;
+  }
+  // Allows letters and spaces between names
+  // Also ensures there's at least one space (for first and last name)
+  // and doesn't allow leading/trailing spaces or multiple consecutive spaces
+  const regex = /^[a-zA-Z]+(?: [a-zA-Z]+)+$/;
+  if (!regex.test(trimmedValue)) {
+    return `${fieldName} Only words with first and last name`;
+  }
+  return true;
+};
 export const validateWord = (
     fieldName: string,
     value: string,

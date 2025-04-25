@@ -13,7 +13,7 @@ import SocialMediaAuth from './SocialMediaAuth';
 import { DisplayContext } from '@/app/context/DisplayComponents';
 import { useForm } from 'react-hook-form';
 import SubmitError from '../submit/SubmitError';
-import { validateConfirmPassword, validateEmail, validateNumber, validatePassword, validateWord } from '@/app/services/helperFunctions/validatorFunctions';
+import { validateConfirmPassword, validateEmail, validateFullName, validateNumber, validatePassword, validateWord } from '@/app/services/helperFunctions/validatorFunctions';
 import { RegisterData } from '@/app/types/formData';
 import registerUser from '@/app/services/firebaseFunctions/registerUser';
 import { useMutation } from '@tanstack/react-query';
@@ -77,7 +77,7 @@ const RegisterComponent = () => {
                 className="formItem"
                 id='firstName'
                 {...register("fullName", {
-                  validate: (value) => validateWord("Full Name", value, 3, 20)
+                  validate: (value) => validateFullName("Full Name", value, 3, 20)
                 })}
               />
               {errors.fullName?.message && <SubmitError message={errors.fullName.message} />}
