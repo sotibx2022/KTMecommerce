@@ -13,7 +13,7 @@ const CartSummary:React.FC<ICartSummary> = ({order}) => {
     const cartItems = useSelector((state: { cart: CartState }) => state.cart.cartItems);
     const router = useRouter()
     const handleOrderProducts =() =>{
-router.push(`${config.websiteUrl}/dashboard/orders`)
+router.push(`${config.websiteUrl}/dashboard/cartProcess`)
     }
     const calculateTotals = () => {
         const totalItems = cartItems.reduce((acc, item) => acc + item.quantity, 0);
@@ -25,7 +25,7 @@ router.push(`${config.websiteUrl}/dashboard/orders`)
       };
       const { totalItems, totalCost, discount, shippingPrice, grossTotal } = calculateTotals();
   return (
-    <div className="CartSummary flex flex-col gap-2 my-5 min-w-[500px]">
+    <div className="CartSummary flex flex-col gap-2 my-5 max-w-[500px]">
     <h2 className="subHeading">Cart Summary</h2>
     <div className="summaryLine flex justify-between items-center border-b-2 border-dotted border-helper">
       <span className="cartSummaryTitle secondaryHeading"> <FontAwesomeIcon icon={faSquareCheck} className="mr-2"/>Total Items</span>
@@ -38,7 +38,7 @@ router.push(`${config.websiteUrl}/dashboard/orders`)
     <div className="summaryLine flex justify-between items-center border-b-2 border-dotted border-helper">
       <div className="cartSummaryTitle">
         <p className="secondaryHeading"> <FontAwesomeIcon icon={faSquareCheck} className="mr-2"/>Discount</p>
-        <span className="primaryParagraph italic text-green-500">10% off above $2000</span>
+        <span className="primaryParagraph italic text-green-500">10% off above $200</span>
       </div>
       <span className="cartSummaryData secondaryHeading">${discount.toFixed(2)}</span>
     </div>
@@ -53,7 +53,7 @@ router.push(`${config.websiteUrl}/dashboard/orders`)
       <span className="cartSummaryTitle secondaryHeading  uppercase">Gross Total</span>
       <span className="cartSummaryData secondaryHeading price-highlight">${grossTotal.toFixed(2)}</span>
     </div>
-    {order && <PrimaryButton searchText="Order" onClick={handleOrderProducts}/>}
+   {order && <PrimaryButton searchText="Order" onClick={handleOrderProducts}/>}
   </div>
   )
 }

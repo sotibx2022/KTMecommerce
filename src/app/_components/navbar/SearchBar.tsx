@@ -10,6 +10,7 @@ import { CartState } from '@/app/redux/cartSlice';
 import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
 import LoginComponent from '../authComponent/LoginComponent';
 import { DisplayContext } from '@/app/context/DisplayComponents';
+import { config } from '@/config/configuration';
 const SearchBar = () => {
   const cartItems = useSelector((state: { cart: CartState }) => state.cart.cartItems);
   const user = useContext(UserDetailsContext);
@@ -51,7 +52,7 @@ const SearchBar = () => {
           icon={faLuggageCart}
           name="Cart"
           number={cartItems?.length ?? 0}
-          onClick={() => handleProtectedRoute('pages/cart')}
+          onClick={() => handleProtectedRoute(`${config.websiteUrl}/dashboard/cart`)}
         />
         <IconButton
           icon={faHeart}

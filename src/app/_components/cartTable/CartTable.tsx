@@ -25,7 +25,7 @@ const CartTable = () => {
       };
   return (
     <div>
-        <Table className="bg-background my-4 shadow-helper min-w-[700px]">
+        <Table className="bg-background my-4 shadow-helper">
             <Thead>
               <Tr className="bg-primaryDark text-white h-[50px] flex items-center justify-between px-4">
                 <Th className="text-start w-[1/6]">Image</Th>

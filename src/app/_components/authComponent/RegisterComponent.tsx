@@ -13,7 +13,7 @@ import SocialMediaAuth from './SocialMediaAuth';
 import { DisplayContext } from '@/app/context/DisplayComponents';
 import { useForm } from 'react-hook-form';
 import SubmitError from '../submit/SubmitError';
-import { validateConfirmPassword, validateEmail, validateFullName, validateNumber, validatePassword, validateWord } from '@/app/services/helperFunctions/validatorFunctions';
+import { validateConfirmPassword, validateEmail, validateFullName, validateNumber, validatePassword } from '@/app/services/helperFunctions/validatorFunctions';
 import { RegisterData } from '@/app/types/formData';
 import registerUser from '@/app/services/firebaseFunctions/registerUser';
 import { useMutation } from '@tanstack/react-query';

@@ -20,9 +20,13 @@ const page = () => {
             <PrimaryButton searchText="Browse" />
           </Link>
         </div>}
-    {cartItems.length>0 && <div className="cartDetailsWrapper flex justify-between items-start">
+    {cartItems.length>0 && <div className="cartDetailsWrapper ">
+          <div className="cartTableandSummary">
           <CartTable/>
-          <CartSummary />
+          <CartSummary order={true} />
+          </div>
+          <Link href="dashboard/cartProcess">
+          </Link>
         </div>}
     </div>
   );
