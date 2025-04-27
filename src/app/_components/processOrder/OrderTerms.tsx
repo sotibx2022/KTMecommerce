@@ -1,17 +1,22 @@
 "use client"
+import { ICartCheckOut } from "@/app/dashboard/cartProcess/page"
+import { useFormContext } from "react-hook-form"
+import SubmitError from "../submit/SubmitError"
 const OrderTerms = () => {
+  const {register,formState:{errors}} = useFormContext<ICartCheckOut>()
   return (
     <div className="bg-background p-6 rounded-lg shadow-helper">
       <label className="flex items-start space-x-3">
         <input
           type="checkbox"
-          name="agreeTerms"
           className="mt-1 h-5 w-5 text-primaryDark"
+          {...register('termsAgreed',{required:'User Should Agreed to Our Terms'})}
         />
         <span className="text-primaryDark">
           I agree to the terms and conditions of our e-commerce website and confirm that my personal data will be processed in accordance with the privacy policy.
         </span>
       </label>
+      {errors.termsAgreed?.message && <SubmitError message={errors.termsAgreed.message}/>}
     </div>
   )
 }

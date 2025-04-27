@@ -15,7 +15,7 @@ const CartSummary:React.FC<ICartSummary> = ({order}) => {
     const handleOrderProducts =() =>{
 router.push(`${config.websiteUrl}/dashboard/cartProcess`)
     }
-    const calculateTotals = () => {
+     const calculateTotals = () => {
         const totalItems = cartItems.reduce((acc, item) => acc + item.quantity, 0);
         const totalCost = cartItems.reduce((acc, item) => acc + parseInt(item.price) * item.quantity, 0);
         const shippingPrice = totalCost > 1000 ? 0 : 50; // Example shipping cost logic

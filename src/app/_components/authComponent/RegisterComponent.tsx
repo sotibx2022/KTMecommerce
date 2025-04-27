@@ -37,7 +37,7 @@ const RegisterComponent = () => {
     }}
   );
   const { setVisibleComponent } = useContext(DisplayContext);
-  const { register, formState: { errors }, getValues, handleSubmit } = useForm<RegisterData>({ mode: 'all' });
+  const { register, formState: { errors }, getValues, handleSubmit } = useForm<RegisterData>({ mode: 'onBlur' });
   const onSubmit = async (data: RegisterData) => {
     setIsLoading(true);
     const { fullName, email, phoneNumber } = data;

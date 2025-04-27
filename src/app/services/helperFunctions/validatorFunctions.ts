@@ -92,3 +92,17 @@ export const validateWord = (
     }
     return true;
   };
+  export const validateDate = (fieldName:string,value:string) =>{
+    if(!value){
+      return `${fieldName} is Required`
+    }
+    const [month,year] = value.split('/');
+    const numbericMonth = parseInt(month);
+    const numericYear = parseInt(year);
+    if(numbericMonth<1 && numbericMonth>12) return 'Invalid Month';
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth()
+    if (currentYear > 2000+numericYear) return 'Card is Expired';
+    if(currentYear === 2000 + numericYear && currentMonth > numbericMonth) return 'Card is Expired'
+  }

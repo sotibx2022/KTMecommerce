@@ -16,7 +16,7 @@ import LoadingButton from '../primaryButton/LoadingButton';
 import toast from 'react-hot-toast';
 const LoginComponent = () => {
   const {setVisibleComponent} = useContext(DisplayContext);
-  const {register, formState:{errors}, handleSubmit} = useForm<LoginData>({mode:'all'})
+  const {register, formState:{errors}, handleSubmit} = useForm<LoginData>({mode:'onBlur'})
   const[isLoading,setIsLoading] = useState(false)
   const mutation = useMutation<APIResponseSuccess | APIResponseError, Error, LoginData>({
     mutationFn:loginUserMutation,
