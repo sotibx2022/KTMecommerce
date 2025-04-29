@@ -1,23 +1,33 @@
+import { ICartItem } from "./cart";
 import { IProductCreate } from "./products";
 import { IUser } from "./user";
-export interface IOrder extends Document {
-    user: IUser
-    items: {
-        product: IProductCreate
-        quantity: number; // Quantity of the product
-        price: number; // Price of the product at the time of the order
-    }[];
-    totalAmount: number; // Total cost of the order
-    paymentStatus: "pending" | "completed" | "failed"; // Payment status
-    paymentMethod: "credit_card" | "paypal" | "cash_on_delivery"; // Payment method
-    orderStatus: "pending" | "confirmed" | "shipped" | "delivered" | "cancelled"; // Order status
-    shippingAddress: {
-        street: string;
-        city: string;
-        state: string;
-        zip: string;
-        country: string;
-    };
-    createdAt?: Date;
-    updatedAt?: Date;
+export interface IShippingPerson{
+    firstName:string;
+    lastName:string;
+    email:string;
+    phone:string
+}
+export interface IShippingAddress{
+    street:string,
+    city:string,
+    state:string,
+}
+export interface ICardDetails{
+    cardHolderName:string,
+        cardNumber:string,
+        cardExpiry:string,
+        cvvNumber:string,
+}
+export interface IProductDetailsforOrder{
+    productId:string,
+    quantity:number,
+}
+export interface IOrderDetails {
+    userEmail: string
+    items:IProductDetailsforOrder[],
+    status: "ordered" | "pending"| "confirmed" | "delivered" | "cancelled"
+    paymentMethod: "paymentOnDelivery" | "online"
+    shippingAddress: IShippingAddress
+    shippingPerson:IShippingPerson
+    cardDetails?:ICardDetails
 }

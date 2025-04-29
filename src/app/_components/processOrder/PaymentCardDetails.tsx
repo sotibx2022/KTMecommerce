@@ -27,7 +27,9 @@ const PaymentCardDetails = () => {
   }
   return (
     <div>
-      {/* Card Design Display */}
+    <div className='showDevelopmentMsg my-4'>
+    <SubmitError message='Online Payment Integration is under development.'/>
+    </div>
       <PaymentCardDesign
         cardNumber={watch("cardDetails.cardNumber")}
         cardName={watch("cardDetails.cardHolderName")}

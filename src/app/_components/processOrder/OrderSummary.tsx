@@ -1,17 +1,11 @@
 "use client"
 import { CartState } from '@/app/redux/cartSlice'
+import { calculateTotals } from '@/app/services/helperFunctions/cartFunctions'
 import { useSelector } from 'react-redux'
 const OrderSummary = () => {
   const cartItems = useSelector((state: { cart: CartState }) => state.cart.cartItems)
-  const calculateTotals = () => {
-    const totalItems = cartItems.reduce((acc, item) => acc + item.quantity, 0);
-    const totalCost = cartItems.reduce((acc, item) => acc + parseInt(item.price) * item.quantity, 0);
-    const shippingPrice = totalCost > 1000 ? 0 : 50; // Example shipping cost logic
-    const discount = totalCost > 200 ? totalCost * 0.1 : 0; // 10% discount for orders above $2000
-    const grossTotal = totalCost - discount + shippingPrice;
-    return grossTotal ;
-  };
-  const grossTotal  = calculateTotals();
+  const {grossTotal}  = calculateTotals(cartItems);
+  console.log(typeof grossTotal)
   return (
     <div className="bg-background p-6 rounded-lg shadow-helper h-fit">
       <h2 className="text-xl font-semibold mb-4 text-primaryDark">Order Summary</h2>

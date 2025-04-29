@@ -39,6 +39,26 @@ export const validateWord = (
     }
     return true;
   };
+  export const validateSentence = (
+    fieldName: string,
+    value: string,
+    minValue: number,
+    maxValue: number
+  ): string | true => {
+    const trimmedValue = value.trim();
+    if (trimmedValue.length < minValue) {
+      return `Min. ${minValue} characters required in ${fieldName}.`;
+    }
+    if (trimmedValue.length > maxValue) {
+      return `Max. ${maxValue} characters allowed in ${fieldName}.`;
+    }
+    // Allows letters, numbers, spaces, and common address symbols (.,-/)
+    const regex = /^[a-zA-Z0-9\s.,-/]+$/;
+    if (!regex.test(trimmedValue)) {
+      return `${fieldName} contains invalid characters.`;
+    }
+    return true;
+  };
   export const validateNumber = (
     fieldName: string,
     value: string,

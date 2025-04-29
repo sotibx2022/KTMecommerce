@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { CartState } from '@/app/redux/cartSlice';
 import { useRouter } from 'next/navigation';
 import { config } from '@/config/configuration';
+import { calculateTotals } from '@/app/services/helperFunctions/cartFunctions';
 interface ICartSummary{
   order?:boolean
 }
@@ -15,15 +16,7 @@ const CartSummary:React.FC<ICartSummary> = ({order}) => {
     const handleOrderProducts =() =>{
 router.push(`${config.websiteUrl}/dashboard/cartProcess`)
     }
-     const calculateTotals = () => {
-        const totalItems = cartItems.reduce((acc, item) => acc + item.quantity, 0);
-        const totalCost = cartItems.reduce((acc, item) => acc + parseInt(item.price) * item.quantity, 0);
-        const shippingPrice = totalCost > 1000 ? 0 : 50; // Example shipping cost logic
-        const discount = totalCost > 200 ? totalCost * 0.1 : 0; // 10% discount for orders above $2000
-        const grossTotal = totalCost - discount + shippingPrice;
-        return { totalItems, totalCost, discount, shippingPrice, grossTotal };
-      };
-      const { totalItems, totalCost, discount, shippingPrice, grossTotal } = calculateTotals();
+      const { totalItems, totalCost, discount, shippingPrice, grossTotal } = calculateTotals(cartItems);
   return (
     <div className="CartSummary flex flex-col gap-2 my-5 max-w-[500px]">
     <h2 className="subHeading">Cart Summary</h2>

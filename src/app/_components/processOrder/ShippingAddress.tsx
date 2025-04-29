@@ -1,7 +1,7 @@
 "use client"
 import { useFormContext } from "react-hook-form"
 import SubmitError from "../submit/SubmitError"
-import { validateNumber, validateWord } from "@/app/services/helperFunctions/validatorFunctions"
+import { validateNumber, validateSentence, validateWord } from "@/app/services/helperFunctions/validatorFunctions"
 import { ICartCheckOut } from "@/app/dashboard/cartProcess/page"
 const ShippingAddress = () => {
   const { register, formState: { errors } } = useFormContext<ICartCheckOut>()
@@ -15,7 +15,7 @@ const ShippingAddress = () => {
           className="formItem"
           placeholder="Kalyanpur-5, bharatpur, chitawan"
           {...register("shippingAddress.street", {
-            validate: (value) => validateWord("Street Address", value, 5, 100)
+            validate: (value) => validateSentence("Street Address", value, 5, 100)
           })}
         />
         {errors.shippingAddress?.street?.message && 

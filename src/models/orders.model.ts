@@ -1,55 +1,64 @@
-import { IOrder } from "@/app/types/orders";
-import mongoose, { Schema, Document, Model } from "mongoose";
-// Define the interface for an Order document
-
-// Create the schema for the Order
-const OrderSchema: Schema = new Schema<IOrder>(
-    {
-        user: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User",
-            required: true,
-        },
-        items: [
-            {
-                product: { type: mongoose.Schema.Types.ObjectId, ref: "Product", required: true },
-                quantity: { type: Number, required: true, min: 1 },
-                price: { type: Number, required: true, min: 0 },
-            },
-        ],
-        totalAmount: {
-            type: Number,
-            required: true,
-            min: 0,
-        },
-        paymentStatus: {
-            type: String,
-            enum: ["pending", "completed", "failed"],
-            default: "pending",
-        },
-        paymentMethod: {
-            type: String,
-            enum: ["credit_card", "paypal", "cash_on_delivery"],
-            required: true,
-        },
-        orderStatus: {
-            type: String,
-            enum: ["pending", "confirmed", "shipped", "delivered", "cancelled"],
-            default: "pending",
-        },
-        shippingAddress: {
-            street: { type: String, required: true },
-            city: { type: String, required: true },
-            state: { type: String, required: true },
-            zip: { type: String, required: true },
-            country: { type: String, required: true },
-        },
+import { IOrderDetails } from '@/app/types/orders';
+import { Schema, model, Document } from 'mongoose';
+const OrderSchema = new Schema<IOrderDetails>(
+  {
+    userEmail: {
+      type: String,
+      required: true,
     },
-    {
-        timestamps: true, // Automatically adds `createdAt` and `updatedAt`
+    items: [{
+      product: {
+        type: Schema.Types.ObjectId,
+        ref: 'Product',
+        required: true
+      },
+      quantity: {
+        type: Number,
+        required: true,
+        min: 1
+      },
+    }],
+    status: {
+      type: String,
+      enum: ["ordered", "pending", "confirmed", "delivered", "cancelled"],
+      default: "ordered"
+    },
+    paymentMethod: {
+      type: String,
+      enum: ["paymentOnDelivery", "online"],
+      required: true
+    },
+    shippingAddress: {
+      street: { type: String, required: true },
+      city: { type: String, required: true },
+      state: { type: String, required: true },
+    },
+    shippingPerson: {
+      firstName: { type: String, required: true },
+      lastName: { type: String, required: true },
+      email: { 
+        type: String,
+        required: true,
+      },
+      phone: { type: String, required: true }
+    },
+    cardDetails: {
+      cardHolderName: String,
+      cardNumber: {
+        type: String,
+        // Consider encryption in real implementation
+        select: false // Don't return by default in queries
+      },
+      cardExpiry: String,
+      cvvNumber: {
+        type: String,
+        select: false // Never store raw CVV in production!
+      }
     }
+  },
+  {
+    timestamps: true,
+    versionKey:false,
+  }
 );
-// Create the Order model
-const OrderModel: Model<IOrder> =
-    mongoose.models.Order || mongoose.model<IOrder>("Order", OrderSchema);
-export default OrderModel;
+export const OrderModel = model<IOrderDetails>('Order', OrderSchema);

@@ -81,7 +81,6 @@ const fetchProduct = async () => {
 <AddSingleProductReviews readOnly={userDetails === null}
 productDetails={{
   _id: productDetails?._id || '', // Provide fallback for undefined
-  overallRating: productDetails?.overallRating?.toString() || '0' // Convert number to string if needed
 }}/>
       </div>
       }
