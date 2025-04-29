@@ -5,6 +5,7 @@ const userOptions = [
     { title: "Orders", href: "/dashboard/orders" },
     { title: "Wishlist", href: "/dashboard/wishlist" },
     { title: "Cart", href: "/dashboard/cart" },
+    { title: "Reviews", href: "/dashboard/reviews" },
     { title: "Notifications", href: "/dashboard/notifications" },
     { title: "Settings", href: "/dashboard/settings" }
   ];

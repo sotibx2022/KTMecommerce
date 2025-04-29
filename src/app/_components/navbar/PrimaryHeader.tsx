@@ -28,7 +28,7 @@ const PrimaryHeader: React.FC<PrimaryHeader> = ({ classStyles, classStyles2 }) =
   const { setVisibleComponent } = useContext(DisplayContext);
   const router = useRouter();
   const handleDashboardClick = () => {
-    router.push("/account");
+    router.push("dashboard/profile");
   };
 const logout = useLogout()
   return (

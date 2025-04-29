@@ -48,7 +48,12 @@ const ResponsiveHeader = () => {
   return (
     <div className="absolute top-0 left-0 w-screen h-screen min-h-[500px] z-10" style={{ background: "var(--gradientwithOpacity)" }}>
       <div className="responsiveleftBar flex-1 justify-center items-center" />
-      <div className="responsiveSidebar max-w-[400px] h-full bg-background p-4">
+      <div className="responsiveSidebar max-w-[400px] h-full bg-background p-4 relative">
+        <FontAwesomeIcon
+                      icon={faTimes}
+                      className="text-background bg-helper w-[30px] h-[30px] absolute top-0 right-0 cursor-pointer"
+        onClick={()=>setVisibleComponent('')}
+                    />
         <div className="responsiveLogoArea justify-self-center mb-4">
           <Link href="/">
             <img
@@ -58,18 +63,17 @@ const ResponsiveHeader = () => {
           </Link>
         </div>
         <div className="responsiveIcons flex-center gap-4">
-          <IconButton icon={faTimes} name="Close"  onClick={()=>setVisibleComponent('')}/>
           <IconButton icon={faSearch} name="Search" onClick={()=>setVisibleComponent('pureSearch')}/>
           <IconButton
           icon={faLuggageCart}
           name="Cart"
           number={cartItems?.length ?? 0}
-          onClick={() => handleProtectedRoute('pages/cart')}
+          onClick={() => handleProtectedRoute('dashboard/cart')}
         />
          <IconButton
           icon={faHeart}
           name="Wishlist"
-          onClick={() => handleProtectedRoute('pages/wishlist')}
+          onClick={() => handleProtectedRoute('dashboard/wishlist')}
         />
         {activescreen && visibleComponent === 'login' && <LoginComponent/>}
         </div>

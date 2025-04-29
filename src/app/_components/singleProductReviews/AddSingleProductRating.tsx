@@ -1,10 +1,14 @@
 "use client"
 import React, { useState } from "react";
 import StarRatings from "react-star-ratings";
-const AddSingleProductRating = () => {
+interface IAddSingleProductRating{
+  getProductRating:(rating:number)=>void;
+}
+const AddSingleProductRating:React.FC<IAddSingleProductRating> = ({getProductRating}) => {
   const [rating, setRating] = useState(0);
   const handleRatingChange = (newRating:number) => {
     setRating(newRating);
+    getProductRating(newRating)
   };
   return (
     <StarRatings
