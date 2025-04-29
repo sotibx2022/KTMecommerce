@@ -2,9 +2,9 @@
 import { useFormContext } from "react-hook-form"
 import SubmitError from "../submit/SubmitError"
 import { validateNumber, validateSentence, validateWord } from "@/app/services/helperFunctions/validatorFunctions"
-import { ICartCheckOut } from "@/app/dashboard/cartProcess/page"
+import { IOrderDetails } from "@/app/types/orders"
 const ShippingAddress = () => {
-  const { register, formState: { errors } } = useFormContext<ICartCheckOut>()
+  const { register, formState: { errors } } = useFormContext<IOrderDetails>()
   return (
     <div className="bg-background p-6 rounded-lg shadow-helper">
       <h2 className="text-xl font-semibold mb-4 text-primaryDark">Shipping Address</h2>

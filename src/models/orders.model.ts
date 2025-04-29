@@ -1,5 +1,5 @@
 import { IOrderDetails } from '@/app/types/orders';
-import { Schema, model, Document } from 'mongoose';
+import mongoose ,{ Schema, model, Document } from 'mongoose';
 const OrderSchema = new Schema<IOrderDetails>(
   {
     userEmail: {
@@ -7,7 +7,7 @@ const OrderSchema = new Schema<IOrderDetails>(
       required: true,
     },
     items: [{
-      product: {
+      productId: {
         type: Schema.Types.ObjectId,
         ref: 'Product',
         required: true
@@ -61,4 +61,5 @@ const OrderSchema = new Schema<IOrderDetails>(
     versionKey:false,
   }
 );
-export const OrderModel = model<IOrderDetails>('Order', OrderSchema);
+ const OrderModel = mongoose.models.Order || mongoose.model<IOrderDetails>('Order', OrderSchema);
+ export default OrderModel;

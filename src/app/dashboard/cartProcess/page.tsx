@@ -1,4 +1,5 @@
 "use client"
+import LoadingButton from '@/app/_components/primaryButton/LoadingButton'
 import PrimaryButton from '@/app/_components/primaryButton/PrimaryButton'
 import OrderSummary from '@/app/_components/processOrder/OrderSummary'
 import OrderTerms from '@/app/_components/processOrder/OrderTerms'
@@ -6,37 +7,48 @@ import PaymentMethod from '@/app/_components/processOrder/PaymentMethod'
 import ShippingAddress from '@/app/_components/processOrder/ShippingAddress'
 import ShippingInformation from '@/app/_components/processOrder/ShippingInformation'
 import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent'
-import { CartState } from '@/app/redux/cartSlice'
+import { CartState, clearCartItems } from '@/app/redux/cartSlice'
 import { calculateTotals } from '@/app/services/helperFunctions/cartFunctions'
 import { postOrderDetails } from '@/app/services/queryFunctions/orders'
 import { APIResponseError, APIResponseSuccess } from '@/app/services/queryFunctions/users'
 import { ICartItem } from '@/app/types/cart'
 import { ICardDetails, IOrderDetails,IProductDetailsforOrder, IShippingAddress, IShippingPerson } from '@/app/types/orders'
 import { Mutation, useMutation } from '@tanstack/react-query'
+import axios from 'axios'
+import { useRouter } from 'next/navigation'
 import { useContext, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 const page = () => {
-  const mutation = useMutation<
-  APIResponseSuccess|APIResponseError,
-  Error,
-  IOrderDetails
->({
-  mutationFn: postOrderDetails,
-  onSuccess: (response) => {
-    toast.success(response.message); // Access response data directly
-  },
-  onError: (error) => {
-    toast.error(error.message);
-  }
-});
-  const cartItems = useSelector((state: { cart: CartState }) => state.cart.cartItems)
   const context = useContext(UserDetailsContext);
     if(!context){
       throw new Error("The User Details context is not working.")
     }
     const {userDetails} = context;
+  const router = useRouter();
+  const cartItems = useSelector((state: { cart: CartState }) => state.cart.cartItems)
+  const dispatch = useDispatch()
+  const mutation = useMutation<
+  APIResponseSuccess | APIResponseError,
+  Error,
+  IOrderDetails
+>({
+  mutationFn: postOrderDetails,
+  onSuccess: async (response) => {
+    toast.success(response.message);
+    try {
+      dispatch(clearCartItems());
+      router.push('/dashboard/orders');
+    } catch (error) {
+      // Handle cart clearing error
+      toast.error('Order placed but failed to clear cart');
+    }
+  },
+  onError: (error) => {
+    toast.error(error.message);
+  }
+});
   const method = useForm<IOrderDetails>({mode:"onBlur"});
   const { totalItems, totalCost, discount, shippingPrice, grossTotal } = calculateTotals(cartItems);
   const onSubmit = (data: IOrderDetails) => {
@@ -54,7 +66,7 @@ const page = () => {
         productId: item.productId,
         quantity: item.quantity
       })),
-      status: 'ordered' as const,
+      status: "ordered" as const,
       paymentMethod: "paymentOnDelivery" as const,
       shippingAddress: data.shippingAddress,
       shippingPerson: data.shippingPerson
@@ -72,7 +84,7 @@ const page = () => {
             <ShippingAddress />
             <PaymentMethod />
             <OrderTerms />
-            <PrimaryButton searchText="Confirm"/>
+            {mutation.isPending ? <LoadingButton/>:<PrimaryButton searchText="Confirm"/>}
           </form>
           </FormProvider>
         </div>

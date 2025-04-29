@@ -1,23 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { ICartItem } from '../types/cart';
-// Define the CartState interface
 export interface CartState {
   cartItems: ICartItem[];
 }
-// Initial state
 const initialState: CartState = {
-  cartItems: [], // cartItems directly in the root of the state
+  cartItems: [],
 };
-// Create cart slice
 const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    // Set the entire cart
     setCart: (state, action) => {
-      state.cartItems = action.payload; // Accessing cartItems directly
+      state.cartItems = action.payload;
     },
-    // Add a new item to the cart
     addToCart: (state, action) => {
       const { productId, productName, brand, price, image, quantity, userId, category } = action.payload;
       state.cartItems.push({
@@ -32,26 +27,29 @@ const cartSlice = createSlice({
       });
     },
     removeFromCart: (state, action) => {
-      const productId  = action.payload;
-      const existingItemIndex = state.cartItems.findIndex((item: ICartItem) => {
-        return item.productId === productId;
-      });
-      if (existingItemIndex !== -1) {
-        state.cartItems.splice(existingItemIndex, 1);
-      }
+      const productId = action.payload;
+      state.cartItems = state.cartItems.filter(item => item.productId !== productId);
     },
     updateCartItem: (state, action) => {
-      const existingItemIndex = state.cartItems.findIndex((item: ICartItem) => {
-        return item.productId === action.payload.productId;
-      });
-      // Check if the item exists (index is not -1)
+      const existingItemIndex = state.cartItems.findIndex(
+        item => item.productId === action.payload.productId
+      );
       if (existingItemIndex !== -1) {
-        // Update the quantity of the existing item
         state.cartItems[existingItemIndex].quantity = action.payload.quantity;
       }
+    },
+    clearCartItems: (state) => {
+      // Simply reset the cartItems array to empty
+      state.cartItems = [];
     }
   },
 });
-// Export actions and reducer
-export const { setCart, addToCart,removeFromCart,updateCartItem } = cartSlice.actions;
+// Export the new action
+export const { 
+  setCart, 
+  addToCart, 
+  removeFromCart, 
+  updateCartItem, 
+  clearCartItems // Added here
+} = cartSlice.actions;
 export default cartSlice.reducer;

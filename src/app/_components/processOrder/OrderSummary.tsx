@@ -5,7 +5,6 @@ import { useSelector } from 'react-redux'
 const OrderSummary = () => {
   const cartItems = useSelector((state: { cart: CartState }) => state.cart.cartItems)
   const {grossTotal}  = calculateTotals(cartItems);
-  console.log(typeof grossTotal)
   return (
     <div className="bg-background p-6 rounded-lg shadow-helper h-fit">
       <h2 className="text-xl font-semibold mb-4 text-primaryDark">Order Summary</h2>

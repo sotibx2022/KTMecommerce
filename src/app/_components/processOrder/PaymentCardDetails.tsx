@@ -3,15 +3,15 @@ import { useState } from 'react'
 import PaymentCardDesign from './PaymentCardDesign'
 import SubmitError from '../submit/SubmitError'
 import { useFormContext } from 'react-hook-form'
-import { ICartCheckOut } from '@/app/dashboard/cartProcess/page'
 import {
   validateNumber,
   validateFullName,
   validateDate,
 } from '@/app/services/helperFunctions/validatorFunctions'
+import { IOrderDetails } from '@/app/types/orders'
 const PaymentCardDetails = () => {
   const [showBack, setShowBack] = useState(false)
-  const { register, formState: { errors }, setValue, watch } = useFormContext<ICartCheckOut>()
+  const { register, formState: { errors }, setValue, watch } = useFormContext<IOrderDetails>()
   // Formatting functions
   const formatCardNumber = (value: string) => {
     const digitsOnly = value.replace(/\D/g, '')
