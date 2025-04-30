@@ -10,10 +10,6 @@ const Footer2 = () => {
         queryFn: getAllCategories,
       });
       const [activeCategory, setActiveCategory] = useState<number | null>(null);
-      // Toggle category visibility
-    //   const toggleCategory = (index: number) => {
-    //     setActiveCategory((prevState) => (prevState === index ? null : index));
-    //   };
   return (
     <div className='bg-primaryDark py-4 mt-4'>
         <ul className="container categories flex flex-wrap justify-between  gap-4 mt-4">
