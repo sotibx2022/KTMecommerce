@@ -15,12 +15,14 @@ import LimitedOffer from '../limitedOffer/LimitedOffer'
 import FeaturedItems from '../featuredItems/FeaturedItems'
 import BookCarousel from '../brandCaurosel/BookCaurosel'
 import CategoryCards from '../categoryCards/CategoryCards'
+import AllProductsBanner from '../allProductsBanner/AllProductsBanner'
 const ClientPage = () => {
   const { visibleComponent } = useContext(DisplayContext)
   return (
     <>
       <NavBar />
       <HeroLayout />
+      <AllProductsBanner/>
     <CategoryCards 
       categoryType="isNewArrivals"
       title="New Arrivals in Store"

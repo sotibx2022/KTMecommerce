@@ -1,14 +1,12 @@
 import React from 'react';
-import Footer1 from './Footer1';
 import Footer2 from './Footer2';
+import NewsLetterSection from './NewsLetterSection';
 const Footer = () => {
   return (
-    <footer className=" bg-gray-800 text-white py-4 mt-4">
-      {/* <Footer1/>
-      <hr></hr> */}
+    <footer className="bg-primaryDark text-white mt-4">
+      <NewsLetterSection/>
       <Footer2/>
-      <hr></hr>
-      <div className="container mx-auto flex justify-center items-center h-[30px] mt-4">
+      <div className=" mx-auto flex justify-center items-center h-[30px]  bg-primaryLight py-8">
         <p>This is the project developed by Binayaraj Soti.</p>
       </div>
     </footer>

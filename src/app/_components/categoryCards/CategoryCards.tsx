@@ -33,42 +33,42 @@ const CategoryCards = ({ categoryType, title }: CategoryCardsProps) => {
             <Swiper
               modules={[Autoplay]}
               slidesPerView="auto"
-              spaceBetween={20}
+              spaceBetween={40}
               autoplay={{
-                delay: 3000,
-                disableOnInteraction: false,
+                delay: 6000,
+                disableOnInteraction: true,
                 pauseOnMouseEnter: true,
               }}
               breakpoints={{
                 640: { // sm
-                  slidesPerView: 2,
+                  slidesPerView: 1,
                 },
                 768: { // md
-                  slidesPerView: 3,
+                  slidesPerView: 1,
                 },
                 1024: { // lg
-                  slidesPerView: 4,
+                  slidesPerView: 2,
                 },
                 1280: { // xl
-                  slidesPerView: 6,
+                  slidesPerView: 3,
                 },
                 1536: { // 2xl
-                  slidesPerView: 8,
+                  slidesPerView: 4,
                 }
               }}
             >
               {products.map((product, i) => (
                 <SwiperSlide 
                   key={i}
-                  className="!h-auto !flex items-center justify-center"
+                  className="h-[300px] !flex items-center justify-center"
                 >
                   <div className="flex flex-col items-center justify-center h-[300px] relative w-full">
                     <img
                       src={product.image}
                       alt={product.productName}
-                      className="inline object-fit w-full h-[200px]"
+                      className="inline object-fit w-full h-[300px] hover:scale-105 transition-transform duration-100"
                     />
-                    <h3 className="top-[10px] left-0 w-full h-[30px] text-background text-center bg-helper">
+                    <h3 className="top-[10px] left-0 w-full h-[30px] text-primaryDark text-center">
                       <Link
                         href={`${config.websiteUrl}/singleProduct/id:${product._id}&,slug:${product.productName}`}
                         className="pl-[10px] line-clamp-1"
@@ -82,7 +82,7 @@ const CategoryCards = ({ categoryType, title }: CategoryCardsProps) => {
                   </div>
                 </SwiperSlide>
               ))}
-              <div className="viewMore text-helper items-center text-xl my-2 flex justify-center">
+              <div className="viewMore text-helper items-center text-xl mt-8 flex justify-center">
           <LinkComponent 
             text="View More ➔"
             href={`${config.websiteUrl}/pages/${title.toLowerCase().replace(/\s+/g, "-")}`}

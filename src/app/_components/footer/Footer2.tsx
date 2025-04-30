@@ -15,7 +15,7 @@ const Footer2 = () => {
     //     setActiveCategory((prevState) => (prevState === index ? null : index));
     //   };
   return (
-    <div>
+    <div className='bg-primaryDark py-4 mt-4'>
         <ul className="container categories flex flex-wrap justify-between  gap-4 mt-4">
           {NavItems.map((item: Category, index: number) => (
             <li key={item.url_slug || index}>

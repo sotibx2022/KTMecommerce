@@ -8,8 +8,8 @@ import {
 } from '@fortawesome/free-brands-svg-icons';
 import { config } from '@/config/configuration';
 interface IMediaSharing{
-    productId:string,
-    productSlug:string
+    productId?:string,
+    productSlug?:string
 }
 const SocialMediaSharing:React.FC<IMediaSharing> = ({productId,productSlug}) => {
     return (

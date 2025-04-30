@@ -48,18 +48,20 @@ const MainPrimaryHeader: React.FC = () => {
               {userDetails? <RegisteredUsersOption/>:<NonRegisteredUsersOption/>}
             </div>
           </div>
-          <div className="sm:hidden">
+          <div className="flex justify-between items-center">
+            <div className="logoImage sm:hidden">
             <img
               src="../assets/brand/logo.png"
               alt="Brand Logo"
-              className="w-auto h-[50px] min-w-[150px] filter-1"
+              className="w-auto h-[50px] min-w-[150px]"
             />
-          </div>
+            </div>
           <FontAwesomeIcon
             icon={faBars}
             className="text-primaryDark cursor-pointer transition-transform transform hover:scale-125 hover:rotate-12 lg:text-background"
             onClick={setResponsiveHeader}
           />
+          </div>
         </div>
       </nav>
      </div>
