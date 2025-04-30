@@ -1,9 +1,9 @@
 "use client"
-import { ICartCheckOut } from "@/app/dashboard/cartProcess/page"
 import { useFormContext } from "react-hook-form"
 import SubmitError from "../submit/SubmitError"
+import { IOrderDetails } from "@/app/types/orders"
 const OrderTerms = () => {
-  const {register,formState:{errors}} = useFormContext<ICartCheckOut>()
+  const {register,formState:{errors}} = useFormContext<IOrderDetails>()
   return (
     <div className="bg-background p-6 rounded-lg shadow-helper">
       <label className="flex items-start space-x-3">

@@ -30,4 +30,5 @@
         shippingAddress: IShippingAddress
         shippingPerson:IShippingPerson
         cardDetails?:ICardDetails
+        termsAgreed?:boolean
     }
