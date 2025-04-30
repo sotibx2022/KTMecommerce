@@ -1,5 +1,5 @@
-import { IOrder } from "./orders";
 import { ICartItem } from "./cart";
+import { IOrderDetails } from "./orders";
 import { IProductCreate } from "./products";
 export interface IUser {
     fullName: string;
@@ -18,5 +18,5 @@ profileFileType?:string;
     roles?: string; // Optional field, default 'user'
     createdAt?: Date | string; // Optional field for the user creation date
     updatedAt?: Date | string; // Optional field for the user last updated date
-    orderHistory:IOrder[]
+    orderHistory:IOrderDetails[]
   }
