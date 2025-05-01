@@ -26,7 +26,8 @@ const AllProductsBanner = () => {
       </div>
       <video 
         autoPlay 
-        muted 
+        muted
+        loop
         playsInline={true} 
         src={smallScreen ? "/assets/videos/smallHero.mp4" : "/assets/videos/hero.mp4"} 
         className='max-h-[50vh] mb-4' 

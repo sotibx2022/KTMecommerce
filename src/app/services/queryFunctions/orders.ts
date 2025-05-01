@@ -22,6 +22,22 @@ export const postOrderDetails = async (
       throw new Error(axiosError.message || 'Unknown Error Occurred');
     }
   };
+  export const fetchAllOrders = async(userEmail:string) =>{
+    try {
+      const response = await axios.post('/api/ordersHistory',{userEmail},{
+        headers:{'Content-Type':'application/json'}
+            })
+            return response.data.data;
+    } catch (error) {
+      const axiosError = error as AxiosError <ApiError>
+      if(axiosError.response){
+throw new Error(axiosError.response.data.message || "Axios Error Occured on Response")
+      }else if(axiosError.request){
+throw new Error(axiosError.request.data.message || 'Axios Error Occured on Request')
+      }
+throw new Error(axiosError.message || 'Unknown Error Occured')
+    }
+  }
   const deleteCartItems = async (userEmail: string) => {
     try {
       await axios.post('/api/cart/clearCart', { userEmail }); // Fixed payload format

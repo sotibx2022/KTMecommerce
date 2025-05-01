@@ -20,6 +20,9 @@
     }
     export interface IProductDetailsforOrder{
         productId:string,
+        productName:string,
+        image:string,
+        price:string,
         quantity:number,
     }
     export interface IOrderDetails {
@@ -32,3 +35,8 @@
         cardDetails?:ICardDetails
         termsAgreed?:boolean
     }
+    export interface OrderDetailsProps extends IOrderDetails {
+        _id: string;
+        createdAt: Date;
+        updatedAt: Date;
+      }

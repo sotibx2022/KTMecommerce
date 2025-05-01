@@ -1,9 +1,14 @@
 "use client"
 import { CartState } from '@/app/redux/cartSlice'
 import { calculateTotals } from '@/app/services/helperFunctions/cartFunctions'
+import { IOrderItem } from '@/app/types/orders';
 import { useSelector } from 'react-redux'
-const OrderSummary = () => {
+interface OrderSummaryProps {
+  items?: IOrderItem[]; // Make items prop optional
+}
+const OrderSummary = ({ items }: OrderSummaryProps) => {
   const cartItems = useSelector((state: { cart: CartState }) => state.cart.cartItems)
+  const dataToRender = items || cartItems;
   const {grossTotal}  = calculateTotals(cartItems);
   return (
     <div className="bg-background p-6 rounded-lg shadow-helper h-fit">

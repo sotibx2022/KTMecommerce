@@ -6,6 +6,7 @@ import OrderTerms from '@/app/_components/processOrder/OrderTerms'
 import PaymentMethod from '@/app/_components/processOrder/PaymentMethod'
 import ShippingAddress from '@/app/_components/processOrder/ShippingAddress'
 import ShippingInformation from '@/app/_components/processOrder/ShippingInformation'
+import ProductImage from '@/app/_components/singleProduct/ProductImage'
 import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent'
 import { CartState, clearCartItems } from '@/app/redux/cartSlice'
 import { calculateTotals } from '@/app/services/helperFunctions/cartFunctions'
@@ -64,7 +65,10 @@ const page = () => {
       userEmail: userDetails.email,
       items: cartItems.map((item: ICartItem) => ({
         productId: item.productId,
-        quantity: item.quantity
+        quantity: item.quantity,
+        productName:item.productName,
+        image:item.image,
+        price:item.price
       })),
       status: "ordered" as const,
       paymentMethod: "paymentOnDelivery" as const,

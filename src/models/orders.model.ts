@@ -17,6 +17,17 @@ const OrderSchema = new Schema<IOrderDetails>(
         required: true,
         min: 1
       },
+      image:{
+        type:String,
+        required:true
+      },
+      productName:{
+        type:String,
+        requried:true
+      },
+      price:
+      {type:String,
+      required:true}
     }],
     status: {
       type: String,
