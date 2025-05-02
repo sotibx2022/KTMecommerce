@@ -1,10 +1,20 @@
-export interface Remark {
-    _id?: string; // MongoDB auto-generated ID (optional for interface use)
-    productId: string; // ID of the associated product
-    rating: number; // Rating for the product
-    reviewedBy: string; // Name of the reviewer
-    reviewerImage: string; // URL to the reviewer's image
-    reviewDescription: string; // Textual review
-    createdAt: Date; // Timestamp for when the review was created
-    updatedAt: Date; // Timestamp for when the review was last updated
+export interface IAddReviewsProps {
+  readOnly: boolean;
+  productDetails: {
+    _id:string;
+  };
+}
+export interface IAddReviewDatas {
+  reviewedBy:{
+    fullName:string;
+    email:string;
   }
+  reviewDescription:string;
+  productId: string;
+  rating:string;
+  reviewerImage?:string;
+}
+export interface IDisplayReviewDatas extends IAddReviewDatas{
+  createdAt:Date;
+  updatedAt:Date;
+}

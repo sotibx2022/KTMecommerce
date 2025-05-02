@@ -40,3 +40,10 @@
         createdAt: Date;
         updatedAt: Date;
       }
+      export interface IOrderItem {
+        quantity: number;
+        productId: string;
+        price:string;
+        image:string;
+        productName:string;
+      }

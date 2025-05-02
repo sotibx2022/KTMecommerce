@@ -5,25 +5,25 @@ import { DisplayContext } from '@/app/context/DisplayComponents';
 import SubmitError from '../submit/SubmitError';
 import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
+import { useMutation } from '@tanstack/react-query';
+import { error } from 'console';
+import { IAddReviewDatas,IAddReviewsProps } from '@/app/types/remarks';
+import { APIResponseError, APIResponseSuccess } from '@/app/services/queryFunctions/users';
+import { postSingleProductReview } from '@/app/services/queryFunctions/remarks';
+import LoadingButton from '../primaryButton/LoadingButton';
 const AddSingleProductRating = dynamic(() => import('./AddSingleProductRating'), { ssr: false });
 const DisplaySingleProductRating = dynamic(() => import('./DisplaySingleProductRating'), { ssr: false });
-interface IAddReviewsProps {
-  readOnly: boolean;
-  productDetails: {
-    _id:string;
-  };
-}
-interface IAddReviewDatas {
-  reviewedBy:{
-    fullName:string;
-    email:string;
-  }
-  reviewDescription:string;
-  productId: string;
-  rating:string;
-  reviewerImage:string;
-}
 const AddSingleProductReviews: React.FC<IAddReviewsProps> = ({ readOnly, productDetails }) => {
+  const mutation = useMutation<APIResponseSuccess| APIResponseError , Error , IAddReviewDatas>({
+    mutationFn:postSingleProductReview,
+    onSuccess:(response)=>{
+toast.success(response.message)
+    },onError:(error)=>{
+      toast.error(error.message)
+    }
+  })
+  const[reviewSubmitted,setReviewSubmitted] = useState(false);
   const[rating,setRating] = useState(0)
   const context = useContext(UserDetailsContext);
   if (!context) {
@@ -38,20 +38,24 @@ const AddSingleProductReviews: React.FC<IAddReviewsProps> = ({ readOnly, product
       setVisibleComponent('login');
     }
   };
-  if(userDetails){
-    setValue('reviewedBy.fullName',userDetails.fullName);
-    setValue('reviewedBy.email',userDetails.email);
-    if(userDetails.profileImage){
-      setValue('reviewerImage',userDetails.profileImage)
-    }
+if(userDetails){
+  setValue('reviewedBy.fullName',userDetails!.fullName);
+  setValue('reviewedBy.email',userDetails!.email);
+  if(userDetails!.profileImage){
+    setValue('reviewerImage',userDetails!.profileImage)
   }
+}
 const receiveProductRating =(rating:number) =>{
   const ratingInString = rating.toString();
   setRating(rating)
 setValue('rating',ratingInString)
 }
   const onSubmit =(data:IAddReviewDatas) =>{
-    console.log(data);
+    setReviewSubmitted(true);
+    if(!rating){
+      toast.error("Please Select the Rating."); 
+    }
+    mutation.mutate(data)
   }
   return (
     <form className='w-full lg:w-1/2 flex flex-col gap-2' onSubmit={handleSubmit(onSubmit)}>
@@ -105,13 +109,13 @@ setValue('rating',ratingInString)
       ) : (
         <AddSingleProductRating getProductRating={receiveProductRating}/>
       )}
-      {!readOnly && rating === 0 && <SubmitError message='Please Rate the Product.'/>}
+      {!readOnly && rating === 0 && reviewSubmitted && <SubmitError message='Please Rate the Product.'/>}
       <div className="multipleButtons flex gap-4">
-        <PrimaryButton 
+        {mutation.isPaused ? <LoadingButton/>:<PrimaryButton 
           searchText='Add' 
           onClick={addReviews} 
           disabled={readOnly}
-        />
+        />}
         <PrimaryButton 
           searchText='Login' 
           onClick={addReviews} 

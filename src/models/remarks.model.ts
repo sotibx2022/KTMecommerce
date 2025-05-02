@@ -1,12 +1,27 @@
-import { Remark } from "@/app/types/remarks";
-import mongoose, { Model } from "mongoose";
-export const RemarkSchema = new mongoose.Schema({
+ interface IAddReviewDatas {
+  reviewedBy:{
+    fullName:string;
+    email:string;
+  }
+  reviewDescription:string;
+  productId: ObjectId;
+  rating:string;
+  reviewerImage?:string;
+}
+import mongoose, { Model, ObjectId, Schema } from "mongoose";
+export const RemarkSchema = new Schema<IAddReviewDatas>({
   productId: { type: mongoose.Schema.Types.ObjectId, ref: "Product", required: true },
-  rating: { type: Number, required: true },
-  reviewedBy: { type: String, required: true },
-  reviewerImage: { type: String, required: true },
+  rating: { type: String, required: true }, // Changed from Number to String to match interface
+  reviewedBy: { 
+    fullName: { type: String, required: true },
+    email: { type: String, required: true }
+  },
+  reviewerImage: { type: String,},
   reviewDescription: { type: String, required: true },
-  createdAt: { type: Date, default: Date.now },
-  updatedAt: { type: Date, default: Date.now },
+},
+{
+  timestamps: true,
+  versionKey:false,
 });
-export const remarksModel:Model<Remark> = mongoose.models.remarksModel || mongoose.model("remarksModel",RemarkSchema)
+export const remarksModel: Model<IAddReviewDatas> = 
+  mongoose.models.Remark || mongoose.model("Remark", RemarkSchema);
