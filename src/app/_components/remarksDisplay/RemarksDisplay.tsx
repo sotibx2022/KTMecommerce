@@ -17,12 +17,12 @@ const RemarksDisplay: React.FC<IRemarksDisplay> = ({ productId }) => {
     console.log(remarks)
     return (
         <div>
-            <div className='remarks-container shadow-primaryLight p-2'>
+            <div className='flex flex-wrap gap-4 justify-between items-center'>
                 {isPending ? (
                     <LoadingContainer/>
                 ) : remarks && Array.isArray(remarks) && remarks.length > 0 ? (
                     remarks.map((remark: IDisplayReviewDatas,index:number) => (
-                        <div key={index}> {/* Use a more unique key */}
+                        <div key={index} className='flex flex-wrap'> {/* Use a more unique key */}
                             <SingleProductReviews {...remark} />
                         </div>
                     ))

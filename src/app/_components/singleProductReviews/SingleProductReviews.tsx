@@ -4,7 +4,7 @@ import { DateFormator, shortName } from '@/app/services/helperFunctions/function
 import { IAddReviewDatas, IDisplayReviewDatas } from '@/app/types/remarks'
 const SingleProductReviews:React.FC<IDisplayReviewDatas> = ({reviewedBy,reviewerImage,rating,reviewDescription,createdAt,updatedAt}) => {
   return (
-    <div className="remarks-container">
+    <div className="remarks-container shadow-primaryLight p-2 w-[300px]">
     <div className="remark-item" id="remark-1">
       <div className="reviewer-details flex items-center gap-4 mb-4">
         <img

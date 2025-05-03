@@ -3,10 +3,11 @@ import { IUpdateUserData, LoginData } from "@/app/types/formData";
 import { config } from "@/config/configuration";
 import axios from "axios";
 // Interfaces for API Response
-export interface APIResponseSuccess {
+export interface APIResponseSuccess<T=any> {
   message: string; // A descriptive success message
   status: number;  // HTTP status code (e.g., 200, 201)
-  success: true;   // Indicates the operation was successful
+  success: true;   // Indicates the operation was successful;
+  data?:T;
 }
 export interface APIResponseError {
   message: string; // A descriptive error message

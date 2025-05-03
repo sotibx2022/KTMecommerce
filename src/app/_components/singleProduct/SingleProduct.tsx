@@ -67,7 +67,7 @@ const SingleProduct: React.FC<IProductDisplay> = ({ ...cartItemDetails }) => {
             </h3>
             <p className="price-highlight">${price}</p>
           </div>
-          <h2 className="primaryHeading">Features</h2>
+          <h2 className="text-xl font-semibold mb-4 text-primaryDark">Features</h2>
           <ul className="primaryList">
             {productFeatures &&
               productFeatures.map((feature: string, index: number) => (

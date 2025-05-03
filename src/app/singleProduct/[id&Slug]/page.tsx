@@ -10,9 +10,13 @@ import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useQuery } from '@tanstack/react-query';
 import React, { useContext, useEffect, useState } from 'react';
+import PrimaryButton from '@/app/_components/primaryButton/PrimaryButton';
+import SecondaryButton from '@/app/_components/secondaryButton/SecondaryButton';
+import { DisplayContext } from '@/app/context/DisplayComponents';
 const ProductPage = () => {
   const[productId, setProductId] = useState("")
   const context = useContext(UserDetailsContext);
+  const {visibleComponent,setVisibleComponent} = useContext(DisplayContext)
   if (!context) {
     throw new Error("The User Details context is not working.");
   }
@@ -36,29 +40,28 @@ const ProductPage = () => {
   if (isPending) {
     return <LoadingComponent />;
   }
+  function handleReviewAdd(): void {
+    throw new Error('Function not implemented.');
+  }
   return (
     <>
       <SingleProduct {...productDetails} />
       <div className="reviewsContainer container">
         <div className="reviewsHeading flex gap-4 mb-2 items-center">
-          <h2 className="primaryHeading">Reviews</h2>
+        <h2 className="text-xl font-semibold text-primaryDark">Reviews</h2>
           <FontAwesomeIcon
             icon={showReviews ? faMinus : faPlus}
             onClick={() => toggleReviews(!showReviews)}
-            className="bg-helper p-4 rounded-full cursor-pointer text-background"
+            className="bg-helper p-2 rounded-full cursor-pointer text-background"
           />
+          <SecondaryButton text='Add Review' onClick={()=>setVisibleComponent('addReview')}/>
         </div>
         {showReviews && (
-          <div className="flex items-center gap-4 flex-col md:flex-row">
               <RemarksDisplay productId={productId} />
-            <AddSingleProductReviews 
-              readOnly={userDetails === null}
-              productDetails={{
-                _id: productDetails._id,
-              }}
-            />
-          </div>
         )}
+        {visibleComponent ==='addReview' && <AddSingleProductReviews readOnly={userDetails === null}  productDetails={{
+                _id: productDetails._id,
+              }} />}
       </div>
     </>
   );

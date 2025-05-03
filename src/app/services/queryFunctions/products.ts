@@ -5,7 +5,7 @@ export const getAllProducts = async () => {
   return response.data.products;
 };
 export const getSingleProduct = async (productId: string) => {
-  const response = await axios.get(`${config.websiteUrl}/api/products/${productId}`);
+  const response = await axios.get(`/api/products/${productId}`);
   return response.data.singleProduct;
 };
 export interface SearchParams {
