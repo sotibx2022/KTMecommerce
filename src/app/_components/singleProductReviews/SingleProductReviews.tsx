@@ -1,8 +1,12 @@
-import React from 'react'
+"use client"
+import React, { useContext } from 'react'
 import DisplaySingleProductRating from './DisplaySingleProductRating'
 import { DateFormator, shortName } from '@/app/services/helperFunctions/functions'
 import { IAddReviewDatas, IDisplayReviewDatas } from '@/app/types/remarks'
-const SingleProductReviews:React.FC<IDisplayReviewDatas> = ({reviewedBy,reviewerImage,rating,reviewDescription,createdAt,updatedAt}) => {
+import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent'
+import ReviewActionButtons from './ReviewActionButtons'
+const SingleProductReviews:React.FC<IDisplayReviewDatas> = ({reviewedBy,reviewerImage,rating,reviewDescription,createdAt,updatedAt,productId}) => {
+ const user = useContext(UserDetailsContext);
   return (
     <div className="remarks-container shadow-primaryLight p-2 w-[300px]">
     <div className="remark-item" id="remark-1">
@@ -25,6 +29,9 @@ const SingleProductReviews:React.FC<IDisplayReviewDatas> = ({reviewedBy,reviewer
         </p>
       </div>
     </div>
+    {user?.userDetails?.email === reviewedBy.email && (
+  <ReviewActionButtons productId={productId}/>
+)}
   </div>
   )
 }

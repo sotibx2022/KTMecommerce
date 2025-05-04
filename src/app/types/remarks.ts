@@ -1,8 +1,7 @@
 export interface IAddReviewsProps {
   readOnly: boolean;
-  productDetails: {
-    _id:string;
-  };
+  productId:string;
+  edit?:boolean;
 }
 export interface IAddReviewDatas {
   reviewedBy:{
@@ -15,6 +14,6 @@ export interface IAddReviewDatas {
   reviewerImage?:string;
 }
 export interface IDisplayReviewDatas extends IAddReviewDatas{
-  createdAt:Date;
+  createdAt?:Date;
   updatedAt:Date;
 }

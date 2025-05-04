@@ -14,7 +14,6 @@ const RemarksDisplay: React.FC<IRemarksDisplay> = ({ productId }) => {
         queryFn: () => getSpecificRemarks(productId),
         enabled: !!productId
     });
-    console.log(remarks)
     return (
         <div>
             <div className='flex flex-wrap gap-4 justify-between items-center'>

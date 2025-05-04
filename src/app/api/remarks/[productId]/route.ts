@@ -1,9 +1,10 @@
 import { remarksModel } from "@/models/remarks.model";
 import { NextRequest, NextResponse } from "next/server";
 import mongoose from "mongoose";
+import { productModel } from "@/models/products.model";
+import updateRating from "@/app/services/apiFunctions/updateOverallRating";
 export async function GET(req: NextRequest) {
   try {
-    // Parse the URL and extract productId
     const url = new URL(req.url);
     const pathSegments = url.pathname.split('/');
     const productId = pathSegments.pop();
@@ -13,7 +14,6 @@ export async function GET(req: NextRequest) {
         { status: 400 }
       );
     }
-    // Validate and convert to ObjectId
     if (!mongoose.Types.ObjectId.isValid(productId)) {
       return NextResponse.json(
         { message: "Invalid product ID format", success: false },
@@ -21,7 +21,6 @@ export async function GET(req: NextRequest) {
       );
     }
     const productObjectId = new mongoose.Types.ObjectId(productId);
-    // Query the database
     const remarks = await remarksModel.find({ productId: productObjectId });
     return NextResponse.json({
       message: "Remarks found successfully",
@@ -36,6 +35,60 @@ export async function GET(req: NextRequest) {
         success: false,
         error: error.message,
       },
+      { status: 500 }
+    );
+  }
+}
+export async function POST(req: NextRequest) {
+  try {
+    const { action, productId, userEmail, reviewDescription } = await req.json();
+    if (!action || !productId || !userEmail) {
+      return NextResponse.json(
+        { message: "Required fields missing", success: false },
+        { status: 400 }
+      );
+    }
+    const remark = await remarksModel.findOne({
+      'productId': productId,
+      'reviewedBy.email': userEmail
+    });
+    if (!remark) {
+      return NextResponse.json(
+        { message: "Remark not found", success: false },
+        { status: 404 }
+      );
+    }
+    switch (action) {
+      case 'delete':
+        await remark.deleteOne();
+        await updateRating(productId);
+        return NextResponse.json(
+          { message: "Deleted successfully", success: true },
+          { status: 200 }
+        );
+      case 'edit':
+        if (!reviewDescription) {
+          return NextResponse.json(
+            { message: "Updated content required", success: false },
+            { status: 400 }
+          );
+        }
+        remark.reviewDescription = reviewDescription;
+        await remark.save();
+        await updateRating(productId);
+        return NextResponse.json(
+          { message: "Updated successfully", success: true, data: remark },
+          { status: 200 }
+        );
+      default:
+        return NextResponse.json(
+          { message: "Invalid action", success: false },
+          { status: 400 }
+        );
+    }
+  } catch (error) {
+    return NextResponse.json(
+      { message: "Internal server error", success: false },
       { status: 500 }
     );
   }

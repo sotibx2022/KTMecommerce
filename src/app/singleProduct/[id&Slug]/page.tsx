@@ -59,9 +59,7 @@ const ProductPage = () => {
         {showReviews && (
               <RemarksDisplay productId={productId} />
         )}
-        {visibleComponent ==='addReview' && <AddSingleProductReviews readOnly={userDetails === null}  productDetails={{
-                _id: productDetails._id,
-              }} />}
+        {visibleComponent ==='addReview' && <AddSingleProductReviews readOnly={userDetails === null}  productId={productDetails._id}/>}
       </div>
     </>
   );

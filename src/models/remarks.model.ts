@@ -24,16 +24,5 @@ import { productModel } from "./products.model";
   timestamps: true,
   versionKey:false,
 });
-RemarkSchema.post('save',async function(docs){
-  try {
-    const product = await productModel.findById({_id:docs.productId});
-    if(product){
-      product.updateOverallRating()
-    }
-  } catch (error) {
-    console.error('Error updating product rating:', error);
-    throw new Error(error);
-  }
-})
 export const remarksModel: Model<IAddReviewDatas> = 
   mongoose.models.Remark || mongoose.model("Remark", RemarkSchema);

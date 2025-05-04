@@ -1,7 +1,7 @@
 import axios, { AxiosError } from "axios";
 import { APIResponseError, APIResponseSuccess } from "./users";
 import { ApiError } from "next/dist/server/api-utils";
-import { IAddReviewDatas, IDisplayReviewDatas } from "@/app/types/remarks";
+import { GetRemarkParams, IAddReviewDatas, IDisplayReviewDatas, UpdateRemarkParams } from "@/app/types/remarks";
 export const postSingleProductReview =async(data:IAddReviewDatas):Promise<APIResponseSuccess|APIResponseError>=>{
 try {
 const response = await axios.post('/api/remarks/addRemarks',data,{
@@ -26,5 +26,19 @@ export const getSpecificRemarks = async (
       return response.data.data;
     } catch (error) {
      throw new Error('Something wrong to get the data.')
+    }
+  };
+  export const deleteSpecificReview = async (datasToDelete: { productId: string, userEmail: string }): Promise<APIResponseSuccess | APIResponseError> => {
+    try {
+      const response = await axios.post(
+        `/api/remarks/${datasToDelete.productId}`,
+        { action: 'delete', ...datasToDelete },
+        {
+          headers: { 'Content-Type': 'application/json' }
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw new Error("Something went wrong while deleting the specific remark");
     }
   };
