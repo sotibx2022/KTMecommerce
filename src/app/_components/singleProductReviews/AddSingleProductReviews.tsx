@@ -64,72 +64,100 @@ setValue('rating',ratingInString)
     mutation.mutate(data)
   }
   return (
-    <div className="absolute top-0 left-0 w-screen min-h-screen flex flex-col justify-center items-center z-10"
-    style={{ background: "var(--gradientwithOpacity)" }}>
-      <div className='bg-background max-w-[400px] p-6 rounded-lg shadow-lg relative'>
-        <FontAwesomeIcon
-                      icon={faTimes}
-                      className="text-background bg-helper w-[30px] h-[30px] absolute top-0 right-0 cursor-pointer"
-        onClick={()=>setVisibleComponent('')}
-                    />
-    <form className='w-full flex flex-col gap-2' onSubmit={handleSubmit(onSubmit)}>
-      <h1 className='text-lg font-semibold text-primaryDark'>Add Review</h1>
-      {readOnly && <SubmitError message='Please Login to Add Reviews'/>}
-      <div className="reviewedBy flex justify-between gap-4 items-center">
-        {readOnly ? (
-          <div className='w-[100px] h-[100px]'>
-            <img src='../assets/dummyProfile.jpeg'/>
+    <div className="absolute top-0 left-0 w-screen min-h-screen flex flex-col justify-center items-center z-10 bg-[rgba(0,0,0,0.7)]">
+  <div className='bg-background max-w-[450px] p-6 rounded-lg shadow-lg relative'>
+    <FontAwesomeIcon
+      icon={faTimes}
+      className="text-background bg-helper w-[30px] h-[30px] absolute -top-3 -right-3 cursor-pointer rounded-full p-1"
+      onClick={() => setVisibleComponent('')}
+    />
+    <form className='w-full flex flex-col gap-4' onSubmit={handleSubmit(onSubmit)}>
+      <h1 className='text-xl font-bold text-primaryDark mb-2'>Add Your Review</h1>
+      {readOnly && <SubmitError message='Please Login to Add Reviews' />}
+      {/* User Profile Section - Display Only */}
+      <div className="bg-primaryLight text-white p-4 rounded-lg">
+        <div className="flex items-center gap-4 mb-4">
+          {readOnly ? (
+            <img
+              src='../assets/dummyProfile.jpeg'
+              alt="Guest Profile"
+              className="w-16 h-16 rounded-full object-cover"
+            />
+          ) : userDetails?.profileImage ? (
+            <img
+              src={userDetails.profileImage}
+              alt="User Profile"
+              className="w-16 h-16 rounded-full object-cover"
+            />
+          ) : (
+            <div className="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center text-xl font-bold">
+              {userDetails?.fullName?.[0]?.toUpperCase()}
+            </div>
+          )}
+          <div>
+            <input 
+              type="text" 
+              className="font-medium text-white bg-transparent border-none pointer-events-none" 
+              value={readOnly ? 'Guest User' : userDetails?.fullName || ''}
+              readOnly
+            />
+            <input 
+              type="text" 
+              className="text-sm text-white bg-transparent border-none pointer-events-none w-full" 
+              value={readOnly ? 'guest@example.com' : userDetails?.email || ''}
+              readOnly
+            />
           </div>
-        ) : userDetails?.profileImage ? (
-          <img
-            src={userDetails.profileImage}
-            alt="User Profile"
-            className="w-[100px] h-[100px]"
-          />
-        ) : (
-          <h1 className="text-primaryDark uppercase bg-background w-[100px] h-[100px] flex items-center justify-center text-xl">
-            {userDetails?.fullName?.[0]?.toUpperCase()}
-          </h1>
-        )}
-        <div className="reviewdByInputs">
-          <input 
-            type='text' 
-            placeholder='FullName' 
-            className='formItem mb-2' 
-            readOnly
-            {...register('reviewedBy.fullName')}
-          />
-          <input 
-            type='text' 
-            placeholder='email' 
-            className='formItem' 
-            readOnly
-            {...register('reviewedBy.email')}
-          />
         </div>
       </div>
-      <textarea 
-        placeholder="Product Review.....Maximum 100 words" 
-        className="formItem" 
-        readOnly={readOnly}
-        maxLength={100}
-        {...register('reviewDescription',{required:{value:true,message:"Please Enter Product Review"},
-        minLength:{value:10,message:"Minimum 10 Characters are required."},
-      maxLength:{value:100,message:"No More than 100 characters"}})}
-      />
-      {errors.reviewDescription?.message && <SubmitError message={errors.reviewDescription.message}/>}
-      {readOnly ? (
-        <DisplaySingleProductRating rating={0}/>
-      ) : (
-        <AddSingleProductRating getProductRating={receiveProductRating}/>
-      )}
-      {!readOnly && rating === 0 && reviewSubmitted && <SubmitError message='Please Rate the Product.'/>}
-      <div className="multipleButtons flex gap-4">
-        {mutation.isPending ? <LoadingButton/>:<PrimaryButton 
-          searchText='Add' 
-          onClick={addReviews} 
-          disabled={readOnly}
-        />}
+      {/* Editable Review Section */}
+      <div className="space-y-4">
+        <div>
+          <label htmlFor="reviewDescription" className="block text-lg font-bold text-primaryDark mb-1">
+            Your Review
+          </label>
+          <textarea
+            id="reviewDescription"
+            placeholder="Share your thoughts about this product (10-100 characters)..."
+            className="formItem w-full min-h-[120px]"
+            readOnly={readOnly}
+            {...register('reviewDescription', {
+              required: { value: true, message: "Please enter your review" },
+              minLength: { value: 10, message: "Minimum 10 characters required" },
+              maxLength: { value: 100, message: "Maximum 100 characters allowed" }
+            })}
+          />
+          {errors.reviewDescription?.message && (
+            <SubmitError message={errors.reviewDescription.message} />
+          )}
+        </div>
+        <div>
+          <h3 className="text-lg font-bold text-primaryDark mb-2">
+            {readOnly ? 'Product Rating' : 'Your Rating'}
+          </h3>
+          {readOnly ? (
+            <DisplaySingleProductRating rating={0} />
+          ) : (
+            <>
+              <AddSingleProductRating getProductRating={receiveProductRating} />
+              {rating === 0 && reviewSubmitted && (
+                <SubmitError message='Please Rate the Product.' />
+              )}
+            </>
+          )}
+        </div>
+      </div>
+      {/* Submit Buttons */}
+      <div className="mt-4 flex gap-4">
+        {mutation.isPending ? (
+          <LoadingButton />
+        ) : (
+          <PrimaryButton 
+            searchText='Add Review' 
+            onClick={addReviews} 
+            disabled={readOnly}
+          />
+        )}
         <PrimaryButton 
           searchText='Login' 
           onClick={addReviews} 
@@ -137,8 +165,8 @@ setValue('rating',ratingInString)
         />
       </div>
     </form>
-    </div>
-    </div>
+  </div>
+</div>
   );
 };
 export default AddSingleProductReviews;

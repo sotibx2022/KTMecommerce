@@ -1,7 +1,7 @@
 import axios, { AxiosError } from "axios";
 import { APIResponseError, APIResponseSuccess } from "./users";
 import { ApiError } from "next/dist/server/api-utils";
-import { GetRemarkParams, IAddReviewDatas, IDisplayReviewDatas, UpdateRemarkParams } from "@/app/types/remarks";
+import { IAddReviewDatas, IDisplayReviewDatas, IUpdateRemarkAPIData } from "@/app/types/remarks";
 export const postSingleProductReview =async(data:IAddReviewDatas):Promise<APIResponseSuccess|APIResponseError>=>{
 try {
 const response = await axios.post('/api/remarks/addRemarks',data,{
@@ -42,3 +42,39 @@ export const getSpecificRemarks = async (
       throw new Error("Something went wrong while deleting the specific remark");
     }
   };
+  export const updateSingleProductReview = async (
+    data: IUpdateRemarkAPIData  // Accept single object instead of separate params
+  ): Promise<APIResponseSuccess | APIResponseError> => {
+    try {
+      const response = await axios.post('/api/remarks/updateRemarks', data, {
+        headers: { 'Content-Type': 'application/json' }
+      });
+      return response.data;
+    } catch (error) {
+      return {
+        message: "There is something wrong.",
+        status: 500,
+        success: false
+      };
+    }
+  };
+export const getSingleProductReview = async (
+  userEmail: string,
+  productId: string
+): Promise<APIResponseSuccess<IDisplayReviewDatas> | APIResponseError> => {
+  try {
+    const response = await axios.get('/api/remarks/specificRemark', {
+      headers: {
+        'userEmail': userEmail, 
+        'productId': productId   
+      }
+    });
+    return response.data;
+  } catch (error: any) {
+      return {
+        success: false,
+        message: error.response?.data?.message || error.request.data.message || "Unknown Error Occured.",
+        status:400
+      };
+  }
+};

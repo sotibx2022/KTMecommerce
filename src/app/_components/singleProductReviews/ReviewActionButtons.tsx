@@ -9,6 +9,7 @@ import { deleteSpecificReview } from '@/app/services/queryFunctions/remarks';
 import toast from 'react-hot-toast';
 import LoadingComponent from '../loadingComponent/LoadingContainer';
 import AddSingleProductReviews from './AddSingleProductReviews';
+import EditSingleProductReview from './EditSingleProductReview';
 interface IReviewActionButtonsProps{
     productId:string;
 }
@@ -59,6 +60,7 @@ const ReviewActionButtons:React.FC<IReviewActionButtonsProps> = ({productId}) =>
       </svg>
     </button>
     {visibleComponent ==='dilaugeBox' && <DeleteConfirmation message='Are you Sure to Delete the Review' returnConfirmValue={getConfirmValue} loading={mutation.isPending}/>}
+    {visibleComponent ==='editReview' && <EditSingleProductReview productId={productId}/>}
   </div>
   )
 }

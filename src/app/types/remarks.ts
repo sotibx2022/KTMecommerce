@@ -1,12 +1,15 @@
 export interface IAddReviewsProps {
   readOnly: boolean;
   productId:string;
-  edit?:boolean;
+}
+export interface IUpdateReviewsProps{
+  productId:string
 }
 export interface IAddReviewDatas {
   reviewedBy:{
     fullName:string;
     email:string;
+    userEmail?:string;
   }
   reviewDescription:string;
   productId: string;
@@ -16,4 +19,10 @@ export interface IAddReviewDatas {
 export interface IDisplayReviewDatas extends IAddReviewDatas{
   createdAt?:Date;
   updatedAt:Date;
+}
+export interface IUpdateRemarkAPIData{
+  rating:string,
+  productId:string,
+  userEmail:string,
+  reviewDescription:string,
 }
