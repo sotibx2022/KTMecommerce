@@ -1,6 +1,6 @@
 import { remarksModel } from "@/models/remarks.model";
 import { NextRequest, NextResponse } from "next/server";
-export async function GET(req: NextRequest, res: NextResponse) {
+export async function GET(req: NextRequest) {
     try {
         const userEmail = req.headers.get('userEmail');
         if (!userEmail) {
