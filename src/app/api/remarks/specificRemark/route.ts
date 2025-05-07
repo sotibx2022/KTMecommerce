@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
     const productObjectId = new Object(productId);
     // Query the database
     const remark = await remarksModel.findOne({ 
-      productId: productObjectId, 
+      'productIdentifier.productId': productObjectId, 
       'reviewedBy.email': userEmail 
     });
     if (!remark) {

@@ -25,7 +25,7 @@ const ProductSchema = new mongoose.Schema<IProductModel>({
   });
   ProductSchema.methods.updateOverallRating = async function() {
     try {
-      const remarks = await remarksModel.find({ productId: this._id });
+      const remarks = await remarksModel.find({ 'productIdentifier.productId': this._id });
       if (remarks.length > 0) {
         const averageRating = remarks.reduce((sum: number, remark) => {
           const ratingValue = parseFloat(remark.rating);

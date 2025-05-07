@@ -1,9 +1,11 @@
-export interface IAddReviewsProps {
-  readOnly: boolean;
+export interface IProductIdentifier{
   productId:string;
+  productName:string;
+  productImage:string;
 }
-export interface IUpdateReviewsProps{
-  productId:string
+export interface IAddReviewsProps {
+  productIdentifier:IProductIdentifier,
+  readOnly: boolean;  
 }
 export interface IAddReviewDatas {
   reviewedBy:{
@@ -12,17 +14,17 @@ export interface IAddReviewDatas {
     userEmail?:string;
   }
   reviewDescription:string;
-  productId: string;
+  productIdentifier:IProductIdentifier,
   rating:string;
   reviewerImage?:string;
 }
 export interface IDisplayReviewDatas extends IAddReviewDatas{
-  createdAt?:Date;
-  updatedAt:Date;
+  createdAt:Date;
+  updatedAt?:Date;
 }
 export interface IUpdateRemarkAPIData{
   rating:string,
-  productId:string,
   userEmail:string,
   reviewDescription:string,
+  productIdentifier:IProductIdentifier,
 }

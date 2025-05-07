@@ -8,11 +8,13 @@ export async function POST(req: NextRequest) {
     const { 
       reviewedBy,
       reviewDescription,
-      productId,
+      productIdentifier,
       rating,
       reviewerImage 
     } = requestBody;
+    const {productId, productName, productImage} = productIdentifier;
     const userEmail = reviewedBy?.email;
+    // Validation checks
     if (!reviewedBy || !reviewDescription || !productId || !rating) {
       return NextResponse.json(
         { message: "Missing required fields", success: false },
@@ -41,12 +43,16 @@ export async function POST(req: NextRequest) {
     const remark = new remarksModel({
       reviewedBy,
       reviewDescription,
-      productId: productObjectId,
+      productIdentifier: {
+        productId: productObjectId,
+        productName,
+        productImage,
+      },
       rating,
       reviewerImage,
     });
     await remark.save();
-    await updateRating(productId);
+    await updateRating(productIdentifier.productId);
     return NextResponse.json(
       { 
         message: "Review submitted successfully", 

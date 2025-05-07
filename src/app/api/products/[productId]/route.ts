@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
       message: "Single product found successfully",
       status: 200,
       success: true,
-      singleProduct,
+      data:singleProduct,
     });
   } catch (error) {
     // Handle errors

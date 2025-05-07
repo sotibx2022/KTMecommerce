@@ -5,18 +5,23 @@ import { DisplayContext } from '@/app/context/DisplayComponents';
 import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
 import { useForm } from 'react-hook-form';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { IAddReviewDatas, IDisplayReviewDatas, IUpdateRemarkAPIData, IUpdateReviewsProps } from '@/app/types/remarks';
+import { IAddReviewDatas, IDisplayReviewDatas, IProductIdentifier, IUpdateRemarkAPIData} from '@/app/types/remarks';
 import { APIResponseError, APIResponseSuccess } from '@/app/services/queryFunctions/users';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { format } from 'date-fns';
 import { AbsoluteComponent } from '../absoluteComponent/AbsoluteComponent';
-import { getSingleProductReview, updateSingleProductReview } from '@/app/services/queryFunctions/remarks';
+import {getSpecificRemarksofUser, getSpecificReviewofProductbyUser, updateSingleProductReview } from '@/app/services/queryFunctions/remarks';
 import toast from 'react-hot-toast';
 import LoadingButton from '../primaryButton/LoadingButton';
+import SkletonText from '../skeletontext/SkletonText';
 const AddSingleProductRating = dynamic(() => import('./AddSingleProductRating'), { ssr: false });
 const DisplaySingleProductRating = dynamic(() => import('./DisplaySingleProductRating'), { ssr: false });
-const EditSingleProductReview: React.FC<IUpdateReviewsProps> = ({ productId }) => {
+interface EditSingleProductReviewProps{
+  productIdentifier:IProductIdentifier
+}
+const EditSingleProductReview: React.FC<EditSingleProductReviewProps> = ({productIdentifier}) => {
+  const {productId,productName,productImage} = productIdentifier;
   const { setVisibleComponent } = useContext(DisplayContext);
   const updateMutation = useMutation<APIResponseSuccess|APIResponseError, Error, IUpdateRemarkAPIData>({
     mutationFn:updateSingleProductReview,
@@ -48,7 +53,7 @@ const EditSingleProductReview: React.FC<IUpdateReviewsProps> = ({ productId }) =
     APIResponseSuccess<IDisplayReviewDatas> | APIResponseError
   >({
     queryKey: ['specificRemark', userEmail, productId],
-    queryFn: () => getSingleProductReview(userEmail!, productId),
+    queryFn: () => getSpecificReviewofProductbyUser(userEmail!, productId),
     enabled: !!userEmail && !!productId
   });
   useEffect(() => {
@@ -59,10 +64,10 @@ const EditSingleProductReview: React.FC<IUpdateReviewsProps> = ({ productId }) =
       return;
     }
     if (remarks && remarks.success && remarks.data) {
-      setValue('reviewedBy.fullName', remarks.data.reviewedBy.fullName);
-      setValue('reviewedBy.email', remarks.data.reviewedBy.email);
-      setValue('productId', remarks.data.productId);
-      setValue('reviewDescription', remarks.data.reviewDescription);
+      setValue('reviewedBy.fullName', isPending ? 'Loading ...' :remarks.data.reviewedBy.fullName);
+      setValue('reviewedBy.email', isPending ? 'Loading ...' :remarks.data.reviewedBy.email);
+      setValue('productIdentifier.productId', isPending ? 'Loading ...' :remarks.data.productIdentifier.productId);
+      setValue('reviewDescription', isPending ? 'Loading ...' :remarks.data.reviewDescription);
       setValue('rating', remarks.data.rating);
       if (userDetails?.profileImage) {
         setValue('reviewerImage', userDetails.profileImage);
@@ -76,13 +81,14 @@ const EditSingleProductReview: React.FC<IUpdateReviewsProps> = ({ productId }) =
   const onSubmit = (formData: IAddReviewDatas) => {
     setReviewSubmitted(true);
     updateMutation.mutate({rating:formData.rating,
-        productId,
+        productIdentifier:{
+          productId:formData.productIdentifier.productId,
+          productName:formData.productIdentifier.productName,
+          productImage:formData.productIdentifier.productImage
+        },
         userEmail:formData.reviewedBy.email,
         reviewDescription:formData.reviewDescription,})
   };
-  if (isPending) {
-    return <div>Loading...</div>;
-  }
   return (
     <AbsoluteComponent>
       <form className='w-full flex flex-col gap-4' onSubmit={handleSubmit(onSubmit)}>
@@ -119,11 +125,15 @@ const EditSingleProductReview: React.FC<IUpdateReviewsProps> = ({ productId }) =
                   Reviewed on: {format(new Date(remarks.data.createdAt), 'MMM dd, yyyy')}
                 </p>
               )}
-              <div className="flex">
-                {remarks?.success && remarks.data?.rating && (
-                  <DisplaySingleProductRating rating={parseInt(remarks.data?.rating)} />
-                )}
-              </div>
+<div className="flex">
+  {isPending ? (
+    <SkletonText/>
+  ) : (
+    remarks?.success && remarks.data?.rating && (
+      <DisplaySingleProductRating rating={parseInt(remarks.data.rating)} />
+    )
+  )}
+</div>
             </div>
           </div>
         </div>

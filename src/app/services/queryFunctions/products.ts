@@ -1,12 +1,14 @@
 import { config } from "@/config/configuration";
 import axios from "axios";
+import { APIResponseError, APIResponseSuccess } from "./users";
+import { IProductDisplay } from "@/app/types/products";
 export const getAllProducts = async () => {
   const response = await axios.get(`${config.websiteUrl}/api/products`);
   return response.data.products;
 };
-export const getSingleProduct = async (productId: string) => {
+export const getSingleProduct = async (productId: string):Promise<APIResponseSuccess<IProductDisplay>|APIResponseError> => {
   const response = await axios.get(`/api/products/${productId}`);
-  return response.data.singleProduct;
+  return response.data;
 };
 export interface SearchParams {
   keyword?: string | undefined;

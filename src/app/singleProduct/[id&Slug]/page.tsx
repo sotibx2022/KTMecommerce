@@ -13,6 +13,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import PrimaryButton from '@/app/_components/primaryButton/PrimaryButton';
 import SecondaryButton from '@/app/_components/secondaryButton/SecondaryButton';
 import { DisplayContext } from '@/app/context/DisplayComponents';
+import EditSingleProductReview from '@/app/_components/singleProductReviews/EditSingleProductReview';
 const ProductPage = () => {
   const[productId, setProductId] = useState("")
   const context = useContext(UserDetailsContext);
@@ -37,6 +38,12 @@ const ProductPage = () => {
       getSingleProduct(productId),
     enabled: !!productId
   });
+  const productDatas = productDetails?.success ? productDetails?.data! : null;
+  const productIdentifier={
+    productId:productDatas?._id|| "",
+    productName:productDatas?.productName || "",
+    productImage:productDatas?.image || ""
+  }
   if (isPending) {
     return <LoadingComponent />;
   }
@@ -45,7 +52,7 @@ const ProductPage = () => {
   }
   return (
     <>
-      <SingleProduct {...productDetails} />
+      {productDatas && <SingleProduct {...productDatas} />}
       <div className="reviewsContainer container">
         <div className="reviewsHeading flex gap-4 mb-2 items-center">
         <h2 className="text-xl font-semibold text-primaryDark">Reviews</h2>
@@ -59,7 +66,9 @@ const ProductPage = () => {
         {showReviews && (
               <RemarksDisplay productId={productId} />
         )}
-        {visibleComponent ==='addReview' && <AddSingleProductReviews readOnly={userDetails === null}  productId={productDetails._id}/>}
+        {visibleComponent ==='addReview' && <AddSingleProductReviews readOnly={userDetails === null}
+          productIdentifier={productIdentifier}/>}
+          {visibleComponent ==='editReview' && <EditSingleProductReview productIdentifier={productIdentifier} />}
       </div>
     </>
   );

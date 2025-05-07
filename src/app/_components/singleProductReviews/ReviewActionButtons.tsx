@@ -4,16 +4,18 @@ import React, { useContext, useEffect, useState } from 'react'
 import DeleteConfirmation from '../deleteConfirmation/DeleteConfirmation'
 import axios from 'axios';
 import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { deleteSpecificReview } from '@/app/services/queryFunctions/remarks';
 import toast from 'react-hot-toast';
 import LoadingComponent from '../loadingComponent/LoadingContainer';
 import AddSingleProductReviews from './AddSingleProductReviews';
 import EditSingleProductReview from './EditSingleProductReview';
-interface IReviewActionButtonsProps{
-    productId:string;
+import { IProductIdentifier } from '@/app/types/remarks';
+interface ReviewActionButtonsProps{
+  productIdentifier:IProductIdentifier
 }
-const ReviewActionButtons:React.FC<IReviewActionButtonsProps> = ({productId}) => {
+const ReviewActionButtons:React.FC<ReviewActionButtonsProps> = ({productIdentifier}) => {
+  const {productId,productName,productImage} = productIdentifier;
   const[deleteConfirmation,setDeleteConfirmation] = useState(false)
     const {visibleComponent,setVisibleComponent} =useContext(DisplayContext);
     const getConfirmValue =(value:boolean)=>{
@@ -60,7 +62,7 @@ const ReviewActionButtons:React.FC<IReviewActionButtonsProps> = ({productId}) =>
       </svg>
     </button>
     {visibleComponent ==='dilaugeBox' && <DeleteConfirmation message='Are you Sure to Delete the Review' returnConfirmValue={getConfirmValue} loading={mutation.isPending}/>}
-    {visibleComponent ==='editReview' && <EditSingleProductReview productId={productId}/>}
+    {visibleComponent ==='editReview' && <EditSingleProductReview productIdentifier={productIdentifier}/>}
   </div>
   )
 }

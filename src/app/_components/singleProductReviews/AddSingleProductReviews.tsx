@@ -17,7 +17,8 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'next/navigation';
 const AddSingleProductRating = dynamic(() => import('./AddSingleProductRating'), { ssr: false });
 const DisplaySingleProductRating = dynamic(() => import('./DisplaySingleProductRating'), { ssr: false });
-const AddSingleProductReviews: React.FC<IAddReviewsProps> = ({ readOnly, productId }) => {
+const AddSingleProductReviews: React.FC<IAddReviewsProps> = ({ readOnly, productIdentifier }) => {
+  const {productId, productName, productImage} = productIdentifier;
   const { visibleComponent,setVisibleComponent } = useContext(DisplayContext);
   const router = useRouter()
   const mutation = useMutation<APIResponseSuccess| APIResponseError , Error , IAddReviewDatas>({
@@ -39,10 +40,12 @@ router.refresh();
   const { userDetails } = context;
   const { register, formState: { errors },handleSubmit,setValue } = useForm<IAddReviewDatas>({ mode: 'onBlur' });
   const addReviews = () => {
-    setValue('productId',productId)
+    setValue('productIdentifier.productId',productIdentifier.productId);
+    setValue('productIdentifier.productImage',productIdentifier.productImage);
+    setValue('productIdentifier.productName',productIdentifier.productName);
     if (readOnly) {
       setVisibleComponent('login');
-    }
+    } 
   };
 if(userDetails){
   setValue('reviewedBy.fullName',userDetails!.fullName);

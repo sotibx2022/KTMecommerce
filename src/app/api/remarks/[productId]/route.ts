@@ -21,7 +21,7 @@ export async function GET(req: NextRequest) {
       );
     }
     const productObjectId = new mongoose.Types.ObjectId(productId);
-    const remarks = await remarksModel.find({ productId: productObjectId });
+    const remarks = await remarksModel.find({ 'productIdentifier.productId': productObjectId });
     return NextResponse.json({
       message: "Remarks found successfully",
       success: true,
@@ -48,8 +48,9 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
+    const productObjectId = new Object(productId)
     const remark = await remarksModel.findOne({
-      'productId': productId,
+      'productIdentifier.productId': productObjectId,
       'reviewedBy.email': userEmail
     });
     if (!remark) {

@@ -1,11 +1,13 @@
 import { remarksModel } from "@/models/remarks.model";
 import { NextRequest, NextResponse } from "next/server";
-import { IUpdateRemarkAPIData } from "@/app/types/remarks"; // Assuming you have this interface
+import { IUpdateRemarkAPIData } from "@/app/types/remarks";
+import updateRating from "@/app/services/apiFunctions/updateOverallRating";
 export async function POST(req: NextRequest) {
   try {
     // 1. Parse and validate incoming data
     const data = await req.json();
-    const { userEmail, productId, reviewDescription, rating } = data as IUpdateRemarkAPIData;
+    const { userEmail, productIdentifier, reviewDescription, rating } = data as IUpdateRemarkAPIData;
+    const { productId } = productIdentifier;
     // 2. Validate required fields
     if (!userEmail || !productId) {
       return NextResponse.json(
@@ -24,7 +26,7 @@ export async function POST(req: NextRequest) {
     // 4. Find the existing review
     const review = await remarksModel.findOne({ 
       'reviewedBy.email': userEmail, 
-      productId: productObjectId 
+      "productIdentifier.productId": productObjectId 
     });
     if (!review) {
       return NextResponse.json(
@@ -32,14 +34,15 @@ export async function POST(req: NextRequest) {
         { status: 404 }
       );
     }
-    if(reviewDescription === review.reviewDescription && rating === review.rating){
-        return NextResponse.json({message:"Nothing to Udpate", status:400,success:false})
+    if (reviewDescription === review.reviewDescription && rating === review.rating) {
+      return NextResponse.json({ message: "Nothing to Update", status: 400, success: false });
     }
     // 5. Update the review fields
     if (reviewDescription) review.reviewDescription = reviewDescription;
     if (rating) review.rating = rating;
     // 6. Save the updated review
     await review.save();
+    await updateRating(productId);
     // 7. Return success response
     return NextResponse.json(
       { 
@@ -50,7 +53,6 @@ export async function POST(req: NextRequest) {
       { status: 200 }
     );
   } catch (error) {
-    console.error("Error updating review:", error);
     return NextResponse.json(
       { 
         message: "Internal server error while updating review", 

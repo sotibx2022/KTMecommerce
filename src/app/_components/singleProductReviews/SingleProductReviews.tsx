@@ -5,7 +5,8 @@ import { DateFormator, shortName } from '@/app/services/helperFunctions/function
 import { IAddReviewDatas, IDisplayReviewDatas } from '@/app/types/remarks'
 import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent'
 import ReviewActionButtons from './ReviewActionButtons'
-const SingleProductReviews:React.FC<IDisplayReviewDatas> = ({reviewedBy,reviewerImage,rating,reviewDescription,createdAt,updatedAt,productId}) => {
+const SingleProductReviews:React.FC<IDisplayReviewDatas> = ({reviewedBy,reviewerImage,rating,reviewDescription,createdAt,updatedAt,productIdentifier}) => {
+  const {productId} = productIdentifier;
  const user = useContext(UserDetailsContext);
   return (
     <div className="remarks-container shadow-primaryLight p-2 w-[300px]">
@@ -19,7 +20,7 @@ const SingleProductReviews:React.FC<IDisplayReviewDatas> = ({reviewedBy,reviewer
         <div>
           <h3 className="reviewer-name text-lg font-semibold text-primaryDark">{reviewedBy.fullName}</h3>
           <p className="review-date text-sm text-primaryLight">Reviewed on: {DateFormator(createdAt)}</p>
-          <p className="review-date text-sm text-primaryLight">Updated on: {DateFormator(updatedAt)}</p>
+          {updatedAt && createdAt !== updatedAt && <p className="review-date text-sm text-primaryLight">Updated on: {DateFormator(updatedAt)}</p>}
         </div>
       </div>
       <div className="review-content">
@@ -30,7 +31,7 @@ const SingleProductReviews:React.FC<IDisplayReviewDatas> = ({reviewedBy,reviewer
       </div>
     </div>
     {user?.userDetails?.email === reviewedBy.email && (
-  <ReviewActionButtons productId={productId}/>
+  <ReviewActionButtons productIdentifier={productIdentifier}/>
 )}
   </div>
   )
