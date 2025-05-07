@@ -105,7 +105,7 @@ const Page = () => {
       ) : (
         <div className="text-center py-12">
           <h3 className="text-xl text-helper">No reviews found</h3>
-          <p className="text-helper/70 mt-2">You haven't received any reviews yet.</p>
+          <p className="text-red-500 mt-2">You haven't received any reviews yet.</p>
         </div>
       )}
     </div>

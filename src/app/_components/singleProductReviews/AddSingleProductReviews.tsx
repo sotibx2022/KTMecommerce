@@ -6,7 +6,7 @@ import SubmitError from '../submit/SubmitError';
 import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { error } from 'console';
 import { IAddReviewDatas,IAddReviewsProps } from '@/app/types/remarks';
 import { APIResponseError, APIResponseSuccess } from '@/app/services/queryFunctions/users';
@@ -18,14 +18,19 @@ import { useRouter } from 'next/navigation';
 const AddSingleProductRating = dynamic(() => import('./AddSingleProductRating'), { ssr: false });
 const DisplaySingleProductRating = dynamic(() => import('./DisplaySingleProductRating'), { ssr: false });
 const AddSingleProductReviews: React.FC<IAddReviewsProps> = ({ readOnly, productIdentifier }) => {
+  const queryClient = useQueryClient()
   const {productId, productName, productImage} = productIdentifier;
   const { visibleComponent,setVisibleComponent } = useContext(DisplayContext);
   const router = useRouter()
   const mutation = useMutation<APIResponseSuccess| APIResponseError , Error , IAddReviewDatas>({
     mutationFn:postSingleProductReview,
-    onSuccess:(response)=>{
+    onSuccess:async(response)=>{
 toast.success(response.message)
 setVisibleComponent('');
+await Promise.all([
+  queryClient.invalidateQueries({ queryKey: ['specificRemarks', productId] }),
+  queryClient.invalidateQueries({ queryKey: ['specificProduct', productId] })
+]);
 router.refresh();
     },onError:(error)=>{
       toast.error(error.message)

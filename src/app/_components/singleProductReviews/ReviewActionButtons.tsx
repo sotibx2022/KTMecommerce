@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import DeleteConfirmation from '../deleteConfirmation/DeleteConfirmation'
 import axios from 'axios';
 import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueries, useQueryClient } from '@tanstack/react-query';
 import { deleteSpecificReview } from '@/app/services/queryFunctions/remarks';
 import toast from 'react-hot-toast';
 import LoadingComponent from '../loadingComponent/LoadingContainer';
@@ -15,20 +15,27 @@ interface ReviewActionButtonsProps{
   productIdentifier:IProductIdentifier
 }
 const ReviewActionButtons:React.FC<ReviewActionButtonsProps> = ({productIdentifier}) => {
+  const queryClient = useQueryClient()
   const {productId,productName,productImage} = productIdentifier;
   const[deleteConfirmation,setDeleteConfirmation] = useState(false)
     const {visibleComponent,setVisibleComponent} =useContext(DisplayContext);
     const getConfirmValue =(value:boolean)=>{
       setDeleteConfirmation(value);
     }
-    const mutation = useMutation({mutationFn:deleteSpecificReview,onSuccess:(response)=>{
+    const user = useContext(UserDetailsContext);
+    const userEmail = user!.userDetails!.email
+    const mutation = useMutation({mutationFn:deleteSpecificReview,onSuccess:async(response)=>{
       toast.success(response.message);
       setVisibleComponent('')
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ['specificUserRemarks', userEmail] }),
+        queryClient.invalidateQueries({ queryKey: ['specificRemarks', productId] }),
+        queryClient.invalidateQueries({ queryKey: ['specificProduct', productId] })
+      ]);
+      queryClient.invalidateQueries({queryKey:["specificUserRemarks", userEmail]})
     },onError:(error)=>{
       toast.error(error.message)
     }})
-    const user = useContext(UserDetailsContext);
-    const userEmail = user!.userDetails!.email
     function handleEditReview(): void {
         setVisibleComponent('editReview');
     }

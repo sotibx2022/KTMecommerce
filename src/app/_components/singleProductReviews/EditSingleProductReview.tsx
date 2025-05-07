@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from 'react';
 import { DisplayContext } from '@/app/context/DisplayComponents';
 import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
 import { useForm } from 'react-hook-form';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { IAddReviewDatas, IDisplayReviewDatas, IProductIdentifier, IUpdateRemarkAPIData} from '@/app/types/remarks';
 import { APIResponseError, APIResponseSuccess } from '@/app/services/queryFunctions/users';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -21,21 +21,9 @@ interface EditSingleProductReviewProps{
   productIdentifier:IProductIdentifier
 }
 const EditSingleProductReview: React.FC<EditSingleProductReviewProps> = ({productIdentifier}) => {
+  const queryClient = useQueryClient();
   const {productId,productName,productImage} = productIdentifier;
   const { setVisibleComponent } = useContext(DisplayContext);
-  const updateMutation = useMutation<APIResponseSuccess|APIResponseError, Error, IUpdateRemarkAPIData>({
-    mutationFn:updateSingleProductReview,
-    onSuccess:(response)=>{
-        if(response.success){
-            toast.success(response.message)
-            setVisibleComponent('')
-        }else{
-            toast.error(response.message);
-        }
-    },onError:(error)=>{
-        toast.error(error.message)
-    }
-})
   const [reviewSubmitted, setReviewSubmitted] = useState(false);
   const context = useContext(UserDetailsContext);
   if (!context) {
@@ -43,6 +31,45 @@ const EditSingleProductReview: React.FC<EditSingleProductReviewProps> = ({produc
   }
   const { userDetails } = context;
   const userEmail = userDetails?.email;
+  const updateMutation = useMutation<APIResponseSuccess | APIResponseError, Error, IUpdateRemarkAPIData>({
+    mutationFn: updateSingleProductReview,
+    onSuccess: async (response) => {
+      toast.success(response.message);
+      setVisibleComponent('');
+      // Get current route context
+      const isSingleProductPage = window.location.pathname.includes('/singleProduct');
+      const isRemarksPage = window.location.pathname.includes('/reviews');
+      // Invalidate queries based on current page context
+      const invalidations = [];
+      if (isSingleProductPage) {
+        invalidations.push(
+          queryClient.invalidateQueries({ 
+            queryKey: ['specificRemarks', productId],
+            refetchType: 'active' // Only refetch if currently being observed
+          })
+        );
+      }
+      if (isRemarksPage) {
+        invalidations.push(
+          queryClient.invalidateQueries({ 
+            queryKey: ['specificUserRemarks', userEmail],
+            refetchType: 'active'
+          })
+        );
+      }
+      // Always invalidate product data
+      invalidations.push(
+        queryClient.invalidateQueries({
+          queryKey: ['specificProduct', productId],
+          refetchType: 'active'
+        })
+      );
+      await Promise.all(invalidations);
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    }
+  });
   const { 
     register, 
     formState: { errors },
