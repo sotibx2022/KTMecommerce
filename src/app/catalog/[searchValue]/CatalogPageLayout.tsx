@@ -17,7 +17,6 @@ interface CatalogPageLayout{
 }
 const CatalogPageLayout:React.FC<CatalogPageLayout> = ({children}) => {
     const { visibleComponent } = useContext(DisplayContext);
-    console.log(visibleComponent)
   return (
     <div>
         <Provider store={store}>
