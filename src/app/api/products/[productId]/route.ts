@@ -1,4 +1,3 @@
-import { connectToDB } from "@/config/db";
 import { productModel } from "@/models/products.model";
 import { NextRequest, NextResponse } from "next/server";
 export async function GET(request: NextRequest) {
@@ -7,7 +6,6 @@ export async function GET(request: NextRequest) {
     const url = new URL(request.url);
     const pathSegments = url.pathname.split("/");
     const productId = pathSegments.pop(); // Assuming the productId is the last segment
-    console.log(productId);
     // Validate the productId
     if (!productId) {
       return NextResponse.json({

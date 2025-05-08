@@ -1,7 +1,5 @@
-import { connectToDB } from "@/config/db";
 import { productModel } from "@/models/products.model";
 import { NextRequest, NextResponse } from "next/server";
-connectToDB();
 export async function GET(req: NextRequest) {
   const url = new URL(req.url);
   const property = url.pathname.split("/").pop();

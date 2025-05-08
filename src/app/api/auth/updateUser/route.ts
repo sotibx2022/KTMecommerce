@@ -1,5 +1,4 @@
 import { uploadImage } from "@/app/services/helperFunctions/uploadImage";
-import { connectToDB } from "@/config/db";
 import UserModel from "@/models/users.model";
 import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
@@ -52,7 +51,6 @@ export async function POST(req: NextRequest) {
         success,
       });
     }
-    await connectToDB();
     const updatedUser = await UserModel.findOneAndUpdate(
       { email },
       {

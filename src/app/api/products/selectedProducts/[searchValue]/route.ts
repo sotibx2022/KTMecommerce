@@ -1,5 +1,4 @@
 import { getProductsByKeyword } from "@/app/services/apiFunctions/apiFunctions";
-import { connectToDB } from "@/config/db";
 import { productModel } from "@/models/products.model";
 import { NextRequest, NextResponse } from "next/server";
 import categoryText2Id from "@/app/services/apiFunctions/categoryText2Id";
@@ -7,7 +6,6 @@ import subCategoryText2Id from "@/app/services/apiFunctions/subCatText2Id";
 import { IProductCreate, IProductDisplay } from "@/app/types/products";
 export async function GET(request: NextRequest) {
   try {
-    await connectToDB();
     const url = new URL(request.url);
     const searchParams = new URLSearchParams(url.search);
     const keyword = searchParams.get('keyword');
@@ -60,9 +58,10 @@ export async function GET(request: NextRequest) {
       }
       totalProductsCount = await productModel.countDocuments(filterQuery);
       products = await productModel
-        .find(filterQuery)
-        .skip((page - 1) * limit)
-        .limit(limit);
+      .find(filterQuery)
+      .select('_id brand stockAvailability image productDescription productName overallRating url_slug price')
+      .skip((page - 1) * limit)
+      .limit(limit);
       if (products.length > 0) {
         return NextResponse.json({
           message: "Products found",

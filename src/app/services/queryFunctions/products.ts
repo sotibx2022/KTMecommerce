@@ -11,14 +11,17 @@ export const getSingleProduct = async (productId: string):Promise<APIResponseSuc
   return response.data;
 };
 export interface SearchParams {
+  item?:string |undefined;
   keyword?: string | undefined;
   category?: string | undefined;
   subcategory?: string | undefined; // subcategory is optional
   minprice?: number | undefined; // minprice is optional
   maxprice?: number | undefined; // maxprice is optional
   rating?: number | undefined; // rating is optional
+  page?:number | undefined;
 }
 export const getSelectedProducts = async ({
+  item,
   keyword,
   category,
   subcategory,
@@ -29,6 +32,7 @@ export const getSelectedProducts = async ({
   try {
     // Construct the URL
     let url = `${config.websiteUrl}/api/products/selectedProducts/advanceSearch?`;
+    if (item && item.trim()!=="") url += `item=${encodeURIComponent(item)}&`;
     if (keyword && keyword.trim() !== "") url += `keyword=${encodeURIComponent(keyword)}&`;
     if (category && category.trim() !== "") url += `category=${encodeURIComponent(category)}&`;
     if (subcategory && subcategory.trim() !== "") url += `subcategory=${encodeURIComponent(subcategory)}&`;
@@ -40,7 +44,7 @@ export const getSelectedProducts = async ({
     }
     // Make the API call
     const response = await axios.get(url);
-    return response.data.products || []; // Ensure a valid return value
+    return response.data || []; // Ensure a valid return value
   } catch (error) {
     return []; // Return an empty array on error
   }
