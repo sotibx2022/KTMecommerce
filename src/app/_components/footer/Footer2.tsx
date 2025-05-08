@@ -4,11 +4,9 @@ import { getAllCategories } from '@/app/services/queryFunctions/categoreis';
 import { useQuery } from '@tanstack/react-query';
 import Link from 'next/link';
 import {Category, Subcategory} from '../../types/categories';
+import { useCategories } from '@/app/hooks/queryHooks/useCategory';
 const Footer2 = () => {
-    const { data: NavItems = [] } = useQuery({
-        queryKey: ["categories"],
-        queryFn: getAllCategories,
-      });
+    const { data: NavItems = [] } = useCategories();
       const [activeCategory, setActiveCategory] = useState<number | null>(null);
   return (
     <div className='bg-primaryDark py-4 mt-4'>

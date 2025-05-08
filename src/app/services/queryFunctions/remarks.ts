@@ -29,7 +29,7 @@ export const getSpecificRemarks = async (
   ): Promise<APIResponseSuccess<IDisplayReviewDatas[]>| APIResponseError> => {
     try {
       const response = await axios.get(`/api/remarks/${productId}`);
-      return response.data.data;
+      return response.data;
     } catch (error) {
      throw new Error('Something wrong to get the data.')
     }

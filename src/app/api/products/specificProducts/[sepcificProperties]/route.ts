@@ -15,6 +15,7 @@ export async function GET(req: NextRequest) {
   try {
     const products = await productModel
       .find({ [property]: true }, { name: 1,productName:1, image: 1, price:1 }) // Projection
+      .select('image,productName,price,_id')
       .lean() // Faster plain objects
       .limit(8);
     if (!products.length) {

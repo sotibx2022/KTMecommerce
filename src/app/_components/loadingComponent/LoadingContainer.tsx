@@ -1,6 +1,6 @@
 import React from 'react';
 import "../loadingComponent/loading.css"
-const LoadingComponent = () => {
+const LoadingContainer = () => {
   return (
     <div className="loaderWrapper bg-background flex-center z-10">
       <div className="cssload-thecube bg-background">
@@ -12,4 +12,4 @@ const LoadingComponent = () => {
     </div>
   );
 }
-export default LoadingComponent;
+export default LoadingContainer;

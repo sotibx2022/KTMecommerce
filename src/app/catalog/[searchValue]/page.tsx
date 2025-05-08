@@ -41,9 +41,9 @@ const page = () => {
   }
   return (
     <>
-    <div className='productsPageContainer container flex justify-start gap-2 my-4 bg-background'>
+    <div className='productsPageContainer container flex justify-between gap-2 my-4 bg-background'>
     {searchedProduct && searchedProduct.length > 0 ? (
-  <div className="flex flex-wrap justify-center sm:justify-between gap-4">
+  <div className="flex flex-wrap justify-between  gap-4">
     {searchedProduct.map((product: IProductDisplay, index: number) => {
       return (
         <div key={index}>

@@ -26,7 +26,7 @@ export async function GET(req: NextRequest) {
     const cartItems = await CartModel.find({ userId: objectUserId });
     // Return response
     return NextResponse.json(
-      { message: "Cart Items found", status: 200, success: true, cartItems: cartItems },
+      { message: "Cart Items found", status: 200, success: true, data: cartItems },
       { status: 200 }
     );
   } catch (error) {

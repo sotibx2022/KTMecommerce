@@ -1,10 +1,16 @@
 import { config } from "@/config/configuration";
 import axios from "axios";
-export const fetchCartFromDatabase = async () => {
+import { APIResponseError, APIResponseSuccess } from "../queryFunctions/users";
+import { ICartItem } from "@/app/types/cart";
+export const fetchCartFromDatabase = async ():Promise<APIResponseSuccess<ICartItem[]>|APIResponseError> => {
     try {
-      const response = await axios.get(`${config.websiteUrl}/api/cart/cartItems`);
+      const response = await axios.get(`/api/cart/cartItems`);
       return response.data.cartItems;
     } catch (error) {
-      console.error("Error fetching cart data:", error);
+      return {
+        message:"Axios Error to fetch cart Items",
+        success:false,
+        status:400,
+      }
     }
   };

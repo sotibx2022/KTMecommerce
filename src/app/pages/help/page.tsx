@@ -1,10 +1,13 @@
 "use client"
+import SkeletonSlide from '@/app/_components/loadingComponent/SkeletonSlide'
 import React from 'react'
-const page = () => {
+const Page = () => {
   return (
-    <div>
-      <h1>This is Help page under development</h1>
+    <div className='container flex justify-between'>
+      {[...Array(3)].map((_, i) => (
+        <SkeletonSlide key={`skeleton-${i}`} />
+      ))}
     </div>
   )
 }
-export default page
+export default Page

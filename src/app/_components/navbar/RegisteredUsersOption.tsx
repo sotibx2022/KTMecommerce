@@ -10,6 +10,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { setCart } from '@/app/redux/cartSlice';
 import { useDispatch } from 'react-redux';
 import { fetchCartFromDatabase } from '@/app/services/apiFunctions/cartItems';
+import { useCartItems } from '@/app/hooks/queryHooks/useCartItems';
 const RegisteredUsersOption = () => {
     const[showUserOptions, setShowUserOptions] = useState(false);
     const context = useContext(UserDetailsContext);
@@ -19,7 +20,7 @@ const RegisteredUsersOption = () => {
     const {userDetails} = context;
     const logout = useLogout();
     const dispatch = useDispatch();
-    const {data:cartItems} = useQuery({queryKey:['cartItems'],queryFn:fetchCartFromDatabase})
+    const {data:cartItems} = useCartItems();
    useEffect(()=>{
     if(cartItems){
       dispatch(setCart(cartItems));

@@ -18,12 +18,8 @@ const useAddItemToCart = () => {
   });
   const addItemToCart = async (cartItemDetails: ICartItem) => {
     try {
-      // Await mutation to ensure successful database update before proceeding
-      console.log("Items in the cart are",cartItemDetails);
        mutation.mutate(cartItemDetails);
-      // Dispatch to Redux store
       dispatch(addToCart(cartItemDetails));
-      // Update Context API
     } catch (error) {
       console.error("Error adding item to the cart:", error);
     }

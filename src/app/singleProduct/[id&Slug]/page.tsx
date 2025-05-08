@@ -14,20 +14,17 @@ import PrimaryButton from '@/app/_components/primaryButton/PrimaryButton';
 import SecondaryButton from '@/app/_components/secondaryButton/SecondaryButton';
 import { DisplayContext } from '@/app/context/DisplayComponents';
 import EditSingleProductReview from '@/app/_components/singleProductReviews/EditSingleProductReview';
+import { getSpecificRemarks } from '@/app/services/queryFunctions/remarks';
 const ProductPage = () => {
-  const[productId, setProductId] = useState("")
   const context = useContext(UserDetailsContext);
   const {visibleComponent,setVisibleComponent} = useContext(DisplayContext)
   if (!context) {
     throw new Error("The User Details context is not working.");
   }
   const { userDetails } = context;
-  useEffect(() => {
-    if (typeof window !== "undefined"){
-      const url = window.location.href;
-      const id=url.split("/")[4].split("&")[0].split(":")[1];
-      setProductId(id)
-    }},[])
+  const productId = typeof window !== "undefined" 
+  ? window.location.href.split("/")[4].split("&")[0].split(":")[1] 
+  : "";
   const [showReviews, setShowReviews] = useState(true);
   const toggleReviews = (value: boolean) => {
     setShowReviews(value);
@@ -38,6 +35,11 @@ const ProductPage = () => {
       getSingleProduct(productId),
     enabled: !!productId
   });
+      const { data: remarks, isPending:isRemarksPending } = useQuery({
+          queryKey: ['specificRemarks', productId],
+          queryFn: () => getSpecificRemarks(productId),
+          enabled: !!productId
+      })
   const productDatas = productDetails?.success ? productDetails?.data! : null;
   const productIdentifier={
     productId:productDatas?._id|| "",
@@ -63,8 +65,8 @@ const ProductPage = () => {
           />
           <SecondaryButton text='Add Review' onClick={()=>setVisibleComponent('addReview')}/>
         </div>
-        {showReviews && (
-              <RemarksDisplay productId={productId} />
+        {showReviews && remarks?.success && remarks.data && (
+              <RemarksDisplay remarks={remarks.data} />
         )}
         {visibleComponent ==='addReview' && <AddSingleProductReviews readOnly={userDetails === null}
           productIdentifier={productIdentifier}/>}

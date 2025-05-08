@@ -6,11 +6,9 @@ import { getAllCategories } from '@/app/services/queryFunctions/categoreis';
 import { Category } from '@/app/types/categories';
 import DropDownList from './DropDownList';
 import SkletonText from '../skeletontext/SkletonText';
+import { useCategories } from '@/app/hooks/queryHooks/useCategory';
 const SecondaryHeader = () => {
-  const { data: navItems = [], isPending, isError } = useQuery({
-    queryKey: ['categories'],
-    queryFn: getAllCategories,
-  });
+  const { data: navItems = [], isPending, isError } = useCategories();
   const swappedNavItems = [...navItems];
   const lastIndex = swappedNavItems.length - 1;
   const secondLastIndex = lastIndex - 1;

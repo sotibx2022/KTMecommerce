@@ -22,15 +22,13 @@ import { CartState } from "@/app/redux/cartSlice";
 import { UserDetailsContext } from "@/app/context/UserDetailsContextComponent";
 import { useRouter } from "next/navigation";
 import LoginComponent from "../../authComponent/LoginComponent";
+import { useCategories } from "@/app/hooks/queryHooks/useCategory";
 const ResponsiveHeader = () => {
   const cartItems = useSelector((state: { cart: CartState }) => state.cart.cartItems);
   const user = useContext(UserDetailsContext);
   const router = useRouter();
   const {visibleComponent,setVisibleComponent} = useContext(DisplayContext)
-  const { data: NavItems = [] } = useQuery({
-    queryKey: ["categories"],
-    queryFn: getAllCategories,
-  });
+  const { data: NavItems = [] } = useCategories();
   const [activeCategory, setActiveCategory] = useState<number | null>(null);
   const[activescreen, setActiveScreen] = useState(false)
   // Toggle category visibility
