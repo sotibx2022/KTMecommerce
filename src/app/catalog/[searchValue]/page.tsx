@@ -7,10 +7,10 @@ import { IProductDisplay } from '@/app/types/products'
 import { useQuery } from '@tanstack/react-query'
 import { useRouter, useSearchParams } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
+import CatalogPageLayout from './CatalogPageLayout'
 const ProductsPage = () => {
   const router = useRouter()
-  const searchParams = useSearchParams()
-  const [searchValues, setSearchValues] = useState<SearchParams>({
+  const newSearchValues: SearchParams = {
     item: undefined,
     keyword: undefined,
     category: undefined,
@@ -19,21 +19,46 @@ const ProductsPage = () => {
     maxprice: undefined,
     rating: undefined,
     page: 1
-  });
+  };
+  const [searchValues, setSearchValues] = useState<SearchParams>(newSearchValues);
   // Initialize state from URL params
   useEffect(() => {
-    const params = new URLSearchParams(searchParams.toString())
-    setSearchValues({
-      item: params.get('item') || undefined,
-      keyword: params.get("keyword") || undefined,
-      category: params.get("category") || undefined,
-      subcategory: params.get("subcategory") || undefined,
-      minprice: params.has("minprice") ? parseFloat(params.get("minprice")!) : undefined,
-      maxprice: params.has("maxprice") ? parseFloat(params.get("maxprice")!) : undefined,
-      rating: params.has("rating") ? parseFloat(params.get("rating")!) : undefined,
-      page: params.has("page") ? parseInt(params.get("page")!) : 1
-    })
-  }, [searchParams])
+    if (typeof window !== 'undefined') {
+      const url = window.location.href;
+      const fragmentUrl = url.split("/").pop()?.split('&');
+      // Process each parameter
+      fragmentUrl?.forEach(param => {
+        const [key, value] = param.split('=');
+        switch (key) {
+          case 'item':
+            newSearchValues.item = value;
+            break;
+          case 'category':
+            newSearchValues.category = value;
+            break;
+          case 'subcategory':
+            newSearchValues.subcategory = value;
+            break;
+          case 'minprice':
+            newSearchValues.minprice = Number(value);
+            break;
+          case 'maxprice':
+            newSearchValues.maxprice = Number(value);
+            break;
+          case 'rating':
+            newSearchValues.rating = Number(value);
+            break;
+          case 'page':
+            newSearchValues.page = Number(value) || 1;
+            break;
+          case 'keyword':
+            newSearchValues.keyword = value;
+            break;
+        }
+      });
+      setSearchValues(newSearchValues);
+    }
+  }, []);
   const { data, isPending, isError } = useQuery({
     queryKey: ['selectedProducts', searchValues],
     queryFn: () => getSelectedProducts({ ...searchValues }),
@@ -42,59 +67,35 @@ const ProductsPage = () => {
   const products = data?.products || []
   const pages = data?.pagination?.totalPages || 0
   const currentPage = searchValues.page || 1
-  const handlePageChange = (pageNumber: number) => {
-    const newParams = new URLSearchParams(searchParams.toString())
-    newParams.set('page', pageNumber.toString())
-    // Update the URL without page reload
-    router.push(`/catalog?${newParams.toString()}`, { scroll: false })
-  }
   if (isError) {
     return <div className="text-center py-8">Error loading products</div>
   }
   return (
-<>
-  <div className='productsPageContainer container flex flex-col justify-between gap-2 my-4 bg-background'>
-    {isPending ? (
-      <div className="flex flex-wrap justify-between gap-4">
-        {Array.from({ length: 6 }).map((_, index: number) => (
-          <SkeletonSlide key={index} />
-        ))}
-      </div>
-    ) : products && products.length > 0 ? (
-      <>
-        <div className="flex flex-wrap justify-between gap-4">
-          {products.map((product: IProductDisplay) => (
-            <div key={product._id}>
-              <ProductCard {...product} />
+    <CatalogPageLayout>
+      <div className='container mt-4'>
+        {isPending ? (
+          <div className="flex flex-wrap justify-between gap-4">
+            {Array.from({ length: 6 }).map((_, index: number) => (
+              <SkeletonSlide key={index} />
+            ))}
+          </div>
+        ) : products && products.length > 0 ? (
+          <>
+            <div className="flex flex-wrap justify-between gap-4">
+              {products.map((product: IProductDisplay,index:number) => (
+                <div key={index}>
+                  <ProductCard {...product} />
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-        {pages > 1 && (
-          <ul className="pagination flex justify-center items-center gap-4 my-4">
-            {Array.from({ length: pages }).map((_, index) => {
-              const pageNumber = index + 1;
-              return (
-                <li 
-                  key={pageNumber}
-                  className={`text-primaryDark px-4 py-2 cursor-pointer font-bold rounded-md ${
-                    currentPage === pageNumber ? 'bg-primaryLight' : 'bg-primaryDark'
-                  }`}
-                  onClick={() => handlePageChange(pageNumber)}
-                >
-                  {pageNumber}
-                </li>
-              );
-            })}
-          </ul>
+          </>
+        ) : (
+          <div className="text-center w-full py-8">
+            <p>No products found matching your criteria</p>
+          </div>
         )}
-      </>
-    ) : (
-      <div className="text-center w-full py-8">
-        <p>No products found matching your criteria</p>
       </div>
-    )}
-  </div>
-</>
+    </CatalogPageLayout>
   )
 }
 export default ProductsPage

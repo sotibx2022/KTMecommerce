@@ -1,7 +1,6 @@
 "use client"
 import React, { ReactNode, useContext } from 'react'
 import { UserDetailsContextComponent } from '../context/UserDetailsContextComponent'
-import AdvanceSearchProvider from '../_components/advaceSearch/AdvanceSearchProvider'
 import { DisplayComponents, DisplayContext } from '../context/DisplayComponents'
 import NavBar from '../_components/navbar/Navbar'
 import { Toaster } from 'react-hot-toast'
@@ -22,7 +21,6 @@ const DashboardLayout:React.FC<DashboardLayoutProps> = ({children}) => {
     <Provider store={store}>
     <QueryProvider>
     <UserDetailsContextComponent>
-      <AdvanceSearchProvider>
         <DisplayComponents>
     <NavBar />
     {children}
@@ -32,7 +30,6 @@ const DashboardLayout:React.FC<DashboardLayoutProps> = ({children}) => {
     {visibleComponent === 'login' && <LoginComponent/>}
     {visibleComponent === 'register' && <RegisterComponent />}
     </DisplayComponents>
-      </AdvanceSearchProvider>
     </UserDetailsContextComponent>
     </QueryProvider>
     </Provider>

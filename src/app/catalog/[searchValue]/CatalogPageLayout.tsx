@@ -1,5 +1,4 @@
 "use client"
-import AdvanceSearchProvider from '@/app/_components/advaceSearch/AdvanceSearchProvider'
 import LoginComponent from '@/app/_components/authComponent/LoginComponent'
 import RegisterComponent from '@/app/_components/authComponent/RegisterComponent'
 import Footer from '@/app/_components/footer/Footer'
@@ -22,17 +21,15 @@ const CatalogPageLayout:React.FC<CatalogPageLayout> = ({children}) => {
         <Provider store={store}>
         <DisplayComponents>
         <QueryProvider>
-         <AdvanceSearchProvider>
             <UserDetailsContextComponent>
          <NavBar/>
-         {children}
+                  {children}
          <Footer/>
          {visibleComponent == 'responsiveHeader' && <ResponsiveHeader />}
       {visibleComponent === 'login' && <LoginComponent/>}
       {visibleComponent === 'register' && <RegisterComponent />}
       {visibleComponent === 'pureSearch' && <PureSearch/>}
          </UserDetailsContextComponent>
-         </AdvanceSearchProvider>
          </QueryProvider>
          </DisplayComponents>
          </Provider> 

@@ -5,34 +5,52 @@ export async function GET(req: NextRequest) {
   try {
     // Retrieve userId from cookies
     const userId = req.cookies.get("_id")?.value;
-    // Validate userId
+    // Validate userId exists
     if (!userId) {
       return NextResponse.json(
-        { message: "User ID is required", status: 400, success: false },
+        { message: "User ID is required", success: false },
         { status: 400 }
       );
     }
-    // Convert userId to ObjectId
+    // Validate userId format
     let objectUserId;
     try {
       objectUserId = new Types.ObjectId(userId);
     } catch (err) {
       return NextResponse.json(
-        { message: "Invalid User ID format", status: 400, success: false },
+        { message: "Invalid User ID format", success: false },
         { status: 400 }
       );
     }
-    // Fetch cart items
-    const cartItems = await CartModel.find({ userId: objectUserId });
-    // Return response
+    // Find cart items with proper error handling
+    const cartItems = await CartModel.find({ userId: objectUserId }).lean().exec();
+    // Handle case where no cart items exist
+    if (!cartItems || cartItems.length === 0) {
+      return NextResponse.json(
+        { 
+          message: "No cart items found for this user", 
+          success: true, 
+          data: [] 
+        },
+        { status: 200 }
+      );
+    }
     return NextResponse.json(
-      { message: "Cart Items found", status: 200, success: true, data: cartItems },
+      { 
+        message: "Cart items retrieved successfully",
+        success: true,
+        data: cartItems 
+      },
       { status: 200 }
     );
   } catch (error) {
-    // Handle unexpected errors
+    console.error("Error fetching cart items:", error);
     return NextResponse.json(
-      { message: "An error occurred", status: 500, success: false },
+      { 
+        message: "Internal server error",
+        success: false,
+        error: error instanceof Error ? error.message : "Unknown error" 
+      },
       { status: 500 }
     );
   }

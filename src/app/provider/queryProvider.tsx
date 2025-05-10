@@ -17,10 +17,6 @@ const QueryProvider = ({ children }: { children: ReactNode }) => {
   const prefetchCreticalDatas=async()=>{
     await Promise.all([
       queryClient.prefetchQuery({queryKey:['categories'],queryFn:getAllCategories}),
-      queryClient.prefetchQuery({queryKey: ['categoryType',"isNewArrivals"],queryFn:()=>SpecificProducts("isNewArrivals")}),
-      queryClient.prefetchQuery({queryKey: ['categoryType',"isTrendingNow"],queryFn:()=>SpecificProducts("isTrendingNow")}),
-      queryClient.prefetchQuery({queryKey: ['categoryType',"isTopSell"],queryFn:()=>SpecificProducts("isTopSell")}),
-      queryClient.prefetchQuery({queryKey: ['categoryType',"isOfferItem"],queryFn:()=>SpecificProducts("isOfferItem")})
     ],
   )
   }

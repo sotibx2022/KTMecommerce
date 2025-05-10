@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
     const maxPrice = searchParams.get('maxprice');
     const rating = searchParams.get('rating');
     const page = parseInt(searchParams.get('page') || '1', 10);
-    const limit = parseInt(searchParams.get('limit') || '10', 10);
+    const limit = parseInt(searchParams.get('limit') || '12', 12);
     let products: IProductCreate[] = [];
     let totalProductsCount: number = 0;
     if (keyword) {

@@ -31,7 +31,7 @@ export const getSelectedProducts = async ({
 }: SearchParams) => {
   try {
     // Construct the URL
-    let url = `${config.websiteUrl}/api/products/selectedProducts/advanceSearch?`;
+    let url = `/api/products/selectedProducts/`;
     if (item && item.trim()!=="") url += `item=${encodeURIComponent(item)}&`;
     if (keyword && keyword.trim() !== "") url += `keyword=${encodeURIComponent(keyword)}&`;
     if (category && category.trim() !== "") url += `category=${encodeURIComponent(category)}&`;

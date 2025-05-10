@@ -8,7 +8,7 @@ export const postOrderDetails = async (
   ): Promise<APIResponseSuccess | APIResponseError> => {
     try {
       const response = await axios.post(
-        `${config.websiteUrl}/api/order`,
+        `/api/order`,
         orderDetails,
         { headers: { 'Content-Type': 'application/json' } }
       );

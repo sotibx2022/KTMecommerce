@@ -1,19 +1,12 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSlidersH } from '@fortawesome/free-solid-svg-icons';
-interface IFilterIconLeft{
-    onClick:()=>void;
-}
-const FilterIconLeft:React.FC<IFilterIconLeft> = ({ onClick }) => {
+const FilterIconLeft = () => {
   return (
-    <div
-      className="absolute top-1/2 -left-[50px] transform -translate-y-1/2 w-[50px] h-[50px] bg-primaryLight flex items-center justify-end hover:bg-primaryDark hover:text-background cursor-pointer"
-      style={{ clipPath: 'polygon(100% 0%, 25% 0%, 0% 50%, 25% 100%, 100% 100%)' }}
-      onClick={onClick}
-    >
+    <div className='absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
       <FontAwesomeIcon
         icon={faSlidersH}
-        className="rounded-full border-2 border-transparent  pr-2"
-        size="xl"
+        className="bg-helper ml-2 w-[20px] h-[20px] p-[10px] rounded-full text-background"
+        size="sm"
       />
     </div>
   );

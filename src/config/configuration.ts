@@ -15,5 +15,4 @@ const _config = {
     apiSecret: process.env.CLOUDINARY_API_SECRET!,
   },
 };
-// Log statements to verify the values are loaded
 export const config = Object.freeze(_config);

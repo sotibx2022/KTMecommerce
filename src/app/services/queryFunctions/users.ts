@@ -26,7 +26,7 @@ export const createUserMutation = async (
   userData: ICreateUserMutaion
 ): Promise<APIResponseSuccess | APIResponseError> => {
   try {
-    const response = await axios.post(`${config.websiteUrl}/api/auth/registerUser`, userData);
+    const response = await axios.post(`/api/auth/registerUser`, userData);
     return response.data as APIResponseSuccess; // Explicitly cast to success type
   } catch (error) {
     // Check if the error is an Axios error
