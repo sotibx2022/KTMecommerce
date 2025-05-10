@@ -38,7 +38,7 @@ const ProductsPage = () => {
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const url = window.location.href;
-      const fragmentUrl = url.split("?").pop()?.split('&');
+      const fragmentUrl = url.split("/").pop()?.split('&');
       fragmentUrl?.forEach(param => {
         const [key, value] = param.split('=');
         switch (key) {
