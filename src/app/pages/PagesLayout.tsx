@@ -8,7 +8,6 @@ import RegisterComponent from '../_components/authComponent/RegisterComponent';
 import NavBar from '../_components/navbar/Navbar';
 import Footer from '../_components/footer/Footer';
 import { UserDetailsContextComponent } from '../context/UserDetailsContextComponent';
-import AdvanceSearchProvider from '../_components/advaceSearch/AdvanceSearchProvider';
 import store from '../redux/store';
 import { Provider } from 'react-redux';
 interface PagesLayoutProps {
@@ -19,7 +18,6 @@ const PagesLayout: React.FC<PagesLayoutProps> = ({ children }) => {
   return (
     <Provider store={store}>
     <UserDetailsContextComponent>
-      <AdvanceSearchProvider>
         <DisplayComponents>
           <NavBar />
           {children}
@@ -29,7 +27,6 @@ const PagesLayout: React.FC<PagesLayoutProps> = ({ children }) => {
           {visibleComponent === 'login' && <LoginComponent />}
           {visibleComponent === 'register' && <RegisterComponent />}
         </DisplayComponents>
-      </AdvanceSearchProvider>
     </UserDetailsContextComponent>
     </Provider>
   );

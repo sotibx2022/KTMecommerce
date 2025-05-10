@@ -5,7 +5,7 @@ import ProductCard from '@/app/_components/productCard/ProductCard'
 import { getSelectedProducts, SearchParams } from '@/app/services/queryFunctions/products'
 import { IProductDisplay } from '@/app/types/products'
 import { useQuery } from '@tanstack/react-query'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import CatalogPageLayout from './CatalogPageLayout'
 const ProductsPage = () => {
@@ -21,12 +21,24 @@ const ProductsPage = () => {
     page: 1
   };
   const [searchValues, setSearchValues] = useState<SearchParams>(newSearchValues);
+  // Update URL when search values change
+  const updateURL = (values: SearchParams) => {
+    const params = new URLSearchParams();
+    if (values.item) params.set('item', values.item);
+    if (values.keyword) params.set('keyword', values.keyword);
+    if (values.category) params.set('category', values.category);
+    if (values.subcategory) params.set('subcategory', values.subcategory);
+    if (values.minprice) params.set('minprice', values.minprice.toString());
+    if (values.maxprice) params.set('maxprice', values.maxprice.toString());
+    if (values.rating) params.set('rating', values.rating.toString());
+    if (values.page && values.page !== 1) params.set('page', values.page.toString());
+    router.push(`/catalog/${params.toString()}`);
+  };
   // Initialize state from URL params
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const url = window.location.href;
-      const fragmentUrl = url.split("/").pop()?.split('&');
-      // Process each parameter
+      const fragmentUrl = url.split("?").pop()?.split('&');
       fragmentUrl?.forEach(param => {
         const [key, value] = param.split('=');
         switch (key) {
@@ -59,6 +71,11 @@ const ProductsPage = () => {
       setSearchValues(newSearchValues);
     }
   }, []);
+  const handlePageChange = (page: number) => {
+    const newValues = { ...searchValues, page };
+    setSearchValues(newValues);
+    updateURL(newValues);
+  };
   const { data, isPending, isError } = useQuery({
     queryKey: ['selectedProducts', searchValues],
     queryFn: () => getSelectedProducts({ ...searchValues }),
@@ -82,11 +99,28 @@ const ProductsPage = () => {
         ) : products && products.length > 0 ? (
           <>
             <div className="flex flex-wrap justify-between gap-4">
-              {products.map((product: IProductDisplay,index:number) => (
+              {products.map((product: IProductDisplay, index: number) => (
                 <div key={index}>
                   <ProductCard {...product} />
                 </div>
               ))}
+            </div>
+            <div className="navigation">
+              {pages > 1 && (
+                <ul className="flex gap-2 justify-center mt-4">
+                  {Array.from({ length: pages }).map((_, index) => (
+                    <li 
+                      key={index} 
+                      onClick={() => handlePageChange(index + 1)}
+                      className={`cursor-pointer px-3 py-1 rounded ${
+                        currentPage === index + 1 ? 'bg-primaryLight text-white' : 'bg-primaryDark'
+                      }`}
+                    >
+                      {index + 1}
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           </>
         ) : (
