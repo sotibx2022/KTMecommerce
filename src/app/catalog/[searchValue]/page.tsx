@@ -1,135 +1,97 @@
 "use client"
-import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponent'
-import SkeletonSlide from '@/app/_components/loadingComponent/SkeletonSlide'
-import ProductCard from '@/app/_components/productCard/ProductCard'
-import { getSelectedProducts, SearchParams } from '@/app/services/queryFunctions/products'
-import { IProductDisplay } from '@/app/types/products'
+import React, { useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useQuery } from '@tanstack/react-query'
-import { useRouter } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+import dynamic from 'next/dynamic'
 import CatalogPageLayout from './CatalogPageLayout'
+import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponent'
+import ProductCard from '@/app/_components/productCard/ProductCard'
+import { getSelectedProducts } from '@/app/services/queryFunctions/products'
+import { IProductDisplay } from '@/app/types/products'
+// Dynamically import SkeletonSlide with loading fallback
+const SkeletonSlide = dynamic(
+  () => import('@/app/_components/loadingComponent/SkeletonSlide'))
+const ProductCardMemo = React.memo(ProductCard)
+interface ISearchValues {
+  keyword?: string
+  category?: string
+  subcategory?: string
+  page: number
+}
 const ProductsPage = () => {
   const router = useRouter()
-  const newSearchValues: SearchParams = {
-    item: undefined,
-    keyword: undefined,
-    category: undefined,
-    subcategory: undefined,
-    minprice: undefined,
-    maxprice: undefined,
-    rating: undefined,
-    page: 1
-  };
-  const [searchValues, setSearchValues] = useState<SearchParams>(newSearchValues);
-  // Update URL when search values change
-  const updateURL = (values: SearchParams) => {
-    const params = new URLSearchParams();
-    if (values.item) params.set('item', values.item);
-    if (values.keyword) params.set('keyword', values.keyword);
-    if (values.category) params.set('category', values.category);
-    if (values.subcategory) params.set('subcategory', values.subcategory);
-    if (values.minprice) params.set('minprice', values.minprice.toString());
-    if (values.maxprice) params.set('maxprice', values.maxprice.toString());
-    if (values.rating) params.set('rating', values.rating.toString());
-    if (values.page && values.page !== 1) params.set('page', values.page.toString());
-    router.push(`/catalog/${params.toString()}`);
-  };
-  // Initialize state from URL params
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const url = window.location.href;
-      const fragmentUrl = url.split("/").pop()?.split('&');
-      fragmentUrl?.forEach(param => {
-        const [key, value] = param.split('=');
-        switch (key) {
-          case 'item':
-            newSearchValues.item = value;
-            break;
-          case 'category':
-            newSearchValues.category = value;
-            break;
-          case 'subcategory':
-            newSearchValues.subcategory = value;
-            break;
-          case 'minprice':
-            newSearchValues.minprice = Number(value);
-            break;
-          case 'maxprice':
-            newSearchValues.maxprice = Number(value);
-            break;
-          case 'rating':
-            newSearchValues.rating = Number(value);
-            break;
-          case 'page':
-            newSearchValues.page = Number(value) || 1;
-            break;
-          case 'keyword':
-            newSearchValues.keyword = value;
-            break;
-        }
-      });
-      setSearchValues(newSearchValues);
-    }
-  }, []);
+  const searchParams = useSearchParams()
+  const [searchValues, setSearchValues] = useState<ISearchValues>({
+    category: searchParams?.get('category') ?? undefined,
+    subcategory: searchParams?.get('subcategory') ?? undefined,
+    keyword: searchParams?.get('keyword') ?? undefined,
+    page: Number(searchParams?.get('page')) || 1
+  })
+  const updateURL = (values: ISearchValues) => {
+    const params = new URLSearchParams()
+    if (values.keyword) params.set('keyword', values.keyword)
+    if (values.category) params.set('category', values.category)
+    if (values.subcategory) params.set('subcategory', values.subcategory)
+    if (values.page && values.page !== 1) params.set('page', values.page.toString())
+    router.push(`/catalog/advanceSearch?${params.toString()}`)
+  }
   const handlePageChange = (page: number) => {
-    const newValues = { ...searchValues, page };
-    setSearchValues(newValues);
-    updateURL(newValues);
-  };
+    const newValues = { ...searchValues, page }
+    setSearchValues(newValues)
+    updateURL(newValues)
+  }
   const { data, isPending, isError } = useQuery({
     queryKey: ['selectedProducts', searchValues],
-    queryFn: () => getSelectedProducts({ ...searchValues }),
-    enabled: !!searchValues?.category || !!searchValues?.keyword?.trim() || !!searchValues?.item,
+    queryFn: () => getSelectedProducts(searchValues),
+    enabled: !!searchValues?.category || !!searchValues?.keyword?.trim(),
   })
   const products = data?.products || []
   const pages = data?.pagination?.totalPages || 0
-  const currentPage = searchValues.page || 1
+  const currentPage = searchValues.page
   if (isError) {
     return <div className="text-center py-8">Error loading products</div>
   }
   return (
-    <CatalogPageLayout>
-      <div className='container mt-4'>
-        {isPending ? (
+  <CatalogPageLayout>
+    <div className="container mt-4">
+      {isPending ? (
+        <div className="flex flex-wrap justify-between gap-4">
+          {Array.from({ length: 6 }).map((_, index) => (
+            <SkeletonSlide key={index} />
+          ))}
+        </div>
+      ) : products.length > 0 ? (
+        <>
           <div className="flex flex-wrap justify-between gap-4">
-            {Array.from({ length: 6 }).map((_, index: number) => (
-              <SkeletonSlide key={index} />
+            {products.map((product: IProductDisplay,index:number) => (
+              <div key={index}>
+                <ProductCardMemo {...product} />
+              </div>
             ))}
           </div>
-        ) : products && products.length > 0 ? (
-          <>
-            <div className="flex flex-wrap justify-between gap-4">
-              {products.map((product: IProductDisplay, index: number) => (
-                <div key={index}>
-                  <ProductCard {...product} />
-                </div>
+          {pages > 1 && (
+            <div className="flex gap-2 justify-center mt-4">
+              {Array.from({ length: pages }).map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => handlePageChange(index + 1)}
+                  className={`cursor-pointer px-3 py-1 rounded ${
+                    currentPage === index + 1 ? 'bg-primaryLight text-background font-bold' : 'bg-primaryDark text-background font-bold'
+                  }`}
+                >
+                  {index + 1}
+                </button>
               ))}
             </div>
-            <div className="navigation">
-              {pages > 1 && (
-                <ul className="flex gap-2 justify-center mt-4">
-                  {Array.from({ length: pages }).map((_, index) => (
-                    <li 
-                      key={index} 
-                      onClick={() => handlePageChange(index + 1)}
-                      className={`cursor-pointer px-3 py-1 rounded ${
-                        currentPage === index + 1 ? 'bg-primaryLight text-white' : 'bg-primaryDark'
-                      }`}
-                    >
-                      {index + 1}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-          </>
-        ) : (
-          <div className="text-center w-full py-8">
-            <p>No products found matching your criteria</p>
-          </div>
-        )}
-      </div>
-    </CatalogPageLayout>
-  )
+          )}
+        </>
+      ) : (
+        <div className="text-center w-full py-8">
+          <p>No products found matching your criteria</p>
+        </div>
+      )}
+    </div>
+  </CatalogPageLayout>
+)
 }
 export default ProductsPage

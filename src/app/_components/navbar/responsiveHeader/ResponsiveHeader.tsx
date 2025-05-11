@@ -80,7 +80,7 @@ const ResponsiveHeader = () => {
             <li key={item.url_slug || index}>
               <div className="categoryHeader flex justify-between items-center text-xl text-primaryDark shadow-helper p-2">
                 <LinkComponent
-                  href={`/catalog/category=${item.category_name}`}
+                  href={`/catalog/advanceSearch?category=${item.category_name}`}
                   text={item.category_name}
                 />
                 <FontAwesomeIcon
@@ -100,7 +100,7 @@ const ResponsiveHeader = () => {
                           className="text-xl text-primaryDark"
                         >
                           <LinkComponent
-                            href={`/catalog/category=${item.category_name}&subcategory=${subItem.category_name}`}
+                            href={`/catalog/advanceSearch?category=${item.category_name}&subcategory=${subItem.category_name}`}
                             text={subItem.category_name}
                           />
                         </li>

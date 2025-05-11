@@ -33,7 +33,7 @@ const SecondaryHeader = () => {
               onMouseLeave={() => setActiveCategory(null)}
             >
               <LinkComponent 
-                href={`catalog/category=${item.category_name}`} 
+                href={`/catalog/advanceSearch?category=${item.category_name}`} 
                 text={item.category_name} 
               />
               {item.subcategories &&

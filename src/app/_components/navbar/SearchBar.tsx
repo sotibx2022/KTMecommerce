@@ -21,7 +21,7 @@ const SearchBar = () => {
   const router = useRouter();
   const handleSearch = () => {
     if (searchValue) {
-      router.push(`/catalog/keyword=${searchValue}`);
+      router.push(`/catalog/advanceSearch?keyword=${searchValue}`);
     }
   };
   const handleProtectedRoute = (path:string) => {

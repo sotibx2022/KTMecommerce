@@ -36,7 +36,8 @@ const AllProductsBanner = () => {
         text1="Explore Our Full Range" 
         text2="Discover All Innovations"
       />
-      <Link href='/catalog/item=all'><PrimaryButton searchText='Browse'/></Link>
+      <Link href='/catalog/advanceSearch?category=mobile'>
+      <PrimaryButton searchText='Browse'/></Link>
     </div>
   )
 }

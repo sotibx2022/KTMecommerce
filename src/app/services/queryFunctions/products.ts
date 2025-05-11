@@ -32,13 +32,9 @@ export const getSelectedProducts = async ({
   try {
     // Construct the URL
     let url = `/api/products/selectedProducts/advanceSearch?`;
-    if (item && item.trim()!=="") url += `item=${encodeURIComponent(item)}&`;
     if (keyword && keyword.trim() !== "") url += `keyword=${encodeURIComponent(keyword)}&`;
     if (category && category.trim() !== "") url += `category=${encodeURIComponent(category)}&`;
     if (subcategory && subcategory.trim() !== "") url += `subcategory=${encodeURIComponent(subcategory)}&`;
-    if (minprice !== undefined && !isNaN(minprice) && minprice !== null) url += `minprice=${minprice}&`;
-    if (maxprice !== undefined && !isNaN(maxprice) && maxprice !== null) url += `maxprice=${maxprice}&`;
-    if (rating !== undefined && !isNaN(rating) && rating !== null) url += `rating=${rating}&`;
     if (url.endsWith('&')) {
       url = url.slice(0, -1);
     }
