@@ -3,21 +3,22 @@ import categoryText2Id from "./categoryText2Id";
 import subCategoryText2Id from "./subCatText2Id";
 import { productModel } from "@/models/products.model";
 import { IProductCreate } from "@/app/types/products";
-export async function getProductsByKeyword(keyword: string, page: number = 1, limit: number = 10): Promise<{ products: IProductCreate[], totalItems: number, totalPages: number }> { 
+export async function getProductsByKeyword(
+  keyword: string,
+  page: number = 1,
+  limit: number = 10
+): Promise<{ products: IProductCreate[], totalItems: number, totalPages: number }> {
   try {
     await connectToDB();
-    let filterQuery: any = {}; // Initialize an empty filter query object
-    // Category search
+    let filterQuery: any = {};
     const categoryId = await categoryText2Id(keyword);
     if (categoryId) {
-      filterQuery.categoryId = categoryId; // Add category filter to the query
+      filterQuery.categoryId = categoryId;
     }
-    // Subcategory search
     const subCategoryId = await subCategoryText2Id(keyword);
     if (subCategoryId) {
-      filterQuery.subCategoryId = subCategoryId; // Add subcategory filter to the query
+      filterQuery.subCategoryId = subCategoryId;
     }
-    // Full-text search (for productName, productDescription, productBrand)
     if (!categoryId && !subCategoryId) {
       filterQuery = {
         $or: [
@@ -27,18 +28,16 @@ export async function getProductsByKeyword(keyword: string, page: number = 1, li
         ],
       };
     }
-    // Fetch total count of matching products (for pagination purposes)
     const totalItems = await productModel.countDocuments(filterQuery);
-    // Fetch products based on the filter query, with pagination applied
     const products = await productModel
       .find(filterQuery)
-      .skip((page - 1) * limit)  // Skip products from previous pages
-      .limit(limit);  // Limit the number of products per page
-    const totalPages = Math.ceil(totalItems / limit);  // Calculate total pages
-    return { products, totalItems, totalPages };  // Return products and pagination data
+      .skip((page - 1) * limit)
+      .limit(limit);
+    const totalPages = Math.ceil(totalItems / limit);
+    return { products, totalItems, totalPages };
   } catch (error) {
     console.error('Error fetching products on the basis of keyword.', error);
-    throw error;  // Re-throw the error to be handled by the calling function
+    throw error;
   }
 }
 export async function getProductsByCategory(
@@ -50,23 +49,19 @@ export async function getProductsByCategory(
   try {
     await connectToDB();
     let filterQuery: any = {};
-    // Handle category filter
     if (category) {
       const categoryId = await categoryText2Id(category);
       if (categoryId) {
         filterQuery.categoryId = categoryId;
       }
     }
-    // Handle subcategory filter
     if (subCategory) {
       const subCategoryId = await subCategoryText2Id(subCategory);
       if (subCategoryId) {
         filterQuery.subCategoryId = subCategoryId;
       }
     }
-    // Fetch total count of matching products
     const totalItems = await productModel.countDocuments(filterQuery);
-    // Fetch products with pagination
     const products = await productModel
       .find(filterQuery)
       .select('_id brand stockAvailability image productDescription productName overallRating url_slug price')

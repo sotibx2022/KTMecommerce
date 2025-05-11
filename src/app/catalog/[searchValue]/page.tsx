@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useQuery } from '@tanstack/react-query'
 import dynamic from 'next/dynamic'
@@ -27,6 +27,13 @@ const ProductsPage = () => {
     keyword: searchParams?.get('keyword') ?? undefined,
     page: Number(searchParams?.get('page')) || 1
   })
+  useEffect(() => {
+  const category = searchParams?.get('category') ?? undefined
+  const subcategory = searchParams?.get('subcategory') ?? undefined
+  const keyword = searchParams?.get('keyword') ?? undefined
+  const page = Number(searchParams?.get('page')) || 1
+  setSearchValues({ category, subcategory, keyword, page })
+}, [searchParams])
   const updateURL = (values: ISearchValues) => {
     const params = new URLSearchParams()
     if (values.keyword) params.set('keyword', values.keyword)
