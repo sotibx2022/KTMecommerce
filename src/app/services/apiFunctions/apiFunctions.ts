@@ -41,3 +41,41 @@ export async function getProductsByKeyword(keyword: string, page: number = 1, li
     throw error;  // Re-throw the error to be handled by the calling function
   }
 }
+export async function getProductsByCategory(
+  category: string | null,
+  subCategory: string | null,
+  page: number = 1,
+  limit: number = 10
+): Promise<{ products: IProductCreate[]; totalItems: number; totalPages: number }> {
+  try {
+    await connectToDB();
+    let filterQuery: any = {};
+    // Handle category filter
+    if (category) {
+      const categoryId = await categoryText2Id(category);
+      if (categoryId) {
+        filterQuery.categoryId = categoryId;
+      }
+    }
+    // Handle subcategory filter
+    if (subCategory) {
+      const subCategoryId = await subCategoryText2Id(subCategory);
+      if (subCategoryId) {
+        filterQuery.subCategoryId = subCategoryId;
+      }
+    }
+    // Fetch total count of matching products
+    const totalItems = await productModel.countDocuments(filterQuery);
+    // Fetch products with pagination
+    const products = await productModel
+      .find(filterQuery)
+      .select('_id brand stockAvailability image productDescription productName overallRating url_slug price')
+      .skip((page - 1) * limit)
+      .limit(limit);
+    const totalPages = Math.ceil(totalItems / limit);
+    return { products, totalItems, totalPages };
+  } catch (error) {
+    console.error('Error fetching products by category/subcategory.', error);
+    throw error;
+  }
+}
