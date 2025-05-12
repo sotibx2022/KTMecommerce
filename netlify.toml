@@ -1,2 +1,7 @@
 [[plugins]]
 package = "@netlify/plugin-nextjs"
+[[headers]]
+  for = "/api/products/selectedProducts/*"
+  [headers.values]
+    "Cache-Control" = "no-cache, no-store, must-revalidate"
+    "Vary" = "Authorization, Accept-Encoding"
