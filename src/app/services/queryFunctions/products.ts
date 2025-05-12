@@ -11,37 +11,26 @@ export const getSingleProduct = async (productId: string):Promise<APIResponseSuc
   return response.data;
 };
 export interface SearchParams {
-  item?:string |undefined;
   keyword?: string | undefined;
   category?: string | undefined;
-  subcategory?: string | undefined; // subcategory is optional
-  minprice?: number | undefined; // minprice is optional
-  maxprice?: number | undefined; // maxprice is optional
-  rating?: number | undefined; // rating is optional
+  subcategory?: string | undefined; 
   page?:number | undefined;
 }
 export const getSelectedProducts = async ({
-  item,
   keyword,
   category,
   subcategory,
-  minprice,
-  maxprice,
-  rating,
 }: SearchParams) => {
   try {
-    // Construct the URL
     let url = `/api/products/selectedProducts/advanceSearch?`;
     if (keyword && keyword.trim() !== "") url += `keyword=${encodeURIComponent(keyword)}&`;
     if (category && category.trim() !== "") url += `category=${encodeURIComponent(category)}&`;
     if (subcategory && subcategory.trim() !== "") url += `subcategory=${encodeURIComponent(subcategory)}&`;
-    if (url.endsWith('&')) {
-      url = url.slice(0, -1);
-    }
-    // Make the API call
+    url += `t=${Date.now()}`;
     const response = await axios.get(url);
     return response.data || []; // Ensure a valid return value
   } catch (error) {
+    console.error('Error fetching products:', error);
     return []; // Return an empty array on error
   }
 };
