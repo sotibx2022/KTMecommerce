@@ -1,5 +1,10 @@
 import { getProductsByCategory, getProductsByKeyword } from "@/app/services/apiFunctions/apiFunctions";
 import { NextRequest, NextResponse } from "next/server";
+export const config = {
+  api: {
+    externalResolver: true,
+  },
+};
 export async function GET(request: NextRequest) {
   try {
     const url = new URL(request.url);
