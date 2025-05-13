@@ -9,7 +9,7 @@ interface APIResponse{
     status:number,
 }
 export const logoutUser = async():Promise<APIResponse> =>{
-    const response = await axios.get(`${config.websiteUrl}/api/auth/logoutUser`);
+    const response = await axios.get(`/api/auth/logoutUser`);
     return response.data
   }
   const useLogout = () => {

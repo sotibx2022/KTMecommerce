@@ -52,7 +52,7 @@ const SearchBar = () => {
           icon={faLuggageCart}
           name="Cart"
           number={cartItems?.length ?? 0}
-          onClick={() => handleProtectedRoute(`${config.websiteUrl}/dashboard/cart`)}
+          onClick={() => handleProtectedRoute(`/dashboard/cart`)}
         />
         <IconButton
           icon={faHeart}

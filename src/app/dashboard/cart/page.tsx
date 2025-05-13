@@ -25,7 +25,7 @@ const page = () => {
           <CartTable/>
           <CartSummary order={true} />
           </div>
-          <Link href="dashboard/cartProcess">
+          <Link href="/dashboard/cartProcess">
           </Link>
         </div>}
     </div>
