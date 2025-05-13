@@ -2,6 +2,7 @@
 import React, { createContext, ReactNode, useState, useContext, useEffect } from "react";
 import { IUser } from "../types/user";
 import { getUserDetails } from "../services/helperFunctions/getUserDetails";
+import { useQuery } from "@tanstack/react-query";
 interface UserDetailsContextProps {
   userDetails: IUser | null;
   setUserDetails: React.Dispatch<React.SetStateAction<IUser | null>>;
@@ -12,15 +13,15 @@ interface UserDetailsProviderProps {
 }
 const UserDetailsContextComponent: React.FC<UserDetailsProviderProps> = ({ children }) => {
   const [userDetails, setUserDetails] = useState<IUser | null>(null);
-  useEffect(() => {
-    const fetchUserDetails = async () => {
-      const user = await getUserDetails(); 
-      if (user) {
-        setUserDetails(user);
-      }
-    };
-    fetchUserDetails();
-  }, []);
+const query = useQuery({ 
+  queryKey: ['user'], 
+  queryFn: getUserDetails
+})
+useEffect(() => {
+  if (query.data) {
+    setUserDetails(query.data)
+  }
+}, [query.data])
   return (
     <UserDetailsContext.Provider value={{ userDetails, setUserDetails }}>
       {children}

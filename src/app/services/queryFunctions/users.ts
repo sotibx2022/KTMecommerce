@@ -1,5 +1,6 @@
 import { ICartItem } from "@/app/types/cart";
 import { IUpdateUserData, LoginData } from "@/app/types/formData";
+import { IUser } from "@/app/types/user";
 import { config } from "@/config/configuration";
 import axios from "axios";
 // Interfaces for API Response
@@ -62,7 +63,7 @@ export const loginUserMutation = async (
 };
 export const updateUserMutation = async (
   formData: FormData // Change this to accept FormData
-): Promise<APIResponseSuccess | APIResponseError> => {
+): Promise<APIResponseSuccess<IUser> | APIResponseError> => {
   try {
     // Send the FormData as the body of the POST request
     const response = await axios.post("/api/auth/updateUser", formData, {

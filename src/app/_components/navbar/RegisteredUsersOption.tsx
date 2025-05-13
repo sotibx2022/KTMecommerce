@@ -1,24 +1,39 @@
 "use client"
-import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
+import { UserDetailsContext, UserDetailsContextComponent } from '@/app/context/UserDetailsContextComponent';
 import React, { useContext, useEffect, useState } from 'react'
 import SecondaryButton from '../secondaryButton/SecondaryButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import UserOptions from './UserOptions';
-import useLogout, { logoutUser } from '@/app/services/apiFunctions/logoutUser';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { logoutUser } from '@/app/services/apiFunctions/logoutUser';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { setCart } from '@/app/redux/cartSlice';
 import { useDispatch } from 'react-redux';
 import { fetchCartFromDatabase } from '@/app/services/apiFunctions/cartItems';
 import { useCartItems } from '@/app/hooks/queryHooks/useCartItems';
+import toast from 'react-hot-toast';
 const RegisteredUsersOption = () => {
+  const queryClient = useQueryClient();
     const[showUserOptions, setShowUserOptions] = useState(false);
-    const context = useContext(UserDetailsContext);
-    if(!context){
-      throw new Error("The User Details context is not working.")
-    }
-    const {userDetails} = context;
-    const logout = useLogout();
+   const context = useContext(UserDetailsContext);
+   if (!context) {
+     throw new Error("The User Details context is not working.");
+   }
+   const { userDetails,setUserDetails } = context;
+    const logout = useMutation({
+    mutationFn: logoutUser,
+    onSuccess: async (response) => {
+      if(response.success){
+        toast.success(response.message);
+       queryClient.setQueryData(['user'], response.data);
+      await queryClient.invalidateQueries({ queryKey: ['user'] }); 
+      setUserDetails(null)
+      }
+          },
+    onError: (error: any) => {
+      toast.error(error.response?.data?.message || error.message);
+    },
+  });
     const dispatch = useDispatch();
     const {data:cartItems} = useCartItems();
    useEffect(()=>{

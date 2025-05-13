@@ -13,7 +13,6 @@ import { useQuery } from "@tanstack/react-query";
 import { getAllCategories } from "@/app/services/queryFunctions/categoreis";
 import LinkComponent from "../../linkComponent/LinkComponent";
 import Link from "next/link";
-import PrimaryHeader from "../PrimaryHeader";
 import { DisplayContext } from "@/app/context/DisplayComponents";
 import { Category, Subcategory } from "@/app/types/categories";
 import IconButton from "../../iconText/IconButton";
@@ -112,10 +111,6 @@ const ResponsiveHeader = () => {
           ))}
         </ul>
         <h2 className="text-primaryDark text-xl py-2">Quick Links</h2>
-        <PrimaryHeader
-          classStyles="flex flex-col flex-wrap gap-4"
-          classStyles2="border-2 border-solid border-primaryDark p-4"
-        />
       </div>
     </div>
   );

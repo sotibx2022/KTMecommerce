@@ -10,8 +10,9 @@ import SubmitError from '@/app/_components/submit/SubmitError';
 import { IUpdateUserData } from '@/app/types/formData';
 import toast from 'react-hot-toast';
 import { APIResponseError, APIResponseSuccess, updateUserMutation } from '@/app/services/queryFunctions/users';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import LoadingButton from '@/app/_components/primaryButton/LoadingButton';
+import { IUser } from '@/app/types/user';
 const Page = () => {
   const[isLoading,setIsLoading] = useState(false);
   const[profileFile,setProfileFile] = useState<undefined | File>(undefined)
@@ -20,15 +21,26 @@ const Page = () => {
     throw new Error("The User Details Context is not defined");
   }
   const { userDetails } = context;
+  const queryClient = useQueryClient();
   const {register,formState:{errors},handleSubmit,setValue} = useForm<IUpdateUserData>({mode:"all"})
-  const mutation = useMutation({mutationFn:updateUserMutation,onSuccess:(response:APIResponseSuccess | APIResponseError)=>{
-    toast.success(response.message)
+ const mutation = useMutation({
+  mutationFn: updateUserMutation,
+  onSuccess: async (response: APIResponseSuccess<IUser> | APIResponseError) => {
     setIsLoading(false);
-    window.location.reload();
-  },onError:(error:Error)=>{
-    toast.error(error.message)
+    if ('data' in response) { // Type guard for APIResponseSuccess
+      toast.success(response.message);
+      queryClient.setQueryData(['user'], response.data);
+      await queryClient.invalidateQueries({ queryKey: ['user'] });
+    } else {
+      // Handle APIResponseError case
+      toast.error(response.message);
+    }
+  },
+  onError: (error: Error) => {
+    toast.error(error.message);
     setIsLoading(false);
-  }})
+  }
+});
   const onSubmit = (data:IUpdateUserData) => {
     setIsLoading(true);
     if(!profileFile){

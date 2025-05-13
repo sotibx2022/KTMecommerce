@@ -1,10 +1,4 @@
 "use client"
-interface RegisterUserInput {
-  fullName: string;
-  email: string;
-  phoneNumber: string;
-  firebaseId: string;
-}
 import PrimaryButton from '@/app/_components/primaryButton/PrimaryButton';
 import { faCaretRight, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -16,27 +10,36 @@ import SubmitError from '../submit/SubmitError';
 import { validateConfirmPassword, validateEmail, validateFullName, validateNumber, validatePassword } from '@/app/services/helperFunctions/validatorFunctions';
 import { RegisterData } from '@/app/types/formData';
 import registerUser from '@/app/services/firebaseFunctions/registerUser';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { APIResponseError, APIResponseSuccess, createUserMutation } from '@/app/services/queryFunctions/users';
-import { IUser } from '@/app/types/user';
+import { IUser, RegisterUserInput } from '@/app/types/user';
 import LoadingButton from '../primaryButton/LoadingButton';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
+import LoadingContainer from '../loadingComponent/LoadingContainer';
 const RegisterComponent = () => {
-  const[isLoading,setIsLoading] = useState(false)
-  const mutation = useMutation<APIResponseSuccess | APIResponseError, Error, RegisterUserInput>(
-   { mutationFn:createUserMutation,
-    onSuccess: (response) => {
+  const [isLoading, setIsLoading] = useState(false);
+const queryClient = useQueryClient(); // Make sure this is declared at the top of your component
+const { setVisibleComponent } = useContext(DisplayContext);
+const mutation = useMutation<APIResponseSuccess | APIResponseError, Error, RegisterUserInput>({
+  mutationFn: createUserMutation,
+  onSuccess: async (response) => {
+    setIsLoading(false);
+    if (response.success) {
       toast.success(response.message);
-      setIsLoading(false);
-      window.location.reload()
-    },
-    onError: (error) => {
-      toast.error(error.message)
-      setIsLoading(false);
-    }}
-  );
-  const { setVisibleComponent } = useContext(DisplayContext);
+      queryClient.setQueryData(['user'], response.data);
+      await queryClient.invalidateQueries({queryKey:['user']});
+      setVisibleComponent('')
+    } else {
+      toast.error(response.message);
+      setVisibleComponent('')
+    }
+  },
+  onError: (error) => {
+    toast.error(error.message);
+    setIsLoading(false);
+  }
+});
   const { register, formState: { errors }, getValues, handleSubmit } = useForm<RegisterData>({ mode: 'onBlur' });
   const onSubmit = async (data: RegisterData) => {
     setIsLoading(true);
@@ -44,16 +47,16 @@ const RegisterComponent = () => {
     try {
       const user = await registerUser(data.email, data.password);
       if (user) {
-        const uid = user.uid; // Access the UID
         mutation.mutate({
           fullName,
           email,
           phoneNumber,
-          firebaseId: user.uid, // Ensure that user.uid is available
+          firebaseId: user.uid,
         });
       }
-    } catch (error) {
-      toast.error("Error To Register User !")
+    } catch (error: any) {
+      toast.error(error.message || "Error To Register User!");
+      setIsLoading(false); // Ensure loading state is reset on error
     }
   };
   return (
@@ -62,12 +65,13 @@ const RegisterComponent = () => {
         className="absolute top-0 left-0 w-screen min-h-screen flex flex-col justify-center items-center z-10"
         style={{ background: "var(--gradientwithOpacity)" }}
       >
-        <div className="bg-background max-w-[400px] p-6 rounded-lg shadow-lg relative">
+        {isLoading? <LoadingContainer/>:<div className="bg-background max-w-[400px] p-6 rounded-lg shadow-lg relative">
           <div className="registerComponentWrapper">
             <FontAwesomeIcon
               icon={faTimes}
               className="text-background bg-helper w-[30px] h-[30px] absolute top-0 right-0 cursor-pointer"
-              onClick={() => setVisibleComponent('')}
+              onClick={() => !isLoading && setVisibleComponent('')}
+              style={{ pointerEvents: isLoading ? 'none' : 'auto' }}
             />
             <h2 className="subHeading mb-4">Register</h2>
             <form className='flex flex-col gap-2' onSubmit={handleSubmit(onSubmit)}>
@@ -76,6 +80,7 @@ const RegisterComponent = () => {
                 placeholder="Full Name"
                 className="formItem"
                 id='firstName'
+                disabled={isLoading}
                 {...register("fullName", {
                   validate: (value) => validateFullName("Full Name", value, 3, 20)
                 })}
@@ -86,6 +91,7 @@ const RegisterComponent = () => {
                 placeholder="Email"
                 className="formItem"
                 id='email'
+                disabled={isLoading}
                 {...register("email", {
                   validate: (value) => validateEmail("Email", value)
                 })}
@@ -96,6 +102,7 @@ const RegisterComponent = () => {
                 placeholder="Phone Number"
                 className="formItem"
                 id='phoneNumber'
+                disabled={isLoading}
                 {...register("phoneNumber", {
                   validate: (value) => validateNumber("Phone Number", value, 10, 10)
                 })}
@@ -107,6 +114,7 @@ const RegisterComponent = () => {
                 className="formItem"
                 autoComplete='off'
                 id='password'
+                disabled={isLoading}
                 {...register("password", {
                   validate: (value) => validatePassword("Password", value, 8)
                 })}
@@ -118,26 +126,27 @@ const RegisterComponent = () => {
                 className="formItem"
                 id='confirmPassword'
                 autoComplete='off'
+                disabled={isLoading}
                 {...register("confirmPassword", {
                   validate: (value) => validateConfirmPassword("Confirm Password", getValues("password"), value)
                 })}
               />
               {errors.confirmPassword?.message && <SubmitError message={errors.confirmPassword.message} />}
-              {isLoading ? <LoadingButton/>:<PrimaryButton searchText='Register' />}
+              {isLoading ? <LoadingButton/> : <PrimaryButton searchText='Register' />}
             </form>
             <div className="usefulLinks my-2">
               <p className='secondaryHeading'>
                 <FontAwesomeIcon icon={faCaretRight} className='mr-2' />
-                Already have an account? <span className='link'>Login</span>
+                Already have an account? <span className='link' style={{ pointerEvents: isLoading ? 'none' : 'auto' }} >Login</span>
               </p>
               <p className='secondaryHeading'>
                 <FontAwesomeIcon icon={faCaretRight} className='mr-2' />
-                Forgot Password? <span className='link'>Reset Password</span>
+                Forgot Password? <span className='link' style={{ pointerEvents: isLoading ? 'none' : 'auto' }}>Reset Password</span>
               </p>
             </div>
           </div>
-          <SocialMediaAuth action="Register" />
-        </div>
+          <SocialMediaAuth action="Register"/>
+        </div>}
       </div>
     </>
   );

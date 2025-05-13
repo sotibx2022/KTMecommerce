@@ -24,13 +24,12 @@ export async function POST(request: NextRequest) {
       phoneNumber,
       firebaseId,
     });
-    console.log("New user before saving:", newUser);
     await newUser.save();
     const response = NextResponse.json({
       status: 201, // Created
       message: "User registered successfully",
       success: true,
-      newUser,
+      data:newUser,
     });
     response.cookies.set("_id", newUser._id.toString(), {
       httpOnly: true,

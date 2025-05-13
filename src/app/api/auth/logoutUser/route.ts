@@ -6,6 +6,7 @@ export async function GET(req: NextRequest) {
       message: "User Logout Successfully",
       status: 200,
       success: true,
+      data:null,
     });
     response.cookies.set("_id", "", { path: "/", expires: new Date(0) }); // Clear the "_id" cookie
     return response;

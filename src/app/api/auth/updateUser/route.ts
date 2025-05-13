@@ -70,6 +70,7 @@ export async function POST(req: NextRequest) {
       message: "User updated successfully.",
       success: true,
       status: 200,
+      data:updatedUser,
     });
     return response;
   } catch (error) {

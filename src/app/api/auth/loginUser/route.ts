@@ -9,6 +9,7 @@ export async function POST(request: NextRequest) {
         message: "Login Successful",
         status: 200,
         success: true,
+        data:user,
       });
         response.cookies.set("_id", user._id.toString(), {
           httpOnly: true, // Makes the cookie accessible only by the server

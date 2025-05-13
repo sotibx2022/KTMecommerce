@@ -10,34 +10,36 @@ import { LoginData } from '@/app/types/formData';
 import { validateEmail, validatePassword } from '@/app/services/helperFunctions/validatorFunctions';
 import SubmitError from '../submit/SubmitError';
 import loginUser from '@/app/services/firebaseFunctions/loginUser';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { APIResponseError, APIResponseSuccess, loginUserMutation } from '@/app/services/queryFunctions/users';
 import LoadingButton from '../primaryButton/LoadingButton';
 import toast from 'react-hot-toast';
+import LoadingContainer from '../loadingComponent/LoadingContainer';
 const LoginComponent = () => {
   const {setVisibleComponent} = useContext(DisplayContext);
   const {register, formState:{errors}, handleSubmit} = useForm<LoginData>({mode:'onBlur'})
-  const[isLoading,setIsLoading] = useState(false)
+  const queryCLient = useQueryClient()
   const mutation = useMutation<APIResponseSuccess | APIResponseError, Error, LoginData>({
     mutationFn:loginUserMutation,
-    onSuccess:(response)=>{
-      toast.success(response.message);
-      window.location.reload()
+    onSuccess:async(response)=>{
+      if(response.success){
+toast.success(response.message);
+queryCLient.setQueryData(['user'],response.data);
+await queryCLient.invalidateQueries({queryKey:['user']});
+setVisibleComponent('')
+      }else{
+toast.error(response.message);
+      setVisibleComponent('')
+      }
     },
     onError:(error)=>{
       toast.error(error.message)
     }
   })
   const onSubmit=async(data:LoginData)=>{
-    console.log(data.email,data.password);
-    setIsLoading(true);
 const {success,message} = await loginUser(data.email,data.password);
 if(success){
  mutation.mutate({email:data.email,password:data.password});
- setIsLoading(false)
-}else{
-  setIsLoading(false);
-  toast.error(message)
 }
   }
   return (
@@ -46,7 +48,7 @@ if(success){
         className="absolute top-0 left-0 w-screen min-h-screen flex flex-col justify-center items-center z-10"
         style={{ background: "var(--gradientwithOpacity)" }}
       >
-        <div className="bg-background max-w-[400px] p-6 rounded-lg shadow-lg relative">
+       {mutation.isPending ? <LoadingContainer/>: <div className="bg-background max-w-[400px] p-6 rounded-lg shadow-lg relative">
           <form className="flex flex-col gap-2" onSubmit={handleSubmit(onSubmit)}>
             {/* Close Icon */}
             <FontAwesomeIcon
@@ -74,7 +76,7 @@ onClick={()=>setVisibleComponent('')}
               })}
             />
             {errors.password?.message && <SubmitError message={errors.password.message}/>}
-            {isLoading ? <LoadingButton/>:<PrimaryButton searchText='Login' />}
+            {mutation.isPending ? <LoadingButton/>:<PrimaryButton searchText='Login' />}
             </form>
             <div className="usefulLinks my-2">
               <p className="secondaryHeading">
@@ -88,7 +90,7 @@ onClick={()=>setVisibleComponent('')}
             </div>
         {/* Social Media Auth Section */}
         <SocialMediaAuth action="Login"/>
-      </div>
+      </div>}
       </div>
     </>
   );

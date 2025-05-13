@@ -1,6 +1,12 @@
 import { ICartItem } from "./cart";
 import { IOrderDetails } from "./orders";
 import { IProductCreate } from "./products";
+export interface RegisterUserInput {
+  fullName: string;
+  email: string;
+  phoneNumber: string;
+  firebaseId: string;
+}
 export interface IUser {
     fullName: string;
     email: string;
