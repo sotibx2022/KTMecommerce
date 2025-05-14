@@ -15,6 +15,7 @@ import { APIResponseError, APIResponseSuccess, loginUserMutation } from '@/app/s
 import LoadingButton from '../primaryButton/LoadingButton';
 import toast from 'react-hot-toast';
 import LoadingContainer from '../loadingComponent/LoadingContainer';
+import { AbsoluteComponent } from '../absoluteComponent/AbsoluteComponent';
 const LoginComponent = () => {
   const {setVisibleComponent} = useContext(DisplayContext);
   const {register, formState:{errors}, handleSubmit} = useForm<LoginData>({mode:'onBlur'})
@@ -44,18 +45,10 @@ if(success){
   }
   return (
     <>
-      <div
-        className="absolute top-0 left-0 w-screen min-h-screen flex flex-col justify-center items-center z-10"
-        style={{ background: "var(--gradientwithOpacity)" }}
-      >
-       {mutation.isPending ? <LoadingContainer/>: <div className="bg-background max-w-[400px] p-6 rounded-lg shadow-lg relative">
+      <AbsoluteComponent>
+         {mutation.isPending ? <LoadingContainer/>: <div className="bg-background max-w-[400px] p-6 rounded-lg shadow-lg relative">
           <form className="flex flex-col gap-2" onSubmit={handleSubmit(onSubmit)}>
             {/* Close Icon */}
-            <FontAwesomeIcon
-              icon={faTimes}
-              className="text-background bg-helper w-[30px] h-[30px] absolute top-0 right-0 cursor-pointer"
-onClick={()=>setVisibleComponent('')}
-            />
             <h2 className="subHeading mb-4">Login</h2>
             <input
               type="email"
@@ -91,7 +84,7 @@ onClick={()=>setVisibleComponent('')}
         {/* Social Media Auth Section */}
         <SocialMediaAuth action="Login"/>
       </div>}
-      </div>
+      </AbsoluteComponent>
     </>
   );
 };

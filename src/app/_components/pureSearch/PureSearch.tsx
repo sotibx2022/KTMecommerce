@@ -6,6 +6,7 @@ import IconButton from '../iconText/IconButton'
 import { faSearch, faTimes } from '@fortawesome/free-solid-svg-icons'
 import { DisplayContext } from '@/app/context/DisplayComponents'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { AbsoluteComponent } from '../absoluteComponent/AbsoluteComponent'
 const PureSearch = () => {
     const {setVisibleComponent} = useContext(DisplayContext)
     const[searchValue,setSearchValue] = useState('')
@@ -16,8 +17,8 @@ const PureSearch = () => {
         }
       };
   return (
-    <div className='absolute top-0 left-0 w-screen h-screen flex-center z-10'   style={{ background: "var(--gradientwithOpacity)" }}>
-        <div className="searchArea flex  flex-col items-start gap-4 bg-primaryLight p-8 relative min-h-[200px]">
+        <AbsoluteComponent>
+          <div className="searchArea flex  flex-col items-start gap-4 bg-primaryLight p-8 relative min-h-[200px]">
         <input
           type='text'
           placeholder='Search the product'
@@ -26,13 +27,8 @@ const PureSearch = () => {
           onChange={(e) => setSearchValue(e.target.value)}
         />
         <PrimaryButton searchText='Search' onClick={handleSearch} />
-         <FontAwesomeIcon
-                     icon={faTimes}
-                     className="text-background bg-helper w-[30px] h-[30px] absolute top-0 right-0 cursor-pointer"
-       onClick={()=>setVisibleComponent('')}
-                   />
       </div>
-    </div>
+        </AbsoluteComponent>
   )
 }
 export default PureSearch

@@ -17,6 +17,7 @@ import LoadingButton from '../primaryButton/LoadingButton';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import LoadingContainer from '../loadingComponent/LoadingContainer';
+import { AbsoluteComponent } from '../absoluteComponent/AbsoluteComponent';
 const RegisterComponent = () => {
   const [isLoading, setIsLoading] = useState(false);
 const queryClient = useQueryClient(); // Make sure this is declared at the top of your component
@@ -60,19 +61,9 @@ const mutation = useMutation<APIResponseSuccess | APIResponseError, Error, Regis
     }
   };
   return (
-    <>
-      <div
-        className="absolute top-0 left-0 w-screen min-h-screen flex flex-col justify-center items-center z-10"
-        style={{ background: "var(--gradientwithOpacity)" }}
-      >
-        {isLoading? <LoadingContainer/>:<div className="bg-background max-w-[400px] p-6 rounded-lg shadow-lg relative">
+        <AbsoluteComponent>
+          {isLoading? <LoadingContainer/>:<div className="bg-background max-w-[400px] p-6 rounded-lg shadow-lg relative">
           <div className="registerComponentWrapper">
-            <FontAwesomeIcon
-              icon={faTimes}
-              className="text-background bg-helper w-[30px] h-[30px] absolute top-0 right-0 cursor-pointer"
-              onClick={() => !isLoading && setVisibleComponent('')}
-              style={{ pointerEvents: isLoading ? 'none' : 'auto' }}
-            />
             <h2 className="subHeading mb-4">Register</h2>
             <form className='flex flex-col gap-2' onSubmit={handleSubmit(onSubmit)}>
               <input
@@ -147,8 +138,7 @@ const mutation = useMutation<APIResponseSuccess | APIResponseError, Error, Regis
           </div>
           <SocialMediaAuth action="Register"/>
         </div>}
-      </div>
-    </>
+        </AbsoluteComponent>
   );
 };
 export default RegisterComponent;

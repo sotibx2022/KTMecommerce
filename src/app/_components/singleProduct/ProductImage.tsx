@@ -8,6 +8,7 @@ import dynamic from "next/dynamic";
 import { DisplayContext } from "@/app/context/DisplayComponents";
 import { ICartItem } from "@/app/types/cart";
 import { IProductDisplay } from "@/app/types/products";
+import { AbsoluteComponent } from "../absoluteComponent/AbsoluteComponent";
 const DisplaySingleProductRating = dynamic(
     () => import('../singleProductReviews/DisplaySingleProductRating'),
     { 
@@ -45,14 +46,8 @@ const downloadImage = async (name: string) => {
         overallRating
     } = cartItemDetails;
     return (
-        <div className="absolute top-0 left-0 w-screen h-screen flex flex-col justify-center items-center z-10"
-            style={{ background: "var(--gradientwithOpacity)" }}>
-            <div id="snapshot-container" className="p-4 gap-4 bg-background max-w-[800px] border-2 border-helper relative overflow-hidden">
-                <FontAwesomeIcon
-                              icon={faTimes}
-                              className="text-background bg-helper w-[30px] h-[30px] absolute top-0 right-0 cursor-pointer"
-                onClick={()=>setVisibleComponent('')}
-                            />
+           <AbsoluteComponent>
+             <div id="snapshot-container" className="p-4 gap-4 bg-background max-w-[800px] border-2 border-helper relative overflow-hidden">
                 <div className="p-4 gap-4  bg-background border-2 border-helper">
                     <h1 className="subHeading">
                         {productName}
@@ -118,7 +113,7 @@ const downloadImage = async (name: string) => {
   onClick={() => handleShare("whatsapp")}
 />
            </div>}
-        </div>
+           </AbsoluteComponent>
     );
 };
 export default ProductImage;
