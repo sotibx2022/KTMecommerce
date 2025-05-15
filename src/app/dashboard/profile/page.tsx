@@ -5,7 +5,7 @@ import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
 import ProfileAdditionalDetails from '@/app/_components/ProfileAdditionalDetails/ProfileAdditionalDetails';
 import UploadProfile from '@/app/_components/UploadProfile/UploadProfile';
 import { useForm } from 'react-hook-form';
-import { validateNumber, validateWord } from '@/app/services/helperFunctions/validatorFunctions';
+import { validateFullName, validateNumber, validateWord } from '@/app/services/helperFunctions/validatorFunctions';
 import SubmitError from '@/app/_components/submit/SubmitError';
 import { IUpdateUserData } from '@/app/types/formData';
 import toast from 'react-hot-toast';
@@ -13,6 +13,7 @@ import { APIResponseError, APIResponseSuccess, updateUserMutation } from '@/app/
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import LoadingButton from '@/app/_components/primaryButton/LoadingButton';
 import { IUser } from '@/app/types/user';
+import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponent';
 const Page = () => {
   const[isLoading,setIsLoading] = useState(false);
   const[profileFile,setProfileFile] = useState<undefined | File>(undefined)
@@ -42,6 +43,7 @@ const Page = () => {
   }
 });
   const onSubmit = (data:IUpdateUserData) => {
+    console.log(data);
     setIsLoading(true);
     if(!profileFile){
       setIsLoading(false);
@@ -75,17 +77,21 @@ const Page = () => {
     if(userDetails.address){
       setValue("fullAddress",userDetails.address)
     }
+    if(userDetails.profileImage){
+      setValue('profileUrl',userDetails.profileImage)
+    }
   }
   },[userDetails])
   return (
-    <form className='container my-4' onSubmit={handleSubmit(onSubmit)}>
+    <>{isLoading?<LoadingComponent/>:<form className='container my-4' onSubmit={handleSubmit(onSubmit)}>
       <div className="flex justify-between mb-4">
         <div className="w-2/5 flex flex-col gap-2">
           <div>
             <label className="formLabel">Full Name</label>
             <input type="text" className="formItem " placeholder="Binaya Raj Soti" id='fullName'
+            disabled={!userDetails}
               {...register("fullName", {
-                              validate: (value) => validateWord("Full Name", value, 3, 20)
+                              validate: (value) => validateFullName("Full Name", value, 3, 20)
               })}
             />
             {errors.fullName?.message && <SubmitError message={errors?.fullName?.message}/>}
@@ -98,6 +104,7 @@ const Page = () => {
           <div>
             <label className="formLabel">Phone Number</label>
             <input type="text" className="formItem " placeholder="+123 456 7890" id="phoneNumber"
+            disabled={!userDetails}
             {...register("phoneNumber",{
               validate: (value) =>validateNumber("Phone Number",value,10,10)
             })} />
@@ -110,6 +117,7 @@ const Page = () => {
   className="formItem"
   placeholder="123 Main St, City, Country"
   id="fullAddress"
+  disabled={!userDetails}
   {...register("fullAddress", {
     required: "Full Address is Required.",
     minLength: {
@@ -126,14 +134,14 @@ const Page = () => {
           </div>
         </div>
         <div className="w-2/5">
-          <div className="flex flex-col w-full h-full ">
+          <div className="flex flex-col w-full h-full">
            <UploadProfile profileImageURL ={receiveImageURL} imageFromDb={userDetails?.profileImage}/>
             <ProfileAdditionalDetails />
           </div>
         </div>
       </div>
       {isLoading ? <LoadingButton/> :<PrimaryButton searchText="Update" />}
-    </form>
+    </form>}</>
   );
 };
 export default Page;

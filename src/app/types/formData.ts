@@ -1,6 +1,5 @@
 export interface RegisterData {
-    firstName:string,
-    lastName:string,
+    fullName:string;
     email: string; // Corrected: Changed `email` to `string`
     phoneNumber: string; // Corrected: Changed `Number` to `number`
     password: string;

@@ -3,7 +3,6 @@ import PrimaryButton from '@/app/_components/primaryButton/PrimaryButton';
 import { faCaretRight, faEnvelope, faLock, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useContext, useState } from 'react';
-import SocialMediaAuth from './SocialMediaAuth';
 import { DisplayContext } from '@/app/context/DisplayComponents';
 import { useForm } from 'react-hook-form';
 import { LoginData } from '@/app/types/formData';
@@ -99,8 +98,6 @@ if(success){
     }} >Register</span>
                          </p>
                        </div>
-        {/* Social Media Auth Section */}
-        <SocialMediaAuth action="Login"/>
       </div>}
       </AbsoluteComponent>
       {visibleComponent==='register' && <RegisterComponent/>}

@@ -13,27 +13,33 @@ const ProfileAdditionalDetails = () => {
       throw new Error ("The User Details Context is not defined")
     }
     const {userDetails} = context;
+    console.log(userDetails);
   return (
     <div>
                 <div className="profileAdditionalDetails">
-      <ul>
-      <li className='primaryParagraph text-sm capitalize'>
-          <FontAwesomeIcon icon={faUser} className="mr-2" />
+     {userDetails? <ul>
+      <li className='primaryParagraph capitalize'>
+          <FontAwesomeIcon icon={faUser} className="mr-2" size='sm'/>
           {userDetails?.accountStatus}
         </li>
-        <Link href="/dashboard/carts"><li className='primaryParagraph text-sm'>
-          <FontAwesomeIcon icon={faShoppingCart} className="mr-2" />
+        <Link href="/dashboard/carts"><li className='primaryParagraph'>
+          <FontAwesomeIcon icon={faShoppingCart} className="mr-2" size='sm' />
           Carts:<span className='hover:underline ml-2'>{cartItems.length || 0}</span>
         </li></Link>
-        <Link href="/dashboard/wishlist"><li className='primaryParagraph text-sm'>
-          <FontAwesomeIcon icon={faHeart} className="mr-2" />
+        <Link href="/dashboard/wishlist"><li className='primaryParagraph'>
+          <FontAwesomeIcon icon={faHeart} className="mr-2" size='sm'/>
           Wishlists:<span className='hover:underline ml-2'>{userDetails?.wishlist?.length || 0}</span> 
         </li></Link>
-       <Link href="/dashboard/orders"> <li className='primaryParagraph text-sm'>
-          <FontAwesomeIcon icon={faClipboardList} className="mr-2" />
+       <Link href="/dashboard/orders"> <li className='primaryParagraph'>
+          <FontAwesomeIcon icon={faClipboardList} className="mr-2" size='sm'/>
           Orders: <span className='hover:underline ml-2'>{userDetails?.orderHistory?.length || 0}</span>
         </li></Link>
-      </ul>
+      </ul>:<ul className='flex flex-col gap-2'>
+        <li className='w-1/3 h-[20px] bg-primaryLight rounded-lg animate-pulse'></li>
+        <li className='w-1/3 h-[20px] bg-primaryLight rounded-lg animate-pulse'></li>
+        <li className='w-1/3 h-[20px] bg-primaryLight rounded-lg animate-pulse'></li>
+        <li className='w-1/3 h-[20px] bg-primaryLight rounded-lg animate-pulse'></li>
+        </ul>}
     </div>
     </div>
   )

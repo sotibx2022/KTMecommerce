@@ -3,7 +3,6 @@ import PrimaryButton from '@/app/_components/primaryButton/PrimaryButton';
 import { faCaretRight, faUser, faEnvelope, faPhone, faLock } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useContext, useState } from 'react';
-import SocialMediaAuth from './SocialMediaAuth';
 import { DisplayContext } from '@/app/context/DisplayComponents';
 import { useForm } from 'react-hook-form';
 import SubmitError from '../submit/SubmitError';
@@ -16,9 +15,9 @@ import { IUser, RegisterUserInput } from '@/app/types/user';
 import LoadingButton from '../primaryButton/LoadingButton';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
-import LoadingContainer from '../loadingComponent/LoadingContainer';
 import { AbsoluteComponent } from '../absoluteComponent/AbsoluteComponent';
 import LoginComponent from './LoginComponent';
+import LoadingComponent from '../loadingComponent/LoadingComponent';
 const RegisterComponent = () => {
   const [isLoading, setIsLoading] = useState(false);
   const queryClient = useQueryClient();
@@ -45,8 +44,7 @@ const RegisterComponent = () => {
   const { register, formState: { errors }, getValues, handleSubmit } = useForm<RegisterData>({ mode: 'onBlur' });
   const onSubmit = async (data: RegisterData) => {
     setIsLoading(true);
-    const { firstName, lastName, email, phoneNumber } = data;
-    const fullName = `${firstName} ${lastName}`;
+    const { fullName, email, phoneNumber } = data;
     try {
       const user = await registerUser(data.email, data.password);
       if (user) {
@@ -65,50 +63,30 @@ const RegisterComponent = () => {
   return (
     <>
     <AbsoluteComponent>
-      {isLoading ? <LoadingContainer/> : 
+      {isLoading ? <LoadingComponent/> : 
         <div className="bg-background max-w-[400px] p-6 rounded-lg shadow-lg relative">
           <div className="registerComponentWrapper">
             <h2 className="subHeading mb-4">Register</h2>
             <form className='flex flex-col gap-4' onSubmit={handleSubmit(onSubmit)}>
-              {/* First Name */}
+              {/* Full Name */}
               <div>
                 <div className="flex items-center mb-1">
                   <FontAwesomeIcon icon={faUser} className='text-primaryDark mr-2' />
-                  <label htmlFor="firstName" className='primaryParagraph'>
-                    First Name <span className="text-red-500">*</span>
+                  <label htmlFor="fullName" className='primaryParagraph'>
+                    Full Name <span className="text-red-500">*</span>
                   </label>
                 </div>
                 <input
                   type="text"
                   placeholder="John"
                   className="formItem w-full"
-                  id='firstName'
+                  id='fullName'
                   disabled={isLoading}
-                  {...register("firstName", {
+                  {...register("fullName", {
                     validate: (value) => validateFullName("First Name", value, 2, 20)
                   })}
                 />
-                {errors.firstName?.message && <SubmitError message={errors.firstName.message} />}
-              </div>
-              {/* Last Name */}
-              <div>
-                <div className="flex items-center mb-1">
-                  <FontAwesomeIcon icon={faUser} className="text-primaryDark mr-2" />
-                  <label htmlFor="lastName" className='primaryParagraph'>
-                    Last Name <span className="text-red-500">*</span>
-                  </label>
-                </div>
-                <input
-                  type="text"
-                  placeholder="Doe"
-                  className="formItem w-full"
-                  id='lastName'
-                  disabled={isLoading}
-                  {...register("lastName", {
-                    validate: (value) => validateFullName("Last Name", value, 2, 20)
-                  })}
-                />
-                {errors.lastName?.message && <SubmitError message={errors.lastName.message} />}
+                {errors.fullName?.message && <SubmitError message={errors.fullName.message} />}
               </div>
               {/* Email */}
               <div>
@@ -201,7 +179,6 @@ const RegisterComponent = () => {
               </p>
             </div>
           </div>
-          <SocialMediaAuth action="Register"/>
         </div>
       }
     </AbsoluteComponent>
