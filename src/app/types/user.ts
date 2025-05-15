@@ -10,7 +10,7 @@ export interface RegisterUserInput {
 export interface IUser {
     fullName: string;
     email: string;
-    phoneNumber: string;
+    phoneNumber?: string;
     firebaseId: string;
     isAdmin?: boolean; // Optional field
     accountStatus?: string; // Optional field, e.g., "Registered", "Customer"
@@ -24,5 +24,5 @@ profileFileType?:string;
     roles?: string; // Optional field, default 'user'
     createdAt?: Date | string; // Optional field for the user creation date
     updatedAt?: Date | string; // Optional field for the user last updated date
-    orderHistory:IOrderDetails[]
+    orderHistory?:IOrderDetails[]
   }

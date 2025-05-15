@@ -1,6 +1,6 @@
 "use client"
 import PrimaryButton from '@/app/_components/primaryButton/PrimaryButton';
-import { faCaretRight, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faCaretRight, faEnvelope, faLock, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useContext, useState } from 'react';
 import SocialMediaAuth from './SocialMediaAuth';
@@ -16,8 +16,11 @@ import LoadingButton from '../primaryButton/LoadingButton';
 import toast from 'react-hot-toast';
 import LoadingContainer from '../loadingComponent/LoadingContainer';
 import { AbsoluteComponent } from '../absoluteComponent/AbsoluteComponent';
+import dynamic from 'next/dynamic';
+import ResetPasswordComponent from './ResetPasswordComponent';
+import RegisterComponent from './RegisterComponent';
 const LoginComponent = () => {
-  const {setVisibleComponent} = useContext(DisplayContext);
+  const {visibleComponent,setVisibleComponent} = useContext(DisplayContext);
   const {register, formState:{errors}, handleSubmit} = useForm<LoginData>({mode:'onBlur'})
   const queryCLient = useQueryClient()
   const mutation = useMutation<APIResponseSuccess | APIResponseError, Error, LoginData>({
@@ -50,41 +53,72 @@ if(success){
           <form className="flex flex-col gap-2" onSubmit={handleSubmit(onSubmit)}>
             {/* Close Icon */}
             <h2 className="subHeading mb-4">Login</h2>
-            <input
-              type="email"
-              placeholder="Email"
-              className="formItem" id='email'
-              {...register("email",{
-                validate:(value)=>validateEmail("Email",value)
-              })}
-            />
-            {errors.email?.message && <SubmitError message={errors.email.message}/>}
-            <input
-              type="password"
-              placeholder="Password"
-              className="formItem" id='password'
-              autoComplete='off'
-              {...register("password",{
-                validate:(value)=>validatePassword("Password",value,8)
-              })}
-            />
-            {errors.password?.message && <SubmitError message={errors.password.message}/>}
+            <div>
+                <div className="flex items-center mb-1">
+                  <FontAwesomeIcon icon={faEnvelope} className='text-primaryDark mr-2' />
+                  <label htmlFor="email" className='primaryParagraph'>
+                    Email <span className="text-red-500">*</span>
+                  </label>
+                </div>
+                <input
+                  type="email"
+                  placeholder="john@example.com"
+                  className="formItem w-full"
+                  id='email'
+                  {...register("email", {
+                    validate: (value) => validateEmail("Email", value)
+                  })}
+                />
+                {errors.email?.message && <SubmitError message={errors.email.message} />}
+              </div>
+            <div>
+                            <div className="flex items-center mb-1">
+                              <FontAwesomeIcon icon={faLock} className='text-primaryDark mr-2' />
+                              <label htmlFor="password" className='primaryParagraph'>
+                                Password <span className="text-red-500">*</span>
+                              </label>
+                            </div>
+                            <input
+                              type="password"
+                              placeholder="••••••••"
+                              className="formItem w-full"
+                              autoComplete='off'
+                              id='password'
+                              {...register("password", {
+                                validate: (value) => validatePassword("Password", value, 8)
+                              })}
+                            />
+                            {errors.password?.message && <SubmitError message={errors.password.message} />}
+                          </div>
             {mutation.isPending ? <LoadingButton/>:<PrimaryButton searchText='Login' />}
             </form>
-            <div className="usefulLinks my-2">
-              <p className="secondaryHeading">
-                <FontAwesomeIcon icon={faCaretRight} className="mr-2" />
-                Don't have an account? <span className="link">Sign up</span>
-              </p>
-              <p className="secondaryHeading">
-                <FontAwesomeIcon icon={faCaretRight} className="mr-2" />
-                Forget Password ? <span className="link">Reset Password</span>
-              </p>
-            </div>
+            <div className="usefulLinks mt-6 space-y-3 border-t border-primaryLight pt-4">
+                         <p className='text-sm text-primaryParagraph'>
+                           <FontAwesomeIcon icon={faCaretRight} className='mr-2 primaryParagraph' />
+                           Already have an account? <span className='link' onClick={() => {
+      setVisibleComponent('register');
+      console.log(visibleComponent); // Use console.log instead of alert for debugging
+    }} >Register</span>
+                         </p>
+                        <p className='text-sm text-primaryParagraph'>
+  <FontAwesomeIcon icon={faCaretRight} className='mr-2 primaryParagraph' />
+  Forgot Password? <span 
+    className='link' 
+    onClick={() => {
+      setVisibleComponent('resetPassword');
+      console.log(visibleComponent); // Use console.log instead of alert for debugging
+    }}
+  >
+    Reset
+  </span>
+</p>
+                       </div>
         {/* Social Media Auth Section */}
         <SocialMediaAuth action="Login"/>
       </div>}
       </AbsoluteComponent>
+      {visibleComponent ==='resetPassword' && <ResetPasswordComponent/>}
+      {visibleComponent==='register' && <RegisterComponent/>}
     </>
   );
 };

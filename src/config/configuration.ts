@@ -8,6 +8,9 @@ const _config = {
     storageBucket: process.env.FIREBASE_STORAGE_BUCKET!,
     messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID!,
     appId: process.env.FIREBASE_APP_ID!,
+    firebaseprojectId:process.env.FIREBASE_PROJECT_ID!,
+    firebaseclientEmail:process.env.FIREBASE_CLIENT_EMAIL!,
+    firebaseprivateKey:process.env.FIREBASE_ADMIN_PRIVATE_KEY!
   },
   cloudinary: {
     cloudName: process.env.CLOUDINARY_CLOUD_NAME!,

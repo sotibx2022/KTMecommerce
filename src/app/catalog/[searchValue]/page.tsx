@@ -47,7 +47,6 @@ const ProductsPage = () => {
     setSearchValues(newValues)
     updateURL(newValues)
   }
-  console.log(searchValues);
   const { data, isPending, isError } = useQuery({
     queryKey: ['selectedProducts', searchValues],
     queryFn: () => getSelectedProducts(searchValues),
