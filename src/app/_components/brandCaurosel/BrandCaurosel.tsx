@@ -26,7 +26,7 @@ import gsap from "gsap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUp, faArrowDown } from "@fortawesome/free-solid-svg-icons";
 import LinkComponent from "../linkComponent/LinkComponent";
-const BookCarousel = () => {
+const BrandCaurosel = () => {
   const [slidesPerView, setSlidesPerView] = useState(1);
   // Functions to calculate total width and slides per view
   const calculateSlidesPerView = () => {
@@ -116,4 +116,4 @@ const BookCarousel = () => {
     </section>
   );
 };
-export default BookCarousel;
+export default BrandCaurosel;

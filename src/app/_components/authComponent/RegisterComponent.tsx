@@ -199,10 +199,6 @@ const RegisterComponent = () => {
                 <FontAwesomeIcon icon={faCaretRight} className='mr-2 primaryParagraph' />
                 Already have an account? <span className='link' onClick={()=>setVisibleComponent('login')}>Login</span>
               </p>
-              <p className='text-sm text-primaryParagraph'>
-                <FontAwesomeIcon icon={faCaretRight} className='mr-2 primaryParagraph' />
-                Forgot Password? <span className='link' onClick={()=>setVisibleComponent('resetPassword')}>Reset</span>
-              </p>
             </div>
           </div>
           <SocialMediaAuth action="Register"/>

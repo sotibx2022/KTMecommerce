@@ -79,7 +79,7 @@ const SingleProduct: React.FC<IProductDisplay> = ({ ...cartItemDetails }) => {
           </ul>
         </div>
         <div className="md:w-1/2  h-auto">
-          <img src={image} alt={productName} className=" h-auto rounded-lg" />
+          <img src={image} alt={productName} className="max-w-[300px] h-auto rounded-lg" loading="lazy" />
         </div>
       </div>
       <div className="productActions flex gap-4 my-4 items-center justify-center md:justify-start">

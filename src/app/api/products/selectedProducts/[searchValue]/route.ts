@@ -7,10 +7,7 @@ export const config = {
 };
 export async function GET(request: NextRequest) {
   try {
-     const headers = new Headers();
-    headers.set('Cache-Control', 'private, no-cache, no-store, must-revalidate');
-    headers.set('Pragma', 'no-cache');
-    headers.set('Expires', '0');
+
     const url = new URL(request.url);
     const searchParams = new URLSearchParams(url.search);
     const keyword = searchParams.get('keyword');

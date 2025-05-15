@@ -1,8 +1,12 @@
 import { productModel } from "@/models/products.model";
 import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
+  // api/products/specificProducts/advanceCategories?validProperty=isNewArrivals&page=1
   const url = new URL(req.url);
-  const property = url.pathname.split("/").pop();
+  const searchParams = new URLSearchParams(url.search);
+  const property = searchParams.get('validProperty');
+  const page = parseInt(searchParams.get('page') || '1', 10);
+  const limit = parseInt(searchParams.get('limit')||'12',10);
   const validProperties = ["isNewArrivals", "isTrendingNow", "isTopSell", "isOfferItem"];
   if (!property || !validProperties.includes(property)) {
     return NextResponse.json(
@@ -12,20 +16,28 @@ export async function GET(req: NextRequest) {
   }
   try {
     const products = await productModel
-      .find({ [property]: true }, { name: 1,productName:1, image: 1, price:1 }) // Projection
-      .select('image,productName,price,_id')
+      .find({ [property]: true })
+       .select('_id brand stockAvailability image productDescription productName overallRating url_slug price')
       .lean() // Faster plain objects
-      .limit(8);
+      .skip((page-1)*limit)
+      .limit(limit);
     if (!products.length) {
       return NextResponse.json(
         { message: `No products found for ${property}.`, success: true },
         { status: 404 }
       );
     }
+    const totalItems = await productModel.countDocuments({[property]:true})
     return NextResponse.json({
       message: "Products fetched successfully.",
       success: true,
-      products,
+      pagination: {
+            currentPage: page,
+            totalPages: Math.ceil(totalItems/limit),
+            totalItems: totalItems,
+            limit: limit,
+          },
+      products:products,
     });
   } catch (error) {
     return NextResponse.json(

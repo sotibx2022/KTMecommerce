@@ -6,6 +6,7 @@ export async function GET(request: NextRequest) {
     const url = new URL(request.url);
     const pathSegments = url.pathname.split("/");
     const productId = pathSegments.pop(); // Assuming the productId is the last segment
+    const productObjectId = new Object(productId)
     // Validate the productId
     if (!productId) {
       return NextResponse.json({
@@ -16,7 +17,7 @@ export async function GET(request: NextRequest) {
     }
     // Find the product in the database
     const singleProduct = await productModel
-    .findOne({ _id: productId })
+    .findOne({ _id: productObjectId })
     .select('_id brand price stockAvailability image productDescription productFeatures productName overallRating')
     .lean();
     if (!singleProduct) {

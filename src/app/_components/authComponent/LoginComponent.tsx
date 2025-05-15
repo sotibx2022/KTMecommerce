@@ -98,18 +98,6 @@ if(success){
       console.log(visibleComponent); // Use console.log instead of alert for debugging
     }} >Register</span>
                          </p>
-                        <p className='text-sm text-primaryParagraph'>
-  <FontAwesomeIcon icon={faCaretRight} className='mr-2 primaryParagraph' />
-  Forgot Password? <span 
-    className='link' 
-    onClick={() => {
-      setVisibleComponent('resetPassword');
-      console.log(visibleComponent); // Use console.log instead of alert for debugging
-    }}
-  >
-    Reset
-  </span>
-</p>
                        </div>
         {/* Social Media Auth Section */}
         <SocialMediaAuth action="Login"/>

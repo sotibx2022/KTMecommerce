@@ -32,7 +32,9 @@ export async function getProductsByKeyword(
     const products = await productModel
       .find(filterQuery)
       .skip((page - 1) * limit)
+      .lean()
       .limit(limit);
+      
     const totalPages = Math.ceil(totalItems / limit);
     return { products, totalItems, totalPages };
   } catch (error) {
@@ -66,6 +68,7 @@ export async function getProductsByCategory(
       .find(filterQuery)
       .select('_id brand stockAvailability image productDescription productName overallRating url_slug price')
       .skip((page - 1) * limit)
+      .lean()
       .limit(limit);
     const totalPages = Math.ceil(totalItems / limit);
     return { products, totalItems, totalPages };

@@ -4,31 +4,57 @@ import DisplaySingleProductRating from '../singleProductReviews/DisplaySinglePro
 import { IProductDisplay } from '@/app/types/products';
 import ProductCardAction from './ProductCardAction';
 import Image from 'next/image';
-const ProductCard: React.FC<IProductDisplay> = ({ brand, productName, productDescription, productFeatures, price, stockAvailability, variant, url_slug, image, _id,overallRating})=>{
-    return (
-        <Link href={`/singleProduct/id:${_id}&,slug:${url_slug}`}>
-        <div className="border shadow-primaryLight mb-4 flex flex-col items-start w-[250px] h-[400px] p-2 cursor-pointer">
-        <div className="imageArea w-full h-1/2 relative">
-            <img src={image} width={300} height={500} alt={productName} className="w-full h-full object-cover  hover:scale-105 transition-transform" loading='lazy' />
-            <h2 className="absolute bottom-0 w-full text-primaryDark text-lg font-bold bg-white bg-opacity-50 backdrop-blur-md border border-white flex items-center justify-center px-2">
-                <span className="secondaryHeading z-10 opacity-100">{productName}</span>
-            </h2>
+const ProductCard: React.FC<IProductDisplay> = ({
+  brand,
+  productName,
+  productDescription,
+  productFeatures,
+  price,
+  stockAvailability,
+  variant,
+  url_slug,
+  image,
+  _id,
+  overallRating
+}) => {
+  return (
+    <div className="group relative w-full max-w-[280px] overflow-hidden rounded-xl bg-background shadow-sm shadow-primaryLight transition-all duration-300 hover:shadow-lg">
+      <Link href={`/singleProduct/id:${_id}&,slug:${url_slug}`}>
+        <div className="relative h-64 w-full overflow-hidden">
+          <img
+            src={image}
+            alt={productName}
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            loading="lazy"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          />
+          <div className="absolute bottom-0 left-0 right-0  p-4"
+          style={{ background: "var(--gradientwithOpacity)" }}>
+            <h2 className="text-background font-bold text-lg">{productName}</h2>
+          </div>
+          {stockAvailability ? (
+            <span className="absolute top-3 right-3 rounded-full bg-green-500 px-2 py-1 text-xs font-semibold text-white">
+              In Stock
+            </span>
+          ) : (
+            <span className="absolute top-3 right-3 rounded-full bg-red-500 px-2 py-1 text-xs font-semibold text-white">
+              Out of Stock
+            </span>
+          )}
         </div>
-        <div className="contentArea w-full items-center mt-2 text-background bg-primaryLight p-2 h-1/2">
-            <p className="text-md">
-                {truncateText(productDescription)}
+        <div className="p-4">
+          <div className="mb-2 flex items-center justify-between">
+            <p className="text-primaryDark font-bold bg-helper p-2 rounded-lg">{brand}</p>
+            <p className="price-highlight">
+              ${parseFloat(price).toFixed(2)}
             </p>
-            <div className="overallRatingWrapper my-2">
-            <DisplaySingleProductRating rating={overallRating}/>
-            </div>
-            <div className="productDetails flex gap-2">
-                <p className="text-background bg-primaryDark p-2  rounded-md flex items-center">Brand: {brand}</p>
-                <p className="price-highlight">
-  ${price}
-</p>
-            </div>
+          </div>
+          <p className="mb-3 text-sm text-primaryDark line-clamp-2">
+            {productDescription}
+          </p>
         </div>
-    </div></Link>
-    );
+      </Link>
+    </div>
+  );
 };
 export default ProductCard;

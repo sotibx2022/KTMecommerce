@@ -2,10 +2,8 @@
 import RemarksDisplay from '@/app/_components/remarksDisplay/RemarksDisplay';
 import SingleProduct from '@/app/_components/singleProduct/SingleProduct';
 import AddSingleProductReviews from '@/app/_components/singleProductReviews/AddSingleProductReviews';
-import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponent';
 import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
 import { getSingleProduct } from '@/app/services/queryFunctions/products';
-import { IProductDisplay } from '@/app/types/products';
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useQuery } from '@tanstack/react-query';
@@ -15,6 +13,7 @@ import SecondaryButton from '@/app/_components/secondaryButton/SecondaryButton';
 import { DisplayContext } from '@/app/context/DisplayComponents';
 import EditSingleProductReview from '@/app/_components/singleProductReviews/EditSingleProductReview';
 import { getSpecificRemarks } from '@/app/services/queryFunctions/remarks';
+import SingleProductPageSkeleton from '@/app/_components/loadingComponent/SingleProductPageSkeleton';
 const ProductPage = () => {
   const context = useContext(UserDetailsContext);
   const {visibleComponent,setVisibleComponent} = useContext(DisplayContext)
@@ -47,10 +46,7 @@ const ProductPage = () => {
     productImage:productDatas?.image || ""
   }
   if (isPending) {
-    return <LoadingComponent />;
-  }
-  function handleReviewAdd(): void {
-    throw new Error('Function not implemented.');
+    return <SingleProductPageSkeleton />;
   }
   return (
     <>

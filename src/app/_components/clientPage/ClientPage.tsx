@@ -6,15 +6,13 @@ import Footer from '../footer/Footer'
 import ResponsiveHeader from '../navbar/responsiveHeader/ResponsiveHeader'
 import { DisplayContext } from '@/app/context/DisplayComponents'
 import PureSearch from '../pureSearch/PureSearch'
-import BookCarousel from '../brandCaurosel/BookCaurosel'
 import CategoryCards from '../categoryCards/CategoryCards'
 import AllProductsBanner from '../allProductsBanner/AllProductsBanner'
 import LoginComponent from '../authComponent/LoginComponent'
 import RegisterComponent from '../authComponent/RegisterComponent'
-import ResetPasswordComponent from '../authComponent/ResetPasswordComponent'
+import BrandCaurosel from '../brandCaurosel/BrandCaurosel'
 const ClientPage = () => {
   const { visibleComponent } = useContext(DisplayContext)
-  console.log(visibleComponent);
   return (
     <>
       <NavBar />
@@ -36,12 +34,11 @@ const ClientPage = () => {
       categoryType="isOfferItem"
       title="Limited Offer Items"
     />
-     <BookCarousel/>
+    <BrandCaurosel/>
       <Footer />
       {visibleComponent === 'responsiveHeader' && <ResponsiveHeader />}
       {visibleComponent === 'login' && <LoginComponent/>}
       {visibleComponent === 'register' && <RegisterComponent />}
-      {visibleComponent === 'resetPassword' && <ResetPasswordComponent />}
       {visibleComponent === 'pureSearch' && <PureSearch/>}
     </>
   )

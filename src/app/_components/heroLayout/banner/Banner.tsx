@@ -80,7 +80,7 @@ const Banner = () => {
     resetTitlePosition()
   };
   return (
-    <div className="swipperWrapper w-full h-[600px] relative">
+    <div className="swipperWrapper w-full h-[500px] relative">
       <Swiper
     modules={[ Scrollbar, A11y, Autoplay]} // Load Swiper modules
     spaceBetween={50}
@@ -92,7 +92,7 @@ const Banner = () => {
     {slidesData.map((slide, index) => (
       <SwiperSlide key={index}>
         <div className="slideImage relative ">
-          <img src={slide.image_url} alt={`slider${index + 1}`} className="object-cover w-full h-[600px]" />
+          <img src={slide.image_url} alt={`slider${index + 1}`} className="object-cover w-full h-[500px]" />
           <div className="slideOverlay top-0 left-0">
             <div className="absolute top-[10px] left-[10px] w-full p-4 text-white">
               <div className="sliderTitle w-full  md:h-[3rem] h-[2rem] overflow-hidden">
