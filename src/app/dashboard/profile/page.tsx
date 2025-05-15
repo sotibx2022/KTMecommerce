@@ -70,7 +70,7 @@ const Page = () => {
   useEffect(()=>{
   if(userDetails){
     setValue("fullName",userDetails.fullName);
-    setValue("phoneNumber",userDetails.phoneNumber);
+    setValue("phoneNumber",userDetails.phoneNumber || "");
     setValue("email",userDetails.email);
     if(userDetails.address){
       setValue("fullAddress",userDetails.address)
