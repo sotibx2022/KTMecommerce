@@ -5,7 +5,7 @@ import CatalogPageLayout from '@/app/catalog/[searchValue]/CatalogPageLayout';
 import { useSpecificCataegory } from '@/app/hooks/queryHooks/useSpecificCategory'
 import { IProductDisplay } from '@/app/types/products';
 import { useRouter, useSearchParams } from 'next/navigation';
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 interface CategoryPageComponent{
     categoryName:string
 }
