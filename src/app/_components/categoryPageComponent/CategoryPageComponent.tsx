@@ -18,10 +18,11 @@ const CategoryPageComponent:React.FC<CategoryPageComponent> = ({categoryName}) =
   const router = useRouter();
   function handlePageChange(page: number): void {
     const stringPage = page.toString()
-   router.push(`/products/specificProducts/advanceCategories?validProperty=${categoryName}&page=${stringPage}`)
+   router.push(`/pages/isNewArrivals?page=${page}`)
   }
   const products = isPending ? undefined :data?.products || []
   const pages = data?.pagination?.totalPages || 0
+  console.log(products);
   return (
     <div className="container mt-4">
       {isPending ? (
