@@ -16,6 +16,7 @@ import toast from 'react-hot-toast';
 import LoadingContainer from '../loadingComponent/LoadingContainer';
 import { AbsoluteComponent } from '../absoluteComponent/AbsoluteComponent';
 import RegisterComponent from './RegisterComponent';
+import LoadingComponent from '../loadingComponent/LoadingComponent';
 const LoginComponent = () => {
   const {visibleComponent,setVisibleComponent} = useContext(DisplayContext);
   const {register, formState:{errors}, handleSubmit} = useForm<LoginData>({mode:'onBlur'})
@@ -46,7 +47,7 @@ if(success){
   return (
     <>
       <AbsoluteComponent>
-         {mutation.isPending ? <LoadingContainer/>: <div className="bg-background max-w-[400px] p-6 rounded-lg shadow-lg relative">
+         {mutation.isPending ? <LoadingComponent/>: <div className="bg-background max-w-[400px] p-6 rounded-lg shadow-lg relative">
           <form className="flex flex-col gap-2" onSubmit={handleSubmit(onSubmit)}>
             {/* Close Icon */}
             <h2 className="subHeading mb-4">Login</h2>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import LinkComponent from '../linkComponent/LinkComponent';
+import Link from 'next/link';
 const userOptions = [
     { title: "Profile", href: "/dashboard/profile" },
     { title: "Orders", href: "/dashboard/orders" },
@@ -12,11 +13,17 @@ const userOptions = [
 const UserOptions = () => {
      const [activeCategory, setActiveCategory] = useState<number | null>(null);
   return (
-    <div className='absolute top-[100%] left-0   shadow-helper p-4 bg-primaryLight z-10'>
+    <div className='absolute top-[100%] left-0 shadow-helper p-4 bg-background z-10'>
         {userOptions.map((option,index)=>{
-            return <div key={index} className='border-b-2 border-primaryDark border-dotted py-2 text-primaryDark text-xl' onMouseEnter={() => setActiveCategory(index)} // Set the current category as active
-            onMouseLeave={() => setActiveCategory(null)}>
-                <LinkComponent text={option.title} href={option.href}/>
+            return <div
+  key={index}
+  className={`border-b-2 border-primaryDark border-dotted py-2 ${
+    activeCategory === index ? 'text-primaryDark' : 'text-primaryLight'
+  }`}
+  onMouseEnter={() => setActiveCategory(index)}
+  onMouseLeave={()=>setActiveCategory(null)}
+>
+                <Link href={option.href}>{option.title}</Link>
                 </div>
         })}
     </div>

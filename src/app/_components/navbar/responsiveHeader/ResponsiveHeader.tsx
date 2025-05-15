@@ -1,116 +1,78 @@
 "use client";
 import React, { useContext, useState } from "react";
-import {
-  faHeart,
-  faLuggageCart,
-  faMinus,
-  faPlus,
-  faSearch,
-  faTimes,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useQuery } from "@tanstack/react-query";
-import { getAllCategories } from "@/app/services/queryFunctions/categoreis";
-import LinkComponent from "../../linkComponent/LinkComponent";
-import Link from "next/link";
-import { DisplayContext } from "@/app/context/DisplayComponents";
-import { Category, Subcategory } from "@/app/types/categories";
-import IconButton from "../../iconText/IconButton";
 import { useSelector } from "react-redux";
-import { CartState } from "@/app/redux/cartSlice";
-import { UserDetailsContext } from "@/app/context/UserDetailsContextComponent";
 import { useRouter } from "next/navigation";
-import LoginComponent from "../../authComponent/LoginComponent";
+import { DisplayContext } from "@/app/context/DisplayComponents";
+import { UserDetailsContext } from "@/app/context/UserDetailsContextComponent";
 import { useCategories } from "@/app/hooks/queryHooks/useCategory";
+import { useLogout } from "@/app/hooks/queryHooks/useLogout";
+import { HeaderSection } from "./HeaderSection";
+import { ActionIcons } from "./ActionIcons";
+import { CategoryItem } from "./CategoryItem";
+import { QuickLinks } from "./QuickLinks";
+import { UserSection } from "./UserSection";
+import LoginComponent from "../../authComponent/LoginComponent";
+import { CartState } from "@/app/redux/cartSlice";
+import { Category } from "@/app/types/categories";
 const ResponsiveHeader = () => {
   const cartItems = useSelector((state: { cart: CartState }) => state.cart.cartItems);
-  const user = useContext(UserDetailsContext);
   const router = useRouter();
-  const {visibleComponent,setVisibleComponent} = useContext(DisplayContext)
+  const { visibleComponent, setVisibleComponent } = useContext(DisplayContext);
   const { data: NavItems = [] } = useCategories();
   const [activeCategory, setActiveCategory] = useState<number | null>(null);
-  const[activescreen, setActiveScreen] = useState(false)
-  // Toggle category visibility
-  const toggleCategory = (index: number) => {
-    setActiveCategory((prevState) => (prevState === index ? null : index));
-  };
-  const handleProtectedRoute = (path:string) => {
-    if (!user?.userDetails) {
+  const [activeScreen, setActiveScreen] = useState(false);
+  const logout = useLogout();
+  const userContext = useContext(UserDetailsContext);
+  if (!userContext) {
+    throw new Error("The User Details context is not working.");
+  }
+  const { userDetails } = userContext;
+  const handleProtectedRoute = (path: string) => {
+    if (!userDetails) {
       setVisibleComponent('login');
-      setActiveScreen(true)
+      setActiveScreen(true);
     } else {
       router.push(path);
     }
   };
+  const toggleCategory = (index: number) => {
+    setActiveCategory(prev => prev === index ? null : index);
+  };
   return (
-    <div className="absolute top-0 left-0 w-screen h-screen min-h-[500px] z-10" style={{ background: "var(--gradientwithOpacity)" }}>
-      <div className="responsiveleftBar flex-1 justify-center items-center" />
-      <div className="responsiveSidebar max-w-[400px] h-full bg-background p-4 relative">
-        <FontAwesomeIcon
-                      icon={faTimes}
-                      className="text-background bg-helper w-[30px] h-[30px] absolute top-0 right-0 cursor-pointer"
-        onClick={()=>setVisibleComponent('')}
-                    />
-        <div className="responsiveLogoArea justify-self-center mb-4">
-          <Link href="/">
-            <img
-              src="../assets/brand/logo.png"
-              className="w-auto h-[50px] min-w-[150px]"
-            />
-          </Link>
+    <div className="fixed inset-0 z-50" style={{ background: "var(--gradientwithOpacity)" }}>
+      <div className="absolute right-0 h-full w-full max-w-sm bg-background shadow-xl overflow-y-auto">
+        <div className="sticky top-0 bg-background z-10 p-4">
+          <HeaderSection onClose={() => setVisibleComponent('')} />
+          <ActionIcons
+            onSearch={() => setVisibleComponent('pureSearch')}
+            onCart={() => handleProtectedRoute('dashboard/cart')}
+            onWishlist={() => handleProtectedRoute('dashboard/wishlist')}
+            cartCount={cartItems?.length ?? 0}
+          />
         </div>
-        <div className="responsiveIcons flex-center gap-4">
-          <IconButton icon={faSearch} name="Search" onClick={()=>setVisibleComponent('pureSearch')}/>
-          <IconButton
-          icon={faLuggageCart}
-          name="Cart"
-          number={cartItems?.length ?? 0}
-          onClick={() => handleProtectedRoute('dashboard/cart')}
-        />
-         <IconButton
-          icon={faHeart}
-          name="Wishlist"
-          onClick={() => handleProtectedRoute('dashboard/wishlist')}
-        />
-        {activescreen && visibleComponent === 'login' && <LoginComponent/>}
+        <div className="p-4">
+          <div className="mb-6">
+            <h3 className="text-lg font-semibold mb-3 text-primaryDark">Categories</h3>
+            <ul className="space-y-2">
+              {NavItems.map((item:Category, index:number) => (
+                <CategoryItem
+                  key={item.url_slug || index}
+                  item={item}
+                  isActive={index === activeCategory}
+                  onToggle={() => toggleCategory(index)}
+                />
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h3 className="text-lg font-semibold mb-3 text-primaryDark">Quick Links</h3>
+            <QuickLinks />
+            <UserSection/>
+          </div>
         </div>
-        <ul className="categories flex flex-col gap-4 mt-4">
-          {NavItems.map((item: Category, index: number) => (
-            <li key={item.url_slug || index}>
-              <div className="categoryHeader flex justify-between items-center text-xl text-primaryDark shadow-helper p-2">
-                <LinkComponent
-                  href={`/catalog/advanceSearch?category=${item.category_name}`}
-                  text={item.category_name}
-                />
-                <FontAwesomeIcon
-                  icon={index === activeCategory ? faMinus : faPlus}
-                  onClick={() => toggleCategory(index)}
-                  className="bg-helper p-4 rounded-full cursor-pointer text-background"
-                />
-              </div>
-              {item.subcategories &&
-                item.subcategories.length > 0 &&
-                index === activeCategory && (
-                  <ul className="ml-8 flex flex-col gap-4 pt-2">
-                    {item.subcategories.map(
-                      (subItem: Subcategory, subIndex: number) => (
-                        <li
-                          key={subItem.url_slug || subIndex}
-                          className="text-xl text-primaryDark"
-                        >
-                          <LinkComponent
-                            href={`/catalog/advanceSearch?category=${item.category_name}&subcategory=${subItem.category_name}`}
-                            text={subItem.category_name}
-                          />
-                        </li>
-                      )
-                    )}
-                  </ul>
-                )}
-            </li>
-          ))}
-        </ul>
-        <h2 className="text-primaryDark text-xl py-2">Quick Links</h2>
+        {activeScreen && visibleComponent === 'login' && (
+            <LoginComponent />
+        )}
       </div>
     </div>
   );

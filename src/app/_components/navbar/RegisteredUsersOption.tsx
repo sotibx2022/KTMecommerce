@@ -12,6 +12,7 @@ import { useDispatch } from 'react-redux';
 import { fetchCartFromDatabase } from '@/app/services/apiFunctions/cartItems';
 import { useCartItems } from '@/app/hooks/queryHooks/useCartItems';
 import toast from 'react-hot-toast';
+import { truncateCharacters, truncateText } from '@/app/services/helperFunctions/functions';
 const RegisteredUsersOption = () => {
   const queryClient = useQueryClient();
     const[showUserOptions, setShowUserOptions] = useState(false);
@@ -56,10 +57,10 @@ const RegisteredUsersOption = () => {
         />
       ) : (
         <h1 className="text-primaryDark text-upperCase bg-background w-[30px] h-[30px] flex-center text-xl rounded-full">
-          {userDetails?.fullName?.[0]?.toUpperCase()}
+          {userDetails!.fullName.split("")[0].toUpperCase()}
         </h1>
       )}
-      <p className="text-white capitalize">{userDetails?.fullName}</p>
+      <p className="text-white capitalize"><span className='text-helper'>Welcome</span> {userDetails?.fullName.split(" ")[0]}</p>
       <FontAwesomeIcon
         icon={showUserOptions ? faCaretUp : faCaretDown}
         className="text-background"

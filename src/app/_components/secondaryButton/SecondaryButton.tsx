@@ -8,13 +8,13 @@ interface SecondaryButtonProps {
 const SecondaryButton: React.FC<SecondaryButtonProps> = ({ text, icon, onClick }) => {
   return (
     <div
-      className="bg-background w-[5rem] h-full flex justify-center items-center relative group rounded-sm border-[1px] border-primaryDark cursor-pointer"
-      onClick={onClick} // Add onClick here to make the whole button wrapper clickable
+      className="bg-background w-[5rem] h-full flex justify-center items-center relative group rounded-sm border-[1px] border-primaryDark cursor-pointer overflow-hidden"
+      onClick={onClick}
     >
-      <button className="relative z-20" type="button">
+      <button className="relative z-20 w-full h-full" type="button">
         {text}
       </button>
-      <div className="overLay absolute top-0 left-0 w-0 text-primaryDark rounded-sm h-full bg-helper transition-all duration-500 ease-in-out group-hover:w-full -z-10"></div>
+      <div className="overLay absolute top-0 left-0 w-0 h-full bg-helper transition-all duration-500 ease-in-out group-hover:w-full z-10"></div>
     </div>
   )
 }

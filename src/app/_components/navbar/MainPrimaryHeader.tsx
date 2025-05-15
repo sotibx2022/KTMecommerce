@@ -13,13 +13,7 @@ import ResponsiveHeader from "./responsiveHeader/ResponsiveHeader";
 import LoginComponent from "../authComponent/LoginComponent";
 import RegisterComponent from "../authComponent/RegisterComponent";
 import PureSearch from "../pureSearch/PureSearch";
-const links = [
-  { href: "/", text: "Home" },
-  { href: "/pages/careers", text: "Careers" },
-  { href: "/pages/help", text: "Help" },
-  { href: "/pages/terms", text: "Terms" },
-  { href: "/pages/contact", text: "Contact Us" },
-];
+import { navigationLinks } from "@/app/data/navigationLinks";
 const MainPrimaryHeader: React.FC = () => {
   const {visibleComponent,setVisibleComponent} = useContext(DisplayContext);
   const context = useContext(UserDetailsContext);
@@ -36,7 +30,7 @@ const MainPrimaryHeader: React.FC = () => {
     <div className="bg-background lg:bg-primaryDark">
       <nav className="container flex justify-between items-center py-1">
         <ul className="hidden lg:flex justify-center items-center gap-4">
-          {links.map((link, index) => (
+          {navigationLinks.map((link, index) => (
             <li className="text-background" key={index}>
               <LinkComponent href={link.href} text={link.text} />
             </li>

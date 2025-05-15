@@ -1,3 +1,16 @@
+export const truncateCharacters = (name: string, maxLength: number): string => {
+  const normalizedName = name.trim().replace(/\s+/g, " ");
+  const totalCharacters = normalizedName.replace(/\s/g, "").length;
+  if (totalCharacters > maxLength) {
+    const firstName = normalizedName.split(" ")[0];
+    if (firstName.length > maxLength) {
+      return firstName.slice(0, maxLength);
+    } else {
+      return firstName;
+    }
+  }
+  return normalizedName;
+};
 export const truncateText = (text: string) => {
     const words = text.split(" ");
     if (words.length <= 8) {
