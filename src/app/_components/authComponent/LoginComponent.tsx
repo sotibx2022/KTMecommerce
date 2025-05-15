@@ -16,8 +16,6 @@ import LoadingButton from '../primaryButton/LoadingButton';
 import toast from 'react-hot-toast';
 import LoadingContainer from '../loadingComponent/LoadingContainer';
 import { AbsoluteComponent } from '../absoluteComponent/AbsoluteComponent';
-import dynamic from 'next/dynamic';
-import ResetPasswordComponent from './ResetPasswordComponent';
 import RegisterComponent from './RegisterComponent';
 const LoginComponent = () => {
   const {visibleComponent,setVisibleComponent} = useContext(DisplayContext);
@@ -117,7 +115,6 @@ if(success){
         <SocialMediaAuth action="Login"/>
       </div>}
       </AbsoluteComponent>
-      {visibleComponent ==='resetPassword' && <ResetPasswordComponent/>}
       {visibleComponent==='register' && <RegisterComponent/>}
     </>
   );

@@ -18,7 +18,6 @@ import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import LoadingContainer from '../loadingComponent/LoadingContainer';
 import { AbsoluteComponent } from '../absoluteComponent/AbsoluteComponent';
-import ResetPasswordComponent from './ResetPasswordComponent';
 import LoginComponent from './LoginComponent';
 const RegisterComponent = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -210,7 +209,6 @@ const RegisterComponent = () => {
         </div>
       }
     </AbsoluteComponent>
-    {visibleComponent==='resetPassword' && <ResetPasswordComponent/>}
     {visibleComponent==='login' && <LoginComponent/>}
     </>
   );
