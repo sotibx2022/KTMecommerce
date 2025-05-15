@@ -1,9 +1,11 @@
 import CategoryPageComponent from '@/app/_components/categoryPageComponent/CategoryPageComponent'
-import React from 'react'
+import React, { Suspense } from 'react'
 const page = () => {
   return (
     <div>
-      <CategoryPageComponent categoryName='isNewArrivals'/>
+       <Suspense fallback={<div>Loading category data...</div>}>
+      <CategoryPageComponent categoryName="isNewArrivals" />
+    </Suspense>
     </div>
   )
 }
