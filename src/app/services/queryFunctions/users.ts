@@ -2,7 +2,9 @@ import { ICartItem } from "@/app/types/cart";
 import { IUpdateUserData, LoginData } from "@/app/types/formData";
 import { IUser } from "@/app/types/user";
 import { config } from "@/config/configuration";
+import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
+import { logoutUser } from "../apiFunctions/logoutUser";
 // Interfaces for API Response
 export interface APIResponseSuccess<T=any> {
   message: string; // A descriptive success message

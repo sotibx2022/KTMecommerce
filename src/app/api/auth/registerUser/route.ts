@@ -2,8 +2,8 @@ import UserModel from "@/models/users.model";
 import { NextRequest, NextResponse } from "next/server";
 export async function POST(request: NextRequest) {
   try {
-    const { fullName, email, phoneNumber, firebaseId, address } = await request.json();
-    if (!fullName || !email || !phoneNumber || !firebaseId) {
+    const { fullName, email, phoneNumber, address } = await request.json();
+    if (!fullName || !email || !phoneNumber) {
       return NextResponse.json({
         status: 400,
         message: "All fields are required",
@@ -13,8 +13,8 @@ export async function POST(request: NextRequest) {
     const savedUser = await UserModel.findOne({ email });
     if (savedUser) {
       return NextResponse.json({
-        status: 409, // Conflict
-        message: "User already registered with the provided email",
+        status: 409,
+        message: "User already exists",
         success: false,
       });
     }
@@ -22,26 +22,19 @@ export async function POST(request: NextRequest) {
       fullName,
       email,
       phoneNumber,
-      firebaseId,
+      address // Optional
     });
     await newUser.save();
-    const response = NextResponse.json({
-      status: 201, // Created
-      message: "User registered successfully",
+    return NextResponse.json({
+      status: 201,
+      message: "Profile created successfully",
       success: true,
-      data:newUser,
+      data: newUser
     });
-    response.cookies.set("_id", newUser._id.toString(), {
-      httpOnly: true,
-      sameSite: "strict",
-      maxAge: 60 * 60 * 24 * 1,
-      path: "/",
-    });
-    return response;
   } catch (error) {
     return NextResponse.json({
-      status: 500, // Internal Server Error
-      message: "An error occurred while processing your request",
+      status: 500,
+      message: "Server error",
       success: false,
     });
   }

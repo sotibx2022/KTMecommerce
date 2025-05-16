@@ -13,6 +13,7 @@ import { fetchCartFromDatabase } from '@/app/services/apiFunctions/cartItems';
 import { useCartItems } from '@/app/hooks/queryHooks/useCartItems';
 import toast from 'react-hot-toast';
 import { truncateCharacters, truncateText } from '@/app/services/helperFunctions/functions';
+import { useLogout } from '@/app/hooks/queryHooks/useLogout';
 const RegisteredUsersOption = () => {
   const queryClient = useQueryClient();
     const[showUserOptions, setShowUserOptions] = useState(false);
@@ -21,20 +22,7 @@ const RegisteredUsersOption = () => {
      throw new Error("The User Details context is not working.");
    }
    const { userDetails,setUserDetails } = context;
-    const logout = useMutation({
-    mutationFn: logoutUser,
-    onSuccess: async (response) => {
-      if(response.success){
-        toast.success(response.message);
-       queryClient.setQueryData(['user'], response.data);
-      await queryClient.invalidateQueries({ queryKey: ['user'] }); 
-      setUserDetails(null)
-      }
-          },
-    onError: (error: any) => {
-      toast.error(error.response?.data?.message || error.message);
-    },
-  });
+    const logout = useLogout()
     const dispatch = useDispatch();
     const {data:cartItems} = useCartItems();
    useEffect(()=>{
