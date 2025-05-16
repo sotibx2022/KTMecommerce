@@ -1,9 +1,10 @@
 import UserModel from "@/models/users.model";
 import { NextRequest, NextResponse } from "next/server";
+import bcrypt from 'bcryptjs';
 export async function POST(request: NextRequest) {
   try {
-    const { fullName, email, phoneNumber, address } = await request.json();
-    if (!fullName || !email || !phoneNumber) {
+    const { fullName, email, phoneNumber, address,password } = await request.json();
+    if (!fullName || !email || !phoneNumber || !password) {
       return NextResponse.json({
         status: 400,
         message: "All fields are required",
@@ -18,6 +19,7 @@ export async function POST(request: NextRequest) {
         success: false,
       });
     }
+    const hashedPassword = await bcrypt.hash(password,10);
     const newUser = new UserModel({
       fullName,
       email,
