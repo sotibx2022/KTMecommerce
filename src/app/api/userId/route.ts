@@ -1,8 +1,10 @@
 import UserModel from "@/models/users.model";
+import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
     try {
-        const userId = req.cookies.get("_id")?.value;
+        const token = await getToken({req});
+        const userId = token?.id;
         if (!userId) {
             return NextResponse.json(
                 { message: "User ID not found in cookies", success: false, status: 400 },

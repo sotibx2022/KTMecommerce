@@ -16,6 +16,14 @@ const UserSchema: Schema = new Schema<IUser>(
       lowercase: true,
       match: [/^\S+@\S+\.\S+$/, "Please provide a valid email address"],
     },
+    password:{
+      type:String,
+      required:true,
+    },
+    passwordHistory:[
+ {createdAt:{type:Date,required:true,default:Date.now()}},
+ {password:{type:String,required:true}}
+    ],
     phoneNumber: {
       type: String,
       required: true,
@@ -24,11 +32,6 @@ const UserSchema: Schema = new Schema<IUser>(
     isAdmin: {
       type: Boolean,
       default: false,
-    },
-    firebaseId: {
-      type: String,
-      required: true, // Firebase ID is mandatory
-      unique: true, // Ensure uniqueness to avoid duplicate users
     },
     accountStatus: {
       type: String,
@@ -43,24 +46,6 @@ const UserSchema: Schema = new Schema<IUser>(
       type: String,
       default:null,
     },
-    wishlist: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Product",
-      },
-    ],
-    carts: [
-      {
-        product: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
-        quantity: { type: Number, default: 1 },
-      },
-    ],
-    orderHistory: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Order",
-      },
-    ],
     profileImage: {
       type: String,
       default:null,

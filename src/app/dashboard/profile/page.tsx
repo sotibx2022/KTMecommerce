@@ -103,11 +103,21 @@ const Page = () => {
           </div>
           <div>
             <label className="formLabel">Phone Number</label>
-            <input type="text" className="formItem " placeholder="+123 456 7890" id="phoneNumber"
+            <div className="phoneNumberItem relative">
+            <div className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center gap-2 pointer-events-none">
+              <img 
+                src="/assets/nepal-flag-icon.png" 
+                alt="Nepal Flag" 
+                className="w-5 h-auto object-contain"
+              />
+              <span className="text-primaryDark text-sm font-medium">+977</span>
+            </div>
+            <input type="text" className="border border-helper bg-background rounded-md shadow-helper shadow-sm focus:outline-none text-primaryDark pl-[80px] " placeholder="+123 456 7890" id="phoneNumber"
             disabled={!userDetails}
             {...register("phoneNumber",{
               validate: (value) =>validateNumber("Phone Number",value,10,10)
             })} />
+            </div>
             {errors.phoneNumber?.message && <SubmitError message={errors.phoneNumber.message}/>}
           </div>
           <div>

@@ -9,7 +9,6 @@ interface LoginResponse {
     email: string;
     name?: string;
   };
-  error?: string;
 }
 export async function loginAuthorize(
   email: string,
@@ -20,23 +19,21 @@ export async function loginAuthorize(
     const user = await UserModel.findOne({ email }).select("+password");
     if (!user) {
       return {
-        message: "Authentication failed",
+        message: "Authentication failed: No user found with this email",
         status: 401,
         success: false,
-        error: "No user found with this email",
       };
     }
-    // 2. Verify password (corrected parameter order)
+    // 2. Verify password
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       return {
-        message: "Authentication failed",
+        message: "Authentication failed: Invalid password",
         status: 401,
         success: false,
-        error: "Invalid password",
       };
     }
-    // 3. Return sanitized user data (never return password hashes)
+    // 3. Return sanitized user data
     return {
       message: "Login successful",
       status: 200,
@@ -50,10 +47,9 @@ export async function loginAuthorize(
   } catch (error) {
     console.error("Login error:", error);
     return {
-      message: "Authentication error",
+      message: "Authentication error: Internal server error",
       status: 500,
       success: false,
-      error: "Internal server error",
     };
   }
 }

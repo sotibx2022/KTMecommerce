@@ -24,7 +24,9 @@ export async function POST(request: NextRequest) {
       fullName,
       email,
       phoneNumber,
-      address // Optional
+      address,
+      password:hashedPassword,
+      passwordHistory:[{password:hashedPassword,createdAt:Date.now()}]
     });
     await newUser.save();
     return NextResponse.json({

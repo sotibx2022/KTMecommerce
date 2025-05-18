@@ -1,10 +1,7 @@
 import { ICartItem } from "@/app/types/cart";
-import { IUpdateUserData, LoginData } from "@/app/types/formData";
+import { LoginData } from "@/app/types/formData";
 import { IUser } from "@/app/types/user";
-import { config } from "@/config/configuration";
-import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import { logoutUser } from "../apiFunctions/logoutUser";
 // Interfaces for API Response
 export interface APIResponseSuccess<T=any> {
   message: string; // A descriptive success message
@@ -22,7 +19,6 @@ export interface ICreateUserMutaion {
   fullName: string;
   email: string;
   phoneNumber: string;
-  firebaseId: string;
 }
 // Function with Generic Type
 export const createUserMutation = async (
@@ -49,20 +45,7 @@ export const createUserMutation = async (
     }
   }
 };
-export const loginUserMutation = async (
-  loginData: LoginData
-): Promise<APIResponseSuccess | APIResponseError> => {
-  try {
-    const response = await axios.post<APIResponseSuccess>("/api/auth/loginUser", loginData);
-    return response.data;
-  } catch (error: any) {
-    // Handle axios errors
-    if (axios.isAxiosError(error) && error.response?.data) {
-      return error.response.data as APIResponseError;
-    }
-    return { message: "Unexpected error occurred.", status: 400, success: false };
-  }
-};
+
 export const updateUserMutation = async (
   formData: FormData // Change this to accept FormData
 ): Promise<APIResponseSuccess<IUser> | APIResponseError> => {

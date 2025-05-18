@@ -5,7 +5,6 @@ import SecondaryButton from '../secondaryButton/SecondaryButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import UserOptions from './UserOptions';
-import { logoutUser } from '@/app/services/apiFunctions/logoutUser';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { setCart } from '@/app/redux/cartSlice';
 import { useDispatch } from 'react-redux';
