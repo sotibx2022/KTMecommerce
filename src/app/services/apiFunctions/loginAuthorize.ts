@@ -23,7 +23,7 @@ export async function loginAuthorize(
     console.log('Database connection established');
     // 1. Find user by email
     console.log(`Searching for user with email: ${email}`);
-    const user = await UserModel.findOne({ email }).select("+password");
+    const user = await UserModel.findOne({ email });
     if (!user) {
       console.warn('No user found with email:', email);
       return {

@@ -19,14 +19,13 @@ import LoadingComponent from '../loadingComponent/LoadingComponent';
 import { signIn } from 'next-auth/react';
 const RegisterComponent = () => {
   const[showPassword,setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const queryClient = useQueryClient();
   const { visibleComponent,setVisibleComponent } = useContext(DisplayContext);
   const[temporaryPassword, setTemporaryPassword] = useState("")
   const mutation = useMutation<APIResponseSuccess | APIResponseError, Error, RegisterUserInput>({
     mutationFn: createUserMutation,
     onSuccess: async (response) => {
-      setIsLoading(false);
+      setVisibleComponent('loadingComponent');
       if (response.success) {
         toast.success(response.message);
         setVisibleComponent('')
@@ -44,12 +43,12 @@ const RegisterComponent = () => {
     },
     onError: (error) => {
       toast.error(error.message);
-      setIsLoading(false);
+      setVisibleComponent('')
     }
   });
   const { register, formState: { errors }, getValues, handleSubmit } = useForm<RegisterData>({ mode: 'onBlur' });
 const onSubmit = async (data: RegisterData) => {
-  setIsLoading(true);
+  setVisibleComponent('loadingComponent');
   setTemporaryPassword(data.password)
   try {
     const { fullName, email, phoneNumber,password } = data;
@@ -61,12 +60,12 @@ const onSubmit = async (data: RegisterData) => {
     });
   } catch (error: any) {
     toast.error(error.message || "Error To Register User!");
-    setIsLoading(false);
+    setVisibleComponent('')
   }
 };
   return (
     <>
-      {isLoading ? <LoadingComponent/> : 
+      {visibleComponent==='loadingComponent' ? <LoadingComponent/> : 
 <AbsoluteComponent>
   <div className="bg-background max-w-[400px] p-6 rounded-lg shadow-lg relative">
     <div className="registerComponentWrapper">
@@ -85,7 +84,6 @@ const onSubmit = async (data: RegisterData) => {
             placeholder="John"
             className="formItem w-full"
             id='fullName'
-            disabled={isLoading}
             {...register("fullName", {
               validate: (value) => validateFullName("First Name", value, 2, 20)
             })}
@@ -105,7 +103,6 @@ const onSubmit = async (data: RegisterData) => {
             placeholder="john@example.com"
             className="formItem w-full"
             id='email'
-            disabled={isLoading}
             {...register("email", {
               validate: (value) => validateEmail("Email", value)
             })}
@@ -134,7 +131,6 @@ const onSubmit = async (data: RegisterData) => {
               placeholder="98XXXXXXXX"
               className="py-3 border border-helper bg-background rounded-md shadow-helper shadow-sm focus:outline-none text-primaryDark pl-[80px]"
               id="phoneNumber"
-              disabled={isLoading}
               {...register("phoneNumber", {
                 validate: (value) => validateNumber("Phone Number", value, 10, 10)
               })}
@@ -157,7 +153,6 @@ const onSubmit = async (data: RegisterData) => {
             className="formItem w-full"
             autoComplete='off'
             id='password'
-            disabled={isLoading}
             {...register("password", {
               validate: (value) => validatePassword("Password", value, 8)
             })}
@@ -188,7 +183,6 @@ const onSubmit = async (data: RegisterData) => {
             className="formItem w-full"
             id='confirmPassword'
             autoComplete='off'
-            disabled={isLoading}
             {...register("confirmPassword", {
               validate: (value) => validateConfirmPassword("Confirm Password", getValues("password"), value)
             })}
@@ -204,7 +198,7 @@ const onSubmit = async (data: RegisterData) => {
         </div>
           {errors.confirmPassword?.message && <SubmitError message={errors.confirmPassword.message} />}
         </div>
-        {isLoading ? <LoadingButton/> : <PrimaryButton searchText='Register' />}
+      <PrimaryButton searchText='Register' />
       </form>
       <div className="usefulLinks mt-6 space-y-3 border-t border-primaryLight pt-4">
         <p className='text-sm text-primaryParagraph'>

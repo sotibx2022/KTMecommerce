@@ -11,8 +11,9 @@ import AllProductsBanner from '../allProductsBanner/AllProductsBanner'
 import LoginComponent from '../authComponent/LoginComponent'
 import RegisterComponent from '../authComponent/RegisterComponent'
 import BrandCaurosel from '../brandCaurosel/BrandCaurosel'
+import LoadingComponent from '../loadingComponent/LoadingComponent'
 const ClientPage = () => {
-  const { visibleComponent } = useContext(DisplayContext)
+  const { visibleComponent,setVisibleComponent } = useContext(DisplayContext)
   return (
     <>
       <NavBar />
@@ -40,6 +41,7 @@ const ClientPage = () => {
       {visibleComponent === 'login' && <LoginComponent/>}
       {visibleComponent === 'register' && <RegisterComponent />}
       {visibleComponent === 'pureSearch' && <PureSearch/>}
+      {visibleComponent ==='loadingComponent' && <LoadingComponent/>}
     </>
   )
 }

@@ -3,7 +3,7 @@ import React, { Dispatch, SetStateAction, useState, ReactNode } from 'react'
 import { createContext } from 'react'
 // Define the type once
 type VisibleComponentType = '' | 'login' | 'register' | 'responsiveHeader' | 'pureSearch' |
- 'productImage' | 'addReview' |'dilaugeBox' | 'editReview' | 'resetPassword'
+ 'productImage' | 'addReview' |'dilaugeBox' | 'editReview' | 'resetPassword' | 'loadingComponent'
 interface DisplayContextProps {
     visibleComponent: VisibleComponentType
     setVisibleComponent: Dispatch<SetStateAction<VisibleComponentType>>

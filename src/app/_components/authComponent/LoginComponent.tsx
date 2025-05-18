@@ -19,12 +19,11 @@ import { getUserDetails } from '@/app/services/helperFunctions/getUserDetails';
 const LoginComponent = () => {
   const[showPassword,setShowPassword] = useState(false);
   const {refetch:refetchUserDetails} = useQuery({queryKey:['user'],queryFn:getUserDetails,enabled:false})
-  const[isLoading,setIsLoading] = useState(false);
   const {visibleComponent,setVisibleComponent} = useContext(DisplayContext);
   const {register, formState:{errors}, handleSubmit} = useForm<LoginData>({mode:'onBlur'})
   const queryCLient = useQueryClient()
  const onSubmit = async (data: LoginData) => {
-  setIsLoading(true);
+  setVisibleComponent('loadingComponent')
     try {
       const result = await signIn('credentials', {
         email: data.email,
@@ -32,7 +31,7 @@ const LoginComponent = () => {
         redirect: false,
       });
       if (result?.error) {
-        setIsLoading(false);
+        setVisibleComponent('')
         try {
           const errorData = JSON.parse(result.error);
           toast.error(errorData.message);
@@ -40,7 +39,6 @@ const LoginComponent = () => {
           toast.error(result.error || 'Login failed');
         }
       } else {
-        setIsLoading(false);
         toast.success('Login successful');
         setVisibleComponent('')
         const {data:userDetails} =  await refetchUserDetails();
@@ -54,7 +52,7 @@ await queryCLient.invalidateQueries({queryKey:['user']});
   };
   return (
     <>
-         {isLoading ? <LoadingComponent/>: <AbsoluteComponent>
+         {visibleComponent==='loadingComponent' ? <LoadingComponent/>: <AbsoluteComponent>
           <div className="bg-background max-w-[400px] p-6 rounded-lg shadow-lg relative">
           <form className="flex flex-col gap-2" onSubmit={handleSubmit(onSubmit)}>
             {/* Close Icon */}
