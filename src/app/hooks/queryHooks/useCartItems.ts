@@ -9,7 +9,7 @@ export const useCartItems = () => {
       throw new Error("The User Details context is not working.")
     }
     const {userDetails} = context;
-    const userId = userDetails?.firebaseId;
+    const userId = userDetails?._id;
     return useQuery({
       queryKey: ['cartItems'],
       queryFn: fetchCartFromDatabase,

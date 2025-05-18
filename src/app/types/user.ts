@@ -12,6 +12,7 @@ interface IPasswordHistory{
   createdAt:Date;
 }
 export interface IUser {
+  _id:Object;
     fullName: string;
     email: string;
     password:string;

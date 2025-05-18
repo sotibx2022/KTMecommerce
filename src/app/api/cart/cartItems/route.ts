@@ -1,11 +1,11 @@
 import { CartModel } from "@/models/carts.model";
 import { Types } from "mongoose";
+import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
   try {
-    // Retrieve userId from cookies
-    const userId = req.cookies.get("_id")?.value;
-    // Validate userId exists
+     const token = await getToken({req});
+            const userId = token?.id;
     if (!userId) {
       return NextResponse.json(
         { message: "User ID is required", success: false },
@@ -13,9 +13,7 @@ export async function GET(req: NextRequest) {
       );
     }
     // Validate userId format
-    let objectUserId;
     try {
-      objectUserId = new Types.ObjectId(userId);
     } catch (err) {
       return NextResponse.json(
         { message: "Invalid User ID format", success: false },
@@ -23,7 +21,7 @@ export async function GET(req: NextRequest) {
       );
     }
     // Find cart items with proper error handling
-    const cartItems = await CartModel.find({ userId: objectUserId }).lean().exec();
+    const cartItems = await CartModel.find({ userId: userId }).lean().exec();
     // Handle case where no cart items exist
     if (!cartItems || cartItems.length === 0) {
       return NextResponse.json(
