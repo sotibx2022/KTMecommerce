@@ -22,13 +22,14 @@ export async function POST(request: NextRequest) {
       });
     }
     const hashedPassword = await bcrypt.hash(password,10);
+    const passwordHistory = {password:hashedPassword,createdAt:Date.now()}
     const newUser = new UserModel({
       fullName,
       email,
       phoneNumber,
       address,
       password:hashedPassword,
-      passwordHistory:[{password:hashedPassword,createdAt:Date.now()}]
+      passwordHistory:[passwordHistory]
     });
     await newUser.save();
     return NextResponse.json({

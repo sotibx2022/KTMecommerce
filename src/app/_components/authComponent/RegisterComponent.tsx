@@ -17,6 +17,7 @@ import { AbsoluteComponent } from '../absoluteComponent/AbsoluteComponent';
 import LoginComponent from './LoginComponent';
 import LoadingComponent from '../loadingComponent/LoadingComponent';
 import { signIn } from 'next-auth/react';
+import ResetPasswordComponent from './ResetPasswordComponent';
 const RegisterComponent = () => {
   const[showPassword,setShowPassword] = useState(false);
   const queryClient = useQueryClient();
@@ -205,12 +206,17 @@ const onSubmit = async (data: RegisterData) => {
           <FontAwesomeIcon icon={faCaretRight} className='mr-2 primaryParagraph' />
           Already have an account? <span className='link' onClick={()=>setVisibleComponent('login')}>Login</span>
         </p>
+        <p className='text-sm text-primaryParagraph'>
+          <FontAwesomeIcon icon={faCaretRight} className='mr-2 primaryParagraph' />
+          Forget Password <span className='link' onClick={()=>setVisibleComponent('resetPassword')}>Reset</span>
+        </p>
       </div>
     </div>
   </div>
 </AbsoluteComponent>
       }
     {visibleComponent==='login' && <LoginComponent/>}
+    {visibleComponent==='resetPassword' && <ResetPasswordComponent/>}
     </>
   );
 };

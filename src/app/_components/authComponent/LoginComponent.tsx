@@ -9,13 +9,13 @@ import { LoginData } from '@/app/types/formData';
 import { validateEmail, validatePassword } from '@/app/services/helperFunctions/validatorFunctions';
 import SubmitError from '../submit/SubmitError';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import LoadingButton from '../primaryButton/LoadingButton';
 import toast from 'react-hot-toast';
 import { AbsoluteComponent } from '../absoluteComponent/AbsoluteComponent';
 import RegisterComponent from './RegisterComponent';
 import LoadingComponent from '../loadingComponent/LoadingComponent';
 import { signIn } from 'next-auth/react';
 import { getUserDetails } from '@/app/services/helperFunctions/getUserDetails';
+import ResetPasswordComponent from './ResetPasswordComponent';
 const LoginComponent = () => {
   const[showPassword,setShowPassword] = useState(false);
   const {refetch:refetchUserDetails} = useQuery({queryKey:['user'],queryFn:getUserDetails,enabled:false})
@@ -113,10 +113,17 @@ await queryCLient.invalidateQueries({queryKey:['user']});
       setVisibleComponent('register');
     }} >Register</span>
                          </p>
+                         <p className='text-sm text-primaryParagraph'>
+                           <FontAwesomeIcon icon={faCaretRight} className='mr-2 primaryParagraph' />
+                           Forget Password <span className='link' onClick={() => {
+      setVisibleComponent('resetPassword');
+    }} >Reset</span>
+                         </p>
                        </div>
       </div>
       </AbsoluteComponent>}
       {visibleComponent==='register' && <RegisterComponent/>}
+      {visibleComponent ==='resetPassword' && <ResetPasswordComponent/>}
     </>
   );
 };

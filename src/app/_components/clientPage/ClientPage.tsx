@@ -12,6 +12,7 @@ import LoginComponent from '../authComponent/LoginComponent'
 import RegisterComponent from '../authComponent/RegisterComponent'
 import BrandCaurosel from '../brandCaurosel/BrandCaurosel'
 import LoadingComponent from '../loadingComponent/LoadingComponent'
+import ResetPasswordComponent from '../authComponent/ResetPasswordComponent'
 const ClientPage = () => {
   const { visibleComponent,setVisibleComponent } = useContext(DisplayContext)
   return (
@@ -42,6 +43,7 @@ const ClientPage = () => {
       {visibleComponent === 'register' && <RegisterComponent />}
       {visibleComponent === 'pureSearch' && <PureSearch/>}
       {visibleComponent ==='loadingComponent' && <LoadingComponent/>}
+      {visibleComponent ==='resetPassword' && <ResetPasswordComponent/>}
     </>
   )
 }
