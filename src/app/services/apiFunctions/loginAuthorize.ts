@@ -1,3 +1,4 @@
+import { connectToDB } from "@/config/db";
 import UserModel from "@/models/users.model";
 import bcrypt from "bcryptjs";
 interface LoginResponse {
@@ -14,6 +15,7 @@ export async function loginAuthorize(
   email: string,
   password: string
 ): Promise<LoginResponse> {
+  connectToDB();
   try {
     // 1. Find user by email
     const user = await UserModel.findOne({ email }).select("+password");

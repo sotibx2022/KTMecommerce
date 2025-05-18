@@ -1,7 +1,9 @@
 import UserModel from "@/models/users.model";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from 'bcryptjs';
+import { connectToDB } from "@/config/db";
 export async function POST(request: NextRequest) {
+  connectToDB();
   try {
     const { fullName, email, phoneNumber, address,password } = await request.json();
     if (!fullName || !email || !phoneNumber || !password) {
