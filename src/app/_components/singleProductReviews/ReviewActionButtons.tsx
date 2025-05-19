@@ -7,7 +7,6 @@ import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
 import { useMutation, useQueries, useQueryClient } from '@tanstack/react-query';
 import { deleteSpecificReview } from '@/app/services/queryFunctions/remarks';
 import toast from 'react-hot-toast';
-import LoadingComponent from '../loadingComponent/LoadingContainer';
 import AddSingleProductReviews from './AddSingleProductReviews';
 import EditSingleProductReview from './EditSingleProductReview';
 import { IProductIdentifier } from '@/app/types/remarks';

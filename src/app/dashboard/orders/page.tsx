@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import { OrderDetailsProps } from '@/app/types/orders';
 import React, { useContext } from 'react';
 import OrderDetails from '@/app/_components/orderDetails/OrderDetails';
-import LoadingContainer from '@/app/_components/loadingComponent/LoadingContainer';
+import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponent';
 const Page = () => {
   const context = useContext(UserDetailsContext);
   if (!context) {
@@ -26,7 +26,7 @@ const Page = () => {
   console.log('Orders data:', orders);
   console.log('Is array:', Array.isArray(orders));
   if (isPending) {
-    return <LoadingContainer/>
+    return <LoadingComponent/>
   }
   if (error) {
     return <div>Error loading orders: {error.message}</div>;

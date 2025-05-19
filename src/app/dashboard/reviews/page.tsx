@@ -7,9 +7,9 @@ import React, { useContext } from 'react'
 import Image from 'next/image';
 import { IDisplayReviewDatas } from '@/app/types/remarks';
 import LinkComponent from '@/app/_components/linkComponent/LinkComponent';
-import LoadingComponent from '@/app/_components/loadingComponent/LoadingContainer';
 import DisplaySingleProductRating from '@/app/_components/singleProductReviews/DisplaySingleProductRating';
 import ReviewActionButtons from '@/app/_components/singleProductReviews/ReviewActionButtons';
+import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponent';
 const Page = () => {
   const context = useContext(UserDetailsContext);
   if (!context) {

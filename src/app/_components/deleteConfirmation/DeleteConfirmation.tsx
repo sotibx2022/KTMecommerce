@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { useContext, useState } from "react";
 import { DisplayContext } from "@/app/context/DisplayComponents";
-import LoadingComponent from "../loadingComponent/LoadingContainer";
+import LoadingComponent from "../loadingComponent/LoadingComponent";
 interface IDeleteConfirmationProps{
     message:string;
     returnConfirmValue:(value:boolean)=>void;
