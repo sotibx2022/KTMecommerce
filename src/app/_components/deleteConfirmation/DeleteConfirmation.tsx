@@ -14,9 +14,8 @@ const DeleteConfirmation:React.FC<IDeleteConfirmationProps> = ({ message,returnC
     const onConfirm=()=>{
       returnConfirmValue(true)
     }
-    const onCancel=()=>{
-    }
   return (
+    <>
     <div
       className="fixed inset-0 w-full min-h-screen flex items-center justify-center z-50"
       style={{ background: "var(--gradientwithOpacity)" }}
@@ -28,7 +27,7 @@ const DeleteConfirmation:React.FC<IDeleteConfirmationProps> = ({ message,returnC
                       className="text-background bg-helper w-[30px] h-[30px] absolute top-0 right-0 cursor-pointer"
         onClick={()=>setVisibleComponent('')}
                     />
-        {loading ? <LoadingComponent/>:<div className="dilaugeBoxContainer">
+        <div className="dilaugeBoxContainer">
           {/* Message */}
         <div className="text-center mb-6">
           <h3 className="text-lg font-medium text-primaryDark mb-2">Confirm Deletion</h3>
@@ -49,9 +48,11 @@ const DeleteConfirmation:React.FC<IDeleteConfirmationProps> = ({ message,returnC
             Yes, Delete
           </button>
         </div>
-        </div>}
+        </div>
       </div>
     </div>
+    {visibleComponent==='loadingComponent' && <LoadingComponent/>}
+    </>
   );
 };
 export default DeleteConfirmation;

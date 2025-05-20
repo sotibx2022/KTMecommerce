@@ -11,7 +11,7 @@ export const AbsoluteComponent = ({
 }: AbsoluteModalProps) => {
     const{visibleComponent, setVisibleComponent} = useContext(DisplayContext)
   return (
-    <div className="absolute top-0 left-0 w-screen min-h-screen flex flex-col justify-center items-center z-10"
+    <div className="fixed top-0 left-0 w-full h-full flex flex-col justify-center items-center z-10"
     style={{ background: "var(--gradientwithOpacity)" }}>
       <div className={`bg-background max-w-[400px] p-6 rounded-lg shadow-lg relative my-4`}>
         <FontAwesomeIcon
