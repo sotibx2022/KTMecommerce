@@ -12,7 +12,7 @@ const Footer2 = () => {
             <li key={item.url_slug || index}>
               <div className="categoryHeader flex justify-between items-center text-xl text-primaryDark">
                 <Link className='text-white'
-                  href={`/catalog/advanceSearch?${item.category_name}`}>{item.category_name}</Link>
+                  href={`/catalog/advanceSearch?category=${item.category_name}`}>{item.category_name}</Link>
               </div>
               {item.subcategories &&
                 item.subcategories.length > 0 &&
@@ -25,7 +25,7 @@ const Footer2 = () => {
                           className="text-md"
                         >
                          <Link className='text-white'
-                  href={`/catalog/advanceSearch?${subItem.category_name}`}>{subItem.category_name}</Link>
+                  href={`/catalog/advanceSearch?category=${item.category_name}&subcategory=${subItem.category_name}`}>{subItem.category_name}</Link>
                         </li>
                       )
                     )}

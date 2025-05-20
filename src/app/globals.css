@@ -23,6 +23,12 @@ html {
   overflow-x: hidden;
   height: 100%;
 }
+ol, ul, li {
+  font-family: inherit;
+}
+button, input, textarea, select, optgroup, option {
+  font-family: inherit;
+}
 .slideOverlay {
   background: var(--gradientwithOpacity);
   position: absolute;

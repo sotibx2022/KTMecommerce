@@ -1,9 +1,11 @@
+import { connectToDB } from "@/config/db";
 import { CartModel } from "@/models/carts.model";
 import { Types } from "mongoose";
 import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
   try {
+    connectToDB();
      const token = await getToken({req});
             const userId = token?.id;
     if (!userId) {

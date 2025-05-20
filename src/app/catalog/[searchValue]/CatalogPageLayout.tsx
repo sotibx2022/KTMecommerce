@@ -1,10 +1,7 @@
 "use client"
-import LoginComponent from '@/app/_components/authComponent/LoginComponent'
-import RegisterComponent from '@/app/_components/authComponent/RegisterComponent'
+import ConditionalComponents from '@/app/_components/conditionalVisibleComponents/ConditionalComponents'
 import Footer from '@/app/_components/footer/Footer'
 import NavBar from '@/app/_components/navbar/Navbar'
-import ResponsiveHeader from '@/app/_components/navbar/responsiveHeader/ResponsiveHeader'
-import PureSearch from '@/app/_components/pureSearch/PureSearch'
 import { DisplayComponents, DisplayContext } from '@/app/context/DisplayComponents'
 import { UserDetailsContextComponent } from '@/app/context/UserDetailsContextComponent'
 import QueryProvider from '@/app/provider/queryProvider'
@@ -25,10 +22,7 @@ const CatalogPageLayout:React.FC<CatalogPageLayout> = ({children}) => {
          <NavBar/>
                   {children}
          <Footer/>
-         {visibleComponent == 'responsiveHeader' && <ResponsiveHeader />}
-      {visibleComponent === 'login' && <LoginComponent/>}
-      {visibleComponent === 'register' && <RegisterComponent />}
-      {visibleComponent === 'pureSearch' && <PureSearch/>}
+       <ConditionalComponents/>
          </UserDetailsContextComponent>
          </QueryProvider>
          </DisplayComponents>
