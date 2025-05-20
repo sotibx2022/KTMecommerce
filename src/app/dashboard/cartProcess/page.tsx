@@ -1,4 +1,6 @@
 "use client"
+import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponent'
+import SkeletonSlide from '@/app/_components/loadingComponent/SkeletonSlide'
 import LoadingButton from '@/app/_components/primaryButton/LoadingButton'
 import PrimaryButton from '@/app/_components/primaryButton/PrimaryButton'
 import OrderSummary from '@/app/_components/processOrder/OrderSummary'
@@ -7,6 +9,7 @@ import PaymentMethod from '@/app/_components/processOrder/PaymentMethod'
 import ShippingAddress from '@/app/_components/processOrder/ShippingAddress'
 import ShippingInformation from '@/app/_components/processOrder/ShippingInformation'
 import ProductImage from '@/app/_components/singleProduct/ProductImage'
+import { DisplayContext } from '@/app/context/DisplayComponents'
 import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent'
 import { CartState, clearCartItems } from '@/app/redux/cartSlice'
 import { calculateTotals } from '@/app/services/helperFunctions/cartFunctions'
@@ -22,13 +25,14 @@ import { FormProvider, useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 import { useDispatch, useSelector } from 'react-redux'
 const page = () => {
+  const {visibleComponent,setVisibleComponent} = useContext(DisplayContext)
   const context = useContext(UserDetailsContext);
     if(!context){
       throw new Error("The User Details context is not working.")
     }
     const {userDetails} = context;
   const router = useRouter();
-  const cartItems = useSelector((state: { cart: CartState }) => state.cart.cartItems)
+  const { cartItems, loading: cartLoading } = useSelector((state: { cart: CartState }) => state.cart);
   const dispatch = useDispatch()
   const mutation = useMutation<
   APIResponseSuccess | APIResponseError,
@@ -78,6 +82,7 @@ const page = () => {
     mutation.mutate(orderDetails);
   };
   return (
+    <>
     <div className="container mx-auto px-4 py-8">
       <div className="grid md:grid-cols-3 gap-8">
         <div className="md:col-span-2">
@@ -88,15 +93,17 @@ const page = () => {
             <ShippingAddress />
             <PaymentMethod />
             <OrderTerms />
-            {mutation.isPending ? <LoadingButton/>:<PrimaryButton searchText="Confirm"/>}
+            <PrimaryButton searchText="Confirm"/>
           </form>
           </FormProvider>
         </div>
         <div className="md:col-span-1">
-          <OrderSummary />
+          {cartLoading ? <SkeletonSlide/>:<OrderSummary />}
         </div>
       </div>
     </div>
+    {mutation.isPending && <LoadingComponent/>}
+    </>
   )
 }
 export default page

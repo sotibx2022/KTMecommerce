@@ -1,55 +1,61 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ICartItem } from '../types/cart';
 export interface CartState {
   cartItems: ICartItem[];
+  loading: boolean;
 }
 const initialState: CartState = {
   cartItems: [],
+  loading: true,
 };
 const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    setCart: (state, action) => {
+    // Set the entire cart (e.g., after fetching from API)
+    setCart: (state, action: PayloadAction<ICartItem[]>) => {
       state.cartItems = action.payload;
+      state.loading = false;
     },
-    addToCart: (state, action) => {
-      const { productId, productName, brand, price, image, quantity, userId, category } = action.payload;
-      state.cartItems.push({
-        productId,
-        productName,
-        brand,
-        price,
-        image,
-        quantity,
-        userId,
-        category,
-      });
+    // Add a new item to the cart
+    addToCart: (state, action: PayloadAction<ICartItem>) => {
+      state.cartItems.push(action.payload);
+      state.loading = false;
     },
-    removeFromCart: (state, action) => {
-      const productId = action.payload;
-      state.cartItems = state.cartItems.filter(item => item.productId !== productId);
+    // Remove an item from the cart
+    removeFromCart: (state, action: PayloadAction<string>) => {
+      state.cartItems = state.cartItems.filter(
+        (item) => item.productId !== action.payload
+      );
+      state.loading = false;
     },
-    updateCartItem: (state, action) => {
+    // Update an item's quantity
+    updateCartItem: (state, action: PayloadAction<{ productId: string; quantity: number }>) => {
       const existingItemIndex = state.cartItems.findIndex(
-        item => item.productId === action.payload.productId
+        (item) => item.productId === action.payload.productId
       );
       if (existingItemIndex !== -1) {
         state.cartItems[existingItemIndex].quantity = action.payload.quantity;
       }
+      state.loading = false;
     },
+    // Clear the entire cart
     clearCartItems: (state) => {
-      // Simply reset the cartItems array to empty
       state.cartItems = [];
-    }
+      state.loading = false;
+    },
+    // Optional: Set loading state explicitly
+    setLoading: (state, action: PayloadAction<boolean>) => {
+      state.loading = action.payload;
+    },
   },
 });
-// Export the new action
-export const { 
-  setCart, 
-  addToCart, 
-  removeFromCart, 
-  updateCartItem, 
-  clearCartItems // Added here
+export const {
+  setCart,
+  addToCart,
+  removeFromCart,
+  updateCartItem,
+  clearCartItems,
+  setLoading, // Optional, for manual control
 } = cartSlice.actions;
 export default cartSlice.reducer;

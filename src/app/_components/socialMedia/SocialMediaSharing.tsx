@@ -12,25 +12,25 @@ const SocialMediaSharing = () => {
     const socialMediaLinks = [
         {
             icon: faFacebookSquare,
-            url: "facebook.com",
+            url: "https://facebook.com",
             color: "text-blue-600 hover:text-blue-800",
             label: "Facebook"
         },
         {
             icon: faTwitterSquare,
-            url: "twitter.com",
+            url: "https://twitter.com",
             color: "text-blue-400 hover:text-blue-600",
             label: "Twitter"
         },
         {
             icon: faInstagram,
-            url: "instagram.com",
+            url: "https://instagram.com",
             color: "text-pink-500 hover:text-pink-700",
             label: "Instagram"
         },
         {
             icon: faWhatsappSquare,
-            url: "whatsapp.com",
+            url: "https://whatsapp.com",
             color: "text-green-500 hover:text-green-700",
             label: "WhatsApp"
         }
@@ -39,7 +39,7 @@ const SocialMediaSharing = () => {
         <div className='mt-2'>
             <div className="flex items-center justify-start space-x-6">
                 {socialMediaLinks.map((social, index) => (
-                    <Link
+                    <a  // Changed from Link to a regular anchor tag
                         key={index}
                         href={social.url}
                         target="_blank"
@@ -48,7 +48,7 @@ const SocialMediaSharing = () => {
                         className={`cursor-pointer ${social.color} transition-colors duration-200`}
                     >
                         <FontAwesomeIcon icon={social.icon} size="2x" />
-                    </Link>
+                    </a>
                 ))}
             </div>
         </div>

@@ -6,6 +6,7 @@ export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname; // Use `nextUrl.pathname` to get the path
   const privatePaths = [
     `${envConfig.websiteUrl}/dashboard/cart`,
+    `${envConfig.websiteUrl}/dashboard/cartProcess`,
     `${envConfig.websiteUrl}/dashboard/orders`,
     `${envConfig.websiteUrl}/dashboard/profile`,
     `${envConfig.websiteUrl}/dashboard/setting`,
