@@ -11,6 +11,7 @@ import RegisterComponent from '../_components/authComponent/RegisterComponent'
 import QueryProvider from '../provider/queryProvider'
 import { Provider } from 'react-redux'
 import store from '../redux/store'
+import ConditionalComponents from '../_components/conditionalVisibleComponents/ConditionalComponents'
 interface DashboardLayoutProps{
     children:ReactNode
 }
@@ -23,12 +24,10 @@ const DashboardLayout:React.FC<DashboardLayoutProps> = ({children}) => {
     <UserDetailsContextComponent>
         <DisplayComponents>
     <NavBar />
-    {children}
+{children}
     <Toaster />
     <Footer />
-    {visibleComponent === 'responsiveHeader' && <ResponsiveHeader />}
-    {visibleComponent === 'login' && <LoginComponent/>}
-    {visibleComponent === 'register' && <RegisterComponent />}
+   <ConditionalComponents/>
     </DisplayComponents>
     </UserDetailsContextComponent>
     </QueryProvider>

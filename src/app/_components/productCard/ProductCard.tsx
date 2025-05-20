@@ -19,7 +19,7 @@ const ProductCard: React.FC<IProductDisplay> = ({
 }) => {
   return (
     <div className="group relative w-full max-w-[280px] overflow-hidden rounded-xl bg-background shadow-sm shadow-primaryLight transition-all duration-300 hover:shadow-lg">
-      <Link href={`/singleProduct/id:${_id}&,slug:${url_slug}`}>
+      <Link href={`/singleProduct/productIdentifier?id=${_id}&slug=${url_slug}`}>
         <div className="relative h-64 w-full overflow-hidden">
           <img
             src={image}

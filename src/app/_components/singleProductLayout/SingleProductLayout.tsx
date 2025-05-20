@@ -10,6 +10,7 @@ import { Toaster } from 'react-hot-toast'
 import ResponsiveHeader from '../navbar/responsiveHeader/ResponsiveHeader'
 import LoginComponent from '../authComponent/LoginComponent'
 import RegisterComponent from '../authComponent/RegisterComponent'
+import ConditionalComponents from '../conditionalVisibleComponents/ConditionalComponents'
 interface SingleProductProps{
     children:ReactNode
 }
@@ -25,9 +26,7 @@ const SingleProductLayout:React.FC<SingleProductProps> = ({children}) => {
       </UserDetailsContextComponent>
       <Toaster/>
       </Provider>
-      {visibleComponent === 'responsiveHeader' && <ResponsiveHeader />}
-    {visibleComponent === 'login' && <LoginComponent/>}
-    {visibleComponent === 'register' && <RegisterComponent />}
+      <ConditionalComponents/>
       </DisplayComponents>
   )
 }

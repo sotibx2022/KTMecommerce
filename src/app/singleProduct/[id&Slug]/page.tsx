@@ -14,16 +14,17 @@ import { DisplayContext } from '@/app/context/DisplayComponents';
 import EditSingleProductReview from '@/app/_components/singleProductReviews/EditSingleProductReview';
 import { getSpecificRemarks } from '@/app/services/queryFunctions/remarks';
 import SingleProductPageSkeleton from '@/app/_components/loadingComponent/SingleProductPageSkeleton';
+import { useSearchParams } from 'next/navigation';
 const ProductPage = () => {
+  const searchParams = useSearchParams();
+ const [productId, setProductId] = useState<string>(searchParams.get('id') ?? "");
+ console.log(productId);
   const context = useContext(UserDetailsContext);
   const {visibleComponent,setVisibleComponent} = useContext(DisplayContext)
   if (!context) {
     throw new Error("The User Details context is not working.");
   }
   const { userDetails } = context;
-  const productId = typeof window !== "undefined" 
-  ? window.location.href.split("/")[4].split("&")[0].split(":")[1] 
-  : "";
   const [showReviews, setShowReviews] = useState(true);
   const toggleReviews = (value: boolean) => {
     setShowReviews(value);

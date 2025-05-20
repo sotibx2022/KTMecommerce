@@ -1,9 +1,11 @@
 import { CartModel } from "@/models/carts.model";
 import { NextRequest, NextResponse } from "next/server";
 import mongoose from "mongoose";
+import { getToken } from "next-auth/jwt";
 export async function POST(req: NextRequest) {
   try {
-    const { productId, quantity } = await req.json();
+    const data = await req.json();
+    const { productId, quantity } = data;
     if (!productId || typeof quantity !== "number" || quantity <= 0) {
       return NextResponse.json({
         message: "Validation Error: Missing or invalid inputs",
@@ -11,27 +13,24 @@ export async function POST(req: NextRequest) {
         status: 400,
       });
     }
-    const userIdFromCookie = req.cookies.get("_id")?.value;
-    if (!userIdFromCookie || !mongoose.Types.ObjectId.isValid(userIdFromCookie)) {
+ const token = await getToken({ req });
+     if (!token?.id) {
+       return NextResponse.json(
+         { message: "Unauthorized", success: false },
+         { status: 401 }
+       );
+     }
+     const objectUserId = new Object(token.id);
+    if (!objectUserId) {
       return NextResponse.json({
         message: "Authentication Error: Invalid or missing userId in cookies",
         success: false,
         status: 401, // Unauthorized
       });
     }
-    // Convert userId to ObjectId
-    const userId = new mongoose.Types.ObjectId(userIdFromCookie);
-    // Validate productId format
-    if (!mongoose.Types.ObjectId.isValid(productId)) {
-      return NextResponse.json({
-        message: "Validation Error: Invalid productId format",
-        success: false,
-        status: 400,
-      });
-    }
     const productObjectId = new Object(productId);
     const cartProduct = await CartModel.findOneAndUpdate(
-      { productId: productObjectId, userId }, // Ensure the product belongs to the user
+      { productId: productObjectId, userId:objectUserId }, // Ensure the product belongs to the user
       { $set: { quantity } }, // Update the quantity
       { new: true, upsert: false } // Return the updated document, do not create a new one
     );

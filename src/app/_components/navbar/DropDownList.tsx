@@ -9,7 +9,7 @@ interface DropDownCategory {
 const DropDownList: React.FC<DropDownCategory> = ({ subCategory,category }) => {
     const [activeCategory, setActiveCategory] = useState<number | null>(null);
     return (
-        <div className='absolute top-[100%] left-0 shadow-helper p-4 bg-background z-10'  >
+        <div className='absolute top-[100%] left-0 w-[200px] shadow-helper p-4 bg-background z-10'  >
             {subCategory.map((subItem: Subcategory, index: number) => (
 <div
   key={index}

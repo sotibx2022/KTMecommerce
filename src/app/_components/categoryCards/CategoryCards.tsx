@@ -68,7 +68,7 @@ const CategoryCards = ({ categoryType, title }: CategoryCardsProps) => {
                   className="my-4 flex justify-center"
                 >
                   <div className="group relative w-full max-w-[280px] overflow-hidden rounded-xl bg-background shadow-sm shadow-primaryLight transition-all duration-300 hover:shadow-lg">
-                    <Link href={`/singleProduct/id:${product._id}&,slug:${product.url_slug}`}>
+                    <Link href={`/singleProduct/productIdentifier?id=${product._id}&slug=${product.url_slug}`}>
                       <div className="relative h-64 w-full overflow-hidden">
                         <img
                           src={product.image}

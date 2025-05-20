@@ -10,6 +10,7 @@ import toast from 'react-hot-toast';
 import AddSingleProductReviews from './AddSingleProductReviews';
 import EditSingleProductReview from './EditSingleProductReview';
 import { IProductIdentifier } from '@/app/types/remarks';
+import useReviewDelete from '@/app/hooks/queryHooks/useMutation/useReviewDelete';
 interface ReviewActionButtonsProps{
   productIdentifier:IProductIdentifier
 }
@@ -23,18 +24,7 @@ const ReviewActionButtons:React.FC<ReviewActionButtonsProps> = ({productIdentifi
     }
     const user = useContext(UserDetailsContext);
     const userEmail = user!.userDetails!.email
-    const mutation = useMutation({mutationFn:deleteSpecificReview,onSuccess:async(response)=>{
-      toast.success(response.message);
-      setVisibleComponent('')
-      await Promise.all([
-        queryClient.invalidateQueries({ queryKey: ['specificUserRemarks', userEmail] }),
-        queryClient.invalidateQueries({ queryKey: ['specificRemarks', productId] }),
-        queryClient.invalidateQueries({ queryKey: ['specificProduct', productId] })
-      ]);
-      queryClient.invalidateQueries({queryKey:["specificUserRemarks", userEmail]})
-    },onError:(error)=>{
-      toast.error(error.message)
-    }})
+const mutation = useReviewDelete(userEmail,productId)
     function handleEditReview(): void {
         setVisibleComponent('editReview');
     }

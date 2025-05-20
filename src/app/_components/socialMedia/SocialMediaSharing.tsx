@@ -7,18 +7,49 @@ import {
     faWhatsappSquare
 } from '@fortawesome/free-brands-svg-icons';
 import { config } from '@/config/configuration';
-interface IMediaSharing{
-    productId?:string,
-    productSlug?:string
-}
-const SocialMediaSharing:React.FC<IMediaSharing> = ({productId,productSlug}) => {
+import Link from 'next/link';
+const SocialMediaSharing = () => {
+    const socialMediaLinks = [
+        {
+            icon: faFacebookSquare,
+            url: "facebook.com",
+            color: "text-blue-600 hover:text-blue-800",
+            label: "Facebook"
+        },
+        {
+            icon: faTwitterSquare,
+            url: "twitter.com",
+            color: "text-blue-400 hover:text-blue-600",
+            label: "Twitter"
+        },
+        {
+            icon: faInstagram,
+            url: "instagram.com",
+            color: "text-pink-500 hover:text-pink-700",
+            label: "Instagram"
+        },
+        {
+            icon: faWhatsappSquare,
+            url: "whatsapp.com",
+            color: "text-green-500 hover:text-green-700",
+            label: "WhatsApp"
+        }
+    ];
     return (
         <div className='mt-2'>
             <div className="flex items-center justify-start space-x-6">
-                <FontAwesomeIcon icon={faFacebookSquare} size="2x" className="cursor-pointer text-blue-600 hover:text-blue-800 transition-colors duration-200"  />
-                <FontAwesomeIcon icon={faTwitterSquare} size="2x" className='cursor-pointer text-blue-400 hover:text-blue-600 transition-colors duration-200'  />
-                <FontAwesomeIcon icon={faInstagram} size="2x" className='cursor-pointer text-pink-500 hover:text-pink-700 transition-colors duration-200'  />
-                <FontAwesomeIcon icon={faWhatsappSquare} size="2x" className="cursor-pointer text-green-500 hover:text-green-700 transition-colors duration-200"/>
+                {socialMediaLinks.map((social, index) => (
+                    <Link
+                        key={index}
+                        href={social.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={social.label}
+                        className={`cursor-pointer ${social.color} transition-colors duration-200`}
+                    >
+                        <FontAwesomeIcon icon={social.icon} size="2x" />
+                    </Link>
+                ))}
             </div>
         </div>
     );

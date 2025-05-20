@@ -14,6 +14,8 @@ import DisplaySingleProductRating from "../singleProductReviews/DisplaySinglePro
 import SocialMediaSharing from "../socialMedia/SocialMediaSharing";
 import { DisplayContext } from "@/app/context/DisplayComponents";
 import ProductImage from "./ProductImage";
+import { UserDetailsContext } from "@/app/context/UserDetailsContextComponent";
+import LoginComponent from "../authComponent/LoginComponent";
 const SingleProduct: React.FC<IProductDisplay> = ({ ...cartItemDetails }) => {
   const {visibleComponent,setVisibleComponent} = useContext(DisplayContext);
   const cartItems = useSelector((state: { cart: CartState }) => state.cart.cartItems);
@@ -43,9 +45,15 @@ const SingleProduct: React.FC<IProductDisplay> = ({ ...cartItemDetails }) => {
     userId,
   };
   // Check if the item is already in the cart
-  const isAlreadyOnCart = cartItems.some((item: ICartItem) => item.productId === _id);
+  const context = useContext(UserDetailsContext);
+  if(!context){
+    throw new Error("User Details Context is not accessible");
+  }
+  const {userDetails} = context;
+const isAlreadyOnCart = cartItems.some((item: ICartItem) => item.productId === _id);
   const addItemToCart = useAddItemToCart();
   return (
+    <>
     <div className="container">
       <div className="flex-col md:flex-row flex justify-between items-center py-4 gap-4 min-h-[50vh]">
         <div className="singleProductLeft md:w-1/2 w-full">
@@ -84,10 +92,10 @@ const SingleProduct: React.FC<IProductDisplay> = ({ ...cartItemDetails }) => {
       </div>
       <div className="productActions flex gap-4 my-4 items-center justify-center md:justify-start">
         <PrimaryButton
-          searchText="To Cart"
-          onClick={() => addItemToCart(dataToSend)} 
-          disabled={isAlreadyOnCart} 
-        />
+  searchText="To Cart"
+  onClick={() => userDetails ? addItemToCart(dataToSend) : setVisibleComponent('login')}
+  disabled={userDetails !==null && isAlreadyOnCart}
+/>
         <PrimaryButton searchText="To WishList" />
         <PrimaryButton searchText="To Others" onClick={()=>setVisibleComponent('productImage')}/>
           {visibleComponent === 'productImage' && <ProductImage {...cartItemDetails}/>}
@@ -97,6 +105,8 @@ const SingleProduct: React.FC<IProductDisplay> = ({ ...cartItemDetails }) => {
 )}
       <Toaster />
     </div>
+    {visibleComponent==='login' && <LoginComponent/>}
+    </>
   );
 };
 export default SingleProduct;

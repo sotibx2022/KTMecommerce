@@ -13,7 +13,7 @@ export const useCartItems = () => {
     return useQuery({
       queryKey: ['cartItems'],
       queryFn: fetchCartFromDatabase,
-      staleTime: 10 * 60 * 1000,
+      staleTime: 0,
       gcTime: 30 * 60 * 1000,
       enabled: !!userId, // Only fetch if userId exists
     });

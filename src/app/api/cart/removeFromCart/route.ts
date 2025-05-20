@@ -1,10 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { CartModel } from "@/models/carts.model";
 import { Types } from "mongoose";
+import { getToken } from "next-auth/jwt";
 export async function POST(req: NextRequest) {
   const { productId } = await req.json();
-  const _id = req.cookies.get("_id")?.value;
-  const userId = new Object(_id)
+ const token = await getToken({ req });
+     if (!token?.id) {
+       return NextResponse.json(
+         { message: "Unauthorized", success: false },
+         { status: 401 }
+       );
+     }
+     const objectUserId = new Object(token.id);
   if (!productId) {
     return NextResponse.json(
       { message: "Missing productId in request body", status: 400, success: false },
@@ -13,7 +20,7 @@ export async function POST(req: NextRequest) {
   }
   try {
     const productObjectId = new Object(productId);
-    const cartItem = await CartModel.findOneAndDelete({ userId,productId: productObjectId });
+    const cartItem = await CartModel.findOneAndDelete({ userId:objectUserId,productId: productObjectId });
     if (!cartItem) {
       return NextResponse.json(
         { message: "Cart item not found", status: 404, success: false },

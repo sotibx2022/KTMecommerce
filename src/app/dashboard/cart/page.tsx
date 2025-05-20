@@ -4,7 +4,6 @@ import {CartState, setCart } from "@/app/redux/cartSlice";
 import PrimaryButton from "@/app/_components/primaryButton/PrimaryButton";
 import Link from "next/link";
 import CartSummary from "@/app/_components/cartSummary/CartSummary";
-import LoadingComponent from "@/app/_components/loadingComponent/LoadingComponent";
 import CartTable from "@/app/_components/cartTable/CartTable";
 import { useQuery } from "@tanstack/react-query";
 import { fetchCartFromDatabase } from "@/app/services/apiFunctions/cartItems";
@@ -16,7 +15,7 @@ const page = () => {
     <div className="container">
         {cartItems.length === 0 && <div className="flex-center w-full h-full flex flex-col my-4">
           <p className="text-red-500 my-4 text-xl">There are no items in the cart. Please browse and add products.</p>
-          <Link href="/">
+          <Link href="/pages/isNewArrivals">
             <PrimaryButton searchText="Browse" />
           </Link>
         </div>}

@@ -3,6 +3,7 @@ import { ICartItem, ICreateCart } from "@/app/types/cart";
 import { CartModel } from "@/models/carts.model";
 import { productModel } from "@/models/products.model";
 import { Types } from "mongoose";
+import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
   try {
@@ -15,7 +16,8 @@ export async function POST(req: NextRequest) {
       );
     }
     // Retrieve user ID from cookies
-    const userId = req.cookies.get("_id")?.value;
+    const token = await getToken({req});
+                const userId = token?.id;
     if (!userId) {
       return NextResponse.json(
         { message: "User ID not found in cookies.", success: false, status: 401 },
@@ -23,9 +25,10 @@ export async function POST(req: NextRequest) {
       );
     }
     // Convert string _id to ObjectId
-    const objectId = new Types.ObjectId(userId);
+    const objectUserId = new Object(userId);
+    const objectProductId = new Object(productId)
     // Find the product in the database
-    const product = await productModel.findOne({ _id: new Types.ObjectId(productId) });
+    const product = await productModel.findOne({ _id: objectProductId });
     if (!product) {
       return NextResponse.json(
         { message: "Product not found.", success: false, status: 404 },
@@ -33,13 +36,12 @@ export async function POST(req: NextRequest) {
       );
     }
     // Find category name from category ID
-    const categoryObjectId = new Types.ObjectId(product?.categoryId);
-    const productObjectId = new Types.ObjectId(productId);
+    const categoryObjectId = new Object(product?.categoryId);
     const category_name = await findCategoryNamefromCategoryId(categoryObjectId);
     // Create new cart item
     const newCart = new CartModel<ICreateCart>({
-      userId: objectId,
-      productId: productObjectId,
+      userId: objectUserId,
+      productId: objectProductId,
       productName,
       brand,
       category: category_name,

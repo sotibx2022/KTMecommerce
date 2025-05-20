@@ -6,6 +6,7 @@ import { OrderDetailsProps } from '@/app/types/orders';
 import React, { useContext } from 'react';
 import OrderDetails from '@/app/_components/orderDetails/OrderDetails';
 import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponent';
+import { useOrders } from '@/app/hooks/queryHooks/useOrders';
 const Page = () => {
   const context = useContext(UserDetailsContext);
   if (!context) {
@@ -13,16 +14,7 @@ const Page = () => {
   }
   const { userDetails } = context;
   const userEmail = userDetails?.email;
-  const { data: orders, isPending, error } = useQuery<OrderDetailsProps[]>({
-    queryKey: ['orders', userEmail],
-    queryFn: () => {
-      if (!userEmail) {
-        throw new Error("Email is required");
-      }
-      return fetchAllOrders(userEmail);
-    },
-    enabled: !!userEmail
-  });
+ const {data:orders,isPending,error} = useOrders(userEmail!)
   console.log('Orders data:', orders);
   console.log('Is array:', Array.isArray(orders));
   if (isPending) {

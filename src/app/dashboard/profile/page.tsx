@@ -14,7 +14,9 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import LoadingButton from '@/app/_components/primaryButton/LoadingButton';
 import { IUser } from '@/app/types/user';
 import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponent';
+import { DisplayContext } from '@/app/context/DisplayComponents';
 const Page = () => {
+  const{visibleComponent, setVisibleComponent} = useContext(DisplayContext);
   const[isLoading,setIsLoading] = useState(false);
   const[profileFile,setProfileFile] = useState<undefined | File>(undefined)
   const context = useContext(UserDetailsContext);
@@ -29,11 +31,12 @@ const Page = () => {
   onSuccess: async (response: APIResponseSuccess<IUser> | APIResponseError) => {
     setIsLoading(false);
     if ('data' in response) { // Type guard for APIResponseSuccess
+      setVisibleComponent('')
       toast.success(response.message);
       queryClient.setQueryData(['user'], response.data);
       await queryClient.invalidateQueries({ queryKey: ['user'] });
     } else {
-      // Handle APIResponseError case
+      setVisibleComponent('');
       toast.error(response.message);
     }
   },
@@ -43,8 +46,7 @@ const Page = () => {
   }
 });
   const onSubmit = (data:IUpdateUserData) => {
-    console.log(data);
-    setIsLoading(true);
+    setVisibleComponent('loadingComponent')
     if(!profileFile){
       setIsLoading(false);
       toast.error("Please upload the Image first !")
@@ -112,7 +114,7 @@ const Page = () => {
               />
               <span className="text-primaryDark text-sm font-medium">+977</span>
             </div>
-            <input type="text" className="border border-helper bg-background rounded-md shadow-helper shadow-sm focus:outline-none text-primaryDark pl-[80px] " placeholder="+123 456 7890" id="phoneNumber"
+            <input type="text" className="border border-helper bg-background rounded-md p-3 w-full shadow-helper shadow-sm focus:outline-none text-primaryDark pl-[80px] " placeholder="+123 456 7890" id="phoneNumber"
             disabled={!userDetails}
             {...register("phoneNumber",{
               validate: (value) =>validateNumber("Phone Number",value,10,10)
@@ -150,7 +152,7 @@ const Page = () => {
           </div>
         </div>
       </div>
-      {isLoading ? <LoadingButton/> :<PrimaryButton searchText="Update" />}
+     <PrimaryButton searchText="Update" />
     </form>}</>
   );
 };

@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { getAllCategories } from '../services/queryFunctions/categoreis';
 import { fetchCartFromDatabase } from '../services/apiFunctions/cartItems';
 import { SpecificProducts } from '../services/apiFunctions/productsQuery';
+import { initialCategories } from '../data/categoriesData';
 const QueryProvider = ({ children }: { children: ReactNode }) => {
   const queryClient = new QueryClient({
     defaultOptions: {
@@ -15,6 +16,7 @@ const QueryProvider = ({ children }: { children: ReactNode }) => {
   });
  useEffect(()=>{
   const prefetchCreticalDatas=async()=>{
+    queryClient.setQueryData(['categories'], initialCategories);
     await Promise.all([
       queryClient.prefetchQuery({queryKey:['categories'],queryFn:getAllCategories}),
     ],

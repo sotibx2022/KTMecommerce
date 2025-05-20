@@ -10,6 +10,7 @@ import Footer from '../_components/footer/Footer';
 import { UserDetailsContextComponent } from '../context/UserDetailsContextComponent';
 import store from '../redux/store';
 import { Provider } from 'react-redux';
+import ConditionalComponents from '../_components/conditionalVisibleComponents/ConditionalComponents';
 interface PagesLayoutProps {
   children: ReactNode;
 }
@@ -23,9 +24,7 @@ const PagesLayout: React.FC<PagesLayoutProps> = ({ children }) => {
           {children}
           <Toaster />
           <Footer />
-          {visibleComponent === 'responsiveHeader' && <ResponsiveHeader />}
-          {visibleComponent === 'login' && <LoginComponent />}
-          {visibleComponent === 'register' && <RegisterComponent />}
+          <ConditionalComponents/>
         </DisplayComponents>
     </UserDetailsContextComponent>
     </Provider>

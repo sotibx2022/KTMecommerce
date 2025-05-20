@@ -10,19 +10,57 @@ import { FaMinus, FaPlus } from 'react-icons/fa';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import toast from 'react-hot-toast';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { APIResponseError, APIResponseSuccess } from '@/app/services/queryFunctions/users';
 const CartTable = () => {
-    const dispatch = useDispatch();
-    const cartItems = useSelector((state: { cart: CartState }) => state.cart.cartItems);
-      const updateQuantity = async(productId: string, newQuantity: number) => {
-        if (newQuantity < 1 && newQuantity<10) return; // Prevent quantity from going below 1
-        dispatch(updateCartItem({ productId, quantity: newQuantity }));
-        await axios.post("/api/cart/updateCart",{productId,quantity:newQuantity});
-      };
-      const removeCartItemFromCart = async (productId: string) => {
-        dispatch(removeFromCart(productId));
-        toast.success("Item removed from cart!");
-        await axios.post("/api/cart/removeFromCart", { productId });
-      };
+  const queryClient = useQueryClient();
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state: { cart: CartState }) => state.cart.cartItems);
+  // Update Cart Mutation (existing)
+  interface IUpdateCartData {
+    productId: string;
+    quantity: number;
+  }
+  const updateCart = async(data: IUpdateCartData): Promise<APIResponseSuccess | APIResponseError> => {
+    const response = await axios.post('/api/cart/updateCart', data);
+    return response.data;
+  }
+  const updateCartMutation = useMutation<APIResponseSuccess | APIResponseError, Error, IUpdateCartData>({
+    mutationFn: updateCart,
+    onSuccess: (response) => {
+      queryClient.invalidateQueries({queryKey: ["cartItems"], refetchType: 'active'});
+    },
+    onError: (error) => {
+      toast.error(error.message || "Failed to update cart");
+    }
+  });
+  // New Delete Cart Mutation
+  interface IDeleteCartData {
+    productId: string;
+  }
+  const deleteCartItem = async(data: IDeleteCartData): Promise<APIResponseSuccess | APIResponseError> => {
+    const response = await axios.post('/api/cart/removeFromCart', data);
+    return response.data;
+  }
+  const deleteCartMutation = useMutation<APIResponseSuccess | APIResponseError, Error, IDeleteCartData>({
+    mutationFn: deleteCartItem,
+    onSuccess: (response) => {
+      queryClient.invalidateQueries({queryKey: ["cartItems"], refetchType: 'active'});
+      toast.success(response.message || "Item removed from cart!");
+    },
+    onError: (error) => {
+      toast.error(error.message || "Failed to remove item");
+    }
+  });
+  const updateQuantity = (productId: string, newQuantity: number) => {
+    if (newQuantity < 1 || newQuantity > 10) return;
+    dispatch(updateCartItem({ productId, quantity: newQuantity }));
+    updateCartMutation.mutate({ productId, quantity: newQuantity });
+  };
+  const removeCartItemFromCart = (productId: string) => {
+    dispatch(removeFromCart(productId));
+    deleteCartMutation.mutate({ productId });
+  };
   return (
     <div>
         <Table className="bg-background my-4 shadow-helper">

@@ -1,15 +1,18 @@
 import React from 'react';
 import Footer2 from './Footer2';
 import NewsLetterSection from './NewsLetterSection';
+import DirectContactDetails from './DirectContactDetails';
+import QuickLinks from './QuickLinks';
+import DeveloperDetails from './DeveloperDetails';
 const Footer = () => {
   return (
-    <footer className="bg-primaryDark text-white mt-4">
-      <NewsLetterSection/>
-      <Footer2/>
-      <div className=" mx-auto flex justify-center items-center h-[30px]  bg-primaryLight py-8">
-        <p>This is the project developed by Binayaraj Soti.</p>
-      </div>
-    </footer>
+      <div className='bg-primaryDark mt-4'>
+        <Footer2/>
+        <NewsLetterSection/>
+        <DirectContactDetails/>
+        <QuickLinks/>
+        <DeveloperDetails/>
+    </div>
   );
 };
 export default Footer;

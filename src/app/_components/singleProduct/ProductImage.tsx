@@ -47,8 +47,8 @@ const downloadImage = async (name: string) => {
     } = cartItemDetails;
     return (
            <AbsoluteComponent>
-             <div id="snapshot-container" className="p-4 gap-4 bg-background max-w-[800px] border-2 border-helper relative overflow-hidden">
-                <div className="p-4 gap-4  bg-background border-2 border-helper">
+             <div id="snapshot-container" className="p-4 gap-4 bg-primaryDark w-[600px]  relative overflow-hidden">
+                <div className="p-4 gap-4  bg-background ">
                     <h1 className="subHeading">
                         {productName}
                     </h1>

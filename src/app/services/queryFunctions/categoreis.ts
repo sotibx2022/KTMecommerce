@@ -1,4 +1,3 @@
-import { config } from "@/config/configuration"
 import axios from "axios"
 export const getAllCategories = async() =>{
     const response = await axios.get(`/api/categories`);
