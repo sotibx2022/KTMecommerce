@@ -9,8 +9,8 @@
   --radius: 8px;
   --gradientwithOpacity: linear-gradient(
     90deg,
-    rgba(135, 96, 97, 0.5) 0%, /* rgba version of --primary with opacity */
-    rgba(83, 28, 29, 0.5) 100% /* rgba version of --primaryDark with opacity */
+    rgba(135, 96, 97, 0.8) 0%, /* rgba version of --primary with opacity */
+    rgba(83, 28, 29, 0.8) 100% /* rgba version of --primaryDark with opacity */
   );
 }
 html {

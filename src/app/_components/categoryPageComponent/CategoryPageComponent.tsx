@@ -26,14 +26,14 @@ const CategoryPageComponent:React.FC<CategoryPageComponent> = ({categoryName}) =
   return (
     <div className="container mt-4">
       {isPending ? (
-        <div className="flex flex-wrap justify-between gap-4">
+        <div className="flex flex-wrap justify-center sm:justify-between  gap-4">
           {Array.from({ length: 6 }).map((_, index) => (
             <SkeletonSlide key={index} />
           ))}
         </div>
       ) : products && products.length > 0 ? (
         <>
-          <div className="flex flex-wrap justify-between gap-4">
+          <div className="flex flex-wrap justify-center sm:justify-between gap-4">
             {products.map((product: IProductDisplay,index:number) => (
               <div key={index}>
                 <ProductCardMemo {...product} />

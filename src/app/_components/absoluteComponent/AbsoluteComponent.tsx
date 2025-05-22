@@ -9,7 +9,7 @@ interface AbsoluteModalProps {
 export const AbsoluteComponent = ({ children }: AbsoluteModalProps) => {
   const { visibleComponent, setVisibleComponent } = useContext(DisplayContext);
   return (
-    <div className="fixed inset-0 overflow-y-auto z-10"
+    <div className="fixed inset-0 overflow-y-auto z-20"
      style={{ background: "var(--gradientwithOpacity)" }}>
       <div className="flex min-h-full items-center z-100 justify-center p-2 md:p-4">
         <div className={`relative bg-background max-w-[400px] w-full p-2 md:p-6 rounded-lg shadow-lg my-4 max-h-[90vh] overflow-y-auto`}>

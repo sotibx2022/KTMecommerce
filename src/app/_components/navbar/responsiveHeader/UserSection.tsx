@@ -3,6 +3,7 @@ import SecondaryButton from "../../secondaryButton/SecondaryButton";
 import NonRegisteredUsersOption from "../NonRegisteredUsersOption";
 import { UserDetailsContext } from "@/app/context/UserDetailsContextComponent";
 import { useLogout } from "@/app/hooks/queryHooks/useLogout";
+import Link from "next/link";
 interface UserSectionProps {
 }
 export const UserSection = () => {
@@ -16,6 +17,7 @@ export const UserSection = () => {
     <div className="userSpecificArea shadow-primaryLight my-4 py-4 px-4">
       {userDetails ? (
         <div className="registeredUser flex justify-between items-center px-4">
+          <Link href="/dashboard/profile">
           <div className="imageArea flex gap-2">
             {userDetails.profileImage ? (
               <img
@@ -33,6 +35,7 @@ export const UserSection = () => {
               {userDetails.fullName.split(" ")[0]}
             </p>
           </div>
+          </Link>
           <SecondaryButton text="Log Out" onClick={logout.mutate} />
         </div>
       ) : (

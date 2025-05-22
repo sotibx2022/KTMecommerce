@@ -6,6 +6,7 @@ import {
   faEnvelope, 
   faMapMarkerAlt 
 } from '@fortawesome/free-solid-svg-icons';
+import Link from 'next/link';
 const DirectContactDetails = () => {
   const contactItems = [
     {
@@ -29,7 +30,7 @@ const DirectContactDetails = () => {
   ];
   return (
     <div className="container text-background">
-      <div className="flex flex-wrap justify-between gap-6">
+      <div className="flex flex-wrap justify-between">
         {contactItems.map((item, index) => (
           <div key={index} className="flex justify-between items-center">
             <div className="p-3 rounded-full  color-primaryLight">
@@ -39,14 +40,14 @@ const DirectContactDetails = () => {
               />
             </div>
             <div className="flex-1">
-              <a 
+              <Link
                 href={item.link} 
                 className="text-primaryParagraph hover:color-primaryDark transition-colors"
                 target={item.type === "email" || item.type === "phone" ? "_self" : "_blank"}
                 rel="noopener noreferrer"
               >
                 {item.value}
-              </a>
+              </Link>
             </div>
           </div>
         ))}
