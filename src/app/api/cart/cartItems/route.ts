@@ -23,7 +23,7 @@ export async function GET(req: NextRequest) {
       );
     }
     // Find cart items with proper error handling
-    const cartItems = await CartModel.find({ userId: userId }).lean().exec();
+    const cartItems = await CartModel.find({ userId: userId }).lean();
     // Handle case where no cart items exist
     if (!cartItems || cartItems.length === 0) {
       return NextResponse.json(

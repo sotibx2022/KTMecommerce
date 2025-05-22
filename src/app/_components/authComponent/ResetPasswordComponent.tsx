@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import SubmitError from '../submit/SubmitError';
-import { validateEmail, validatePassword, validateConfirmPassword } from '@/app/services/helperFunctions/validatorFunctions';
 import { AbsoluteComponent } from '../absoluteComponent/AbsoluteComponent';
 import { DisplayContext } from '@/app/context/DisplayComponents';
 import LoginComponent from './LoginComponent';
@@ -15,32 +14,33 @@ import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { APIResponseError, APIResponseSuccess } from '@/app/services/queryFunctions/users';
 import toast from 'react-hot-toast';
-type ResetPasswordData = {
-  email: string;
-  newPassword: string;
-  confirmNewPassword: string;
+import { validateConfirmPassword, validateEmail, validatePassword } from '@/app/services/helperFunctions/validatorFunctions';
+type ResetresetPasswordData = {
+  resetEmail: string;
+  newresetPassword: string;
+  confirmNewresetPassword: string;
 };
-const ResetPasswordComponent = () => {
+const ResetresetPasswordComponent = () => {
   const { visibleComponent, setVisibleComponent } = useContext(DisplayContext);
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showresetPassword, setShowresetPassword] = useState(false);
+  const [showConfirmresetPassword, setShowConfirmresetPassword] = useState(false);
   const {
     register,
     formState: { errors },
     getValues,
     handleSubmit,
-  } = useForm<ResetPasswordData>({ mode: 'onBlur' });
-  const updateNewPassword = async (data: ResetPasswordData): Promise<APIResponseSuccess | APIResponseError> => {
+  } = useForm<ResetresetPasswordData>({ mode: 'onBlur' });
+  const updateNewresetPassword = async (data: ResetresetPasswordData): Promise<APIResponseSuccess | APIResponseError> => {
     setVisibleComponent('loadingComponent');
     try {
-      const response = await axios.post('/api/auth/resetPassword', { data });
+      const response = await axios.post('/api/auth/resetresetPassword', { data });
       return response.data;
     } catch (error) {
       return { message: "Axios Error Occurred.", status: 400, success: false };
     }
   };
-  const resetPasswordMutation = useMutation<APIResponseSuccess | APIResponseError, Error, ResetPasswordData>({
-    mutationFn: updateNewPassword,
+  const resetresetPasswordMutation = useMutation<APIResponseSuccess | APIResponseError, Error, ResetresetPasswordData>({
+    mutationFn: updateNewresetPassword,
     onSuccess: (response) => {
       toast.success(response.message);
       setVisibleComponent('');
@@ -50,8 +50,8 @@ const ResetPasswordComponent = () => {
       setVisibleComponent('');
     }
   });
-  const onSubmit = async (data: ResetPasswordData) => {
-    resetPasswordMutation.mutate(data);
+  const onSubmit = async (data: ResetresetPasswordData) => {
+    resetresetPasswordMutation.mutate(data);
   };
   return (
     <>
@@ -60,92 +60,92 @@ const ResetPasswordComponent = () => {
       ) : (
         <AbsoluteComponent>
           <div className="bg-background max-w-[400px] p-6 rounded-lg shadow-lg relative">
-            <div className="resetPasswordComponentWrapper">
-              <h2 className="subHeading mb-4">Reset Password</h2>
+            <div className="resetresetPasswordComponentWrapper">
+              <h2 className="subHeading mb-4">Reset resetPassword</h2>
               <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
-                {/* Email */}
+                {/* resetEmail */}
                 <div>
                   <div className="flex items-center mb-1">
                     <FontAwesomeIcon icon={faEnvelope} className="text-primaryDark mr-2" />
-                    <label htmlFor="email" className="text-primaryParagraph">
-                      Email <span className="text-red-500">*</span>
+                    <label htmlFor="resetEmail" className="text-primaryParagraph">
+                      resetEmail <span className="text-red-500">*</span>
                     </label>
                   </div>
                   <input
-                    type="email"
-                    placeholder="your@email.com"
+                    type="resetEmail"
+                    placeholder="your@resetEmail.com"
                     className="formItem w-full"
-                    id="email"
-                    {...register("email", {
-                      required: "Email is required",
-                      validate: (value) => validateEmail("Email", value),
+                    id="resetEmail"
+                    {...register("resetEmail", {
+                      required: "resetEmail is required",
+                      validate: (value) => validateEmail("resetEmail", value),
                     })}
                   />
-                  {errors.email?.message && <SubmitError message={errors.email.message} />}
+                  {errors.resetEmail?.message && <SubmitError message={errors.resetEmail.message} />}
                 </div>
-                {/* New Password */}
+                {/* New resetPassword */}
                 <div>
                   <div className="flex items-center mb-1">
                     <FontAwesomeIcon icon={faLock} className="text-primaryDark mr-2" />
-                    <label htmlFor="newPassword" className="text-primaryParagraph">
-                      New Password <span className="text-red-500">*</span>
+                    <label htmlFor="newresetPassword" className="text-primaryParagraph">
+                      New resetPassword <span className="text-red-500">*</span>
                     </label>
                   </div>
-                  <div className="passwordArea relative">
+                  <div className="resetPasswordArea relative">
                     <input
-                      type={showPassword ? "text" : "password"}
+                      type={showresetPassword ? "text" : "resetPassword"}
                       placeholder="••••••••"
                       className="formItem w-full"
-                      autoComplete="new-password"
-                      id="newPassword"
-                      {...register("newPassword", {
-                        required: "New password is required",
-                        validate: (value) => validatePassword("New Password", value, 8),
+                      autoComplete="new-resetPassword"
+                      id="newresetPassword"
+                      {...register("newresetPassword", {
+                        required: "New resetPassword is required",
+                        validate: (value) => validatePassword("New resetPassword", value, 8),
                       })}
                     />
                     <button
                       type="button"
                       className="absolute right-3 top-1/2 -translate-y-1/2 text-primaryDark hover:text-primary transition-colors"
-                      onClick={() => setShowPassword(!showPassword)}
-                      aria-label={showPassword ? "Hide password" : "Show password"}
+                      onClick={() => setShowresetPassword(!showresetPassword)}
+                      aria-label={showresetPassword ? "Hide resetPassword" : "Show resetPassword"}
                     >
-                      <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                      <FontAwesomeIcon icon={showresetPassword ? faEyeSlash : faEye} />
                     </button>
                   </div>
-                  {errors.newPassword?.message && <SubmitError message={errors.newPassword.message} />}
+                  {errors.newresetPassword?.message && <SubmitError message={errors.newresetPassword.message} />}
                 </div>
-                {/* Confirm New Password */}
+                {/* Confirm New resetPassword */}
                 <div>
                   <div className="flex items-center mb-1">
                     <FontAwesomeIcon icon={faLock} className="text-primaryDark mr-2" />
-                    <label htmlFor="confirmNewPassword" className="text-primaryParagraph">
-                      Confirm New Password <span className="text-red-500">*</span>
+                    <label htmlFor="confirmNewresetPassword" className="text-primaryParagraph">
+                      Confirm New resetPassword <span className="text-red-500">*</span>
                     </label>
                   </div>
-                  <div className="passwordArea relative">
+                  <div className="resetPasswordArea relative">
                     <input
-                      type={showConfirmPassword ? "text" : "password"}
+                      type={showConfirmresetPassword ? "text" : "resetPassword"}
                       placeholder="••••••••"
                       className="formItem w-full"
-                      autoComplete="new-password"
-                      id="confirmNewPassword"
-                      {...register("confirmNewPassword", {
-                        required: "Please confirm your new password",
+                      autoComplete="new-resetPassword"
+                      id="confirmNewresetPassword"
+                      {...register("confirmNewresetPassword", {
+                        required: "Please confirm your new resetPassword",
                         validate: (value) =>
-                          validateConfirmPassword("Confirm New Password", getValues("newPassword"), value),
+                          validateConfirmPassword("Confirm New resetPassword", getValues("newresetPassword"), value),
                       })}
                     />
                     <button
                       type="button"
                       className="absolute right-3 top-1/2 -translate-y-1/2 text-primaryDark hover:text-primary transition-colors"
-                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                      aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+                      onClick={() => setShowConfirmresetPassword(!showConfirmresetPassword)}
+                      aria-label={showConfirmresetPassword ? "Hide resetPassword" : "Show resetPassword"}
                     >
-                      <FontAwesomeIcon icon={showConfirmPassword ? faEyeSlash : faEye} />
+                      <FontAwesomeIcon icon={showConfirmresetPassword ? faEyeSlash : faEye} />
                     </button>
                   </div>
-                  {errors.confirmNewPassword?.message && (
-                    <SubmitError message={errors.confirmNewPassword.message} />
+                  {errors.confirmNewresetPassword?.message && (
+                    <SubmitError message={errors.confirmNewresetPassword.message} />
                   )}
                 </div>
                 <PrimaryButton searchText="Reset" />
@@ -153,7 +153,7 @@ const ResetPasswordComponent = () => {
               <div className="usefulLinks mt-6 space-y-3 border-t border-primaryLight pt-4">
                 <p className="primaryParagraph">
                   <FontAwesomeIcon icon={faCaretRight} className="mr-2 text-primaryDark" />
-                  Remember your password?{" "}
+                  Remember your resetPassword?{" "}
                   <span className="link" onClick={() => setVisibleComponent("login")}>
                     Login
                   </span>
@@ -175,4 +175,4 @@ const ResetPasswordComponent = () => {
     </>
   );
 };
-export default ResetPasswordComponent;
+export default ResetresetPasswordComponent;

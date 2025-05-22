@@ -26,8 +26,8 @@ const LoginComponent = () => {
   setVisibleComponent('loadingComponent')
     try {
       const result = await signIn('credentials', {
-        email: data.email,
-        password: data.password,
+        email: data.loginEmail,
+        password: data.loginPassword,
         redirect: false,
       });
       if (result?.error) {
@@ -68,12 +68,12 @@ await queryCLient.invalidateQueries({queryKey:['user']});
                   type="email"
                   placeholder="john@example.com"
                   className="formItem w-full"
-                  id='email'
-                  {...register("email", {
+                  id='loginEmail'
+                  {...register("loginEmail", {
                     validate: (value) => validateEmail("Email", value)
                   })}
                 />
-                {errors.email?.message && <SubmitError message={errors.email.message} />}
+                {errors.loginEmail?.message && <SubmitError message={errors.loginEmail.message} />}
               </div>
             <div>
                             <div className="flex items-center mb-1">
@@ -88,8 +88,8 @@ await queryCLient.invalidateQueries({queryKey:['user']});
                               placeholder="••••••••"
                               className="formItem w-full"
                               autoComplete='off'
-                              id='password'
-                              {...register("password", {
+                              id='loginPassword'
+                              {...register("loginPassword", {
                                 validate: (value) => validatePassword("Password", value, 8)
                               })}
                             />
@@ -102,7 +102,7 @@ await queryCLient.invalidateQueries({queryKey:['user']});
                                       <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
                                     </button>
                                     </div>
-                            {errors.password?.message && <SubmitError message={errors.password.message} />}
+                            {errors.loginPassword?.message && <SubmitError message={errors.loginPassword.message} />}
                           </div>
            <PrimaryButton searchText='Login' />
             </form>

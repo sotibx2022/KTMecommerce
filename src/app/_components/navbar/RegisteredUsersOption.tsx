@@ -25,8 +25,8 @@ const RegisteredUsersOption = () => {
     const dispatch = useDispatch();
     const {data:cartItems} = useCartItems();
    useEffect(()=>{
-    if(cartItems){
-      dispatch(setCart(cartItems));
+    if(cartItems !== undefined && Array.isArray(cartItems)){
+dispatch(setCart(cartItems))
     }
    },[cartItems])
   return (

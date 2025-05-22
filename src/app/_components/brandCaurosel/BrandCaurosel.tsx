@@ -84,7 +84,7 @@ const BrandCaurosel = () => {
         modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
         slidesPerView={slidesPerView}
         spaceBetween={50}
-        autoplay={{ delay: 3000, disableOnInteraction: true }}
+        autoplay={{ delay: 5000, disableOnInteraction: true }}
         className="h-[200px] w-full swiperWrapper"
       >
         {brands.map((brand,index) => (
@@ -93,9 +93,10 @@ const BrandCaurosel = () => {
   src={brand.brandImageUrl} 
   alt={brand.brandName} 
   className="absolute top-1/2 left-1/2 w-[100px] h-auto transform -translate-x-1/2 -translate-y-1/2 transition-transform"
-/>
+/><div>
+</div>
             <button
-              className="absolute bottom-0 left-1/2 text-2xl text-white bg-helper py-1 px-2"
+              className="absolute bottom-0 left-1/2 text-2xl text-white bg-helper py-1 px-2 z-10"
               onClick={showBookDetails}
             >
               <FontAwesomeIcon icon={faArrowUp} />
@@ -108,7 +109,7 @@ const BrandCaurosel = () => {
                 <FontAwesomeIcon icon={faArrowDown} />
               </button>
               <h2 className="text-3xl text-white mb-2">{brand.brandName}</h2>
-              <LinkComponent href={`/catalog/keyword=${brand.brandName}`} text="Show Products" />
+              <Link href={`/catalog/keyword=${brand.brandName}`} className="secondaryButton">Show Products</Link>
             </div>
           </SwiperSlide>
         ))}

@@ -6,8 +6,8 @@ export interface RegisterData {
     confirmPassword: string;
   }
   export interface LoginData{
-    email:string,
-    password:string,
+    loginEmail:string,
+    loginPassword:string,
   }
 export interface IUpdateUserData{
   fullName:string,
