@@ -47,7 +47,7 @@ setVisibleComponent('register');
     return () => clearInterval(interval);
   }, [targetTime]);
   return (
-    <div className="timerContainer">
+    <div className="timerContainer px-2">
 <h1 className="text-2xl text-helper font-bold flex items-center gap-2">
   <div className="icon bg-helper p-2 rounded-full">
 <FaGift className="text-background   rounded-full" />

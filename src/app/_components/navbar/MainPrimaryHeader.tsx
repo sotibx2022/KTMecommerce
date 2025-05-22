@@ -27,38 +27,39 @@ const MainPrimaryHeader: React.FC = () => {
   }
   return (
     <>
-    <div className="bg-background lg:bg-primaryDark">
-      <nav className="container flex justify-between items-center py-1">
-        <ul className="hidden lg:flex justify-center items-center gap-4">
-          {navigationLinks.map((link, index) => (
-            <li className="text-background" key={index}>
-              <LinkComponent href={link.href} text={link.text} />
-            </li>
-          ))}
-        </ul>
-        <div className="flex gap-4 items-center">
-          <div className="hidden lg:flex justify-center items-center gap-4">
-            <div className="flex items-center h-[2rem] w-auto gap-2">
-              {userDetails? <RegisteredUsersOption/>:<NonRegisteredUsersOption/>}
-            </div>
-          </div>
-          <div className="flex justify-between items-center">
-            <div className="logoImage sm:hidden">
+          <section className="headerRow bg-background lg:bg-primaryDark">
+            <div className="container flex justify-between items-center">
+            <div className="logoImage lg:hidden">
             <img
               src="../assets/brand/logo.png"
               alt="Brand Logo"
               className="w-auto h-[50px] min-w-[150px]"
             />
             </div>
-          <FontAwesomeIcon
+            <div className="hiddenElements hidden lg:flex justify-between w-[90%]">
+              <ul className="flex justify-center items-center gap-4">
+          {navigationLinks.map((link, index) => (
+            <li className="text-background" key={index}>
+              <LinkComponent href={link.href} text={link.text} />
+            </li>
+          ))}
+        </ul>
+<div className="flex justify-center items-center gap-4">
+            <div className="flex items-center h-[2rem] w-auto gap-2">
+              {userDetails? <RegisteredUsersOption/>:<NonRegisteredUsersOption/>}
+            </div>
+          </div>
+            </div>
+            <div className="ResponsiveIcon w-[20px] h-[20px] flex items-center justify-end">
+              <FontAwesomeIcon
             icon={faBars}
             className="text-primaryDark cursor-pointer transition-transform transform hover:scale-125 hover:rotate-12 lg:text-background"
             onClick={setResponsiveHeader}
+            size='lg'
           />
-          </div>
-        </div>
-      </nav>
+            </div>
      </div>
+          </section>
      {visibleComponent === "responsiveHeader" && <ResponsiveHeader />}
      {visibleComponent === "login" && <LoginComponent />}
      {visibleComponent === "register" && <RegisterComponent />}

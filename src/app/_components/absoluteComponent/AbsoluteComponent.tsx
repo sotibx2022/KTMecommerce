@@ -6,20 +6,20 @@ import { DisplayContext } from "@/app/context/DisplayComponents";
 interface AbsoluteModalProps {
   children: ReactNode;
 }
-export const AbsoluteComponent = ({
-  children,
-}: AbsoluteModalProps) => {
-    const{visibleComponent, setVisibleComponent} = useContext(DisplayContext)
+export const AbsoluteComponent = ({ children }: AbsoluteModalProps) => {
+  const { visibleComponent, setVisibleComponent } = useContext(DisplayContext);
   return (
-    <div className="fixed top-0 left-0 w-full h-full flex flex-col justify-center items-center z-10"
-    style={{ background: "var(--gradientwithOpacity)" }}>
-      <div className={`bg-background max-w-[400px] p-6 rounded-lg shadow-lg relative my-4`}>
-        <FontAwesomeIcon
-          icon={faTimes}
-          className="text-background bg-helper w-[30px] h-[30px] absolute -top-3 -right-3 cursor-pointer rounded-full p-1"
-          onClick={()=>setVisibleComponent('')}
-        />
-        {children}
+    <div className="fixed inset-0 overflow-y-auto z-10"
+     style={{ background: "var(--gradientwithOpacity)" }}>
+      <div className="flex min-h-full items-center z-100 justify-center p-2 md:p-4">
+        <div className={`relative bg-background max-w-[400px] w-full p-2 md:p-6 rounded-lg shadow-lg my-4 max-h-[90vh] overflow-y-auto`}>
+          <FontAwesomeIcon
+            icon={faTimes}
+            className="text-background bg-helper w-[30px] h-[30px] z-10 absolute top-3 right-3  cursor-pointer rounded-full p-1"
+            onClick={() => setVisibleComponent('')}
+          />
+          {children}
+        </div>
       </div>
     </div>
   );

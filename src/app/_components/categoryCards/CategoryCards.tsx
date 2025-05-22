@@ -56,7 +56,7 @@ const CategoryCards = ({ categoryType, title }: CategoryCardsProps) => {
             }}
           >
             {isPending ? (
-              <div className='container flex justify-between flex-wrap'>
+              <div className='container flex justify-center lg:justify-between flex-wrap'>
                 {[...Array(3)].map((_, i) => (
                   <SkeletonSlide key={`skeleton-${i}`} />
                 ))}

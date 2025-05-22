@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { navigationLinks } from "@/app/data/navigationLinks";
 export const QuickLinks = () => (
-  <div className="grid grid-cols-4 gap-2">
+  <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
     {navigationLinks.map((link) => (
       <Link
         key={link.href}

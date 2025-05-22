@@ -12,7 +12,7 @@ const brands = [
     { brandName: "Oppo", brandImageUrl: "https://1000logos.net/wp-content/uploads/2018/10/Oppo-logo-500x240.png" },
     { brandName: "Redmi", brandImageUrl: "https://xiaomitime.com/wp-content/uploads/2024/11/redmi-logo-2.jpg" },
     { brandName: "Fitbit", brandImageUrl: "https://1000logos.net/wp-content/uploads/2017/09/Fitbit-Logo-500x313.png" },
-    { brandName: "Xiaomi Mi", brandImageUrl: "https://1000logos.net/wp-content/uploads/2021/08/Xiaomi-logo-500x281.png" },
+    { brandName: "Xiaomi Mi", brandImageUrl: "https://images.seeklogo.com/logo-png/26/2/xiaomi-logo-png_seeklogo-268250.png" },
   ];
 import { A11y, Autoplay, Navigation, Pagination, Scrollbar } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -101,7 +101,7 @@ const BrandCaurosel = () => {
             >
               <FontAwesomeIcon icon={faArrowUp} />
             </button>
-            <div className="slideOverlay absolute top-[100%] overflow-hidden left-0 flex flex-col pl-4 pt-8 justify-center items-start">
+            <div className="slideOverlay absolute top-[100%] overflow-hidden left-0 flex flex-col pl-4 pt-8 justify-center items-center">
               <button
                 className="absolute top-0 left-1/2 text-2xl text-white bg-helper py-1 px-2"
                 onClick={hideBookDetails}
