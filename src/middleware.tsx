@@ -1,31 +1,48 @@
 import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
-import { config as envConfig } from './config/configuration';
+import { NextRequest } from 'next/server';
+import { getToken } from 'next-auth/jwt';
+const ALLOWED_ORIGINS = [
+  'https://ecommercektm.vercel.app/',
+  'http://localhost:3000', 
+];
 export async function middleware(request: NextRequest) {
-  const tokenCookie = request.cookies.get('_id');
-  const path = request.nextUrl.pathname; // Use `nextUrl.pathname` to get the path
+  const token = await getToken({
+    req: request,
+    secret: process.env.NEXTAUTH_SECRET,
+  });
+              const tokenCookie = token?.id;
+  const path = request.nextUrl.pathname;
+  const origin = request.headers.get('origin') || '';
   const privatePaths = [
-    `${envConfig.websiteUrl}/dashboard/cart`,
-    `${envConfig.websiteUrl}/dashboard/cartProcess`,
-    `${envConfig.websiteUrl}/dashboard/orders`,
-    `${envConfig.websiteUrl}/dashboard/profile`,
-    `${envConfig.websiteUrl}/dashboard/setting`,
-    `${envConfig.websiteUrl}/dashboard/wishlist`,
-    `${envConfig.websiteUrl}/dashboard/notifications`,
-    `${envConfig.websiteUrl}/pages/cart`,
-    `${envConfig.websiteUrl}/pages/wishlist`,
+    `/dashboard/cart`,
+    `/dashboard/cartProcess`,
+    `/dashboard/orders`,
+    `/dashboard/profile`,
+    `/dashboard/setting`,
+    `/dashboard/wishlist`,
+    `/dashboard/notifications`,
+    `/pages/cart`,
+    `/pages/wishlist`,
   ];
   const isPrivatePath = privatePaths.includes(path);
-  // Handle CORS for /api/... routes
+  // Handle API routes with proper CORS
   if (path.startsWith('/api')) {
     const response = NextResponse.next();
-    // Set CORS headers
-    response.headers.set('Access-Control-Allow-Origin', '*'); // Allow all origins (or specify your frontend URL)
-    response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS'); // Allowed HTTP methods
-    response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // Allowed headers
-    // Handle preflight requests (OPTIONS)
+    // Set CORS headers only for allowed origins
+    if (ALLOWED_ORIGINS.includes(origin)) {
+      response.headers.set('Access-Control-Allow-Origin', origin);
+      response.headers.set('Access-Control-Allow-Credentials', 'true');
+    }
+    response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-CSRF-Token');
+    response.headers.set('Access-Control-Expose-Headers', 'Set-Cookie');
+    response.headers.set('Vary', 'Origin');
+    // Handle preflight requests
     if (request.method === 'OPTIONS') {
-      return new NextResponse(null, { status: 204, headers: response.headers });
+      return new NextResponse(null, { 
+        status: 204, 
+        headers: response.headers 
+      });
     }
     return response;
   }
@@ -36,5 +53,5 @@ export async function middleware(request: NextRequest) {
   return NextResponse.next();
 }
 export const config = {
-  matcher: ['/', '/pages/:path*', '/dashboard/:path*', '/api/:path*'], // Include /api/:path* in the matcher
+  matcher: ['/', '/pages/:path*', '/dashboard/:path*', '/api/:path*'],
 };
