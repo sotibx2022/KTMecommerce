@@ -8,6 +8,7 @@ const myFont = localFont({
   weight: "100 900",
 });
 export const metadata: Metadata = {
+  metadataBase:new URL('https://ecommercektm.vercel.app'),
   title: "Ecommerce KTM - One Stock Electronics Store in Kathmandu, Nepal",
   description: "Best electronics deals in Kathmandu. Fast delivery, genuine products, and competitive prices.",
   keywords: ['online shopping nepal', 'ecommerce ktm', 'buy electronics in kathmandu'],
@@ -45,9 +46,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* Favicon */}
         <link rel="icon" href="/favicon.ico" />
-        {/* Additional meta tags */}
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body className={`${myFont.variable}`}>

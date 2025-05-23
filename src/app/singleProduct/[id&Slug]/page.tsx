@@ -15,12 +15,16 @@ import EditSingleProductReview from '@/app/_components/singleProductReviews/Edit
 import { getSpecificRemarks } from '@/app/services/queryFunctions/remarks';
 import SingleProductPageSkeleton from '@/app/_components/loadingComponent/SingleProductPageSkeleton';
 import { useSearchParams } from 'next/navigation';
+import SingleProductLayout from './SingleProductLayout';
 const ProductPage = () => {
   const searchParams = useSearchParams();
- const [productId, setProductId] = useState<string>(searchParams.get('id') ?? "");
- console.log(productId);
+  const [productId, setProductId] = useState<string>(searchParams.get('id') ?? "");
+  const productIdForParent =(productId:string) =>{}
+  useEffect(()=>{
+productIdForParent(productId)
+  },[productId])
   const context = useContext(UserDetailsContext);
-  const {visibleComponent,setVisibleComponent} = useContext(DisplayContext)
+  const { visibleComponent, setVisibleComponent } = useContext(DisplayContext);
   if (!context) {
     throw new Error("The User Details context is not working.");
   }
@@ -31,45 +35,56 @@ const ProductPage = () => {
   };
   const { data: productDetails, isPending, error } = useQuery({
     queryKey: ['specificProduct', productId],
-    queryFn: () => 
-      getSingleProduct(productId),
+    queryFn: () => getSingleProduct(productId),
     enabled: !!productId
   });
-      const { data: remarks, isPending:isRemarksPending } = useQuery({
-          queryKey: ['specificRemarks', productId],
-          queryFn: () => getSpecificRemarks(productId),
-          enabled: !!productId
-      })
-  const productDatas = productDetails?.success ? productDetails?.data! : null;
-  const productIdentifier={
-    productId:productDatas?._id|| "",
-    productName:productDatas?.productName || "",
-    productImage:productDatas?.image || ""
-  }
+  const { data: remarks, isPending: isRemarksPending } = useQuery({
+    queryKey: ['specificRemarks', productId],
+    queryFn: () => getSpecificRemarks(productId),
+    enabled: !!productId
+  });
+  const productDatas = productDetails?.success ? productDetails?.data : null;
+  const productIdentifier = {
+    productId: productDatas?._id || "",
+    productName: productDatas?.productName || "",
+    productImage: productDatas?.image || ""
+  };
   if (isPending) {
     return <SingleProductPageSkeleton />;
   }
+  if (productDatas === null) {
+    return <h1>There is no product Data at all.</h1>;
+  }
   return (
-    <>
+    <SingleProductLayout>
       {productDatas && <SingleProduct {...productDatas} />}
       <div className="reviewsContainer container">
         <div className="reviewsHeading flex gap-4 mb-2 items-center">
-        <h2 className="text-xl font-semibold text-primaryDark">Reviews</h2>
+          <h2 className="text-xl font-semibold text-primaryDark">Reviews</h2>
           <FontAwesomeIcon
             icon={showReviews ? faMinus : faPlus}
             onClick={() => toggleReviews(!showReviews)}
             className="bg-helper p-2 rounded-full cursor-pointer text-background"
           />
-          <SecondaryButton text='Add Review' onClick={()=>setVisibleComponent('addReview')}/>
+          <SecondaryButton 
+            text='Add Review' 
+            onClick={() => setVisibleComponent('addReview')}
+          />
         </div>
         {showReviews && remarks?.success && remarks.data && (
-              <RemarksDisplay remarks={remarks.data} />
+          <RemarksDisplay remarks={remarks.data} />
         )}
-        {visibleComponent ==='addReview' && <AddSingleProductReviews readOnly={userDetails === null}
-          productIdentifier={productIdentifier}/>}
-          {visibleComponent ==='editReview' && <EditSingleProductReview productIdentifier={productIdentifier} />}
+        {visibleComponent === 'addReview' && (
+          <AddSingleProductReviews 
+            readOnly={userDetails === null}
+            productIdentifier={productIdentifier}
+          />
+        )}
+        {visibleComponent === 'editReview' && (
+          <EditSingleProductReview productIdentifier={productIdentifier} />
+        )}
       </div>
-    </>
+    </SingleProductLayout>
   );
 };
 export default ProductPage;
