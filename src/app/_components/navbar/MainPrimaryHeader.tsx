@@ -27,7 +27,7 @@ const MainPrimaryHeader: React.FC = () => {
   }
   return (
     <>
-          <section className="headerRow bg-background lg:bg-primaryDark">
+          <section className="headerRow flex gap-2 bg-background lg:bg-primaryDark">
             <div className="container flex justify-between items-center">
             <div className="logoImage lg:hidden">
             <img
