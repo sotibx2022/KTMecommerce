@@ -11,7 +11,7 @@ export const AbsoluteComponent = ({ children }: AbsoluteModalProps) => {
   const { setVisibleComponent } = useContext(DisplayContext);
   return (
     <div 
-      className="fixed inset-0 overflow-y-auto z-100"
+      className="fixed inset-0 overflow-y-auto z-50"
       style={{ background: "var(--gradientwithOpacity)" }}
     >
       <div className="flex min-h-full items-center justify-center p-2 md:p-4">
@@ -19,6 +19,7 @@ export const AbsoluteComponent = ({ children }: AbsoluteModalProps) => {
           <FontAwesomeIcon
             icon={faTimes}
             className="text-background bg-helper w-[30px] h-[30px] z-10 absolute top-3 right-3 cursor-pointer rounded-full p-1"
+            onClick={()=>setVisibleComponent('')}
           />
           {children}
         </div>
