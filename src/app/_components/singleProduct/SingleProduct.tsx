@@ -16,7 +16,6 @@ import { DisplayContext } from "@/app/context/DisplayComponents";
 import ProductImage from "./ProductImage";
 import { UserDetailsContext } from "@/app/context/UserDetailsContextComponent";
 import LoginComponent from "../authComponent/LoginComponent";
-import SingleProductServerLayout from "../singleProductLayout/SingleProductServerLayout";
 const SingleProduct: React.FC<IProductDisplay> = ({ ...cartItemDetails }) => {
   const {visibleComponent,setVisibleComponent} = useContext(DisplayContext);
   const cartItems = useSelector((state: { cart: CartState }) => state.cart.cartItems);
