@@ -13,7 +13,7 @@ export default function RootLayout({
 }>) {
   return (
         <DashboardLayout>
-          <div className="dashboard flex gap-2 container my-4">
+          <div className="dashboard flex container my-4">
             <DashboardSidebar/>
               {children}
           </div>

@@ -1,30 +1,35 @@
 "use client"
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { userOptions } from '../data/userOptions';
-import Link from 'next/link';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { usePathname } from 'next/navigation';
-import LinkComponent from '../_components/linkComponent/LinkComponent';
+import MobileSideBar from './MobileSideBar';
+import LargeSideBar from './LargeSideBar';
 const DashboardSidebar = () => {
   const pathname = usePathname();
+  const [smallDevice, setSmallDevice] = useState(true);
+  const handleResize = useCallback(() => {
+    setSmallDevice(typeof window !== 'undefined' && window.innerWidth <= 400);
+  }, []);
+  useEffect(() => {
+    // Initial check
+    handleResize();
+    // Add event listener
+    window.addEventListener('resize', handleResize);
+    // Cleanup function
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [handleResize]);
   return (
-    <div className="p-4 rounded-lg max-w-[300px] text-primaryDark space-y-4 shadow-helper">
+    <div className={`text-primaryDark flex-col`}>
       {userOptions.map((option, index) => {
         const isActive = pathname === option.href;
         return (
-          <div 
-            key={index}
-            className={`flex items-center gap-3 p-3 rounded-lg transition-colors ${
-              isActive 
-                ? 'shadow-primaryLight' 
-                : ''
-            }`}
-          >
-            <FontAwesomeIcon 
-              icon={option.icon} 
-              className={`w-5 h-5`}
-            />
-            <LinkComponent href={option.href} text={option.title} />
+          <div className="ConditionalSideBar" key={index}>
+            {smallDevice ? 
+              <MobileSideBar isActive={isActive} option={option} /> : 
+              <LargeSideBar isActive={isActive} option={option} />
+            }
           </div>
         );
       })}

@@ -46,6 +46,7 @@ const LoginComponent = () => {
 await queryCLient.invalidateQueries({queryKey:['user']});
       }
     } catch (error) {
+      setVisibleComponent('');
       toast.error('An unexpected error occurred');
       console.error('Login error:', error);
     }

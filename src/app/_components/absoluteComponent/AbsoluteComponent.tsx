@@ -11,7 +11,7 @@ export const AbsoluteComponent = ({ children }: AbsoluteModalProps) => {
   const { setVisibleComponent } = useContext(DisplayContext);
   return (
     <div 
-      className="fixed inset-0 overflow-y-auto z-20"
+      className="fixed inset-0 overflow-y-auto z-100"
       style={{ background: "var(--gradientwithOpacity)" }}
     >
       <div className="flex min-h-full items-center justify-center p-2 md:p-4">
