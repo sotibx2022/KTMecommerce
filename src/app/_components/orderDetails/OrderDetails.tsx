@@ -7,8 +7,7 @@ import { useState } from 'react';
 import { faFilePdf, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import CartSummary from '../cartSummary/CartSummary';
 const OrderDetails: React.FC<{ order: OrderDetailsProps }> = ({ order }) => {
-    const[showOrderDetails,setShowOrderDetails] = useState<boolean>(false);
-  // Destructure properties from the order object
+  const [showOrderDetails, setShowOrderDetails] = useState<boolean>(false);
   const {
     _id,
     status,
@@ -17,77 +16,96 @@ const OrderDetails: React.FC<{ order: OrderDetailsProps }> = ({ order }) => {
     shippingAddress,
     shippingPerson,
     createdAt,
-    updatedAt
   } = order;
   return (
-    <div className="max-w-4xl p-6 bg-background rounded-lg shadow-helper mb-6">
-      {/* Order Header */}
-      <div className="flex justify-between items-start mb-6">
-        <div>
-          <h2 className="text-2xl font-bold text-primaryDark">
+    <div className="max-w-4xl p-4 md:p-6 bg-background rounded-lg shadow-helper mb-6">
+      {/* Order Header - Responsive */}
+      <div className="mb-4 md:mb-6">
+        <div className="flex justify-between items-center mb-2">
+          <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-primaryDark">
             Order # {_id.slice(-8).toUpperCase()}
           </h2>
-          <p className="text-primaryLight text-sm mt-1">
+          <FontAwesomeIcon
+            icon={showOrderDetails ? faMinus : faPlus}
+            className="bg-helper p-2 md:p-3 rounded-full cursor-pointer text-background text-sm md:text-base"
+            onClick={() => setShowOrderDetails(!showOrderDetails)}
+          />
+        </div>
+        <div className="flex justify-between items-center">
+          <p className="text-xs sm:text-sm md:text-base text-primaryLight">
             {format(new Date(createdAt), 'MMM dd, yyyy')}
           </p>
-        </div>
-        <span className={`px-4 py-1 rounded-full text-sm font-semibold 
-          ${status === 'ordered' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'}`}>
-          {status}
-        </span>
-        <FontAwesomeIcon
-                          icon={showOrderDetails? faMinus : faPlus}
-                          className="bg-helper p-4 rounded-full cursor-pointer text-background"
-                          onClick={()=>setShowOrderDetails(!showOrderDetails)}
-                        />
-      </div>
-     {showOrderDetails && <div className="orderDetails">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-        <div className="border-r  border-helper pr-6">
-          <h3 className="font-semibold text-lg mb-3 text-primaryDark">Shipping Details</h3>
-          <div className="space-y-2">
-            <p className="text-primaryLight">
-              {shippingPerson.firstName} {shippingPerson.lastName}
-            </p>
-            <p className="text-primaryLight">{shippingPerson.email}</p>
-            <p className="text-primaryLight">{shippingPerson.phone}</p>
-          </div>
-        </div>
-        <div>
-          <h3 className="font-semibold text-lg mb-3 text-primaryDark">Shipping Address</h3>
-          <div className="space-y-2">
-            <p className="text-primaryLight">{shippingAddress.street}</p>
-            <p className="text-primaryLight">{shippingAddress.city}</p>
-            <p className="text-primaryLight">{shippingAddress.state}</p>
-          </div>
+          <span className={`px-2 py-1 rounded-full text-xs md:text-sm font-semibold 
+            ${status === 'ordered' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'}`}>
+            {status}
+          </span>
         </div>
       </div>
-      {/* Order Items */}
-      <div className="mb-8">
-        <h3 className="font-semibold text-lg mb-4 text-primaryDark">Order Items</h3>
-        <div className="space-y-4">
-            <div className="cartTableSummary">
-                <CartTableSummary items={items}/>
+      {/* Order Details - Responsive */}
+      {showOrderDetails && (
+        <div className="orderDetails space-y-6">
+          {/* Shipping Info - Responsive Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+            <div className="md:border-r md:border-helper md:pr-6">
+              <h3 className="font-semibold text-base md:text-lg mb-2 md:mb-3 text-primaryDark">
+                Shipping Details
+              </h3>
+              <div className="space-y-1 md:space-y-2 text-sm md:text-base">
+                <p className="text-primaryLight">
+                  {shippingPerson.firstName} {shippingPerson.lastName}
+                </p>
+                <p className="text-primaryLight">{shippingPerson.email}</p>
+                <p className="text-primaryLight">{shippingPerson.phone}</p>
+              </div>
             </div>
+            <div>
+              <h3 className="font-semibold text-base md:text-lg mb-2 md:mb-3 text-primaryDark">
+                Shipping Address
+              </h3>
+              <div className="space-y-1 md:space-y-2 text-sm md:text-base">
+                <p className="text-primaryLight">{shippingAddress.street}</p>
+                <p className="text-primaryLight">
+                  {shippingAddress.city}, {shippingAddress.state}
+                </p>
+              </div>
+            </div>
+          </div>
+          {/* Order Items - Responsive Table */}
+          <div>
+            <h3 className="font-semibold text-base md:text-lg mb-3 md:mb-4 text-primaryDark">
+              Order Items
+            </h3>
+            <div className="overflow-x-auto">
+              <CartTableSummary items={items} />
+            </div>
+          </div>
+          {/* Order Summary - Responsive */}
+          <div>
+            <h3 className="font-semibold text-base md:text-lg mb-3 md:mb-4 text-primaryDark">
+              Order Summary
+            </h3>
+            <CartSummary items={items} />
+          </div>
+          {/* Payment Method - Responsive Footer */}
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-t border-helper pt-4 md:pt-6 gap-2">
+            <div className="text-sm md:text-base">
+              <p className="font-semibold text-primaryDark">Payment Method:</p>
+              <p className="capitalize text-primaryLight">
+                {paymentMethod.replace('paymentOn', '')}
+              </p>
+            </div>
+            <button 
+              className="text-red-600 hover:text-red-800 transition-colors"
+              aria-label="Download PDF"
+            >
+              <FontAwesomeIcon
+                icon={faFilePdf}
+                className="text-xl md:text-2xl"
+              />
+            </button>
+          </div>
         </div>
-      </div>
-      {/* Payment and Summary */}
-      <h3 className="font-semibold text-lg mb-4 text-primaryDark">Order Summary</h3>
-    <CartSummary items={items}/>
-      <div className="flex justify-between items-start border-t border-helper pt-6">
-        <div className="text-primaryLight">
-          <p className="font-semibold text-primaryDark">Payment Method:</p>
-          <p className="capitalize">{paymentMethod.replace('paymentOn', '')}</p>
-        </div>
-        <div className="text-right">
-        <FontAwesomeIcon
-  icon={faFilePdf}
-  size="2x" 
-  color="#ff0000" // Red color
-/>
-        </div>
-      </div>
-     </div>}
+      )}
     </div>
   );
 };

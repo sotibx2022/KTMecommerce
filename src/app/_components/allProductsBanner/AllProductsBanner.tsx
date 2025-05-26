@@ -6,7 +6,6 @@ import Link from 'next/link'
 const AllProductsBanner = () => {
   const [smallScreen, setSmallScreen] = useState(false)
   const findScreenSize = useCallback(() => {
-    // Check if window exists (client-side only)
     if (typeof window !== 'undefined') {
       setSmallScreen(window.innerWidth <= 760)
     }

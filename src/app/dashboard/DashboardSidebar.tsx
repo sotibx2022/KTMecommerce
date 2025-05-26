@@ -8,7 +8,7 @@ const DashboardSidebar = () => {
   const pathname = usePathname();
   const [smallDevice, setSmallDevice] = useState(true);
   const handleResize = useCallback(() => {
-    setSmallDevice(typeof window !== 'undefined' && window.innerWidth <= 400);
+    setSmallDevice(typeof window !== 'undefined' && window.innerWidth <= 1000);
   }, []);
   useEffect(() => {
     // Initial check

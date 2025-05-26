@@ -1,8 +1,9 @@
+"use client"
 import { CartState, removeFromCart } from '@/app/redux/cartSlice';
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Table, Thead, Tbody, Tr, Th, Td } from "react-super-responsive-table";
-import {  updateCartItem } from "@/app/redux/cartSlice";
+import { updateCartItem } from "@/app/redux/cartSlice";
 import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
 import LinkComponent from '../linkComponent/LinkComponent';
 import axios from 'axios';
@@ -16,7 +17,7 @@ const CartTable = () => {
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
   const cartItems = useSelector((state: { cart: CartState }) => state.cart.cartItems);
-  // Update Cart Mutation (existing)
+  // Update Cart Mutation
   interface IUpdateCartData {
     productId: string;
     quantity: number;
@@ -34,7 +35,7 @@ const CartTable = () => {
       toast.error(error.message || "Failed to update cart");
     }
   });
-  // New Delete Cart Mutation
+  // Delete Cart Mutation
   interface IDeleteCartData {
     productId: string;
   }
@@ -62,61 +63,120 @@ const CartTable = () => {
     deleteCartMutation.mutate({ productId });
   };
   return (
-    <div>
-        <Table className="bg-background my-4 shadow-helper">
-            <Thead>
-              <Tr className="bg-primaryDark text-white h-[50px] flex items-center justify-between px-4">
-                <Th className="text-start w-[1/6]">Image</Th>
-                <Th className="text-start w-[2/6]">Product Name</Th>
-                <Th className="text-start w-[1/6]">Price</Th>
-                <Th className="text-start w-[1/6]">Quantity</Th>
-                <Th className="text-start w-[1/6]">Action</Th>
+    <div className="cart-container">
+      {/* Mobile View (Cards) */}
+      <div className="md:hidden space-y-4">
+        {cartItems.map((item, index) => (
+          <div key={index} className="bg-background p-4 rounded-lg shadow-helper border border-helper">
+            <div className="flex gap-4">
+              <img
+                src={item.image}
+                alt={item.productName}
+                className="w-20 h-20 object-cover rounded"
+              />
+              <div className="flex-1">
+                <div className="flex justify-between items-start">
+                  <LinkComponent 
+                    href={`/singleProduct/id:${item.productId}&slug:${item.productName}`} 
+                    text={item.productName}
+                  />
+                  <button 
+                    onClick={() => removeCartItemFromCart(item.productId)}
+                    className="text-red-500 p-1"
+                    aria-label="Remove item"
+                  >
+                    <FontAwesomeIcon icon={faTimes} className="text-lg" />
+                  </button>
+                </div>
+                <div className="mt-2 text-primaryDark font-semibold">${item.price}</div>
+                <div className="flex items-center justify-between mt-3">
+                  <div className="flex items-center gap-2">
+                    <button
+                      className="bg-primaryDark text-white w-8 h-8 rounded-full flex items-center justify-center"
+                      onClick={() => updateQuantity(item.productId, item.quantity - 1)}
+                      aria-label="Decrease quantity"
+                    >
+                      <FaMinus className="text-xs" />
+                    </button>
+                    <span className="border border-helper px-3 py-1">{item.quantity}</span>
+                    <button
+                      className="bg-primaryDark text-white w-8 h-8 rounded-full flex items-center justify-center"
+                      onClick={() => updateQuantity(item.productId, item.quantity + 1)}
+                      aria-label="Increase quantity"
+                    >
+                      <FaPlus className="text-xs" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      {/* Desktop View (Table) */}
+      <div className="hidden md:block overflow-x-auto">
+        <Table className="bg-background my-4 shadow-helper w-full">
+          <Thead>
+            <Tr className="bg-primaryDark text-white">
+              <Th className="text-start p-3 w-[15%]">Image</Th>
+              <Th className="text-start p-3 w-[35%]">Product Name</Th>
+              <Th className="text-start p-3 w-[15%]">Price</Th>
+              <Th className="text-start p-3 w-[20%]">Quantity</Th>
+              <Th className="text-start p-3 w-[15%]">Action</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {cartItems.map((item, index) => (
+              <Tr
+                key={index}
+                className="border-b border-b-helper hover:bg-primaryLight hover:text-background"
+              >
+                <Td className="p-3">
+                  <img
+                    src={item.image}
+                    alt={item.productName}
+                    className="w-16 h-16 object-cover rounded"
+                  />
+                </Td>
+                <Td className="p-3">
+                  <LinkComponent 
+                    href={`/singleProduct/id:${item.productId}&slug:${item.productName}`} 
+                    text={item.productName} 
+                  />
+                </Td>
+                <Td className="p-3">${item.price}</Td>
+                <Td className="p-3">
+                  <div className="flex items-center gap-2">
+                    <button
+                      className="bg-primaryDark text-white w-8 h-8 rounded-full flex items-center justify-center"
+                      onClick={() => updateQuantity(item.productId, item.quantity - 1)}
+                    >
+                      <FaMinus className="text-xs" />
+                    </button>
+                    <span className="border border-helper px-3 py-1">{item.quantity}</span>
+                    <button
+                      className="bg-primaryDark text-white w-8 h-8 rounded-full flex items-center justify-center"
+                      onClick={() => updateQuantity(item.productId, item.quantity + 1)}
+                    >
+                      <FaPlus className="text-xs" />
+                    </button>
+                  </div>
+                </Td>
+                <Td className="p-3">
+                  <button 
+                    onClick={() => removeCartItemFromCart(item.productId)}
+                    className="text-red-500 hover:text-red-700 transition-colors"
+                    aria-label="Remove item"
+                  >
+                    <FontAwesomeIcon icon={faTimes} className="text-lg" />
+                  </button>
+                </Td>
               </Tr>
-            </Thead>
-            <Tbody>
-              {cartItems.map((item, index) => (
-                <Tr
-                  key={index}
-                  className="border-b border-b-helper hover:bg-primaryLight hover:text-background flex items-center justify-between px-4"
-                >
-                  <Td className="w-[1/6]">
-                    <img
-                      src={item.image}
-                      alt={item.productName}
-                      className="w-16 h-16 object-cover rounded"
-                    />
-                  </Td>
-                  <Td className="w-[2/6]">
-                    <LinkComponent href={`http://localhost:3000/singleProduct/id:${item.productId}&,slug:${item.productName}`} text={item.productName} />
-                  </Td>
-                  <Td className="w-[1/6]">${item.price}</Td>
-                  <Td className="flex gap-4 w-[2/6]">
-  <div
-    className="cartQuantityIcon bg-primaryDark w-[40px] h-[40px] flex-center rounded-full hover:bg-helper"
-    onClick={() => updateQuantity(item.productId, item.quantity - 1)}
-  >
-    <FaMinus className="text-white cursor-pointer" />
-  </div>
-  <span className="border border-helper py-2 px-4">{item.quantity}</span>
-  <div
-    className="cartQuantityIcon bg-primaryDark w-[40px] h-[40px] flex-center rounded-full hover:bg-helper"
-    onClick={() => updateQuantity(item.productId, item.quantity + 1)}
-  >
-    <FaPlus className="text-white cursor-pointer" />
-  </div>
-</Td>
-                  <Td>
-                    <FontAwesomeIcon
-                      icon={faTimes}
-                      className="bg-red-500 text-background p-2 rounded-full cursor-pointer"
-                      onClick={() => removeCartItemFromCart(item.productId)}
-                    />
-                  </Td>
-                </Tr>
-              ))}
-            </Tbody>
-          </Table>
+            ))}
+          </Tbody>
+        </Table>
+      </div>
     </div>
   )
 }
-export default CartTable
+export default CartTable;
