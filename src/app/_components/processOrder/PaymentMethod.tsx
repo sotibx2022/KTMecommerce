@@ -5,7 +5,7 @@ import SubmitError from "../submit/SubmitError"
 import { useState } from "react"
 import { IOrderDetails } from "@/app/types/orders"
 const PaymentMethod = () => {
-  const[paymentMethod,setPaymentMethod] = useState<string>("")
+  const [paymentMethod, setPaymentMethod] = useState<string>("")
   const { register, formState: { errors } } = useFormContext<IOrderDetails>()
   return (
     <div className="bg-background p-6 rounded-lg shadow-helper">
@@ -20,8 +20,8 @@ const PaymentMethod = () => {
               required: "Please select a payment method"
             })}
           />
-          <div className="text-lg font-medium text-primaryDark p-4 border-2 border-solid border-primaryDark peer-checked:bg-primaryDark peer-checked:text-background">
-            Payment On Delivery
+          <div className="text-base sm:text-lg font-medium text-primaryDark p-4 border-2 border-solid border-primaryDark peer-checked:bg-primaryDark peer-checked:text-background">
+            Pay On Delivery
           </div>
         </label>
         <label className="flex items-center cursor-pointer gap-4">
@@ -31,7 +31,7 @@ const PaymentMethod = () => {
             className="peer hidden"
             {...register("paymentMethod")}
           />
-          <div className="text-lg font-medium text-primaryDark p-4 border-2 border-solid border-primaryDark peer-checked:bg-primaryDark peer-checked:text-background">
+          <div className="text-base sm:text-lg font-medium text-primaryDark p-4 border-2 border-solid border-primaryDark peer-checked:bg-primaryDark peer-checked:text-background">
             Online Payment
           </div>
         </label>
@@ -39,7 +39,7 @@ const PaymentMethod = () => {
       {errors.paymentMethod?.message && (
         <SubmitError message={errors.paymentMethod.message} />
       )}
-      {paymentMethod==='online' && <PaymentCardDetails/>}
+      {paymentMethod === 'online' && <PaymentCardDetails />}
     </div>
   )
 }

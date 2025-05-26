@@ -9,6 +9,7 @@ import PaymentMethod from '@/app/_components/processOrder/PaymentMethod'
 import ShippingAddress from '@/app/_components/processOrder/ShippingAddress'
 import ShippingInformation from '@/app/_components/processOrder/ShippingInformation'
 import ProductImage from '@/app/_components/singleProduct/ProductImage'
+import ConfettiComponent from '@/app/_components/submit/ConfettiComponent'
 import { DisplayContext } from '@/app/context/DisplayComponents'
 import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent'
 import { CartState, clearCartItems } from '@/app/redux/cartSlice'
@@ -27,6 +28,7 @@ import { useDispatch, useSelector } from 'react-redux'
 const page = () => {
   const {visibleComponent,setVisibleComponent} = useContext(DisplayContext)
   const context = useContext(UserDetailsContext);
+  const[showConfetti,setShowConfetti] = useState(false);
     if(!context){
       throw new Error("The User Details context is not working.")
     }
@@ -40,15 +42,9 @@ const page = () => {
   IOrderDetails
 >({
   mutationFn: postOrderDetails,
-  onSuccess: async (response) => {
-    toast.success(response.message);
-    try {
+  onSuccess:(response) => {
+    setShowConfetti(true);
       dispatch(clearCartItems());
-      router.push('/dashboard/orders');
-    } catch (error) {
-      // Handle cart clearing error
-      toast.error('Order placed but failed to clear cart');
-    }
   },
   onError: (error) => {
     toast.error(error.message);
@@ -103,6 +99,7 @@ const page = () => {
       </div>
     </div>
     {mutation.isPending && <LoadingComponent/>}
+    {showConfetti && <ConfettiComponent/>}
     </>
   )
 }

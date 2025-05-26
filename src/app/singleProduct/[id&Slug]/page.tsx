@@ -56,7 +56,7 @@ productIdForParent(productId)
     return <h1>There is no product Data at all.</h1>;
   }
   return (
-    <SingleProductLayout>
+      <>
       {productDatas && <SingleProduct {...productDatas} />}
       <div className="reviewsContainer container">
         <div className="reviewsHeading flex gap-4 mb-2 items-center">
@@ -84,7 +84,7 @@ productIdForParent(productId)
           <EditSingleProductReview productIdentifier={productIdentifier} />
         )}
       </div>
-    </SingleProductLayout>
+      </>
   );
 };
 export default ProductPage;

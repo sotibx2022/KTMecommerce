@@ -17,7 +17,7 @@ const CartSummary: React.FC<ICartSummary> = ({ order, items }) => {
     const datatoRender = items || cartItems;
     const router = useRouter();
     const handleOrderProducts = () => {
-        router.push(`${config.websiteUrl}/dashboard/cartProcess`)
+        router.push(`/dashboard/cartProcess`)
     }
     // Calculate totals or return loading state
     const { totalItems, totalCost, discount, shippingPrice, grossTotal } = cartLoading && !items 

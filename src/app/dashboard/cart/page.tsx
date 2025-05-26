@@ -29,7 +29,6 @@ const Page = () => {
             <CartTable />
             <CartSummary order={true} />
           </div>
-          <Link href="/cartProcess"></Link>
         </div>
       )}
     </div>
