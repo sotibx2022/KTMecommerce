@@ -6,7 +6,39 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
 import { faFilePdf, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import CartSummary from '../cartSummary/CartSummary';
+import { toPng } from 'html-to-image';
+import { jsPDF } from 'jspdf'; 
 const OrderDetails: React.FC<{ order: OrderDetailsProps }> = ({ order }) => {
+const downloadPdf = async (name: string) => {
+  if (typeof document !== "undefined") {
+    try {
+      const element: HTMLElement | null = document.getElementById('orderDetailsContainer');
+      if (!element) return;
+      // Convert HTML to PNG
+      const dataUrl = await toPng(element, { quality: 1 }); // Highest quality
+      // PDF setup (A4 dimensions in mm)
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const imgWidth = 210; // A4 width (210mm)
+      const pageHeight = 297; // A4 height (297mm)
+      // Calculate image height (maintain aspect ratio)
+      const imgHeight = (element.offsetHeight * imgWidth) / element.offsetWidth;
+      // Add image to PDF (split across pages if too tall)
+      let heightLeft = imgHeight;
+      let position = 0;
+      pdf.addImage(dataUrl, 'PNG', 0, position, imgWidth, imgHeight);
+      // Add new pages for overflow content
+      while (heightLeft > pageHeight) {
+        position -= pageHeight;
+        pdf.addPage();
+        pdf.addImage(dataUrl, 'PNG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+      }
+      pdf.save(`Order # ${name} Details.pdf`);
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+    }
+  }
+};
   const [showOrderDetails, setShowOrderDetails] = useState<boolean>(false);
   const {
     _id,
@@ -18,7 +50,8 @@ const OrderDetails: React.FC<{ order: OrderDetailsProps }> = ({ order }) => {
     createdAt,
   } = order;
   return (
-    <div className="max-w-4xl p-4 md:p-6 bg-background rounded-lg shadow-helper mb-6">
+    <div className="max-w-4xl p-4 md:p-6 bg-background rounded-lg shadow-helper mb-6"
+    id='orderDetailsContainer'>
       {/* Order Header - Responsive */}
       <div className="mb-4 md:mb-6">
         <div className="flex justify-between items-center mb-2">
@@ -97,6 +130,7 @@ const OrderDetails: React.FC<{ order: OrderDetailsProps }> = ({ order }) => {
             <button 
               className="text-red-600 hover:text-red-800 transition-colors"
               aria-label="Download PDF"
+              onClick={()=>downloadPdf(_id.slice(-8).toUpperCase())}
             >
               <FontAwesomeIcon
                 icon={faFilePdf}
