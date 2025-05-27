@@ -10,9 +10,10 @@ import { CartState } from '@/app/redux/cartSlice';
 import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
 import LoginComponent from '../authComponent/LoginComponent';
 import { DisplayContext } from '@/app/context/DisplayComponents';
-import { config } from '@/config/configuration';
+import { IWishListState } from '@/app/redux/wishListSlice';
 const SearchBar = () => {
   const cartItems = useSelector((state: { cart: CartState }) => state.cart.cartItems);
+  const wishListItems = useSelector((state:{wishList:IWishListState})=>state.wishList.wishListItems)
   const user = useContext(UserDetailsContext);
   const [searchValue, setSearchValue] = useState("");
   const [showLoginPrompt, setShowLoginPrompt] = useState(false);
@@ -57,7 +58,8 @@ const SearchBar = () => {
         <IconButton
           icon={faHeart}
           name="Wishlist"
-          onClick={() => handleProtectedRoute('pages/wishlist')}
+          number={wishListItems.length ?? 0}
+          onClick={() => handleProtectedRoute('/dashboard/wishlist')}
         />
       </div>
       {activescreen && visibleComponent === "login" && <LoginComponent/>}

@@ -16,9 +16,13 @@ import { DisplayContext } from "@/app/context/DisplayComponents";
 import ProductImage from "./ProductImage";
 import { UserDetailsContext } from "@/app/context/UserDetailsContextComponent";
 import LoginComponent from "../authComponent/LoginComponent";
+import { IWishListItem } from "@/app/types/wishlist";
+import { addToWishList, IWishListState } from "@/app/redux/wishListSlice";
+import useAddItemToWishList from "./useAddItemToWishList";
 const SingleProduct: React.FC<IProductDisplay> = ({ ...cartItemDetails }) => {
   const {visibleComponent,setVisibleComponent} = useContext(DisplayContext);
   const cartItems = useSelector((state: { cart: CartState }) => state.cart.cartItems);
+  const wishListItems = useSelector((state:{wishList:IWishListState})=>state.wishList.wishListItems)
   const {
     productName,
     productDescription,
@@ -34,24 +38,28 @@ const SingleProduct: React.FC<IProductDisplay> = ({ ...cartItemDetails }) => {
     overallRating
   } = cartItemDetails;
   // Construct the dataToSend object based on ICartItem interface
-  const dataToSend: ICartItem = {
-    productName,
-    productId: _id, // Ensure it's a string
+  const baseData={
+productName,
+    productId: _id,
     brand,
     price,
     image,
-    quantity,
     category,
     userId,
+  }
+  const dataForCartItem: ICartItem = {
+    ...baseData,
+    quantity
   };
-  // Check if the item is already in the cart
   const context = useContext(UserDetailsContext);
   if(!context){
     throw new Error("User Details Context is not accessible");
   }
   const {userDetails} = context;
 const isAlreadyOnCart = cartItems.some((item: ICartItem) => item.productId === _id);
+const isAlreadyOnWishList = wishListItems.some((item:IWishListItem)=>item.productId === _id)
   const addItemToCart = useAddItemToCart();
+  const addItemsToWishList = useAddItemToWishList();
   return (
     <>
     <div className="container">
@@ -93,15 +101,21 @@ const isAlreadyOnCart = cartItems.some((item: ICartItem) => item.productId === _
       <div className="productActions flex gap-4 my-4 items-center justify-center md:justify-start">
         <PrimaryButton
   searchText="To Cart"
-  onClick={() => userDetails ? addItemToCart(dataToSend) : setVisibleComponent('login')}
+  onClick={() => userDetails ? addItemToCart(dataForCartItem) : setVisibleComponent('login')}
   disabled={userDetails !==null && isAlreadyOnCart}
 />
-        <PrimaryButton searchText="To WishList" />
+        <PrimaryButton searchText="To WishList"
+        onClick={() => userDetails ? addItemsToWishList(baseData) : setVisibleComponent('login')}
+  disabled={userDetails !==null && isAlreadyOnWishList}
+   />
         <PrimaryButton searchText="To Others" onClick={()=>setVisibleComponent('productImage')}/>
           {visibleComponent === 'productImage' && <ProductImage {...cartItemDetails}/>}
       </div>
       {isAlreadyOnCart && (
   <SubmitSuccess message="This Item is already in the cart. You can update it from the cart page." />
+)}
+    {isAlreadyOnWishList && (
+  <SubmitSuccess message="This Item is already in the WishList. You can add it to the cart page." />
 )}
       <Toaster />
     </div>
