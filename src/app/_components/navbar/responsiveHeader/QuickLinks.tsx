@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { navigationLinks } from "@/app/data/navigationLinks";
 export const QuickLinks = () => (
+  <>
+  <h3 className="text-lg font-semibold mb-3 text-primaryDark">Quick Links</h3>
   <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
     {navigationLinks.map((link) => (
       <Link
@@ -12,4 +14,5 @@ export const QuickLinks = () => (
       </Link>
     ))}
   </div>
+  </>
 );

@@ -65,9 +65,8 @@ const ResponsiveHeader = () => {
             </ul>
           </div>
           <div>
-            <h3 className="text-lg font-semibold mb-3 text-primaryDark">Quick Links</h3>
-            <QuickLinks />
             <UserSection/>
+            <QuickLinks />
           </div>
         </div>
         {activeScreen && visibleComponent === 'login' && (

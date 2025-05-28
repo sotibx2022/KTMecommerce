@@ -1,10 +1,10 @@
 import { DisplayContext } from '@/app/context/DisplayComponents';
 import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
-import { CartState } from '@/app/redux/cartSlice';
-import { IWishListState } from '@/app/redux/wishListSlice';
+import { CartState, clearCartItems } from '@/app/redux/cartSlice';
+import { clearWishListItems, IWishListState } from '@/app/redux/wishListSlice';
 import { useRouter } from 'next/navigation';
-import React, { useContext } from 'react'
-import { useSelector } from 'react-redux';
+import React, { useContext, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import IconButton from './IconButton';
 import { faHeart, faLuggageCart } from '@fortawesome/free-solid-svg-icons';
 import LoginComponent from '../authComponent/LoginComponent';
@@ -14,6 +14,13 @@ const IconGroup = () => {
         throw new Error("User Details Context is not available at this component")
     }
     const {userDetails} = context
+    const dispatch = useDispatch()
+    useEffect(()=>{
+        if(!userDetails){
+dispatch(clearCartItems());
+dispatch(clearWishListItems())
+        }
+    },[userDetails])
     const {visibleComponent,setVisibleComponent} = useContext(DisplayContext)
     const {cartItems,loading:cartItemsLoading} = useSelector((state: { cart: CartState }) => state.cart);
       const {wishListItems,wishListLoading} = useSelector((state:{wishList:IWishListState})=>state.wishList);

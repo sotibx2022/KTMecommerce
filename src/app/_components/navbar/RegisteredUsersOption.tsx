@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
 import UserOptions from './UserOptions';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { setCart } from '@/app/redux/cartSlice';
+import { clearCartItems, setCart } from '@/app/redux/cartSlice';
 import { useDispatch } from 'react-redux';
 import { fetchCartFromDatabase } from '@/app/services/apiFunctions/cartItems';
 import { useCartItems } from '@/app/hooks/queryHooks/useCartItems';
@@ -14,7 +14,7 @@ import toast from 'react-hot-toast';
 import { truncateCharacters, truncateText } from '@/app/services/helperFunctions/functions';
 import { useLogout } from '@/app/hooks/queryHooks/useLogout';
 import { useWishListItems } from '@/app/hooks/queryHooks/useWishListItems';
-import { setWishList } from '@/app/redux/wishListSlice';
+import { clearWishListItems, setWishList } from '@/app/redux/wishListSlice';
 const RegisteredUsersOption = () => {
   const queryClient = useQueryClient();
     const[showUserOptions, setShowUserOptions] = useState(false);
@@ -28,6 +28,10 @@ const RegisteredUsersOption = () => {
     const {data:cartItems} = useCartItems();
     const {data:wishListItems} = useWishListItems();
 useEffect(() => {
+  if(!userDetails){
+    dispatch(clearCartItems());
+    dispatch(clearWishListItems())
+  }
   if (cartItems !== undefined && Array.isArray(cartItems)) {
     dispatch(setCart(cartItems));
   }

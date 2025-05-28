@@ -1,21 +1,40 @@
 "use client"
-import React from 'react'
+import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
+import { motion } from "motion/react"
 interface SecondaryButtonProps {
-  text: string
-  icon?: string
-  onClick: () => void
+  text: string;
+  icon?: IconDefinition;
+  onClick: () => void;
+  backgroundColor?: string;
+  textColor?: string;
+  hoverColor?:string;
 }
-const SecondaryButton: React.FC<SecondaryButtonProps> = ({ text, icon, onClick }) => {
+const SecondaryButton: React.FC<SecondaryButtonProps> = ({ 
+  text, 
+  icon, 
+  onClick, 
+  backgroundColor = 'bg-background',
+  textColor = 'text-primaryDark',
+  hoverColor='text-helper'
+}) => {
   return (
-    <div
-      className="bg-background w-[5rem] h-full flex justify-center items-center relative group rounded-sm border-[1px] border-primaryDark cursor-pointer overflow-hidden"
+    <motion.div
+      className={`
+        ${backgroundColor} ${textColor} w-[6rem] h-full flex justify-center items-center 
+        relative rounded-sm border-[1px] border-primaryDark 
+        cursor-pointer overflow-hidden
+      `}
+      whileHover={backgroundColor=hoverColor}
       onClick={onClick}
     >
-      <button className="relative z-20 w-full h-full" type="button">
+      <button className="relative z-20 w-full h-full flex items-center justify-center gap-2">
+        {icon && <FontAwesomeIcon icon={icon} className="w-4 h-4" />}
         {text}
       </button>
-      <div className="overLay absolute top-0 left-0 w-0 h-full bg-helper transition-all duration-500 ease-in-out group-hover:w-full z-10"></div>
-    </div>
-  )
-}
-export default SecondaryButton
+      <div className="absolute top-0 left-0 w-0 h-full z-10"></div>
+    </motion.div>
+  );
+};
+export default SecondaryButton;

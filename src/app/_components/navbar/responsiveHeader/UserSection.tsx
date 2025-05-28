@@ -24,6 +24,7 @@ export const UserSection = () => {
   }
   return (
     <div className="userSpecificArea shadow-primaryLight my-4 py-4 px-4">
+      <h3 className="text-lg font-semibold mb-3 text-primaryDark">Navigate To Proceed</h3>
      {userDetailsLoading?<div className="flex gap-4">
         <SkletonText/>
         <SkletonText/>

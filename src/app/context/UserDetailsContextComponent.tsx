@@ -23,6 +23,8 @@ useEffect(() => {
   if (query.data) {
     setUserDetails(query.data);
     setUserDetailsLoading(false);
+  }else{
+    setUserDetailsLoading(false);
   }
 }, [query.data])
   return (

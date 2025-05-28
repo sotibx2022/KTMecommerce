@@ -30,7 +30,7 @@ const RegisteredUserView:React.FC<IRegistedUserView> = ({userDetails}) => {
             </p>
           </div>
           </Link>
-          <SecondaryButton text="Log Out" onClick={logout.mutate} />
+          <SecondaryButton text="Log Out" backgroundColor="bg-red-500" hoverColor="bg-red-700" textColor="text-background" onClick={logout.mutate} />
         </div>
     </div>
   )

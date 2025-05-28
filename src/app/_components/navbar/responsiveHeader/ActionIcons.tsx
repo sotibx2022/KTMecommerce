@@ -12,8 +12,8 @@ export const ActionIcons = ({
   onWishlist: () => void,
   cartCount: number 
 }) => (
-  <div className="flex justify-around mt-4 space-x-2">
+  <div className="flex justify-center mt-4 gap-2">
     <IconButton icon={faSearch} name="Search" onClick={onSearch} />
-    <IconGroup/>
+    <IconGroup />
   </div>
 );
