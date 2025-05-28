@@ -1,5 +1,6 @@
 import { ICartItem } from "@/app/types/cart";
-export const calculateTotals = (cartItems:ICartItem[]) => {
+import { IOrderItem } from "@/app/types/orders";
+export const calculateTotals = (cartItems:IOrderItem[]) => {
     const totalItems = cartItems.reduce((acc, item) => acc + item.quantity, 0);
     const totalCost = cartItems.reduce((acc, item) => {
         const price = Number(item.price) || 0;
