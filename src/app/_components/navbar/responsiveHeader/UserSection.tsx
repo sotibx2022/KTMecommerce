@@ -4,43 +4,30 @@ import NonRegisteredUsersOption from "../NonRegisteredUsersOption";
 import { UserDetailsContext } from "@/app/context/UserDetailsContextComponent";
 import { useLogout } from "@/app/hooks/queryHooks/useLogout";
 import Link from "next/link";
+import SkletonText from "../../skeletontext/SkletonText";
+import RegisteredUserView from "./RegisteredUserView";
 interface UserSectionProps {
 }
 export const UserSection = () => {
   const context = useContext(UserDetailsContext);
-  const logout = useLogout()
   if (!context) {
     throw new Error("The User Details context is not working.");
   }
-  const { userDetails } = context;
+  const { userDetails,userDetailsLoading } = context;
+  if(userDetailsLoading){
+    return(
+      <div className="flex gap-4">
+        <SkletonText/>
+        <SkletonText/>
+      </div>
+    )
+  }
   return (
     <div className="userSpecificArea shadow-primaryLight my-4 py-4 px-4">
-      {userDetails ? (
-        <div className="registeredUser flex justify-between items-center px-4">
-          <Link href="/dashboard/profile">
-          <div className="imageArea flex gap-2">
-            {userDetails.profileImage ? (
-              <img
-                src={userDetails.profileImage}
-                alt="User Profile"
-                className="w-[30px] h-[30px] rounded-full"
-              />
-            ) : (
-              <h1 className="text-primaryDark uppercase bg-background w-[30px] h-[30px] flex-center text-xl rounded-full">
-                {userDetails.fullName.split("")[0].toUpperCase()}
-              </h1>
-            )}
-            <p className="text-primaryDark capitalize flex gap-2">
-              <span className="text-helper">Welcome</span> 
-              {userDetails.fullName.split(" ")[0]}
-            </p>
-          </div>
-          </Link>
-          <SecondaryButton text="Log Out" onClick={logout.mutate} />
-        </div>
-      ) : (
-        <NonRegisteredUsersOption />
-      )}
+     {userDetailsLoading?<div className="flex gap-4">
+        <SkletonText/>
+        <SkletonText/>
+      </div>:userDetails?<RegisteredUserView userDetails={userDetails}/>:<NonRegisteredUsersOption/>}
     </div>
   );
 };

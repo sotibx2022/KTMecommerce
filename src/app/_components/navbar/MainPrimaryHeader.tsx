@@ -14,13 +14,14 @@ import LoginComponent from "../authComponent/LoginComponent";
 import RegisterComponent from "../authComponent/RegisterComponent";
 import PureSearch from "../pureSearch/PureSearch";
 import { navigationLinks } from "@/app/data/navigationLinks";
+import SkletonText from "../skeletontext/SkletonText";
 const MainPrimaryHeader: React.FC = () => {
   const {visibleComponent,setVisibleComponent} = useContext(DisplayContext);
   const context = useContext(UserDetailsContext);
   if(!context){
     throw new Error("The User Details context is not working.")
   }
-  const {userDetails} = context;
+  const {userDetails,userDetailsLoading} = context;
   const responsiveHeaderRef = useRef<HTMLDivElement | null>(null); // Ref for the responsive header
   const setResponsiveHeader=()=>{
     setVisibleComponent('responsiveHeader');
@@ -46,7 +47,7 @@ const MainPrimaryHeader: React.FC = () => {
         </ul>
 <div className="flex justify-center items-center gap-4">
             <div className="flex items-center h-[2rem] w-auto gap-2">
-              {userDetails? <RegisteredUsersOption/>:<NonRegisteredUsersOption/>}
+              {userDetailsLoading? <div className="flex gap-2"><SkletonText/><SkletonText/></div>: userDetails ?<RegisteredUsersOption/>:<NonRegisteredUsersOption/> }
             </div>
           </div>
             </div>

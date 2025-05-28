@@ -1,6 +1,6 @@
 "use client";
 import React, { useContext } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ReduxState } from '@/app/redux/store';
 import Link from 'next/link';
 import PrimaryButton from '@/app/_components/primaryButton/PrimaryButton';
@@ -20,6 +20,7 @@ throw new Error ("User Details Context is not defined at this component")
   }
   const {userDetails} = context;
   const userId = userDetails?._id;
+  const dispatch = useDispatch()
   const queryClient = useQueryClient()
   const removeItemFromDataBase = async(productId:string) =>{
 const response = await axios.post('/api/wishList/removeFromWishList',productId);
@@ -34,7 +35,7 @@ queryClient.invalidateQueries({
     }
   })
   const removeItemFromWishList =(productId:string) =>{
-    removeFromWishList(productId);
+    dispatch(removeFromWishList(productId));
 deleteWishListMutation.mutate(productId)
   }
   const { wishListItems,wishListLoading } = useSelector((state:ReduxState) => state.wishList);
