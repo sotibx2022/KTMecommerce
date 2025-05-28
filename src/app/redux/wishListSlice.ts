@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IWishListItem } from "../types/wishlist";
+import { IWishListItem, IWishListItemDisplay } from "../types/wishlist";
 export interface IWishListState {
-  wishListItems: IWishListItem[];
+  wishListItems: IWishListItemDisplay[];
   wishListLoading: boolean;
 }
 const initialState: IWishListState = {
@@ -13,11 +13,11 @@ const wishListSlice = createSlice({
   initialState,
   reducers: {
     // Replace entire wishlist (e.g., after fetching from API)
-    setWishList: (state, action: PayloadAction<IWishListItem[]>) => {
+    setWishList: (state, action: PayloadAction<IWishListItemDisplay[]>) => {
       state.wishListItems = action.payload;
       state.wishListLoading = false;
     },
-    addToWishList: (state, action: PayloadAction<IWishListItem>) => {
+    addToWishList: (state, action: PayloadAction<IWishListItemDisplay>) => {
         state.wishListItems.push(action.payload);
         state.wishListLoading = false;
     },

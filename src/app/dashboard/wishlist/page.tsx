@@ -6,7 +6,7 @@ import Link from 'next/link';
 import PrimaryButton from '@/app/_components/primaryButton/PrimaryButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-import { IWishListItem } from '@/app/types/wishlist';
+import { IWishListItem, IWishListItemDisplay } from '@/app/types/wishlist';
 import SkeletonSlide from '@/app/_components/loadingComponent/SkeletonSlide';
 import LinkComponent from '@/app/_components/linkComponent/LinkComponent';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -55,7 +55,7 @@ deleteWishListMutation.mutate(productId)
         <PrimaryButton searchText="Browse" />
       </Link>
     </div>):(<div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-            {wishListItems?.map((item:IWishListItem,index:number) => (
+            {wishListItems?.map((item:IWishListItemDisplay,index:number) => (
               <div
                 key={index}
                 className="group relative bg-background p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 shadow-primaryLight"
