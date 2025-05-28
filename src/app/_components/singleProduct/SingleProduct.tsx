@@ -16,7 +16,7 @@ import { DisplayContext } from "@/app/context/DisplayComponents";
 import ProductImage from "./ProductImage";
 import { UserDetailsContext } from "@/app/context/UserDetailsContextComponent";
 import LoginComponent from "../authComponent/LoginComponent";
-import { IWishListItem } from "@/app/types/wishlist";
+import { IWishListItem, IWishListItemDisplay } from "@/app/types/wishlist";
 import { addToWishList, IWishListState } from "@/app/redux/wishListSlice";
 import useAddItemToWishList from "./useAddItemToWishList";
 const SingleProduct: React.FC<IProductDisplay> = ({ ...cartItemDetails }) => {
@@ -57,7 +57,7 @@ productName,
   }
   const {userDetails} = context;
 const isAlreadyOnCart = cartItems.some((item: ICartItem) => item.productId === _id);
-const isAlreadyOnWishList = wishListItems.some((item:IWishListItem)=>item.productId === _id)
+const isAlreadyOnWishList = wishListItems.some((item:IWishListItemDisplay)=>item.productId === _id)
   const addItemToCart = useAddItemToCart();
   const addItemsToWishList = useAddItemToWishList();
   return (

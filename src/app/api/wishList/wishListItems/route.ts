@@ -1,3 +1,4 @@
+import { IWishListItem } from "@/app/types/wishlist";
 import { connectToDB } from "@/config/db";
 import { WishListModel } from "@/models/wishList.model";
 import { getToken } from "next-auth/jwt";
@@ -22,8 +23,15 @@ export async function GET(req: NextRequest) {
       );
     }
     // Find cart items with proper error handling
-    const wistListItems = await WishListModel.find({ userId: userId }).lean();
-    if (!wistListItems || wistListItems.length === 0) {
+    const wishListItems = await WishListModel.find({ userId: userId });
+    const transformedWishList = wishListItems.map((item:IWishListItem)=>{
+      return{
+        ...item,
+      productId:item.productId.toString(),
+      userId:item.userId?.toString()
+      }
+    })
+    if (!wishListItems || wishListItems.length === 0) {
       return NextResponse.json(
         { 
           message: "No WishList items found for this user", 
@@ -37,7 +45,7 @@ export async function GET(req: NextRequest) {
       { 
         message: "Wish List items retrieved successfully",
         success: true,
-        data: wistListItems 
+        data: wishListItems 
       },
       { status: 200 }
     );
