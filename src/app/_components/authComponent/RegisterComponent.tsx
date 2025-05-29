@@ -84,7 +84,6 @@ const onSubmit = async (data: RegisterData) => {
             type="text"
             placeholder="John"
             className="formItem w-full"
-            id='fullName'
             {...register("fullName", {
               validate: (value) => validateFullName("First Name", value, 2, 20)
             })}
@@ -103,7 +102,6 @@ const onSubmit = async (data: RegisterData) => {
             type="email"
             placeholder="john@example.com"
             className="formItem w-full"
-            id='email'
             {...register("email", {
               validate: (value) => validateEmail("Email", value)
             })}
@@ -131,7 +129,6 @@ const onSubmit = async (data: RegisterData) => {
               type="text"
               placeholder="98XXXXXXXX"
               className="py-3 border border-helper bg-background rounded-md shadow-helper shadow-sm focus:outline-none text-primaryDark pl-[80px]"
-              id="phoneNumber"
               {...register("phoneNumber", {
                 validate: (value) => validateNumber("Phone Number", value, 10, 10)
               })}
@@ -153,7 +150,6 @@ const onSubmit = async (data: RegisterData) => {
             placeholder="••••••••"
             className="formItem w-full"
             autoComplete='off'
-            id='password'
             {...register("password", {
               validate: (value) => validatePassword("Password", value, 8)
             })}
@@ -182,7 +178,6 @@ const onSubmit = async (data: RegisterData) => {
             type={showPassword? "text" :"password"}
             placeholder="••••••••"
             className="formItem w-full"
-            id='confirmPassword'
             autoComplete='off'
             {...register("confirmPassword", {
               validate: (value) => validateConfirmPassword("Confirm Password", getValues("password"), value)
