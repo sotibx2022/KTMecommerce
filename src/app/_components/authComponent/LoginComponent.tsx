@@ -69,7 +69,6 @@ await queryCLient.invalidateQueries({queryKey:['user']});
                   type="email"
                   placeholder="john@example.com"
                   className="formItem w-full"
-                  id='loginEmail'
                   {...register("loginEmail", {
                     validate: (value) => validateEmail("Email", value)
                   })}
@@ -89,7 +88,6 @@ await queryCLient.invalidateQueries({queryKey:['user']});
                               placeholder="••••••••"
                               className="formItem w-full"
                               autoComplete='off'
-                              id='loginPassword'
                               {...register("loginPassword", {
                                 validate: (value) => validatePassword("Password", value, 8)
                               })}

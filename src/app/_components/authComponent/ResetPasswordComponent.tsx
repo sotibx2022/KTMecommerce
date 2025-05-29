@@ -97,7 +97,6 @@ const ResetresetPasswordComponent = () => {
                       placeholder="••••••••"
                       className="formItem w-full"
                       autoComplete="new-resetPassword"
-                      id="newresetPassword"
                       {...register("newresetPassword", {
                         required: "New resetPassword is required",
                         validate: (value) => validatePassword("New resetPassword", value, 8),
@@ -128,7 +127,6 @@ const ResetresetPasswordComponent = () => {
                       placeholder="••••••••"
                       className="formItem w-full"
                       autoComplete="new-resetPassword"
-                      id="confirmNewresetPassword"
                       {...register("confirmNewresetPassword", {
                         required: "Please confirm your new resetPassword",
                         validate: (value) =>

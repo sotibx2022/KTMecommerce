@@ -1,4 +1,4 @@
-import mongoose, { Model } from "mongoose";
+import mongoose, { Model, Schema } from "mongoose";
 import {remarksModel } from "./remarks.model";
 import { IProductCreate } from "@/app/types/products";
 import { IAddReviewDatas } from "@/app/types/remarks";
@@ -13,7 +13,12 @@ const ProductSchema = new mongoose.Schema<IProductModel>({
     price: { type: Number, required: true },
     stockAvailability: { type: Boolean, required: true },
     variant: { type: String, required: true },
+    categoryName:{type:String,required:true},
+    subCategoryName:{type:String,required:true},
     categoryId: { type: mongoose.Schema.Types.ObjectId, ref: "Category", required: true },
+    subCategoryId: {
+  type: Schema.Types.ObjectId
+},
     isNewArrivals: { type: Boolean, default: false },
     isTrendingNow: { type: Boolean, default: false },
     isTopSell: { type: Boolean, default: false },

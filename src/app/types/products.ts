@@ -10,7 +10,10 @@ export interface IProductCreate {
   price: number; // Price is a number in DB
   stockAvailability: boolean;
   variant: string;
+  categoryName:string,
+  subCategoryName:string,
   categoryId?: Types.ObjectId; // Foreign key for category (optional)
+  subCategoryId?: Types.ObjectId; // Foreign key for category (optional)
   isNewArrivals: boolean;
   isTrendingNow: boolean;
   isTopSell: boolean;
