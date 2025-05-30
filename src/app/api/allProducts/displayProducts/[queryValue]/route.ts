@@ -86,7 +86,7 @@ sortOptions.updatedAt = (updated==="assending")?1:-1
                     totalProducts,
                     totalPages: Math.ceil(totalProducts / pageSize)
                 },
-                products: allProducts[0],
+                products: allProducts,
             }
         });
     } catch (error) {

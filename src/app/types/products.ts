@@ -42,4 +42,8 @@ export interface IProductDisplay {
   variant:string,
   url_slug:string,
   overallRating:number
+  isNewArrivals?: boolean;
+  isTrendingNow?: boolean;
+  isTopSell?: boolean;
+  isOfferItem?: boolean;
 }
