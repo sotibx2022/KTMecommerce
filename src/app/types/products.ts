@@ -46,4 +46,6 @@ export interface IProductDisplay {
   isTrendingNow?: boolean;
   isTopSell?: boolean;
   isOfferItem?: boolean;
+  categoryName?:string;
+  subCategoryName?:string;
 }

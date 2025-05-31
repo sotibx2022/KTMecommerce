@@ -32,6 +32,7 @@ import { faBars, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { useCategories } from "../hooks/queryHooks/useCategory";
 import { initialCategories } from "../data/categoriesData";
 import { Category } from "../types/categories";
+import { Loader2, Menu } from "lucide-react";
 interface IPagination {
   currentPage: number;
   pageSize: number;
@@ -68,6 +69,8 @@ const pagination = productsResponse?.success ? productsResponse.data!.pagination
   const[selectedCategory,setSelectedCategory] = useState("Category")
   const[selectedSubCategory,setSelectedSubCategory] = useState("Sub-Category")
   const[ratingSortState,setRatingSortState] = useState<"normal" | "ascending" | "descending">("normal")
+  const handlePageChange=(pageNumber:number)=>{
+  }
   const UpdatePriceSorting = () => {
   setPriceSortState(prevState => 
     prevState === "ascending" ? "descending" : "ascending"
@@ -92,7 +95,7 @@ interface ISubCategoryDatas{
   subcategories:ISubCategoryData[]
 }
 const fetchSubCategories = async(category:string):Promise<APIResponseSuccess<ISubCategoryDatas>| APIResponseError>=>{
-  const response = await axios.get(`/api/categoreis/${selectedCategory}`);
+  const response = await axios.get(`/api/categories/${selectedCategory}`);
   return response.data
 }
 const { data:subCategories, isPending: subCategoriesPending } = useQuery<
@@ -100,8 +103,9 @@ const { data:subCategories, isPending: subCategoriesPending } = useQuery<
 >({
   queryKey: ['subCategories', selectedCategory],
   queryFn: () => fetchSubCategories(selectedCategory as string),
-  enabled: !!selectedCategory
+  enabled: !!selectedCategory && selectedCategory !== 'Category'
 });
+const subCategoryLoading = subCategoriesPending && selectedCategory !== 'Category'
   return (
     <div className="container mx-auto py-10">
       <div className="ContainerHeader flex justify-between items-center my-4">
@@ -121,48 +125,93 @@ const { data:subCategories, isPending: subCategoriesPending } = useQuery<
             <TableHead>SN.</TableHead>
             <TableHead>Image</TableHead>
             <TableHead>Product Name</TableHead>
-            <TableHead>Brand</TableHead>
             <ShortableTableHead label="Price" onClick={UpdatePriceSorting} state={priceSortState}/>
-            <TableHead>Stock</TableHead>
-            <TableHead className="flex gap-2 items-center">{selectedCategory}
-              <DropdownMenu>
+ <TableHead className="relative min-w-[120px]">
+  <div className="flex items-center">
+    <span>Stock</span>
+    <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <div className="w-4 h-4 cursor-pointer hover:text-helper">  {/* `size="icon"` makes it square */}
-          <FontAwesomeIcon icon={faBars}/>
+        <div className="h-4 w-4 ml-2 hover:text-helper cursor-pointer">
+          <Menu className="h-4 w-4" />
         </div>
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
-        <DropdownMenuLabel>All Categories</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        {navItems.map((item:Category,index:number)=>{
-          return <DropdownMenuItem key={index} onSelect={()=>handleCategorySelection(item.category_name)}>{item.category_name}</DropdownMenuItem>
-        })}
+      <DropdownMenuContent className="absolute left-0 mt-1 w-48 z-50" align="start">
+        <DropdownMenuItem>Yes</DropdownMenuItem>
+        <DropdownMenuItem>No</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-            </TableHead>
-            <TableHead>{selectedSubCategory}
-              <DropdownMenu>
+  </div>
+</TableHead>
+<TableHead className="relative min-w-[150px]">
+  <div className="flex items-center">
+    <span>{selectedCategory}</span>
+    <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <div className="w-4 h-4 cursor-pointer hover:text-helper">  {/* `size="icon"` makes it square */}
-          {
-  subCategoriesPending ? (
-    <FontAwesomeIcon icon={faSpinner} className="animate-spin" />
-  ) : (
-    <FontAwesomeIcon icon={faBars} />
-  )
-}
+        <div className="h-4 w-4 ml-2 hover:text-helper cursor-pointer">
+          <Menu className="h-4 w-4" />
         </div>
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
-        <DropdownMenuLabel>Sub Categories</DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        {subCategories?.success && subCategories.data?.subcategories.map((item:ISubCategoryData,index:number)=>{
-          return <DropdownMenuItem key={index} onSelect={()=>handleSubCategorySelection(item.category_name)}>{item.category_name}</DropdownMenuItem>
-        })}
+      <DropdownMenuContent className="absolute left-0 mt-1 w-48 z-50" align="start">
+        <DropdownMenuItem onSelect={() => handleCategorySelection("Category")}>Category</DropdownMenuItem>
+        {navItems.map((item: Category, index: number) => (
+          <DropdownMenuItem 
+            key={index} 
+            onSelect={() => handleCategorySelection(item.category_name)}
+          >
+            {item.category_name}
+          </DropdownMenuItem>
+        ))}
       </DropdownMenuContent>
     </DropdownMenu>
-            </TableHead>
-            <TableHead>HighLight</TableHead>
+  </div>
+</TableHead>
+<TableHead className="relative min-w-[150px]">
+  <div className="flex items-center">
+    <span>{selectedSubCategory}</span>
+    <DropdownMenu>
+      {selectedCategory !== 'Category' && (
+        <DropdownMenuTrigger asChild>
+          <div className="h-4 w-4 ml-2 hover:text-helper cursor-pointer">
+            {subCategoryLoading ? (
+              <Loader2 className="animate-spin h-4 w-4" />
+            ) : (
+              <Menu className="h-4 w-4" />
+            )}
+          </div>
+        </DropdownMenuTrigger>
+      )}
+      <DropdownMenuContent className="absolute left-0 mt-1 w-48 z-50" align="start">
+        <DropdownMenuItem onSelect={() => handleSubCategorySelection("Sub-Category")}>Sub Category</DropdownMenuItem>
+        {subCategories?.success && subCategories.data?.subcategories.map((item: ISubCategoryData, index: number) => (
+          <DropdownMenuItem 
+            key={index} 
+            onSelect={() => handleSubCategorySelection(item.category_name)}
+          >
+            {item.category_name}
+          </DropdownMenuItem>
+        ))}
+      </DropdownMenuContent>
+    </DropdownMenu>
+  </div>
+</TableHead>
+<TableHead className="relative min-w-[120px]">
+  <div className="flex items-center">
+    <span>HighLight</span>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <div className="h-4 w-4 ml-2 hover:text-helper cursor-pointer">
+          <Menu className="h-4 w-4" />
+        </div>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="absolute left-0 mt-1 w-48 z-50" align="start">
+        <DropdownMenuItem>New Arrival</DropdownMenuItem>
+        <DropdownMenuItem>Best Seller</DropdownMenuItem>
+        <DropdownMenuItem>Featured</DropdownMenuItem>
+        <DropdownMenuItem>Special Offer</DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  </div>
+</TableHead>
             <ShortableTableHead label="Rating" onClick={UpdateRatingSorting} state={ratingSortState}/>
             <TableHead>Actions</TableHead>
           </TableRow>
@@ -183,15 +232,14 @@ const { data:subCategories, isPending: subCategoriesPending } = useQuery<
                 />
               </TableCell>
               <TableCell>{product.productName}</TableCell>
-              <TableCell>{product.brand}</TableCell>
               <TableCell>${Number(product.price).toFixed(2)}</TableCell>
               <TableCell>
                 <Badge variant={product.stockAvailability ? "success" : "failure"}>
                   {product.stockAvailability ? "yes" : "No"}
                 </Badge>
               </TableCell>
-              <TableCell>Electronics</TableCell>
-              <TableCell>Smartphones</TableCell>
+              <TableCell>{product.categoryName}</TableCell>
+              <TableCell>{product.subCategoryName}</TableCell>
               <TableCell>
                 <div className="flex flex-col gap-1">
                   {product.isNewArrivals && <Badge variant='default' className="flex justify-center items-center">New</Badge>}
@@ -223,6 +271,21 @@ const { data:subCategories, isPending: subCategoriesPending } = useQuery<
           ))}
         </TableBody>
       </Table>
+      <div className="container justify-center my-2 flex items-center gap-2">
+  {Array.from({ length: pagination.totalPages }).map((_, index) => (
+    <button
+      key={index}
+      className={`flex h-10 w-10 items-center justify-center rounded-md border ${
+        pagination.currentPage === index + 1
+          ? "bg-primaryDark text-background"
+          : "hover:bg-primaryLight"
+      }`}
+      onClick={() => handlePageChange(index + 1)}
+    >
+      {index + 1}
+    </button>
+  ))}
+</div>
     </div>
   );
 }
