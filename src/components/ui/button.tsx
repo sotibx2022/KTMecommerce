@@ -20,7 +20,9 @@ const buttonVariants = cva(
         failure: // New variant
           "border-transparent bg-red-100 text-red-600  hover:bg-red-200",
            outline:
-      "border-2 border-primaryDark bg-background text-primaryDark hover:bg-primaryLight"
+      "border-2 border-primaryDark bg-background text-primaryDark hover:bg-primaryLight",
+      nothing:
+      " text-primaryDark hover:bg-primaryLight",
       },
       size: {
         default: "h-9 px-4 py-2",
