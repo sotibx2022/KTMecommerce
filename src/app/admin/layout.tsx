@@ -6,7 +6,10 @@ export default async function Layout({ children }: { children: React.ReactNode }
   const defaultOpen = cookieStore.get("sidebar_state")?.value === "true"
   return (
       <div className="flex container">
+        <SidebarProvider>
+        <AdminSideBar/>
           {children}
+          </SidebarProvider>
       </div>
   )
 }
