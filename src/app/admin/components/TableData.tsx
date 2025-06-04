@@ -21,6 +21,7 @@ const TableData:React.FC<ITableData> = ({product,index}) => {
                   width={100}
                   height={50}
                   className="rounded"
+                  loading='lazy'
                 />
               </TableCell>
               <TableCell>{product.productName}</TableCell>

@@ -1,16 +1,24 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Search, X } from 'lucide-react'; // Import icons
+import { FilterX, Search, X } from 'lucide-react'; // Import icons
+import { ProductFilterContext } from '@/app/context/ProductFilterContext';
 const ProductSearchBar = () => {
+  const {setFilterState} = useContext(ProductFilterContext);
   const [searchValue, setSearchValue] = useState('');
   const [isFocused, setIsFocused] = useState(false);
   const handleSearch = () => {
-    // Implement your search logic here
-    console.log('Searching for:', searchValue);
+setFilterState(prev => ({
+  ...prev,
+  keyword: searchValue,
+}));
   };
   const handleClear = () => {
     setSearchValue('');
+    setFilterState(prev => ({
+  ...prev,
+  keyword:'',
+}));
   };
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {

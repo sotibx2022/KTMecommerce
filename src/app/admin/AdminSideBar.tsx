@@ -35,7 +35,6 @@ const AdminSideBar = () => {
     isMobile,
     toggleSidebar,
   } = useSidebar()
-  console.log(state);
   return (
     <div >
  <Sidebar 

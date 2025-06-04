@@ -1,29 +1,50 @@
+"use client"
 import React, { createContext, useState, ReactNode } from 'react';
 // Define the shape of your context
-interface FilterState {
+export interface FilterState {
   categoryText: string;
   subCategoryText: string;
-  price: string;
-  stock: string;
+  price: "Price" | "ascending" | "descending";
+  stock: "Stock" | "Yes" | "No";
   highlights: string;
-  rating: string;
+  rating: "Rating" | "ascending" | "descending";
   keyword: string;
+  page:number;
+  loading:boolean,
 }
+export const defaultFilterState: FilterState = {
+  categoryText: 'Category',
+  subCategoryText: 'Type',
+  price: 'Price',
+  stock: 'Stock',
+  highlights: 'HighLights',
+  rating: 'Rating',
+  keyword: 'Search Keywords...',
+  page:1,
+  loading:true,
+};
+const defaultContextValue: ProductFilterContextType = {
+  filterState: defaultFilterState,
+  setFilterState: () => {
+    throw new Error("setFilterState called outside of ProductFilterProvider");
+  }
+};
 interface ProductFilterContextType {
   filterState: FilterState;
   setFilterState: React.Dispatch<React.SetStateAction<FilterState>>;
 }
-// Create context with default values (can be `null` if you handle nulls later)
-export const ProductFilterContext = createContext<ProductFilterContextType | null>(null);
+export const ProductFilterContext = createContext<ProductFilterContextType>(defaultContextValue);
 const ProductFilterProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [filterState, setFilterState] = useState<FilterState>({
     categoryText: 'Category',
-    subCategoryText: 'Sub Category',
-    price: 'normal',
-    stock: 'normal',
-    highlights: 'normal',
-    rating: 'normal',
+    subCategoryText: 'Type',
+    price: 'Price',
+    stock: 'Stock',
+    highlights: 'HighLights',
+    rating: 'Rating',
     keyword: 'Search Keywords...',
+    page:1,
+    loading:true,
   });
   return (
     <ProductFilterContext.Provider value={{ filterState, setFilterState }}>

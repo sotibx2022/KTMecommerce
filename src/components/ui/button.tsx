@@ -16,7 +16,7 @@ const buttonVariants = cva(
         helper:
           "border-transparent bg-helper text-primaryDark shadow hover:bg-primaryLight",
         success:
-          "border-transparent bg-green-500 text-green-100 shadow hover:bg-green-600",
+          "border-transparent bg-green-100 text-green-600 shadow hover:bg-green-200",
         failure: // New variant
           "border-transparent bg-red-100 text-red-600  hover:bg-red-200",
            outline:

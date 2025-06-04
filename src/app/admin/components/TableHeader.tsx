@@ -1,28 +1,22 @@
 "use client"
 import { TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { ShortableTableHead } from './ShortableTableHead'
-import { Menu } from 'lucide-react'
-import ProductHighLightSelection from './ProductHighLightSelection'
-import SubCategorySelection from './SubCategoriesSelection'
-import CategoriesSelection from './CategoreisSelection'
-import StockSelection from './StockSelection'
 import SelectableTableHeader from './SelectableTableHeader'
+import {ProductFilterContext} from '@/app/context/ProductFilterContext'
 const TableTop = () => {
-      const[priceSortState,setPriceSortState] = useState<"normal" | "ascending" | "descending">("normal")
-      const[showCategories,setShowCategories] = useState(false);
-      const[showSubCategories,setShowSubCategories] = useState(false);
-      const[showProductHighlights,setShowProductHighlights] = useState(false);
-      const[showStockSelection,setShowStockSelection] = useState(false);
-      const[ratingSortState,setRatingSortState] = useState<"normal" | "ascending" | "descending">("normal")
-      const UpdatePriceSorting = () => {
-  setPriceSortState(prevState => 
-    prevState === "ascending" ? "descending" : "ascending"
-  );
-}
+  const{filterState,setFilterState} = useContext(ProductFilterContext);
+const UpdatePriceSorting = () => {
+  setFilterState((prev) => ({
+    ...prev,
+    price: prev.price === "ascending" ? "descending" : "ascending",
+  }));
+};
 const UpdateRatingSorting = () => {
-  setRatingSortState(prevState => 
-    prevState === "ascending" ? "descending" : "ascending"
+  setFilterState(prevState => ({
+    ...prevState,
+    rating:prevState.rating === "ascending" ? "descending" : "ascending"
+  })
   );
 }
   return (
@@ -31,13 +25,13 @@ const UpdateRatingSorting = () => {
             <TableHead>SN.</TableHead>
             <TableHead className='min-w-[100px]'>Image</TableHead>
             <TableHead className="min-w-[150px]">Product Name</TableHead>
-            <ShortableTableHead label="Price" onClick={UpdatePriceSorting} state={priceSortState}/>
-<SelectableTableHeader title="Category"/>
-<SelectableTableHeader title="Sub Category"/>
+             <ShortableTableHead label="Price" onClick={UpdatePriceSorting} state={filterState.price === "Price"?"normal":filterState.price}/>
 <SelectableTableHeader title="Stock"/>
+            <SelectableTableHeader title="Category"/>
+            <SelectableTableHeader title="Type"/>
 <SelectableTableHeader title="Highlights"/>
-            <ShortableTableHead label="Rating" onClick={UpdateRatingSorting} state={ratingSortState}/>
-            <TableHead className="min-w-[150px]">Actions</TableHead>
+            <ShortableTableHead label="Rating" onClick={UpdateRatingSorting} state={filterState.rating ==="Rating" ?"normal":filterState.rating}/>
+            <TableHead className="min-w-[100px]">Actions</TableHead>
           </TableRow>
         </TableHeader>
   )

@@ -2,9 +2,12 @@ export const returnQueryParams = (url: URL) => {
   const params = new URLSearchParams(url.search)
   return {
     keyword: params.get("keyword") || undefined,
+    category:params.get("category") || undefined,
+    subCategory:params.get("usbCategory") || undefined,
     brand: params.get("brand") || undefined,
     stock: params.get("stock") || undefined,
     variant: params.get("variant") || undefined,
+    isRegular:params.get("isRegular") || undefined,
     isNewArrival: params.get("isNewArrival") || undefined,
     isTrendingNow: params.get("isTrendingNow") || undefined,
     isTopSell: params.get("isTopSell") || undefined,

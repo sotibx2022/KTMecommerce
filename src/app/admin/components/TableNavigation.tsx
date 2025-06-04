@@ -1,11 +1,14 @@
 "use client"
-import React from 'react'
+import React, { useContext } from 'react'
 import { IPagination } from './products'
+import {ProductFilterContext} from '@/app/context/ProductFilterContext'
 interface ITableNavigation{
     pagination:IPagination
 }
 const TableNavigation:React.FC<ITableNavigation> = ({pagination}) => {
+  const {setFilterState} = useContext(ProductFilterContext);
       const handlePageChange=(pageNumber:number)=>{
+        setFilterState((prev)=>({...prev,page:pageNumber}))
   }
   return (
      <div className="container justify-center my-2 flex items-center gap-2">
