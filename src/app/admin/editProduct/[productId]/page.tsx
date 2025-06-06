@@ -12,6 +12,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
+import ProductDetailsSkeleton from '../../components/ProductDetailsSkeleton'
 const EditProduct = () => {
   const searchParams = useSearchParams()
   const [productId] = useState<string>(searchParams.get('productId') ?? "")
@@ -20,7 +21,7 @@ const EditProduct = () => {
     queryFn: () => getSingleProduct(productId),
     enabled: !!productId
   })
-  if (isPending) return <div>Loading...</div>
+  if (isPending) return <ProductDetailsSkeleton/>
   if (error) return <div>Error loading product</div>
   if (!productDatas?.success) return <h1 className="primaryHeading">Product not found</h1>
   const product = productDatas.data!

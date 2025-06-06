@@ -13,6 +13,7 @@ import SecondaryButton from '@/app/_components/secondaryButton/SecondaryButton';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import ProductAction from '../../components/ProductAction';
 import { Calendar } from '@/components/ui/calendar';
+import ProductDetailsSkeleton from '../../components/ProductDetailsSkeleton';
 const Page = () => {
   const searchParams = useSearchParams();
   const [productId] = useState<string>(searchParams.get('productId') ?? "");
@@ -21,7 +22,7 @@ const Page = () => {
     queryFn: () => getSingleProduct(productId),
     enabled: !!productId
   });
-  if (isPending) return <div>Loading...</div>;
+  if (isPending) return <ProductDetailsSkeleton/>;
   if (error) return <div>Error loading product</div>;
   if (!productDatas.success) return <h1 className="primaryHeading">The Product Details are not available.</h1>;
   return (
