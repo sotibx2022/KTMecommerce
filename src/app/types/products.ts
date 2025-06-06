@@ -48,4 +48,9 @@ export interface IProductDisplay {
   isOfferItem?: boolean;
   categoryName?:string;
   subCategoryName?:string;
+  status?:string,
+  categoryId?:Object,
+  subCategoryId?:Object,
+  createdAt?:Date,
+  updatedAt?:Date,
 }

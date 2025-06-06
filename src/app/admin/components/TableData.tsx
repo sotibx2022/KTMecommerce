@@ -1,8 +1,10 @@
 import { IProductDisplay } from '@/app/types/products'
 import { Badge } from '@/components/ui/badge'
 import { TableCell, TableRow } from '@/components/ui/table'
+import Link from 'next/link'
 import React from 'react'
 import { FaEdit, FaEye, FaTrash } from 'react-icons/fa'
+import ProductAction from './ProductAction'
 interface ITableData{
     product:IProductDisplay,
     index:number
@@ -10,7 +12,7 @@ interface ITableData{
 const TableData:React.FC<ITableData> = ({product,index}) => {
   const rowNumber = Number.isInteger(index) ? index + 1 : 1
   return (
-         <TableRow>
+         <TableRow className='relative group cursor-pointer'>
               <TableCell>
                 {rowNumber}
               </TableCell>
@@ -47,19 +49,10 @@ const TableData:React.FC<ITableData> = ({product,index}) => {
                     <p>{product.overallRating}/5</p>
                 </Badge>
               </TableCell>
-              <TableCell className="">
-  <div className="flex items-center flex-wrap justify-center gap-2">
-    <button className="text-blue-500 hover:text-blue-700">
-    <FaEye size={18} />
-  </button>
-  <button className="text-green-500 hover:text-green-700">
-    <FaEdit size={18} />
-  </button>
-  <button className="text-red-500 hover:text-red-700">
-    <FaTrash size={18} />
-  </button>
-  </div>
-</TableCell>
+                <div className="absoluteProductAction absolute top-0 left-0 w-full h-full hidden group-hover:flex justify-center items-center"
+                style={{ background: "var(--gradientwithOpacity)" }}>
+                  <ProductAction product={{_id: product._id,productName: product.productName}} actions={['view','edit','delete']}/>
+                </div>
             </TableRow>
   )
 }

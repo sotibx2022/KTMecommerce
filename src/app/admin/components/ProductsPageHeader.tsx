@@ -26,7 +26,7 @@ export const ProductsPageHeader = () => {
           size="default"
           className="gap-2"
           aria-label="Reset filters"
-          onClick={()=>setFilterState({...defaultFilterState})}
+          onClick={()=>setFilterState({...defaultFilterState,loading:false})}
         >
           <FilterX className="h-4 w-4" />
           <span className="hidden sm:inline">Reset Filters</span>

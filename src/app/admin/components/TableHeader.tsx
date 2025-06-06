@@ -31,7 +31,6 @@ const UpdateRatingSorting = () => {
             <SelectableTableHeader title="Type"/>
 <SelectableTableHeader title="Highlights"/>
             <ShortableTableHead label="Rating" onClick={UpdateRatingSorting} state={filterState.rating ==="Rating" ?"normal":filterState.rating}/>
-            <TableHead className="min-w-[100px]">Actions</TableHead>
           </TableRow>
         </TableHeader>
   )

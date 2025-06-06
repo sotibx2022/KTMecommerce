@@ -18,7 +18,6 @@ export async function GET(request: NextRequest) {
     // Find the product in the database
     const singleProduct = await productModel
     .findOne({ _id: productObjectId })
-    .select('_id brand price stockAvailability image productDescription productFeatures productName overallRating')
     .lean();
     if (!singleProduct) {
       return NextResponse.json({
