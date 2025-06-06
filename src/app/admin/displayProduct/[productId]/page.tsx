@@ -98,6 +98,10 @@ const Page = () => {
                         <Badge variant="failure">Out of Stock</Badge>
                       )}
                   </div>
+                  {productDatas.data?.stockAvailability && <div>
+                    <h3 className="secondaryHeading font-bold">Stock Quantity</h3>
+                        <Badge variant="success">{productDatas!.data!.remainingStock}</Badge>
+                  </div>}
                   <div>
                     <h3 className="secondaryHeading font-bold">Status</h3>
                     <Badge variant={productDatas!.data!.status === 'active' ? 'success' : 'failure'}>

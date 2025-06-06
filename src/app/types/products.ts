@@ -9,6 +9,7 @@ export interface IProductCreate {
   productFeatures: string[];
   price: number; // Price is a number in DB
   stockAvailability: boolean;
+  remainingStock:string;
   variant: string;
   categoryName:string,
   subCategoryName:string,
@@ -53,4 +54,5 @@ export interface IProductDisplay {
   subCategoryId?:Object,
   createdAt?:Date,
   updatedAt?:Date,
+  remainingStock?:string
 }

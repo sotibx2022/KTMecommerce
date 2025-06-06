@@ -12,6 +12,7 @@ const ProductSchema = new mongoose.Schema<IProductModel>({
     productFeatures: { type: [String], required: true },
     price: { type: Number, required: true },
     stockAvailability: { type: Boolean, required: true },
+    remainingStock:{type:String,required:true},
     variant: { type: String, required: true },
     categoryName:{type:String,required:true},
     subCategoryName:{type:String,required:true},
