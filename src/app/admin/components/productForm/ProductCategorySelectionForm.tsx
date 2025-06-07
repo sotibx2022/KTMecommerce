@@ -1,4 +1,3 @@
-// components/ProductCategorySelectionForm.tsx
 import { Label } from '@/components/ui/label'
 import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from '@/components/ui/select'
 import { useFormContext } from 'react-hook-form'
@@ -9,42 +8,66 @@ import { ISubCategoryData, useSubCategory } from '@/app/hooks/queryHooks/useSubC
 import { initialCategories } from '@/app/data/categoriesData'
 import { Category } from '@/app/types/categories'
 const ProductCategorySelectionForm = ({ action, productDatas }: { action: 'add' | 'edit', productDatas?: any }) => {
-  const { data: navItems = initialCategories } = useCategories()
+  const { data: navItems = initialCategories, isPending: categoryLoading } = useCategories()
   const { register, setValue, watch, formState: { errors } } = useFormContext<IAddProductFormData>()
-  const selectedCategory = watch('categoryName')
-  const { data: subCategories } = useSubCategory(action === 'edit' ? productDatas?.category || "" : selectedCategory || "")
+  const formValues = watch()
+  const { data: subCategories, isPending: subCategoriesLoading } = useSubCategory(
+    formValues.categoryName
+  )
   return (
-    <>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {/* Category Select */}
       <div>
         <Label htmlFor="categoryName">Category</Label>
-        <Select {...register("categoryName", {
-          required: { value: true, message: "You need to Select Category" }
-        })}>
+        <Select 
+          {...register("categoryName", { required: "Category is required" })}
+        >
           <SelectTrigger>
-            <SelectValue placeholder="Select Category" />
+            <SelectValue placeholder={categoryLoading ? "Loading..." : (formValues.categoryName?formValues.categoryName:"Category")} />
           </SelectTrigger>
           <SelectContent>
-            {navItems.map((item: Category, index: number) => (
-              <SelectItem value={item.category_name} key={index}>{item.category_name}</SelectItem>
+            {navItems.map((item: Category) => (
+              <SelectItem
+  value={item.category_name}
+  key={item.url_slug}
+  onClick={() => {
+    setValue('categoryName', item.category_name)
+    setValue('subCategoryName', '') // Reset subcategory when category changes
+  }}
+>
+  {item.category_name}
+</SelectItem>
             ))}
           </SelectContent>
         </Select>
-        {errors?.categoryName?.message && <SubmitError message={errors.categoryName?.message} />}
+        {errors?.categoryName?.message && <SubmitError message={errors.categoryName.message} />}
       </div>
+      {/* Subcategory Select */}
       <div>
         <Label htmlFor="subCategoryName">Subcategory</Label>
-        <Select>
+        <Select
+          {...register("subCategoryName")}
+          disabled={!formValues.categoryName || subCategoriesLoading}
+        >
           <SelectTrigger>
-            <SelectValue placeholder="Select subcategory" />
+            <SelectValue placeholder={
+              !formValues.categoryName ? "Select category first" :
+             ( subCategoriesLoading ? "Loading..." :
+              "Select subcategory")
+            } />
           </SelectTrigger>
           <SelectContent>
-            {subCategories?.success && subCategories.data?.subcategories.map((cat: ISubCategoryData, index: number) => (
-              <SelectItem value={cat.category_name} key={index}>{cat.category_name}</SelectItem>
+            {subCategories?.success && subCategories.data?.subcategories.map((cat: ISubCategoryData) => (
+              <SelectItem value={cat.category_name} key={cat.category_name}
+              onChange={()=>setValue('subCategoryName',cat.category_name)}>
+                {cat.category_name}
+              </SelectItem>
             ))}
           </SelectContent>
         </Select>
+        {errors?.subCategoryName?.message && <SubmitError message={errors.subCategoryName.message} />}
       </div>
-    </>
+    </div>
   )
 }
 export default ProductCategorySelectionForm

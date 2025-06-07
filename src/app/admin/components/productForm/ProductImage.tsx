@@ -29,7 +29,7 @@ const ProductImage: React.FC<ProductImageProps> = ({ action, imageUrl }) => {
         setUploadedImage("");
     }
     return (
-        <div className="md:w-1/3">
+        <div className="md:w-1/2">
             <Card>
                 <CardHeader>
                     <CardTitle className="text-lg font-semibold">Product Image</CardTitle>
@@ -66,7 +66,7 @@ const ProductImage: React.FC<ProductImageProps> = ({ action, imageUrl }) => {
                                     />
                                 </div>
                             ) : (
-                                <div className="text-center space-y-1">
+                                <div className=" space-y-1">
                                     <Label className="text-muted-foreground">
                                         Upload product image
                                     </Label>

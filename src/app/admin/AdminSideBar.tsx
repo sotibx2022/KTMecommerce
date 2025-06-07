@@ -13,9 +13,7 @@ import {
   Mail, Briefcase, LayoutDashboard
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import Image from "next/image"
 import { usePathname, useRouter } from "next/navigation"
-import { useEffect } from "react"
 const sideBarItems = [
   { href: '/admin', icon: Home, text: 'Dashboard' },
   { href: '/admin/products', icon: Package, text: 'Products' },
@@ -84,7 +82,7 @@ const AdminSideBar = () => {
           <SidebarFooter className="  p-4 bg-background">
             <div className="flex items-center gap-3">
               <img
-                src="../assets/adminProfile.jpg"
+                src="../../../public/assets/adminProfile.jpg"
                 alt="Admin"
                 width={40}
                 height={40}

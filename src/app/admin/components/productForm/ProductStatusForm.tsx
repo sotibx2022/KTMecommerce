@@ -1,18 +1,32 @@
-// components/ProductStatusForm.tsx
-import { Label } from '@/components/ui/label'
-import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from '@/components/ui/select'
-const ProductStatusForm = () => {
+import React from 'react'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { useFormContext } from 'react-hook-form'
+import { IAddProductFormData } from '../products'
+interface ProductStatusFormProps {
+  action: 'edit' | 'view'
+}
+const ProductStatusForm: React.FC<ProductStatusFormProps> = ({ action }) => {
+  const { setValue, watch } = useFormContext<IAddProductFormData>()
+  const status = watch('status')
   return (
-    <div>
-      <Label htmlFor="status">Status</Label>
-      <Select defaultValue="draft">
-        <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="Select status" />
+    <div className="w-64">
+      <Select>
+        <SelectTrigger>
+          <SelectValue placeholder={status ?? 'Select Status'} />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="active">Active</SelectItem>
-          <SelectItem value="inactive">Inactive</SelectItem>
-          <SelectItem value="draft">Draft</SelectItem>
+          <SelectItem
+            value="active"
+            onClick={() => setValue('status', 'active')}
+          >
+            Active
+          </SelectItem>
+          <SelectItem
+            value="inActive"
+            onClick={() => setValue('status', 'inActive')}
+          >
+            InActive
+          </SelectItem>
         </SelectContent>
       </Select>
     </div>
