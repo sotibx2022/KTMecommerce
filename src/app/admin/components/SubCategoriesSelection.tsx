@@ -1,31 +1,15 @@
 "use client"
 import SkletonText from '@/app/_components/skeletontext/SkletonText';
 import { ProductFilterContext } from '@/app/context/ProductFilterContext';
+import { useSubCategory } from '@/app/hooks/queryHooks/useSubCategory';
 import { APIResponseError, APIResponseSuccess } from '@/app/services/queryFunctions/users';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { Menu } from 'lucide-react';
 import { useContext } from 'react';
-interface ISubCategoryData {
-  category_name: string
-}
-interface ISubCategoryDatas {
-  _id: string,
-  subcategories: ISubCategoryData[]
-}
 const SubCategoriesSelection = () => {
   const { filterState, setFilterState } = useContext(ProductFilterContext);
-  const fetchSubCategories = async(category: string): Promise<APIResponseSuccess<ISubCategoryDatas> | APIResponseError> => {
-    const response = await axios.get(`/api/categories/${filterState.categoryText}`);
-    return response.data
-  }
-  const { data: subCategories, isPending: subCategoriesPending } = useQuery<
-    APIResponseSuccess<ISubCategoryDatas> | APIResponseError
-  >({
-    queryKey: ['subCategories', filterState.categoryText],
-    queryFn: () => fetchSubCategories(filterState.categoryText),
-    enabled: !!filterState.categoryText && filterState.categoryText !== 'Category'
-  });
+ const {data:subCategories,isPending:subCategoriesPending} = useSubCategory(filterState.categoryText)
   const onSelectionOfSubCategory = (subCategoryValue: string) => {
     setFilterState((prev) => ({...prev, subCategoryText: subCategoryValue}))
   }

@@ -21,7 +21,7 @@ const ProductAction = ({ product, actions, onDelete }: ProductActionProps) => {
       {actions.includes('edit') && (
         <Link href={`/admin/editProduct/productIdentifier?productId=${product._id}&productName=${product.productName}`}>
           <button className="p-2 rounded-md bg-green-500 hover:bg-green-600 transition-colors">
-            <FaEdit size={18} className="text-green-200" />
+            <FaEdit size={18} className="text-green-200 cursor-pointer" />
           </button>
         </Link>
       )}

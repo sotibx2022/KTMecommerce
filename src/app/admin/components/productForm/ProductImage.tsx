@@ -7,7 +7,7 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { ChangeEvent, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
-import { IAddProductFormData } from './products'
+import { IAddProductFormData } from '../products'
 import SubmitError from '@/app/_components/submit/SubmitError'
 interface ProductImageProps {
     action: "add" | "edit"
@@ -88,7 +88,7 @@ const ProductImage: React.FC<ProductImageProps> = ({ action, imageUrl }) => {
                         </label>
                     </div>
                 </CardContent>
-                <SubmitError message={errors.image?.message}/>
+                {errors.image?.message && <SubmitError message={errors.image?.message}/>}
             </Card>
         </div>
     )

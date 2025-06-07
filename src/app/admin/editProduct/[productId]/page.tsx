@@ -3,20 +3,15 @@ import React, { useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { useQuery } from '@tanstack/react-query'
 import { getSingleProduct } from '@/app/services/queryFunctions/products'
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
-import { Label } from '@/components/ui/label'
-import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { Checkbox } from '@/components/ui/checkbox'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import { Separator } from '@/components/ui/separator'
 import ProductDetailsSkeleton from '../../components/ProductDetailsSkeleton'
 import { FormProvider, useForm } from 'react-hook-form'
 import { IAddProductFormData } from '../../components/products'
-import ProductImage from '../../components/ProductImage'
-import ProductDetailsForm from '../../components/ProductDetailsForm'
+import ProductBasicDetailsForm from '../../components/productForm/ProductBasicDetailsForm'
+import ProductCategorySelectionForm from '../../components/productForm/ProductCategorySelectionForm'
+import ProductFeaturesForm from '../../components/productForm/ProductFeaturesForm'
+import ProductHighLightSelection from '../../components/ProductHighLightSelection'
+import ProductStatusForm from '../../components/productForm/ProductStatusForm'
+import ProductImage from '../../components/productForm/ProductImage'
 const EditProduct = () => {
   const searchParams = useSearchParams()
   const [productId] = useState<string>(searchParams.get('productId') ?? "")
@@ -36,7 +31,11 @@ const EditProduct = () => {
       <FormProvider {...method}>
       <form className='flex flex-col md:flex-row gap-8'>
         <ProductImage action='edit' imageUrl={product.image}/>
-<ProductDetailsForm action='edit' productDatas={product}/>        
+          <ProductBasicDetailsForm/>
+          <ProductCategorySelectionForm action='add'/>
+          <ProductFeaturesForm/>
+          <ProductHighLightSelection/>
+          <ProductStatusForm/>
       </form>
       </FormProvider>
     </div>
