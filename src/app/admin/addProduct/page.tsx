@@ -11,6 +11,7 @@ import ProductImage from '../components/productForm/ProductImage'
 import { Card, CardFooter } from '@/components/ui/card'
 import ProductAction from '../components/ProductAction'
 import { Button } from '@/components/ui/button'
+import ProductHighlightsForm from '../components/productForm/ProductHighlightsForm'
 const AddProduct = () => {
 const method = useForm<IAddProductFormData>({mode:'onBlur'})
 const onSubmit=(data:IAddProductFormData)=>{
@@ -27,7 +28,7 @@ console.log(data);
             <ProductBasicDetailsForm action="add"/>
           <ProductCategorySelectionForm action='add'/>
           <ProductFeaturesForm action='add'/>
-          <ProductHighLightSelection action='add'/>
+          <ProductHighlightsForm action='add'/>
           <ProductStatusForm action='add'/>
           <CardFooter>
             <Button>Submit</Button>

@@ -13,22 +13,16 @@ const ProductCategorySelectionForm = ({ action, productDatas }: { action: 'add' 
   const { register, setValue, watch, formState: { errors } } = useFormContext<IAddProductFormData>()
   const formValues = watch()
   const { data: subCategories, isPending: subCategoriesLoading } = useSubCategory(formValues.categoryName)
-  // Reset subcategory when category changes
-  useEffect(() => {
-    if (action === 'add') {
-      setValue('subCategoryName', '')
-    }
-  }, [formValues.categoryName, setValue, action])
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       {/* Category Select */}
       <div>
         <Label htmlFor="categoryName">Category</Label>
         <Select 
-          value={formValues.categoryName || ''}
-          onValueChange={(value) => {
-            setValue('categoryName', value)
-          }}
+        {...register("categoryName",{
+          required:"Category is Required"
+        })}
+        onValueChange={(value)=>setValue('categoryName',value)}
         >
           <SelectTrigger>
             <SelectValue placeholder={categoryLoading ? "Loading..." : "Select category"} />
@@ -47,8 +41,10 @@ const ProductCategorySelectionForm = ({ action, productDatas }: { action: 'add' 
       <div>
         <Label htmlFor="subCategoryName">Subcategory</Label>
         <Select
-          value={formValues.subCategoryName || ''}
-          onValueChange={(value) => setValue('subCategoryName', value)}
+        {...register("subCategoryName",{
+          required:"Sub Category is Required"
+        })}
+        onValueChange={(value)=>setValue('subCategoryName',value)}
           disabled={!formValues.categoryName || subCategoriesLoading}
         >
           <SelectTrigger>

@@ -11,7 +11,6 @@ export interface ISubCategoryDatas {
   subcategories: ISubCategoryData[];
 }
 export const useSubCategory = (categoryValue?: string) => {
-  console.log(categoryValue);
   const categoryExists = useMemo(() => {
     if (!categoryValue) return false; // early exit if undefined/null
     return initialCategories.some(

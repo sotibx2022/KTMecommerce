@@ -1,13 +1,15 @@
+"use client"
 import { Label } from '@/components/ui/label'
 import { Checkbox } from '@/components/ui/checkbox'
 import { useFormContext } from 'react-hook-form'
 import { IAddProductFormData } from '../products'
+import SubmitError from '@/app/_components/submit/SubmitError'
 interface ProductHighlightsFormProps {
   action: "edit" | "add"
 }
 const ProductHighlightsForm: React.FC<ProductHighlightsFormProps> = ({ action }) => {
   const { register, watch, setValue } = useFormContext<IAddProductFormData>()
-  // Handler for checkbox changes
+  const formValues = watch()
   const handleCheckboxChange = (fieldName: keyof IAddProductFormData) => {
     const currentValue = watch(fieldName)
     setValue(fieldName, !currentValue)
@@ -62,6 +64,9 @@ const ProductHighlightsForm: React.FC<ProductHighlightsFormProps> = ({ action })
           <Label htmlFor="isRegular">Regular</Label>
         </div>
       </div>
+      {!watch('isNewArrivals') && !watch('isTrendingNow')&& !watch('isTopSell')&&
+       !watch('isOfferItem') && !watch('isRegular') &&
+        <SubmitError message='AtLeast One Highlight Item need to be selected'/> }
     </div>
   )
 }

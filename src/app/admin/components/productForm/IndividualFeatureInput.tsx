@@ -1,53 +1,59 @@
 'use client';
-import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Plus } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 import { useFormContext } from 'react-hook-form';
-import React from 'react';
 import { IAddProductFormData } from '../products';
-import IndividualFeatureInput from './IndividualFeatureInput';
-interface ProductFeaturesProps {
-  action: "edit" | "add";
+import SubmitError from '@/app/_components/submit/SubmitError';
+import { validateSentence } from '@/app/services/helperFunctions/validatorFunctions';
+import React, { useState } from 'react';
+interface IndividualFeatureInputProps {
+  index: number;
+  onRemove?: (index: number) => void;
 }
-const ProductFeaturesForm: React.FC<ProductFeaturesProps> = ({ action }) => {
-  const { watch, setValue } = useFormContext<IAddProductFormData>();
+const IndividualFeatureInput: React.FC<IndividualFeatureInputProps> = ({ 
+  index,
+  onRemove,
+}) => {
+  const { register, watch, setValue,formState:{errors} } = useFormContext<IAddProductFormData>();
   const formValues = watch();
-  // Initialize with 3 empty features if empty
-  const features = formValues.productFeatures || Array(3).fill('');
-  const addNewFeature = () => {
-    const newFeatures = [...features, ''];
-    setValue('productFeatures', newFeatures);
-  };
-  const removeFeature = (index: number) => {
-    if (index < 3) return; // Prevent removing first 3 features
-    const newFeatures = [...features];
-    newFeatures.splice(index, 1);
-    setValue('productFeatures', newFeatures);
+  const features = formValues.productFeatures || [];
+  const featureValue = features[index] || '';
+  const handleRemove = () => {
+    if (onRemove) {
+      onRemove(index);
+    } else {
+      const newFeatures = [...features];
+      newFeatures.splice(index, 1);
+      setValue('productFeatures', newFeatures, { shouldValidate: true });
+    }
   };
   return (
-    <div>
-      <Label>Features</Label>
-      <div className="space-y-2 mt-2">
-        {features.map((_, index) => (
-          <IndividualFeatureInput 
-            key={index} 
-            index={index}
-            onRemove={removeFeature}
+    <div className="flex items-start gap-2">
+      <div className='flex-1 flex flex-col gap-1'>
+        <div className="flex gap-2">
+          <Input
+            placeholder={`Feature ${index + 1}`}
+            className="flex-1"
+            {...register(`productFeatures.${index}`,{
+              validate:(value)=>validateSentence("Feature Item",value,10,100)
+            })}
           />
-        ))}
-        <div className="flex items-center gap-2">
           <Button
             type="button"
-            variant="success"
+            variant="failure"
             size="icon"
-            onClick={addNewFeature}
+            onClick={handleRemove}
+            disabled={index < 3} // First 3 features can't be removed
           >
-            <Plus className="w-4 h-4" />
+            <Trash2 className="w-4 h-4" />
           </Button>
-          <span className="text-muted-foreground text-sm">Add Feature</span>
         </div>
+        {errors.productFeatures?.[index]?.message && (
+  <SubmitError message={errors.productFeatures[index].message} />
+)}
       </div>
     </div>
   );
 };
-export default ProductFeaturesForm;
+export default IndividualFeatureInput;
