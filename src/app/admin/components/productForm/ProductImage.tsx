@@ -9,12 +9,13 @@ import React, { ChangeEvent, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { IAddProductFormData } from '../products'
 import SubmitError from '@/app/_components/submit/SubmitError'
+import FormError from './FormError'
 interface ProductImageProps {
     action: "add" | "edit"
     imageUrl?: string
 }
 const ProductImage: React.FC<ProductImageProps> = ({ action, imageUrl }) => {
-    const {register,formState:{errors}} = useFormContext<IAddProductFormData>()
+    const {register,formState:{errors,touchedFields}} = useFormContext<IAddProductFormData>()
     const [uploadedImage, setUploadedImage] = useState<null | string>(null)
     const [file, setFile] = useState<File | null>(null)
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,7 +37,7 @@ const ProductImage: React.FC<ProductImageProps> = ({ action, imageUrl }) => {
                 </CardHeader>
                 <CardContent>
                     <div className="flex w-full">
-                        <label className={`flex flex-col  w-full border-2 border-dashed rounded-lg cursor-pointer p-6 gap-4 ${errors.image?.message && "border-red-500"}`}>
+                        <label className={`flex flex-col  w-full border-2 border-dashed rounded-lg cursor-pointer p-6 gap-4 ${errors.image?.message && touchedFields.image && "border-red-500"}`}>
                             {action === 'edit' && imageUrl && (
                                 <div className="mb-4 space-y-2 ">
                                     <Label className="text-sm font-medium text-primaryDark">
@@ -87,8 +88,8 @@ const ProductImage: React.FC<ProductImageProps> = ({ action, imageUrl }) => {
                             />
                         </label>
                     </div>
+                     <FormError name='image'/>
                 </CardContent>
-                {errors.image?.message && <SubmitError message={errors.image?.message}/>}
             </Card>
         </div>
     )

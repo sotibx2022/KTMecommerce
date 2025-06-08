@@ -3,15 +3,15 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useFormContext } from 'react-hook-form'
 import { IAddProductFormData } from '../products'
 import SubmitError from '@/app/_components/submit/SubmitError'
+import FormError from './FormError'
 interface ProductStatusFormProps {
   action: 'edit' | 'add'
 }
 const ProductStatusForm: React.FC<ProductStatusFormProps> = ({ action }) => {
-  const { setValue, watch,register,formState:{errors} } = useFormContext<IAddProductFormData>()
+  const { setValue, watch,register,formState:{errors,touchedFields} } = useFormContext<IAddProductFormData>()
   const handleValueChange = (value: string) => {
     setValue("status", value)
   }
-  console.log(watch('status'));
   const status = watch('status')
   return (
     <div className="w-64">
@@ -35,7 +35,7 @@ const ProductStatusForm: React.FC<ProductStatusFormProps> = ({ action }) => {
           </SelectItem>
         </SelectContent>
       </Select>
-{errors.status?.message&& status === 'status' &&<SubmitError message={errors.status.message}/>}
+      <FormError name="status"/>
     </div>
   )
 }

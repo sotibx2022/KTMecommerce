@@ -41,12 +41,10 @@ const params = useMemo(() => updatePageURL(filterState), [
     filterState.page
   ]);
 const getAllProducts = async (params: URLSearchParams): Promise<APIResponseSuccess<IResponseData> | APIResponseError> => {
-  // If no filters are applied (size: 0), fetch all products
   if (params.size === 0) {
     const response = await axios.get('/api/allProducts/displayProducts/all');
     return response.data;
   }
-  // Otherwise fetch with applied filters
   const response = await axios.get(`/api/allProducts/displayProducts/PARAMS?${params.toString()}`);
   return response.data;
 };
@@ -65,8 +63,6 @@ useEffect(() => {
    setFilterState((prev)=>({...prev,loading:false})) 
   }
  },[isPending])
- console.log("filterState loading",filterState.loading)
- console.log("Query pending",isPending)
 const { width } = useWindowSize();
 const products = productsResponse?.success ? productsResponse.data!.products : [];
 const pagination = productsResponse?.success ? productsResponse.data!.pagination : {

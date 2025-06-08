@@ -8,7 +8,7 @@ interface ProductHighlightsFormProps {
   action: "edit" | "add"
 }
 const ProductHighlightsForm: React.FC<ProductHighlightsFormProps> = ({ action }) => {
-  const { register, watch, setValue } = useFormContext<IAddProductFormData>()
+  const { register, watch, setValue,formState:{errors,touchedFields,isSubmitted} } = useFormContext<IAddProductFormData>()
   const formValues = watch()
   const handleCheckboxChange = (fieldName: keyof IAddProductFormData) => {
     const currentValue = watch(fieldName)
@@ -65,7 +65,7 @@ const ProductHighlightsForm: React.FC<ProductHighlightsFormProps> = ({ action })
         </div>
       </div>
       {!watch('isNewArrivals') && !watch('isTrendingNow')&& !watch('isTopSell')&&
-       !watch('isOfferItem') && !watch('isRegular') &&
+       !watch('isOfferItem') && !watch('isRegular') && isSubmitted &&
         <SubmitError message='AtLeast One Highlight Item need to be selected'/> }
     </div>
   )

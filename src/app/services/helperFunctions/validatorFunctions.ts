@@ -4,6 +4,7 @@ export const validateFullName = (
   minValue: number,
   maxValue: number
 ): string | true => {
+  if(!value) return "Please provide the Form Value."
   const trimmedValue = value.trim();
   if (trimmedValue.length < minValue) {
     return `Min. ${minValue} characters required in ${fieldName}.`;
@@ -26,6 +27,7 @@ export const validateWord = (
     minValue: number,
     maxValue: number
   ): string | true => {
+    if(!value) return "Please provide the Form Value."
     const trimmedValue = value.trim();
     if (trimmedValue.length < minValue) {
       return `Min. ${minValue} characters required in ${fieldName}.`;
@@ -45,6 +47,7 @@ export const validateWord = (
     minValue: number,
     maxValue: number
   ): string | true => {
+    if(!value) return "Please provide the Form Value."
     const trimmedValue = value.trim();
     if (trimmedValue.length < minValue) {
       return `Min. ${minValue} characters required in ${fieldName}.`;
@@ -65,7 +68,9 @@ export const validateWord = (
     minValue: number,
     maxValue: number
   ): string | true => {
-    const trimmedValue = value.trim();
+    if(!value) return "Please provide the Form Value."
+    const sringValue = value.toString();
+    const trimmedValue = sringValue.trim();
     const regex = /^[0-9]+$/;
     if (!regex.test(trimmedValue)) {
       return `${fieldName} should only contain numbers.`;
@@ -79,6 +84,7 @@ export const validateWord = (
     return true;
   };
   export const validateEmail = (fieldName: string, value: string): string | true => {
+    if(!value) return "Please provide the Form Value."
     const trimmedValue = value.trim();
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!regex.test(trimmedValue)) {
@@ -91,6 +97,7 @@ export const validateWord = (
     value: string,
     minLength: number
   ): string | true => {
+    if(!value) return "Please provide the Form Value."
     const trimmedValue = value.trim();
     const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     if (trimmedValue.length < minLength) {

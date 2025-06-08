@@ -8,12 +8,13 @@ import SubmitError from '@/app/_components/submit/SubmitError'
 import { validateSentence, validateWord, validateNumber } from '@/app/services/helperFunctions/validatorFunctions'
 import { IProductDisplay } from '@/app/types/products'
 import { useEffect } from 'react'
-interface ProductBasicDetailsFormProps{
-  productDatas?:IProductDisplay
-  action:"edit" | "add"
+import FormError from './FormError'
+interface ProductBasicDetailsFormProps {
+  productDatas?: IProductDisplay
+  action: "edit" | "add"
 }
-const ProductBasicDetailsForm:React.FC<ProductBasicDetailsFormProps> = ({action,productDatas}) => {
-  const { register, formState: { errors },watch } = useFormContext<IAddProductFormData>()
+const ProductBasicDetailsForm: React.FC<ProductBasicDetailsFormProps> = ({ action, productDatas }) => {
+  const { register, formState: { errors, touchedFields,isSubmitted }, watch } = useFormContext<IAddProductFormData>()
   return (
     <div className="space-y-4">
       {/* Product Name */}
@@ -26,7 +27,7 @@ const ProductBasicDetailsForm:React.FC<ProductBasicDetailsFormProps> = ({action,
             validate: (value) => validateSentence("ProductName", value, 10, 100)
           })}
         />
-        {errors?.productName?.message && <SubmitError message={errors.productName.message} />}
+       <FormError name="productName"/>
       </div>
       {/* Description */}
       <div>
@@ -39,7 +40,7 @@ const ProductBasicDetailsForm:React.FC<ProductBasicDetailsFormProps> = ({action,
             validate: (value) => validateSentence("Product Description", value, 100, 500)
           })}
         />
-        {errors?.productDescription?.message && <SubmitError message={errors.productDescription.message} />}
+        <FormError name="productDescription"/>
       </div>
       {/* Three-column section */}
       <section className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -55,7 +56,7 @@ const ProductBasicDetailsForm:React.FC<ProductBasicDetailsFormProps> = ({action,
               validate: (value) => validateNumber("Price", value, 2, 5)
             })}
           />
-          {errors?.price?.message && <SubmitError message={errors.price.message} />}
+          <FormError name='price'/>
         </div>
         {/* Variant */}
         <div>
@@ -64,10 +65,10 @@ const ProductBasicDetailsForm:React.FC<ProductBasicDetailsFormProps> = ({action,
             id="variant"
             placeholder="Color, Size, etc."
             {...register("variant", {
-              validate: (value) => validateWord("Variant", value, 3, 10)
+              validate: (value) => validateWord("Variant", value, 3, 20)
             })}
           />
-          {errors.variant?.message && <SubmitError message={errors.variant.message} />}
+          <FormError name='variant'/>
         </div>
         {/* Stock Quantity */}
         <div>
@@ -75,12 +76,12 @@ const ProductBasicDetailsForm:React.FC<ProductBasicDetailsFormProps> = ({action,
           <Input
             id="stockQuantity"
             type="number"
-            placeholder='eg.7'
+            placeholder="eg.7"
             {...register("remainingStock", {
               validate: (value) => validateNumber("Remaining Stock", value, 1, 20)
             })}
           />
-          {errors.remainingStock?.message && <SubmitError message={errors.remainingStock?.message} />}
+          <FormError name='remainingStock'/>
         </div>
       </section>
     </div>

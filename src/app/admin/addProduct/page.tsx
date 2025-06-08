@@ -13,7 +13,7 @@ import ProductAction from '../components/ProductAction'
 import { Button } from '@/components/ui/button'
 import ProductHighlightsForm from '../components/productForm/ProductHighlightsForm'
 const AddProduct = () => {
-const method = useForm<IAddProductFormData>({mode:'onBlur'})
+const method = useForm<IAddProductFormData>({mode:'onChange'})
 const onSubmit=(data:IAddProductFormData)=>{
 console.log(data);
 }

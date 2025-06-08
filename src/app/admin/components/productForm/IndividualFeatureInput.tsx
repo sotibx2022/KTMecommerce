@@ -7,6 +7,7 @@ import { IAddProductFormData } from '../products';
 import SubmitError from '@/app/_components/submit/SubmitError';
 import { validateSentence } from '@/app/services/helperFunctions/validatorFunctions';
 import React, { useState } from 'react';
+import FormError from './FormError';
 interface IndividualFeatureInputProps {
   index: number;
   onRemove?: (index: number) => void;
@@ -15,7 +16,7 @@ const IndividualFeatureInput: React.FC<IndividualFeatureInputProps> = ({
   index,
   onRemove,
 }) => {
-  const { register, watch, setValue,formState:{errors} } = useFormContext<IAddProductFormData>();
+  const { register, watch, setValue,formState:{errors,touchedFields} } = useFormContext<IAddProductFormData>();
   const formValues = watch();
   const features = formValues.productFeatures || [];
   const featureValue = features[index] || '';
@@ -36,7 +37,7 @@ const IndividualFeatureInput: React.FC<IndividualFeatureInputProps> = ({
             placeholder={`Feature ${index + 1}`}
             className="flex-1"
             {...register(`productFeatures.${index}`,{
-              validate:(value)=>validateSentence("Feature Item",value,10,100)
+              validate:(value)=>validateSentence("Feature Item",value,20,80)
             })}
           />
           <Button
@@ -49,9 +50,7 @@ const IndividualFeatureInput: React.FC<IndividualFeatureInputProps> = ({
             <Trash2 className="w-4 h-4" />
           </Button>
         </div>
-        {errors.productFeatures?.[index]?.message && (
-  <SubmitError message={errors.productFeatures[index].message} />
-)}
+       <FormError name={`productFeatures.${index}`}/>
       </div>
     </div>
   );

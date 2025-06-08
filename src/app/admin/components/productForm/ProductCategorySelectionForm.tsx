@@ -8,6 +8,7 @@ import { ISubCategoryData, useSubCategory } from '@/app/hooks/queryHooks/useSubC
 import { initialCategories } from '@/app/data/categoriesData'
 import { Category } from '@/app/types/categories'
 import { useEffect } from 'react'
+import FormError from './FormError'
 const ProductCategorySelectionForm = ({ action, productDatas }: { action: 'add' | 'edit', productDatas?: any }) => {
   const { data: navItems = initialCategories, isPending: categoryLoading } = useCategories()
   const { register, setValue, watch, formState: { errors } } = useFormContext<IAddProductFormData>()
@@ -35,7 +36,7 @@ const ProductCategorySelectionForm = ({ action, productDatas }: { action: 'add' 
             ))}
           </SelectContent>
         </Select>
-        {errors?.categoryName?.message && <SubmitError message={errors.categoryName.message} />}
+        <FormError name="categoryName"/>
       </div>
       {/* Subcategory Select */}
       <div>
@@ -61,7 +62,7 @@ const ProductCategorySelectionForm = ({ action, productDatas }: { action: 'add' 
             ))}
           </SelectContent>
         </Select>
-        {errors?.subCategoryName?.message && <SubmitError message={errors.subCategoryName.message} />}
+        <FormError name='subCategoryName'/>
       </div>
     </div>
   )

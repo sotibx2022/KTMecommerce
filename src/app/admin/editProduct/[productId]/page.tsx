@@ -9,7 +9,6 @@ import { IAddProductFormData } from '../../components/products'
 import ProductBasicDetailsForm from '../../components/productForm/ProductBasicDetailsForm'
 import ProductCategorySelectionForm from '../../components/productForm/ProductCategorySelectionForm'
 import ProductFeaturesForm from '../../components/productForm/ProductFeaturesForm'
-import ProductHighLightSelection from '../../components/ProductHighLightSelection'
 import ProductStatusForm from '../../components/productForm/ProductStatusForm'
 import ProductImage from '../../components/productForm/ProductImage'
 import { Card, CardFooter } from '@/components/ui/card'
@@ -22,8 +21,10 @@ const EditProduct = () => {
   const { data: productDatas, isPending, error } = useQuery({
     queryKey: ['specificProduct', productId],
     queryFn: () => getSingleProduct(productId),
-    enabled: !!productId
-  })
+    enabled: !!productId,
+    staleTime: 5 * 60 * 1000, // 5 minutes (data becomes stale after this time)
+    gcTime: 30 * 60 * 1000, // 30 minutes (data is removed from cache after this time)
+})
 useEffect(()=>{
    if(productDatas && productDatas!.success && productDatas!.data!){
   (Object.keys(productDatas!.data!)as Array<keyof IAddProductFormData>).forEach((key)=>{
@@ -31,6 +32,9 @@ useEffect(()=>{
   })
  }
 },[productDatas,method.setValue])
+const onSubmit = (data:IAddProductFormData) =>{
+  console.log(data);
+}
   if (isPending) return <ProductDetailsSkeleton/>
   if (error) return <div>Error loading product</div>
   if (!productDatas?.success) return <h1 className="primaryHeading">Product not found</h1>
@@ -38,7 +42,7 @@ useEffect(()=>{
     <div className="container mx-auto px-4 py-8">
       <h1 className="primaryHeading mb-6">Edit Product</h1>
       <FormProvider {...method}>
-       <form>
+       <form onSubmit={method.handleSubmit(onSubmit)}>
         <div className="flex gap-4">
           <ProductImage action='edit' imageUrl={productDatas.data?.image}/>
             <Card className='p-4 flex flex-col gap-4'>
