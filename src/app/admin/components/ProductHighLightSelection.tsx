@@ -9,10 +9,7 @@ const highlightOptions = [
   { id: 'isOffer', label: 'Offer' },
   { id: 'isRegular', label: 'Regular' },
 ];
-interface ProductHighLightSelectionProps{
-  action:string
-}
-const ProductHighLightSelection:React.FC<ProductHighLightSelectionProps> = ({action}) => {
+const ProductHighLightSelection = () => {
   const { setFilterState } = useContext(ProductFilterContext);
   return (
     <div className="flex flex-wrap gap-4">
