@@ -3,6 +3,7 @@ import { IDisplayReviewDatas } from "./remarks";
 // Interface for Product creation (DB use)
 export interface IProductCreate {
   _id?: Types.ObjectId; // _id is required for DB but optional when creating a new product
+  file?:File;
   brand: string;
   productName: string;
   productDescription: string;
