@@ -53,7 +53,7 @@ const TableData:React.FC<ITableData> = ({product,index}) => {
                 </Badge>
               </TableCell>
               <TableCell className='relative group p-0 hover:bg-muted/50 transition-colors'>
-  <div className="absoluteProductAction absolute inset-0 hidden group-hover:flex justify-center items-center bg-gradient-to-r from-primary/10 to-secondary/10 backdrop-blur-sm">
+  <div className="absoluteProductAction z-50 absolute inset-0 hidden group-hover:flex justify-center items-center bg-gradient-to-r from-primary/10 to-secondary/10 backdrop-blur-sm">
     <ProductAction 
       product={{
         _id: product._id,

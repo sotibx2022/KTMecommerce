@@ -14,7 +14,7 @@ export interface IAddProductFormData{
   productName:string,
   productDescription:string,
   price:string,
-  // productFeatures:string[],
+  productFeatures:string[],
   categoryName:string,
   subCategoryName:string,
   variant:string,

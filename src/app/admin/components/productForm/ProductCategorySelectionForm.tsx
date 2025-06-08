@@ -7,36 +7,37 @@ import { useCategories } from '@/app/hooks/queryHooks/useCategory'
 import { ISubCategoryData, useSubCategory } from '@/app/hooks/queryHooks/useSubCategory'
 import { initialCategories } from '@/app/data/categoriesData'
 import { Category } from '@/app/types/categories'
+import { useEffect } from 'react'
 const ProductCategorySelectionForm = ({ action, productDatas }: { action: 'add' | 'edit', productDatas?: any }) => {
   const { data: navItems = initialCategories, isPending: categoryLoading } = useCategories()
   const { register, setValue, watch, formState: { errors } } = useFormContext<IAddProductFormData>()
   const formValues = watch()
-  const { data: subCategories, isPending: subCategoriesLoading } = useSubCategory(
-    formValues.categoryName
-  )
+  const { data: subCategories, isPending: subCategoriesLoading } = useSubCategory(formValues.categoryName)
+  // Reset subcategory when category changes
+  useEffect(() => {
+    if (action === 'add') {
+      setValue('subCategoryName', '')
+    }
+  }, [formValues.categoryName, setValue, action])
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       {/* Category Select */}
       <div>
         <Label htmlFor="categoryName">Category</Label>
         <Select 
-          {...register("categoryName", { required: "Category is required" })}
+          value={formValues.categoryName || ''}
+          onValueChange={(value) => {
+            setValue('categoryName', value)
+          }}
         >
           <SelectTrigger>
-            <SelectValue placeholder={categoryLoading ? "Loading..." : (formValues.categoryName?formValues.categoryName:"Category")} />
+            <SelectValue placeholder={categoryLoading ? "Loading..." : "Select category"} />
           </SelectTrigger>
           <SelectContent>
             {navItems.map((item: Category) => (
-              <SelectItem
-  value={item.category_name}
-  key={item.url_slug}
-  onClick={() => {
-    setValue('categoryName', item.category_name)
-    setValue('subCategoryName', '') // Reset subcategory when category changes
-  }}
->
-  {item.category_name}
-</SelectItem>
+              <SelectItem value={item.category_name} key={item.url_slug}>
+                {item.category_name}
+              </SelectItem>
             ))}
           </SelectContent>
         </Select>
@@ -46,20 +47,19 @@ const ProductCategorySelectionForm = ({ action, productDatas }: { action: 'add' 
       <div>
         <Label htmlFor="subCategoryName">Subcategory</Label>
         <Select
-          {...register("subCategoryName")}
+          value={formValues.subCategoryName || ''}
+          onValueChange={(value) => setValue('subCategoryName', value)}
           disabled={!formValues.categoryName || subCategoriesLoading}
         >
           <SelectTrigger>
             <SelectValue placeholder={
               !formValues.categoryName ? "Select category first" :
-             ( subCategoriesLoading ? "Loading..." :
-              "Select subcategory")
+              (subCategoriesLoading ? "Loading..." : "Select subcategory")
             } />
           </SelectTrigger>
           <SelectContent>
             {subCategories?.success && subCategories.data?.subcategories.map((cat: ISubCategoryData) => (
-              <SelectItem value={cat.category_name} key={cat.category_name}
-              onChange={()=>setValue('subCategoryName',cat.category_name)}>
+              <SelectItem value={cat.category_name} key={cat.category_name}>
                 {cat.category_name}
               </SelectItem>
             ))}

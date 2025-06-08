@@ -36,7 +36,7 @@ const ProductBasicDetailsForm:React.FC<ProductBasicDetailsFormProps> = ({action,
           placeholder="Enter product description"
           rows={4}
           {...register('productDescription', {
-            validate: (value) => validateWord("Product Description", value, 100, 500)
+            validate: (value) => validateSentence("Product Description", value, 100, 500)
           })}
         />
         {errors?.productDescription?.message && <SubmitError message={errors.productDescription.message} />}
@@ -52,7 +52,7 @@ const ProductBasicDetailsForm:React.FC<ProductBasicDetailsFormProps> = ({action,
             step="0.01"
             placeholder="0.00"
             {...register('price', {
-              validate: (value) => validateNumber("Price", value, 100, 10000)
+              validate: (value) => validateNumber("Price", value, 2, 5)
             })}
           />
           {errors?.price?.message && <SubmitError message={errors.price.message} />}
@@ -64,7 +64,7 @@ const ProductBasicDetailsForm:React.FC<ProductBasicDetailsFormProps> = ({action,
             id="variant"
             placeholder="Color, Size, etc."
             {...register("variant", {
-              validate: (value) => validateWord("Variant", value, 10, 20)
+              validate: (value) => validateWord("Variant", value, 3, 10)
             })}
           />
           {errors.variant?.message && <SubmitError message={errors.variant.message} />}

@@ -12,24 +12,29 @@ interface ProductFeaturesProps {
 const ProductFeaturesForm: React.FC<ProductFeaturesProps> = ({ action }) => {
   const { watch, setValue } = useFormContext<IAddProductFormData>();
   const formValues = watch();
+  // Initialize with 3 empty features if empty
   const features = formValues.productFeatures || Array(3).fill('');
   const addNewFeature = () => {
     const newFeatures = [...features, ''];
+    setValue('productFeatures', newFeatures);
+  };
+  const removeFeature = (index: number) => {
+    if (index < 3) return; // Prevent removing first 3 features
+    const newFeatures = [...features];
+    newFeatures.splice(index, 1);
     setValue('productFeatures', newFeatures);
   };
   return (
     <div>
       <Label>Features</Label>
       <div className="space-y-2 mt-2">
-        {features.length > 0 ? (
-          features.map((_, index) => (
-            <IndividualFeatureInput key={index} index={index} />
-          ))
-        ) : (
-          Array.from({ length: 3 }).map((_, index) => (
-            <IndividualFeatureInput key={index} index={index} />
-          ))
-        )}
+        {features.map((_, index) => (
+          <IndividualFeatureInput 
+            key={index} 
+            index={index}
+            onRemove={removeFeature}
+          />
+        ))}
         <div className="flex items-center gap-2">
           <Button
             type="button"

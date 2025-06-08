@@ -3,7 +3,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useFormContext } from 'react-hook-form'
 import { IAddProductFormData } from '../products'
 interface ProductStatusFormProps {
-  action: 'edit' | 'view'
+  action: 'edit' | 'add'
 }
 const ProductStatusForm: React.FC<ProductStatusFormProps> = ({ action }) => {
   const { setValue, watch } = useFormContext<IAddProductFormData>()

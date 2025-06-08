@@ -82,7 +82,7 @@ const AdminSideBar = () => {
           <SidebarFooter className="  p-4 bg-background">
             <div className="flex items-center gap-3">
               <img
-                src="../../../public/assets/adminProfile.jpg"
+                src="../../../assets/adminProfile.jpg"
                 alt="Admin"
                 width={40}
                 height={40}
