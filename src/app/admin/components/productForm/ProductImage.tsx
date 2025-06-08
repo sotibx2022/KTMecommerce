@@ -15,7 +15,7 @@ interface ProductImageProps {
     imageUrl?: string
 }
 const ProductImage: React.FC<ProductImageProps> = ({ action, imageUrl }) => {
-    const {register,formState:{errors,touchedFields}} = useFormContext<IAddProductFormData>()
+    const {register,formState:{errors,touchedFields},setValue} = useFormContext<IAddProductFormData>()
     const [uploadedImage, setUploadedImage] = useState<null | string>(null)
     const [file, setFile] = useState<File | null>(null)
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,11 +23,13 @@ const ProductImage: React.FC<ProductImageProps> = ({ action, imageUrl }) => {
             const selectedFile = e.target.files[0]
             setFile(selectedFile)
             setUploadedImage(URL.createObjectURL(selectedFile))
+            setValue('file',selectedFile)
         }
     }
     const handleRemoveImageUplaod = () => {
         setFile(null);
         setUploadedImage("");
+        setValue('file',null)
     }
     return (
         <div className="md:w-1/2">

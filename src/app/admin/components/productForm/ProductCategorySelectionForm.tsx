@@ -12,7 +12,7 @@ import FormError from './FormError'
 const ProductCategorySelectionForm = ({ action, productDatas }: { action: 'add' | 'edit', productDatas?: any }) => {
   const { data: navItems = initialCategories, isPending: categoryLoading } = useCategories()
   const { register, setValue, watch, formState: { errors } } = useFormContext<IAddProductFormData>()
-  const formValues = watch()
+  const formValues = watch();
   const { data: subCategories, isPending: subCategoriesLoading } = useSubCategory(formValues.categoryName)
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -26,7 +26,7 @@ const ProductCategorySelectionForm = ({ action, productDatas }: { action: 'add' 
         onValueChange={(value)=>setValue('categoryName',value)}
         >
           <SelectTrigger>
-            <SelectValue placeholder={categoryLoading ? "Loading..." : "Select category"} />
+            <SelectValue placeholder={categoryLoading ? "Loading..." : formValues.categoryName?? "select Category"} />
           </SelectTrigger>
           <SelectContent>
             {navItems.map((item: Category) => (
@@ -51,7 +51,7 @@ const ProductCategorySelectionForm = ({ action, productDatas }: { action: 'add' 
           <SelectTrigger>
             <SelectValue placeholder={
               !formValues.categoryName ? "Select category first" :
-              (subCategoriesLoading ? "Loading..." : "Select subcategory")
+              (subCategoriesLoading ? "Loading..." : (formValues.subCategoryName??"Select SubCategory"))
             } />
           </SelectTrigger>
           <SelectContent>

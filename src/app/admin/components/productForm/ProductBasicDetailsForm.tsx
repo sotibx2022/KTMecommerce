@@ -53,7 +53,7 @@ const ProductBasicDetailsForm: React.FC<ProductBasicDetailsFormProps> = ({ actio
             step="0.01"
             placeholder="0.00"
             {...register('price', {
-              validate: (value) => validateNumber("Price", value, 2, 5)
+              validate: (value) => validateNumber("Price", value, 1, 4)
             })}
           />
           <FormError name='price'/>
@@ -65,7 +65,7 @@ const ProductBasicDetailsForm: React.FC<ProductBasicDetailsFormProps> = ({ actio
             id="variant"
             placeholder="Color, Size, etc."
             {...register("variant", {
-              validate: (value) => validateWord("Variant", value, 3, 20)
+              validate: (value) => validateSentence("Variant", value, 3, 20)
             })}
           />
           <FormError name='variant'/>
@@ -78,7 +78,7 @@ const ProductBasicDetailsForm: React.FC<ProductBasicDetailsFormProps> = ({ actio
             type="number"
             placeholder="eg.7"
             {...register("remainingStock", {
-              validate: (value) => validateNumber("Remaining Stock", value, 1, 20)
+              validate: (value) => validateNumber("Remaining Stock", value, 1, 3)
             })}
           />
           <FormError name='remainingStock'/>

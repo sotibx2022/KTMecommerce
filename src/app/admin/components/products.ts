@@ -10,7 +10,8 @@ export interface IResponseData {
   products: IProductDisplay[];
 }
 export interface IAddProductFormData{
-  image:string
+  file?:File|null,
+  image?:string
   productName:string,
   productDescription:string,
   price:string,
