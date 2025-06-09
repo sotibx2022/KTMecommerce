@@ -2,7 +2,11 @@
 import React, { useState, useEffect } from 'react';
 import Confetti from 'react-confetti';
 import { useRouter } from 'next/navigation';
-const ConfettiComponent = () => {
+interface ConfettiComponentProps{
+  link:string,
+  message:string
+}
+const ConfettiComponent:React.FC<ConfettiComponentProps> = ({link,message}) => {
   const router = useRouter();
   const [windowSize, setWindowSize] = useState({
     width: typeof window !== "undefined" ? window.innerWidth : 0,
@@ -23,7 +27,7 @@ const ConfettiComponent = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowConfetti(false);
-      router.push('/dashboard/orders');
+      router.push(link);
     }, 5000); // Match this with your confetti duration
     return () => clearTimeout(timer);
   }, [router]);
@@ -40,12 +44,12 @@ const ConfettiComponent = () => {
           numberOfPieces={500}
           onConfettiComplete={() => {
             setShowConfetti(false);
-            router.push('/dashboard/orders');
+            router.push(link);
           }}
         />
       )}
       <h1 className='text-lg text-helper mt-4'>
-        Congratulations, Your Order is Placed !!
+        {message}
       </h1>
     </div>
   );

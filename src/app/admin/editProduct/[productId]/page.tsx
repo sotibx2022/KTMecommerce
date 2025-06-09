@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect, useState } from 'react'
-import { useSearchParams } from 'next/navigation'
-import { useQuery } from '@tanstack/react-query'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { getSingleProduct } from '@/app/services/queryFunctions/products'
 import ProductDetailsSkeleton from '../../components/ProductDetailsSkeleton'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -14,7 +14,14 @@ import ProductImage from '../../components/productForm/ProductImage'
 import { Card, CardFooter } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import ProductHighlightsForm from '../../components/productForm/ProductHighlightsForm'
+import { APIResponseError, APIResponseSuccess } from '@/app/services/queryFunctions/users'
+import { IProductDisplay } from '@/app/types/products'
+import axios from 'axios'
+import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponent'
+import toast from 'react-hot-toast'
 const EditProduct = () => {
+  const queryClient = useQueryClient()
+  const router = useRouter();
   const searchParams = useSearchParams()
   const [productId] = useState<string>(searchParams.get('productId') ?? "")
   const method = useForm<IAddProductFormData>({mode:'onBlur'})
@@ -22,8 +29,6 @@ const EditProduct = () => {
     queryKey: ['specificProduct', productId],
     queryFn: () => getSingleProduct(productId),
     enabled: !!productId,
-    staleTime: 5 * 60 * 1000, // 5 minutes (data becomes stale after this time)
-    gcTime: 30 * 60 * 1000, // 30 minutes (data is removed from cache after this time)
 })
 useEffect(()=>{
    if(productDatas && productDatas!.success && productDatas!.data!){
@@ -32,14 +37,55 @@ useEffect(()=>{
   })
  }
 },[productDatas,method.setValue])
-const onSubmit = (data:IAddProductFormData) =>{
-  console.log(data);
+  const editProduct = async (formData: FormData): Promise<APIResponseSuccess<IProductDisplay>|APIResponseError> => {
+    const response = await axios.post('/api/products/editProduct', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+    return response.data as APIResponseSuccess
+  }
+  const updateProductMutation = useMutation<
+    APIResponseSuccess<IProductDisplay> | APIResponseError,
+    Error,
+    FormData
+  >({
+    mutationFn: editProduct,
+    onSuccess: async(response:APIResponseSuccess | APIResponseError) => {
+if(response.success && response.data){
+  await queryClient.invalidateQueries({
+  queryKey: ['specificProduct', productId],
+  refetchType: 'active',
+});
+toast.success(response.message)
+router.push(`/admin/displayProduct/productIdentifier?productId=${response.data._id}&productName=${response.data.productName}`)
+}else{
+  toast.error(response.message)
 }
+    },
+    onError: (error) => {
+      toast.error(error.message)
+    }
+  })
+  const onSubmit = (data: IAddProductFormData) => {
+    const formData = new FormData()
+    formData.append('productId',productDatas?.data?._id!);
+    Object.entries(data).forEach(([key, value]) => {
+      if (key !== 'file' && value !== undefined && value !== null) {
+        formData.append(key, typeof value === 'string' ? value : JSON.stringify(value))
+      }
+    })
+    if (data.file instanceof File) {
+      formData.append('file', data.file)
+    }
+    updateProductMutation.mutate(formData)
+  }
   if (isPending) return <ProductDetailsSkeleton/>
   if (error) return <div>Error loading product</div>
   if (!productDatas?.success) return <h1 className="primaryHeading">Product not found</h1>
   return (
     <div className="container mx-auto px-4 py-8">
+      {updateProductMutation.isPending && <LoadingComponent/>}
       <h1 className="primaryHeading mb-6">Edit Product</h1>
       <FormProvider {...method}>
        <form onSubmit={method.handleSubmit(onSubmit)}>

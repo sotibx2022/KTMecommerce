@@ -99,7 +99,7 @@ const page = () => {
       </div>
     </div>
     {mutation.isPending && <LoadingComponent/>}
-    {showConfetti && <ConfettiComponent/>}
+    {showConfetti && <ConfettiComponent link={`/dashbaord/orders`} message='Congratulation, Your Order is Placed.'/>}
     </>
   )
 }

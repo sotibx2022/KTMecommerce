@@ -4,6 +4,7 @@ import { IDisplayReviewDatas } from "./remarks";
 export interface IProductCreate {
   _id?: Types.ObjectId; // _id is required for DB but optional when creating a new product
   file?:File | null;
+  status?:"active" | "inActive"
   brand: string;
   productName: string;
   productDescription: string;
@@ -32,6 +33,7 @@ export interface IProductDisplay {
   file?:File|null;
   productName: string;
   productDescription: string;
+  status:"active" | "inActive";
   brand: string;
   price: string; // Price is a string in UI for formatting
   stockAvailability: boolean;
@@ -52,7 +54,6 @@ export interface IProductDisplay {
   isRegular?:boolean;
   categoryName?:string;
   subCategoryName?:string;
-  status?:string,
   categoryId?:Object,
   subCategoryId?:Object,
   createdAt?:Date,

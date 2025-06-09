@@ -6,7 +6,7 @@ export const getAllProducts = async () => {
   const response = await axios.get(`${config.websiteUrl}/api/products`);
   return response.data.products;
 };
-export const getSingleProduct = async (productId: string):Promise<APIResponseSuccess<IProductDisplay>|APIResponseError> => {
+export const getSingleProduct = async (productId: string):Promise<APIResponseSuccess<IProductDisplay>> => {
   const response = await axios.get(`/api/products/${productId}`);
   return response.data;
 };
