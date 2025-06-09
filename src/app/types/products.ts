@@ -4,7 +4,7 @@ import { IDisplayReviewDatas } from "./remarks";
 export interface IProductCreate {
   _id?: Types.ObjectId; // _id is required for DB but optional when creating a new product
   file?:File | null;
-  status?:"active" | "inActive"
+  status:"active" | "inActive"
   brand: string;
   productName: string;
   productDescription: string;

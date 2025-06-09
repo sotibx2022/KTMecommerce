@@ -24,6 +24,6 @@ export interface IAddProductFormData{
   isTopSell:boolean,
   isTrendingNow:boolean,
   isOfferItem:boolean,
-  status?:"active" | "inActive",
+  status:"active" | "inActive"|"",
   isRegular:boolean,
 }
