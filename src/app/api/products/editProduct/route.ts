@@ -26,7 +26,8 @@ export async function POST(req: NextRequest) {
             isRegular: formData.get('isRegular') === 'true'
         };
         // Find existing product
-        const existingProduct = await productModel.findById(productData.productId);
+        const productObjectId = new Object(productData.productId)
+        const existingProduct = await productModel.findOne({ _id: productObjectId });
         if (!existingProduct) {
             return NextResponse.json(
                 { success: false, message: "Product not found" },

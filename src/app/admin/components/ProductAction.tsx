@@ -1,3 +1,5 @@
+import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponent';
+import { useProductDelete } from '@/app/context/ProductDeleteContext';
 import Link from 'next/link';
 import { FaEye, FaEdit, FaTrash } from 'react-icons/fa';
 interface ProductActionProps {
@@ -6,9 +8,12 @@ interface ProductActionProps {
     productName: string;
   };
   actions: ('view' | 'edit' | 'delete')[];
-  onDelete?: () => void; // Optional delete handler
 }
-const ProductAction = ({ product, actions, onDelete }: ProductActionProps) => {
+const ProductAction = ({ product, actions  }: ProductActionProps) => {
+  const {deleteProduct} = useProductDelete()
+  const deleteHandler =(productId:string)=>{
+deleteProduct(productId)
+  }
   return (
     <div className="flex items-center flex-wrap justify-center gap-2">
       {actions.includes('view') && (
@@ -27,7 +32,7 @@ const ProductAction = ({ product, actions, onDelete }: ProductActionProps) => {
       )}
       {actions.includes('delete') && (
         <button 
-          onClick={onDelete} 
+          onClick={()=>deleteHandler(product._id)}
           className="p-2 rounded-md bg-red-500 hover:bg-red-600 transition-colors"
         >
           <FaTrash size={18} className="text-red-200" />

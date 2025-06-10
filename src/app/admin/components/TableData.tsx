@@ -8,7 +8,7 @@ import ProductAction from './ProductAction'
 import { HandMetal } from 'lucide-react'
 interface ITableData{
     product:IProductDisplay,
-    index:number
+    index:number,
 }
 const TableData:React.FC<ITableData> = ({product,index}) => {
   const rowNumber = Number.isInteger(index) ? index + 1 : 1
@@ -17,7 +17,7 @@ const TableData:React.FC<ITableData> = ({product,index}) => {
               <TableCell>
                 {rowNumber}
               </TableCell>
-              <TableCell className='flex justify-center items-center'>
+              <TableCell className='flex justify-center items-center h-[200px]'>
                 <img
                   src={product.image}
                   alt={product.brand}

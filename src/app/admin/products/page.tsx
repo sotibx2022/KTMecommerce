@@ -26,7 +26,10 @@ import { updatePageURL } from "@/app/services/apiFunctions/updateProductsApi";
 import { useRouter } from "next/navigation";
 import { FilterX, Plus } from "lucide-react";
 import { ProductsPageHeader } from "../components/ProductsPageHeader";
+import LoadingComponent from "@/app/_components/loadingComponent/LoadingComponent";
+import { useProductDelete } from "@/app/context/ProductDeleteContext";
 const page=() =>{
+  const {isPending:deleteProductPending} = useProductDelete()
     const context = useContext(ProductFilterContext);
   const { filterState,setFilterState } = context;
   const router = useRouter()
@@ -73,6 +76,7 @@ const pagination = productsResponse?.success ? productsResponse.data!.pagination
 };
   return (
     <div className="relative py-10">
+      {deleteProductPending && <LoadingComponent/>}
       <ProductsPageHeader/>
 <div className={width > 1000 
   ? "overflow-x-hidden w-full" 
@@ -82,7 +86,7 @@ const pagination = productsResponse?.success ? productsResponse.data!.pagination
     <TableBody>
       {isPending?<TableRowSkleton rowNumber={10}/>:(<>
       {products.map((product: IProductDisplay, index: number) => (
-        <TableData key={index} product={product} index={index} />
+        <TableData key={index} product={product} index={index}  />
       ))}
       </>)}
     </TableBody>
