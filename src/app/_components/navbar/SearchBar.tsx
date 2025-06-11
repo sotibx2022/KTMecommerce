@@ -25,7 +25,7 @@ const SearchBar = () => {
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
         />
-        <PrimaryButton searchText='Search' onClick={handleSearch} />
+        <PrimaryButton searchText='Search' onClick={handleSearch} theme='dark'/>
       </div>
       <IconGroup/>
     </div>

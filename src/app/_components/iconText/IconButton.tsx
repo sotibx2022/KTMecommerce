@@ -29,7 +29,7 @@ const IconButton: React.FC<IconButtonProps> = ({
         opacity: 0.7
       } : {}}
     >
-      <div className="iconSize max-w-[60px] max-h-[40px] z-20">
+      <div className="iconSize max-w-[60px] max-h-[40px] z-[19]">
 <FontAwesomeIcon icon={icon} size='xl'/>
       </div>
       {!isZeroOrUndefined && (

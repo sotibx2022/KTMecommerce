@@ -5,6 +5,7 @@
   --primary: #876061;
   --primaryDark: #531c1d;
   --helper: #fcae04;
+  --background:#feffdf;
   --radius: 8px;
   --gradientwithOpacity: linear-gradient(
     90deg,
@@ -21,6 +22,9 @@ html {
   box-sizing: border-box;
   overflow-x: hidden;
   height: 100%;
+}
+body{
+  background-color:var(--background);
 }
 ol, ul, li {
   font-family: inherit;

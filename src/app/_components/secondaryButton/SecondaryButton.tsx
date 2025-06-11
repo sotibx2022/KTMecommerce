@@ -2,14 +2,14 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
-import { motion } from "motion/react"
+import { motion } from "framer-motion"
 interface SecondaryButtonProps {
   text: string;
   icon?: IconDefinition;
   onClick: () => void;
   backgroundColor?: string;
   textColor?: string;
-  hoverColor?:string;
+  hoverColor?: string;
 }
 const SecondaryButton: React.FC<SecondaryButtonProps> = ({ 
   text, 
@@ -17,7 +17,7 @@ const SecondaryButton: React.FC<SecondaryButtonProps> = ({
   onClick, 
   backgroundColor = 'bg-background',
   textColor = 'text-primaryDark',
-  hoverColor='text-helper'
+  hoverColor = 'text-helper'
 }) => {
   return (
     <motion.div
@@ -26,14 +26,22 @@ const SecondaryButton: React.FC<SecondaryButtonProps> = ({
         relative rounded-sm border-[1px] border-primaryDark 
         cursor-pointer overflow-hidden
       `}
-      whileHover={backgroundColor=hoverColor}
       onClick={onClick}
+      whileHover="hover" // <-- Add this to enable hover state
     >
       <button className="relative z-20 w-full h-full flex items-center justify-center gap-2">
         {icon && <FontAwesomeIcon icon={icon} className="w-4 h-4" />}
         {text}
       </button>
-      <div className="absolute top-0 left-0 w-0 h-full z-10"></div>
+      {/* Animated background layer */}
+      <motion.div
+        className="absolute top-0 left-0 h-full z-10 bg-helper"
+        initial={{ width: 0 }}
+        variants={{
+          hover: { width: "100%" } // <-- Controlled by parent's whileHover
+        }}
+        transition={{ duration: 0.3, ease: "easeOut" }} // Optional: Smooth transition
+      />
     </motion.div>
   );
 };

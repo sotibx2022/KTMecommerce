@@ -1,58 +1,42 @@
 "use client";
 import Link from 'next/link';
-import React, { useRef } from 'react';
-import gsap from 'gsap';
+import React from 'react';
+import { motion } from 'framer-motion';
 interface LinkComponentProps {
   href: string;
   text: string;
+  className?: string;
 }
-const LinkComponent: React.FC<LinkComponentProps> = ({ href, text }) => {
-  // Create refs for the nav1 and nav2 spans
-  const nav1Ref = useRef<HTMLSpanElement | null>(null);
-  const nav2Ref = useRef<HTMLSpanElement | null>(null);
-  const showTextAnimation = () => {
-    gsap.to(nav1Ref.current, {
-      y: '-1.5rem',
-      duration: 1,
-      // Reset position on animation completion
-      onComplete: () => {
-        gsap.set(nav1Ref.current, { y: '0' });
-      },
-    });
-    gsap.to(nav2Ref.current, {
-      y: '-1.5rem',
-      duration: 1,
-      // Reset position on animation completion
-      onComplete: () => {
-        gsap.set(nav2Ref.current, { y: '0' });
-      },
-    });
-  };
-  const hideTextAnimation = () => {
-    gsap.set(nav1Ref.current, {
-      y: 0,
-    });
-    gsap.set(nav2Ref.current, {
-      y: 0,
-    });
-  };
+const LinkComponent: React.FC<LinkComponentProps> = ({ href, text, className }) => {
   return (
-    <div>
-      <Link href={href}>
-        <div
-          className='flex flex-col h-[1.5rem] overflow-hidden'
-          onMouseEnter={showTextAnimation}
-          onMouseLeave={hideTextAnimation}
+    <Link href={href}>
+      <motion.div
+        className={`flex flex-col overflow-hidden ${className}`}
+        whileHover="hover"
+        initial="initial"
+      >
+        <motion.span
+          className="cursor-pointer nav1"
+          variants={{
+            initial: { y: 0 },
+            hover: { y: "-1.5rem" },
+          }}
+          transition={{ duration: 0.3, ease: "easeInOut" }}
         >
-          <span ref={nav1Ref} className="cursor-pointer nav1" >
-            {text}
-          </span>
-          <span ref={nav2Ref} className="cursor-pointer nav2" >
-            {text}
-          </span>
-        </div>
-      </Link>
-    </div>
+          {text}
+        </motion.span>
+        <motion.span
+          className="cursor-pointer nav2"
+          variants={{
+            initial: { y: "1.5rem" },
+            hover: { y: "-1.5rem" }, // Changed to y:0 to create proper animation
+          }}
+          transition={{ duration: 0.3, ease: "easeInOut" }}
+        >
+          {text}
+        </motion.span>
+      </motion.div>
+    </Link>
   );
 };
 export default LinkComponent;

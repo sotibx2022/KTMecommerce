@@ -56,7 +56,7 @@ setVisibleComponent('register');
   </div>
   {/* Timer section - more compact */}
   <div className="mb-4">
-    <p className="text-gray-600 text-sm mb-2">Offer expires in:</p>
+    <p className="text-helper text-sm mb-2">Offer expires in:</p>
     <div className="grid grid-cols-4 gap-2">
       {/* Days */}
       <div className="flex flex-col items-center bg-primaryLight p-2 rounded-md">
@@ -86,6 +86,7 @@ setVisibleComponent('register');
       <Link href="/pages/isOfferItem" className="w-full">
         <PrimaryButton 
           searchText="View Offers"
+          theme='light'
         />
       </Link>
     ) : (

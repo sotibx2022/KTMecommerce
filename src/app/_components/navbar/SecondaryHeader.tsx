@@ -22,15 +22,15 @@ const SecondaryHeader = () => {
     <div className="border-2 border-t-primaryDark border-b-primaryDark py-1">
       <ul className="flex-between container">
         {swappedNavItems.map((item: Category, index: number) => (
-          <li
+          <li className='m-0 p-0'
             key={item.url_slug || index}
-            className="secondaryHeading uppercase font-bold text-primaryDark relative px-4"
             onMouseEnter={() => setActiveCategory(index)}
             onMouseLeave={() => setActiveCategory(null)}
           >
             <LinkComponent 
               href={`/catalog/advanceSearch?category=${item.url_slug || item.category_name}`} 
               text={item.category_name} 
+              className="secondaryHeading uppercase font-bold text-primaryDark relative px-4 py-0 my-0"
             />
             {item.subcategories?.length > 0 && activeCategory === index && (
               <DropDownList 

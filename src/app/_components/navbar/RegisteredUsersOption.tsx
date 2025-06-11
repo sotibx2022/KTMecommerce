@@ -3,7 +3,7 @@ import { UserDetailsContext, UserDetailsContextComponent } from '@/app/context/U
 import React, { useContext, useEffect, useState } from 'react'
 import SecondaryButton from '../secondaryButton/SecondaryButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons';
+import { faCaretDown, faCaretUp, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import UserOptions from './UserOptions';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { clearCartItems, setCart } from '@/app/redux/cartSlice';
@@ -64,7 +64,11 @@ useEffect(() => {
       />
       {showUserOptions && <UserOptions />}
     </div>
-    <SecondaryButton text="Log Out" onClick={logout.mutate} />
+    <SecondaryButton 
+  text="Log Out" 
+  icon={faSignOutAlt} 
+  onClick={logout.mutate} 
+/>
   </div>
   )
 }

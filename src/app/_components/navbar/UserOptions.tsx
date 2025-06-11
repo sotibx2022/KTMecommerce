@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 const UserOptions = () => {
      const [activeCategory, setActiveCategory] = useState<number | null>(null);
   return (
-    <div className='absolute top-[100%] left-0 w-full shadow-helper p-4 bg-background z-10'>
+    <div className='absolute top-[100%] left-0 w-full shadow-helper p-4 bg-background z-[20]'>
         {userOptions.map((option,index)=>{
             return <div
   key={index}

@@ -2,14 +2,14 @@
 import React, { useContext } from 'react'
 import SecondaryButton from '../secondaryButton/SecondaryButton'
 import { DisplayContext } from '@/app/context/DisplayComponents'
-import { faSignInAlt, faUserPlus } from '@fortawesome/free-solid-svg-icons'
+import { faKey, faSignInAlt, faUserPlus } from '@fortawesome/free-solid-svg-icons'
 const NonRegisteredUsersOption = () => {
     const {setVisibleComponent} = useContext(DisplayContext)
   return (
     <div className='flex gap-2'>
         <SecondaryButton
   text="Login"
-  icon={faSignInAlt}
+  icon={faKey}
   backgroundColor="bg-background"
   textColor="text-primaryDark"
   hoverColor="helper"

@@ -3,6 +3,7 @@ import Link from 'next/link'
 import React from 'react'
 import SecondaryButton from '../../secondaryButton/SecondaryButton'
 import { useLogout } from '@/app/hooks/queryHooks/useLogout'
+import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons'
 interface IRegistedUserView{
     userDetails:IUser
 }
@@ -30,7 +31,11 @@ const RegisteredUserView:React.FC<IRegistedUserView> = ({userDetails}) => {
             </p>
           </div>
           </Link>
-          <SecondaryButton text="Log Out" backgroundColor="bg-red-500" hoverColor="bg-red-700" textColor="text-background" onClick={logout.mutate} />
+<SecondaryButton
+  text="Log Out"
+  icon={faSignOutAlt}
+  onClick={logout.mutate}
+/>
         </div>
     </div>
   )

@@ -11,7 +11,7 @@ const config: Config = {
     		colors: {
     			primaryDark: 'var(--primaryDark)',
     			primaryLight: 'var(--primary)',
-    			background: 'hsl(var(--background))',
+    			background: 'var(--background)',
     			helper: 'var(--helper)',
     			foreground: 'hsl(var(--foreground))',
     			card: {
