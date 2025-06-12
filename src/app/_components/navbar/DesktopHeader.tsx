@@ -19,7 +19,7 @@ const DesktopHeader = () => {
   return (
     <header className="hidden lg:flex bg-primaryDark w-full">
       <div className="container flex justify-between items-center">
-        <ul className="flex justify-center items-center gap-4">
+        <ul className="flex justify-center  gap-4">
           {navigationLinks.map((link, index) => (
             <li className="text-background" key={index}>
               <LinkComponent href={link.href} text={link.text} />
