@@ -14,18 +14,17 @@ const CategoryPageComponent:React.FC<CategoryPageComponent> = ({categoryName}) =
   const ProductCardMemo = React.memo(ProductCard)
   const[page,setPage] = useState(Number(searchParams.get('page'))||1);
   const [limit,setLimit] = useState(12)
-  const {data,isPending} = useSpecificCataegory(categoryName,page,limit)
+  const productResponse = useSpecificCataegory(categoryName,page,limit)
   const router = useRouter();
   function handlePageChange(page: number): void {
     const stringPage = page.toString()
-   router.push(`/pages/isNewArrivals?page=${page}`)
+   router.push(`/pages/highLightValue?${categoryName}=true&page=${page}`)
   }
-  const products = isPending ? undefined :data?.products || []
-  const pages = data?.pagination?.totalPages || 0
-  console.log(products);
+  const products = productResponse.data?.success && (productResponse.data.data?.products);
+  const pagination = productResponse.data?.success && (productResponse?.data?.data?.pagination)
   return (
     <div className="container mt-4">
-      {isPending ? (
+      {productResponse.isPending ? (
         <div className="flex flex-wrap justify-center sm:justify-between  gap-4">
           {Array.from({ length: 6 }).map((_, index) => (
             <SkeletonSlide key={index} />
@@ -40,9 +39,9 @@ const CategoryPageComponent:React.FC<CategoryPageComponent> = ({categoryName}) =
               </div>
             ))}
           </div>
-          {pages > 1 && (
+          {pagination && pagination.totalPages > 1 && (
             <div className="flex gap-2 justify-center mt-4">
-              {Array.from({ length: pages }).map((_, index) => (
+              {Array.from({ length: pagination.totalPages }).map((_, index) => (
                 <button
                   key={index}
                   onClick={() => handlePageChange(index + 1)}
