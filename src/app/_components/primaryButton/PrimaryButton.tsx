@@ -11,7 +11,6 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = ({
   disabled,
   theme
 }) => {
- console.log(theme)
   const themeClasses = theme === "light" 
     ? "bg-background border-background text-primaryDak"
     : "bg-primaryDark border-primaryDark text-background"

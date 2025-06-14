@@ -22,10 +22,10 @@ export const getSelectedProducts = async ({
   subcategory,
 }: SearchParams) => {
   try {
-    let url = `/api/products/selectedProducts/advanceSearch?`;
+    let url = `/api/allProducts/displayProducts/advanceSearch?`;
     if (keyword && keyword.trim() !== "") url += `keyword=${encodeURIComponent(keyword)}&`;
     if (category && category.trim() !== "") url += `category=${encodeURIComponent(category)}&`;
-    if (subcategory && subcategory.trim() !== "") url += `subcategory=${encodeURIComponent(subcategory)}&`;
+    if (subcategory && subcategory.trim() !== "") url += `subCategory=${encodeURIComponent(subcategory)}&`;
     url += `t=${Date.now()}`;
     const response = await axios.get(url);
     return response.data || []; // Ensure a valid return value

@@ -8,6 +8,8 @@ import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponen
 import ProductCard from '@/app/_components/productCard/ProductCard'
 import { getSelectedProducts } from '@/app/services/queryFunctions/products'
 import { IProductDisplay } from '@/app/types/products'
+import { APIResponseError, APIResponseSuccess } from '@/app/services/queryFunctions/users'
+import { IResponseData } from '@/app/admin/components/products'
 // Dynamically import SkeletonSlide with loading fallback
 const SkeletonSlide = dynamic(
   () => import('@/app/_components/loadingComponent/SkeletonSlide'))
@@ -47,27 +49,27 @@ const ProductsPage = () => {
     setSearchValues(newValues)
     updateURL(newValues)
   }
-  const { data, isPending, isError } = useQuery({
+  const productsResponse = useQuery<APIResponseSuccess<IResponseData>|APIResponseError>({
     queryKey: ['selectedProducts', searchValues],
     queryFn: () => getSelectedProducts(searchValues),
     enabled: !!searchValues?.category || !!searchValues?.keyword?.trim(),
   })
-  const products = data?.products || []
-  const pages = data?.pagination?.totalPages || 0
-  const currentPage = searchValues.page
-  if (isError) {
+  console.log(productsResponse.data);
+  const products = productsResponse.data && (productsResponse.data.success && productsResponse.data.data?.products);
+  const pagination = productsResponse.data && (productsResponse.data.success && productsResponse.data.data?.pagination)
+  if (productsResponse.isError) {
     return <div className="text-center py-8">Error loading products</div>
   }
   return (
   <CatalogPageLayout>
     <div className="container mt-4">
-      {isPending ? (
+      {productsResponse.isPending ? (
         <div className="flex flex-wrap justify-center sm:justify-between gap-4">
           {Array.from({ length: 6 }).map((_, index) => (
             <SkeletonSlide key={index} />
           ))}
         </div>
-      ) : products.length > 0 ? (
+      ) : products && products.length > 0 ? (
         <>
           <div className="flex flex-wrap justify-center sm:justify-between gap-4">
             {products.map((product: IProductDisplay,index:number) => (
@@ -76,14 +78,14 @@ const ProductsPage = () => {
               </div>
             ))}
           </div>
-          {pages > 1 && (
+          {pagination && pagination.totalPages > 1 && (
             <div className="flex gap-2 justify-center mt-4">
-              {Array.from({ length: pages }).map((_, index) => (
+              {Array.from({ length: pagination.totalPages }).map((_, index) => (
                 <button
                   key={index}
                   onClick={() => handlePageChange(index + 1)}
                   className={`cursor-pointer px-3 py-1 rounded ${
-                    currentPage === index + 1 ? 'bg-primaryLight text-background font-bold' : 'bg-primaryDark text-background font-bold'
+                    pagination.currentPage === index + 1 ? 'bg-primaryLight text-background font-bold' : 'bg-primaryDark text-background font-bold'
                   }`}
                 >
                   {index + 1}

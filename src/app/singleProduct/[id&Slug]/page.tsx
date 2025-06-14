@@ -18,11 +18,8 @@ import { useSearchParams } from 'next/navigation';
 import SingleProductLayout from './SingleProductLayout';
 const ProductPage = () => {
   const searchParams = useSearchParams();
-  const [productId, setProductId] = useState<string>(searchParams.get('id') ?? "");
+ const [productId] = useState<string>(searchParams.get('productId') ?? "");
   const productIdForParent =(productId:string) =>{}
-  useEffect(()=>{
-productIdForParent(productId)
-  },[productId])
   const context = useContext(UserDetailsContext);
   const { visibleComponent, setVisibleComponent } = useContext(DisplayContext);
   if (!context) {

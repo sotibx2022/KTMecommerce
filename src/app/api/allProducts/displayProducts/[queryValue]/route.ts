@@ -31,10 +31,12 @@ export async function GET(req: NextRequest) {
         const sortOptions: any = {};
         // Basic filters
         if (category) {
-            filterQuery.categoryName = category;
+            filterQuery.$or = [
+                { categoryName: new RegExp(category, 'i') }
+            ];
         }
         if (subCategory) {
-            filterQuery.subCategoryName = subCategory;
+            filterQuery.subCategoryName = new RegExp(subCategory, 'i');
         }
         if (variant) {
             filterQuery.variant = variant;
@@ -72,8 +74,8 @@ export async function GET(req: NextRequest) {
         if (created) {
             sortOptions.createdAt = (created === "ascending") ? 1 : -1;
         }
-        if (updated) {
-            sortOptions.updatedAt = (updated === "ascending") ? 1 : -1;
+        if ((updated)) {
+            sortOptions.updatedAt =(((updated)) === "ascending") ? 1 : -1;
         }
         // Price range filtering
         if (minPrice || maxPrice) {
@@ -96,7 +98,7 @@ export async function GET(req: NextRequest) {
                 { productName: keywordRegex },
                 { categoryName: keywordRegex },
                 { subCategoryName: keywordRegex }
-            ];
+            ]; 
         }
         // Pagination
         const currentPage = Number(page) || 1;
@@ -109,20 +111,21 @@ export async function GET(req: NextRequest) {
             .limit(pageSize)
             .lean();
         const totalProducts = await productModel.countDocuments(filterQuery);
-        return NextResponse.json({
-            message: "Products fetched successfully",
-            success: true,
-            data: {
-                pagination: {
-                    currentPage,
-                    pageSize,
-                    totalProducts,
-                    totalPages: Math.ceil(totalProducts / pageSize)
-                },
-                products: allProducts,
-            }
+        return NextResponse.json({ 
+            message: "Products fetched successfully", 
+            success: true, 
+            data: { 
+                pagination: { 
+                    currentPage, 
+                    pageSize, 
+                    totalProducts, 
+                    totalPages: Math.ceil(totalProducts / pageSize) 
+                }, 
+                products: allProducts 
+            } 
         });
     } catch (error) {
+        console.error("Error fetching products.", error);
         return NextResponse.json(
             { message: "Internal server error", success: false },
             { status: 500 }

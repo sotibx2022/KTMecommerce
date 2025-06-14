@@ -3,7 +3,7 @@ export const returnQueryParams = (url: URL) => {
   return {
     keyword: params.get("keyword") || undefined,
     category:params.get("category") || undefined,
-    subCategory:params.get("usbCategory") || undefined,
+    subCategory:params.get("subCategory") || undefined,
     brand: params.get("brand") || undefined,
     stock: params.get("stock") || undefined,
     variant: params.get("variant") || undefined,

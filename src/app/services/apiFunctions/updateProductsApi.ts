@@ -1,6 +1,5 @@
 import { FilterState } from "@/app/context/ProductFilterContext";
 export const updatePageURL = (filterState: FilterState): URLSearchParams => {
-    console.log(filterState);
   const params = new URLSearchParams();
   // Keyword
   if (filterState.keyword && filterState.keyword !== "Search Keywords...") {
