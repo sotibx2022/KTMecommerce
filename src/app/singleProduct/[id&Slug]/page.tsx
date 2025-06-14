@@ -15,11 +15,10 @@ import EditSingleProductReview from '@/app/_components/singleProductReviews/Edit
 import { getSpecificRemarks } from '@/app/services/queryFunctions/remarks';
 import SingleProductPageSkeleton from '@/app/_components/loadingComponent/SingleProductPageSkeleton';
 import { useSearchParams } from 'next/navigation';
-import SingleProductLayout from './SingleProductLayout';
 const ProductPage = () => {
   const searchParams = useSearchParams();
- const [productId] = useState<string>(searchParams.get('productId') ?? "");
-  const productIdForParent =(productId:string) =>{}
+  console.log(searchParams)
+ const [productId,setProductId] = useState<string>(searchParams.get('id') ?? "");
   const context = useContext(UserDetailsContext);
   const { visibleComponent, setVisibleComponent } = useContext(DisplayContext);
   if (!context) {

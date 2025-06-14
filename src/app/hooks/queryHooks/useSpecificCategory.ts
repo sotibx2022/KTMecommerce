@@ -1,4 +1,5 @@
 import { SpecificProducts } from "@/app/services/apiFunctions/productsQuery";
+import { APIResponseError, APIResponseSuccess } from "@/app/services/queryFunctions/users";
 import { IProductDisplay } from "@/app/types/products";
 import { useQuery } from "@tanstack/react-query"
 interface CategoryItems{
@@ -11,7 +12,7 @@ interface CategoryItems{
           },
 }
 export const useSpecificCataegory = (categoryType:string,page:number,limit:number)=>{
-    return useQuery<CategoryItems>({
+    return useQuery<APIResponseSuccess<CategoryItems>|APIResponseError>({
         queryKey: ['categoryType',categoryType],
         queryFn: () => SpecificProducts(categoryType,page.toString(),limit.toString()),
         enabled:!!categoryType,
