@@ -1,8 +1,10 @@
 import { productModel } from "@/models/products.model";
 import { NextRequest, NextResponse } from "next/server";
 import { Types } from "mongoose";
+import { connectToDB } from "@/config/db";
 export async function GET(request: NextRequest) {
   try {
+    connectToDB();
     // Extract the product ID from the URL
     const url = new URL(request.url);
     const pathSegments = url.pathname.split("/");

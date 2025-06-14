@@ -15,7 +15,7 @@ const ClientPage = () => {
       <HeroLayout />
       <AllProductsBanner/>
     <CategoryCards 
-      categoryType="isNewArrivals"
+      categoryType="isNewArrival"
       title="New Arrivals in Store"
     />
     <CategoryCards 

@@ -54,7 +54,6 @@ const ProductsPage = () => {
     queryFn: () => getSelectedProducts(searchValues),
     enabled: !!searchValues?.category || !!searchValues?.keyword?.trim(),
   })
-  console.log(productsResponse.data);
   const products = productsResponse.data && (productsResponse.data.success && productsResponse.data.data?.products);
   const pagination = productsResponse.data && (productsResponse.data.success && productsResponse.data.data?.pagination)
   if (productsResponse.isError) {

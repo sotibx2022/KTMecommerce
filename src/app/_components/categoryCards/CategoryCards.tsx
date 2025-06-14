@@ -13,12 +13,12 @@ import LinkComponent from "../linkComponent/LinkComponent";
 import SkeletonSlide from "../loadingComponent/SkeletonSlide";
 import ProductCard from "../productCard/ProductCard";
 interface CategoryCardsProps {
-  categoryType: "isNewArrivals" | "isTrendingNow" | "isTopSell" | "isOfferItem";
+  categoryType: "isNewArrival" | "isTrendingNow" | "isTopSell" | "isOfferItem";
   title: string;
 }
 const CategoryCards = ({ categoryType, title }: CategoryCardsProps) => {
-  const { data, isPending } = useSpecificCataegory(categoryType, 1, 8);
-  const products = isPending ? null : (data ? data.products : []);
+  const productResponse = useSpecificCataegory(categoryType, 1, 8);
+  const products = productResponse.data?.success && productResponse.data.data?.products
   return (
     <div className="w-full">
       <div className="container w-full my-2 overflow-hidden">
@@ -55,7 +55,7 @@ const CategoryCards = ({ categoryType, title }: CategoryCardsProps) => {
               }
             }}
           >
-            {isPending ? (
+            {productResponse.isPending ? (
               <div className='container flex justify-center lg:justify-between flex-wrap'>
                 {[...Array(3)].map((_, i) => (
                   <SkeletonSlide key={`skeleton-${i}`} />
@@ -112,7 +112,7 @@ const CategoryCards = ({ categoryType, title }: CategoryCardsProps) => {
               </div>
             )}
           </Swiper>
-          {!isPending && products && products.length > 0 && (
+          {!productResponse.isPending && products && products.length > 0 && (
             <div className="viewMore text-helper items-center text-xl mt-8 flex justify-center">
               <Link
                 href={`/pages/${categoryType}`}
