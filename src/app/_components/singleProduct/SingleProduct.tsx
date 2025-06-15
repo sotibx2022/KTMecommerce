@@ -19,6 +19,7 @@ import LoginComponent from "../authComponent/LoginComponent";
 import { IWishListItem, IWishListItemDisplay } from "@/app/types/wishlist";
 import { addToWishList, IWishListState } from "@/app/redux/wishListSlice";
 import useAddItemToWishList from "./useAddItemToWishList";
+import SubmitError from "../submit/SubmitError";
 const SingleProduct: React.FC<IProductDisplay> = ({ ...cartItemDetails }) => {
   const {visibleComponent,setVisibleComponent} = useContext(DisplayContext);
   const cartItems = useSelector((state: { cart: CartState }) => state.cart.cartItems);
@@ -57,7 +58,7 @@ productName,
   }
   const {userDetails} = context;
 const isAlreadyOnCart = cartItems.some((item: ICartItem) => item.productId === _id);
-const isAlreadyOnWishList = wishListItems.some((item:IWishListItemDisplay)=>item.productId === _id)
+const isAlreadyOnWishList = wishListItems.some((item:IWishListItemDisplay)=>item.productId === _id);
   const addItemToCart = useAddItemToCart();
   const addItemsToWishList = useAddItemToWishList();
   return (
@@ -102,7 +103,7 @@ const isAlreadyOnWishList = wishListItems.some((item:IWishListItemDisplay)=>item
         <PrimaryButton
   searchText="To Cart"
   onClick={() => userDetails ? addItemToCart(dataForCartItem) : setVisibleComponent('login')}
-  disabled={userDetails !==null && isAlreadyOnCart}
+  disabled={userDetails !==null && isAlreadyOnCart && !stockAvailability}
 />
         <PrimaryButton searchText="To WishList"
         onClick={() => userDetails ? addItemsToWishList(baseData) : setVisibleComponent('login')}
@@ -117,6 +118,7 @@ const isAlreadyOnWishList = wishListItems.some((item:IWishListItemDisplay)=>item
     {isAlreadyOnWishList && (
   <SubmitSuccess message="This Item is already in the WishList. You can add it to the cart page." />
 )}
+{!stockAvailability && <SubmitError message="This item cannot be added to the cart. You can add it to your wishlist and will be notified once stock is available."/>}
       <Toaster />
     </div>
     {visibleComponent==='login' && <LoginComponent/>}
