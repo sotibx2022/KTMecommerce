@@ -116,7 +116,7 @@ const onSubmit = async (data: RegisterData) => {
               Phone Number <span className="text-red-500">*</span>
             </label>
           </div>
-          <div className="phoneNumberItem relative">
+          <div className="phoneNumberItem relative w-full">
             <div className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center gap-2 pointer-events-none">
               <img 
                 src="/assets/nepal-flag-icon.png" 
@@ -128,7 +128,7 @@ const onSubmit = async (data: RegisterData) => {
             <input
               type="text"
               placeholder="98XXXXXXXX"
-              className="py-3 border border-helper bg-background rounded-md shadow-helper shadow-sm focus:outline-none text-primaryDark pl-[80px]"
+              className="py-3 w-full border border-helper bg-background rounded-md shadow-helper shadow-sm focus:outline-none text-primaryDark pl-[80px] "
               {...register("phoneNumber", {
                 validate: (value) => validateNumber("Phone Number", value, 10, 10)
               })}
