@@ -15,6 +15,8 @@ import EditSingleProductReview from '@/app/_components/singleProductReviews/Edit
 import { getSpecificRemarks } from '@/app/services/queryFunctions/remarks';
 import SingleProductPageSkeleton from '@/app/_components/loadingComponent/SingleProductPageSkeleton';
 import { useSearchParams } from 'next/navigation';
+import SingleProductLayout from './SingleProductLayout';
+import CatalogPageLayout from '@/app/catalog/[searchValue]/CatalogPageLayout';
 const ProductPage = () => {
   const searchParams = useSearchParams();
   console.log(searchParams)
