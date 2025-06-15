@@ -1,4 +1,5 @@
 import { uploadImage } from "@/app/services/helperFunctions/uploadImage";
+import { NotificationModel } from "@/models/notification.model";
 import UserModel from "@/models/users.model";
 import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
@@ -64,8 +65,15 @@ export async function POST(req: NextRequest) {
         profileFileSize:fileSize,
         profileFileType:fileType
       },
-      { new: true } // Ensure the updated document is returned
+      { new: true } 
     );
+    const notification = new NotificationModel({
+      userId:updatedUser?._id,
+      title:"User Updated",
+      description:"Congratulation as your Profile Updated.",
+      category:"UserUpdated",
+    })
+    await notification.save();
     const response = NextResponse.json({
       message: "User updated successfully.",
       success: true,

@@ -1,4 +1,6 @@
+import { NotificationModel } from "@/models/notification.model";
 import OrderModel from "@/models/orders.model";
+import UserModel from "@/models/users.model";
 import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
   try {
@@ -11,6 +13,7 @@ export async function POST(req: NextRequest) {
       );
     }
     // Create and save order
+    const user = await UserModel.findOne({email:userEmail})
     const order = new OrderModel({
       userEmail,
       items,
@@ -20,6 +23,13 @@ export async function POST(req: NextRequest) {
       shippingPerson
     });
     await order.save();
+    const newNotification = new NotificationModel({
+      userId:user?._id,
+      title:"Order Placed",
+      description:`You placed Order for ${order.items.length} items.`,
+      category:"OrderCreated",
+    })
+    await newNotification.save();
     // Return success response
     return NextResponse.json(
       {

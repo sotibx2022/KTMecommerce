@@ -18,7 +18,7 @@ const CategoryPageComponent:React.FC<CategoryPageComponent> = ({categoryName}) =
   const router = useRouter();
   function handlePageChange(page: number): void {
     const stringPage = page.toString()
-   router.push(`/pages/highLightValue?${categoryName}=true&page=${page}`)
+   router.push(`/pages/${categoryName}?&page=${page}`)
   }
   const products = productResponse.data?.success && (productResponse.data.data?.products);
   const pagination = productResponse.data?.success && (productResponse?.data?.data?.pagination)
