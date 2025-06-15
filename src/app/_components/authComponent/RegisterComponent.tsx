@@ -22,10 +22,9 @@ const RegisterComponent = () => {
   const[showPassword,setShowPassword] = useState(false);
   const queryClient = useQueryClient();
   const { visibleComponent,setVisibleComponent } = useContext(DisplayContext);
-  const[temporaryPassword, setTemporaryPassword] = useState("")
   const mutation = useMutation<APIResponseSuccess | APIResponseError, Error, RegisterUserInput>({
     mutationFn: createUserMutation,
-    onSuccess: async (response) => {
+    onSuccess: async (response,variables) => {
       setVisibleComponent('loadingComponent');
       if (response.success) {
         toast.success(response.message);
@@ -34,7 +33,7 @@ const RegisterComponent = () => {
         await queryClient.invalidateQueries({queryKey:['user']});
         signIn("credentials", {
       email: response.data.email,
-      password: temporaryPassword, // From onSubmit
+      password: variables.password,
       redirect: false,
     });
       } else {
@@ -50,7 +49,6 @@ const RegisterComponent = () => {
   const { register, formState: { errors }, getValues, handleSubmit } = useForm<RegisterData>({ mode: 'onBlur' });
 const onSubmit = async (data: RegisterData) => {
   setVisibleComponent('loadingComponent');
-  setTemporaryPassword(data.password)
   try {
     const { fullName, email, phoneNumber,password } = data;
     mutation.mutate({

@@ -2,7 +2,7 @@ import UserModel from "@/models/users.model";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from 'bcryptjs';
 import { connectToDB } from "@/config/db";
-import { INotification, NotificationModel } from "@/models/notification.model";
+import { NotificationModel } from "@/models/notification.model";
 export async function POST(request: NextRequest) {
   connectToDB();
   try {

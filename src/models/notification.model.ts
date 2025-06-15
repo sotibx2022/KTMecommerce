@@ -1,12 +1,6 @@
-import { Schema, model, Document } from "mongoose";
-export interface INotification extends Document {
-  userId: Schema.Types.ObjectId;
-  title: string;
-  description: string;
-  category: "UserCreated" | "UserUpdated" | "OrderCreated" | "OrderShipped" | "PasswordUpdated";
-  read: boolean;
-}
-const NotificationSchema = new Schema<INotification>(
+import { INotificationCreate } from "@/app/types/notifications";
+import mongoose, { Schema, model, Document } from "mongoose";
+const NotificationSchema = new Schema<INotificationCreate>(
   {
     userId: { 
       type: Schema.Types.ObjectId, 
@@ -35,5 +29,4 @@ const NotificationSchema = new Schema<INotification>(
     timestamps: true
   }
 );
-NotificationSchema.index({ createdAt: -1 });
-export const NotificationModel  = model<INotification>("Notification", NotificationSchema);
+export const NotificationModel  = mongoose.models.Notification || mongoose.model<INotificationCreate>("Notification", NotificationSchema);
