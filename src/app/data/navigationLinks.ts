@@ -6,5 +6,6 @@ export const navigationLinks = [
   { href: "/pages/contact", text: "Contact" },
   { href: "/pages/about", text: "About" },               
   { href: "/pages/faq", text: "FAQs" },                    
-  { href: "/pages/blog", text: "Blog" },                   
+  { href: "/pages/blog", text: "Blog" },
+  {href:"/admin",text:"Admin"}                  
 ];

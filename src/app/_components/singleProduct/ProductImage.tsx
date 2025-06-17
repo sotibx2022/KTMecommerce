@@ -44,8 +44,8 @@ const downloadImage = async (name: string) => {
     } = cartItemDetails;
     return (
            <AbsoluteComponent>
-             <div id="snapshot-container" className="p-4 gap-4 bg-primaryDark max-w-[600px]  relative overflow-hidden">
-                <div className="absolute top-0 left-0 w-full h-full text-white p-2 flex flex-col justify-center items-start"
+             <div id="snapshot-container" className="p-4 gap-4 bg-primaryDark max-w-[600px]   overflow-hidden">
+                <div className="text-white p-2 flex flex-col"
                 style={{ background: "var(--gradientwithOpacity)" }}>
                     <h1 className="text-white text-xl font-bold">
                         {productName}
@@ -79,10 +79,9 @@ const downloadImage = async (name: string) => {
                         </div>
                     </div>
                 </div>
-                <div className="w-full h-auto">
-                            <img src={image} alt={productName} className="w-full rounded-lg" />
-                            <img src="../assets/brand/logo.png" />
-                        </div>
+                            <div className="productLogoArea flex justify-center items-center">
+                                <img src="../assets/brand/logo.png" />
+                            </div>
             </div>
           {clientSide &&  <div className="imageActions flex justify-center gap-2 mt-2">
             <FontAwesomeIcon 

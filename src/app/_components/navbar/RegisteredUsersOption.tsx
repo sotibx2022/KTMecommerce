@@ -25,17 +25,17 @@ const RegisteredUsersOption = () => {
    const { userDetails,setUserDetails } = context;
     const logout = useLogout()
     const dispatch = useDispatch();
-    const {data:cartItems} = useCartItems();
-    const {data:wishListItems} = useWishListItems();
+    const {data:cartItems,isPending} = useCartItems();
+    const {data:wishListItems,isPending:wishListItemsPending} = useWishListItems();
 useEffect(() => {
   if(!userDetails){
     dispatch(clearCartItems());
     dispatch(clearWishListItems())
   }
-  if (cartItems !== undefined && Array.isArray(cartItems)) {
+  if (cartItems !== undefined && Array.isArray(cartItems) && !isPending) {
     dispatch(setCart(cartItems));
   }
-  if (wishListItems !== undefined && Array.isArray(wishListItems)) {
+  if (wishListItems !== undefined && Array.isArray(wishListItems) && !wishListItemsPending) {
     dispatch(setWishList(wishListItems));
   }
 }, [cartItems, wishListItems,userDetails]);
