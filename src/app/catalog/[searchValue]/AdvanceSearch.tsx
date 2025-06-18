@@ -17,11 +17,11 @@ const AdvanceSearch = () => {
       const isNewArrival = searchParams.get('isNewArrival') === "true";
       const isTopSell = searchParams.get('isTopSell') === "true";
       const highlightedValues = 
-        isNewArrival ? "isNewArrival" :
-        isOfferItem ? "isOfferItem" :
-        isTopSell ? "isTopSell" :
-        isTrendingItem ? "isTrendingNow" : 
-        "isRegular";
+        isNewArrival ? "New Arrival" :
+        isOfferItem ? "Offer Item" :
+        isTopSell ? "Top Sell" :
+        isTrendingItem ? "Trending" : 
+        "Regular";
       return {
         ...prev,
         categoryValue: searchParams.get('category') ?? prev.categoryValue,
@@ -33,7 +33,7 @@ const AdvanceSearch = () => {
     });
   }, [searchParams, setSearchValues]);
   return (
-    <div>
+    <div className='container flex max-w-[200px] justify-center gap-4  items-center shadow-primaryLight py-2'>
       <CategorySelection />
       <SubCategoriesSelection />
       <PriceSelection />

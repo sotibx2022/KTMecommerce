@@ -38,6 +38,9 @@ button, input, textarea, select, optgroup, option {
   width: 100%;
   height: 100%;
 }
+.selectItem{
+  @apply text-lg text-primaryDark py-4 focus:bg-primaryLight cursor-pointer focus:text-background focus:outline-none pl-2
+}
 .primaryParagraph{
   @apply text-primaryDark text-sm;
 }
