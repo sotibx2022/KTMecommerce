@@ -7,6 +7,7 @@ import HighLightSelection from './HighLightSelection';
 import { useSearchParams } from 'next/navigation';
 import CategorySelection from './CategorySelection';
 import { SearchContext } from './AdvanceSearchContext';
+import ProductsLayout from './ProductsLayout';
 const AdvanceSearch = () => {
   const { setSearchValues } = useContext(SearchContext);
   const searchParams = useSearchParams();
@@ -33,12 +34,13 @@ const AdvanceSearch = () => {
     });
   }, [searchParams, setSearchValues]);
   return (
-    <div className='container flex max-w-[200px] justify-center gap-4  items-center shadow-primaryLight py-2'>
+    <div className='container w-full flex justify-between my-2 gap-4  items-center shadow-primaryLight p-2'>
       <CategorySelection />
       <SubCategoriesSelection />
       <PriceSelection />
       <RatingSelection />
       <HighLightSelection />
+      <ProductsLayout/>
     </div>
   )
 }

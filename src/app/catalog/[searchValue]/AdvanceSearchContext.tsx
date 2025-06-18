@@ -5,16 +5,18 @@ interface ISearchValues {
     subCategoryValue: string;
     priceOrder: "normal" | "increasing" | "decreasing";
     ratingOrder: "normal" | "increasing" | "decreasing";
-    highlightedValues: "isNewArrival" | "isOfferItem" | "isTopSell" | "isTrendingNow" | "isRegular";
+    highlightedValues: "New Arrival" | "Offer Item" | "Top Sell" | "Trending" | "Regular";
     pageNumber: number;
+    layout:"grid"|"list"
 }
 const initialSearchValues: ISearchValues = {
     categoryValue: 'category',
     subCategoryValue: 'subCategory',
     priceOrder: "normal",
     ratingOrder: "normal",
-    highlightedValues: "isRegular",
-    pageNumber: 1
+    highlightedValues: "Regular",
+    pageNumber: 1,
+    layout:"grid",
 };
 interface ISearchContext {
     searchValues: ISearchValues;

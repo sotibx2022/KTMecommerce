@@ -8,6 +8,7 @@ import QueryProvider from '@/app/provider/queryProvider'
 import store from '@/app/redux/store'
 import React, { ReactNode, useContext } from 'react'
 import { Provider } from 'react-redux'
+import AdvanceSearchContext from './AdvanceSearchContext'
 interface CatalogPageLayout{
     children:ReactNode
 }
@@ -16,6 +17,7 @@ const CatalogPageLayout:React.FC<CatalogPageLayout> = ({children}) => {
   return (
     <div>
         <Provider store={store}>
+          <AdvanceSearchContext>
         <DisplayComponents>
         <QueryProvider>
             <UserDetailsContextComponent>
@@ -26,6 +28,7 @@ const CatalogPageLayout:React.FC<CatalogPageLayout> = ({children}) => {
          </UserDetailsContextComponent>
          </QueryProvider>
          </DisplayComponents>
+         </AdvanceSearchContext>
          </Provider> 
     </div>
   )
