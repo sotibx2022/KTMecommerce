@@ -1,13 +1,14 @@
 "use client"
 import React, { createContext, useState, Dispatch } from 'react';
-interface ISearchValues {
+export interface ISearchValues {
     categoryValue: string;
     subCategoryValue: string;
     priceOrder: "normal" | "increasing" | "decreasing";
     ratingOrder: "normal" | "increasing" | "decreasing";
     highlightedValues: "New Arrival" | "Offer Item" | "Top Sell" | "Trending" | "Regular";
     pageNumber: number;
-    layout:"grid"|"list"
+    layout:"grid"|"list";
+    loading:boolean;
 }
 const initialSearchValues: ISearchValues = {
     categoryValue: 'category',
@@ -17,6 +18,7 @@ const initialSearchValues: ISearchValues = {
     highlightedValues: "Regular",
     pageNumber: 1,
     layout:"grid",
+    loading:false,
 };
 interface ISearchContext {
     searchValues: ISearchValues;

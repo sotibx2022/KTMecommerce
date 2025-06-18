@@ -6,7 +6,7 @@ import RatingSelection from './RatingSelection';
 import HighLightSelection from './HighLightSelection';
 import { useSearchParams } from 'next/navigation';
 import CategorySelection from './CategorySelection';
-import { SearchContext } from './AdvanceSearchContext';
+import AdvanceSearchContext, { SearchContext } from './AdvanceSearchContext';
 import ProductsLayout from './ProductsLayout';
 const AdvanceSearch = () => {
   const { setSearchValues } = useContext(SearchContext);
@@ -35,12 +35,14 @@ const AdvanceSearch = () => {
   }, [searchParams, setSearchValues]);
   return (
     <div className='container w-full flex justify-between my-2 gap-4  items-center shadow-primaryLight p-2'>
+      <AdvanceSearchContext>
       <CategorySelection />
       <SubCategoriesSelection />
       <PriceSelection />
       <RatingSelection />
       <HighLightSelection />
       <ProductsLayout/>
+      </AdvanceSearchContext>
     </div>
   )
 }

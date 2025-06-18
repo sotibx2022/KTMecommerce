@@ -106,7 +106,7 @@ export async function GET(req: NextRequest) {
         const skip = (currentPage - 1) * pageSize;
         const allProducts = await productModel.find(filterQuery)
             .sort(sortOptions)
-            .select('-productDescription -productFeatures')
+            .select(' -productFeatures')
             .skip(skip)
             .limit(pageSize)
             .lean();

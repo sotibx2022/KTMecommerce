@@ -4,6 +4,7 @@ import { SearchContext } from './AdvanceSearchContext';
 const ProductsLayout = () => {
      const {searchValues,setSearchValues} = useContext(SearchContext)
   const toggleLayout = () => {
+    console.log("activated")
     setSearchValues((prev)=>({...prev,layout:prev.layout==="grid"?"list":"grid"}));
   };
   return (

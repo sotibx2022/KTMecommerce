@@ -28,7 +28,7 @@ const CatalogPageLayout:React.FC<CatalogPageLayout> = ({children}) => {
          </UserDetailsContextComponent>
          </QueryProvider>
          </DisplayComponents>
-         </AdvanceSearchContext>
+</AdvanceSearchContext>
          </Provider> 
     </div>
   )
