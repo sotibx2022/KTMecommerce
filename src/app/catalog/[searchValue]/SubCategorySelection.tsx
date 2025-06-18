@@ -1,12 +1,9 @@
-import React from 'react';
-interface ISubCategoriesSelectionProps {
-  initialSubCategory: string;
-}
-const SubCategoriesSelection: React.FC<ISubCategoriesSelectionProps> = ({ 
-  initialSubCategory 
-}) => {
+import React, { useContext } from 'react';
+import { SearchContext } from './AdvanceSearchContext';
+const SubCategoriesSelection = () => {
+  const { searchValues } = useContext(SearchContext);
   return (
-    <div>{initialSubCategory}</div>
+    <div>Subcategory: {searchValues.subCategoryValue}</div>
   );
 };
 export default SubCategoriesSelection;

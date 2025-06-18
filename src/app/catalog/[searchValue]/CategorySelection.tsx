@@ -1,10 +1,12 @@
-import React from 'react'
-interface ICategorySelectionProps{
-    intialCategory:string
-}
- const CategorySelection:React.FC<ICategorySelectionProps> = ({intialCategory}) => {
+import React, { useContext } from 'react';
+import { SearchContext } from './AdvanceSearchContext';
+
+const CategorySelection = () => {
+  const { searchValues } = useContext(SearchContext);
+
   return (
-    <div>{intialCategory}</div>
-  )
-}
+    <div>{searchValues.categoryValue}</div>
+  );
+};
+
 export default CategorySelection;

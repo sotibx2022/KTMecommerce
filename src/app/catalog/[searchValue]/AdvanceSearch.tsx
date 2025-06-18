@@ -1,35 +1,44 @@
 "use client"
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import SubCategoriesSelection from './SubCategorySelection';
 import PriceSelection from './PriceSelection';
 import RatingSelection from './RatingSelection';
 import HighLightSelection from './HighLightSelection';
 import { useSearchParams } from 'next/navigation';
-import  CategorySelection  from './CategorySelection';
+import CategorySelection from './CategorySelection';
+import { SearchContext } from './AdvanceSearchContext';
 const AdvanceSearch = () => {
-const searchParams = useSearchParams();
-    const category = searchParams.get('category')??"";
-    const subCategory = searchParams.get('subcategory')??"";
-    const isOffferItem = searchParams.get('isOfferItem')??"";
-    const isTrendingItem= searchParams.get('isTrendingItem')??"";
-    const isNewArrival = searchParams.get('isNewArrival')??"";
-    const isTopSell = searchParams.get('isTopSell')??"";
-    const priceOrder= searchParams.get('priceOrder')??"";
-    const ratingOrder= searchParams.get('ratingOrder')??"";
-const initialHighLights = {
-  isNewArrival: isNewArrival === "true",
-  isOffferItem: isOffferItem === "true",
-  isTrendingItem: isTrendingItem === "true",
-  isTopSell: isTopSell === "true",
-  isRegular: (!isNewArrival||!isOffferItem||!isTrendingItem||!isTopSell)
-};
+  const { setSearchValues } = useContext(SearchContext);
+  const searchParams = useSearchParams();
+  useEffect(() => {
+    setSearchValues(prev => {
+      const isOfferItem = searchParams.get('isOfferItem') === "true";
+      const isTrendingItem = searchParams.get('isTrendingItem') === "true";
+      const isNewArrival = searchParams.get('isNewArrival') === "true";
+      const isTopSell = searchParams.get('isTopSell') === "true";
+      const highlightedValues = 
+        isNewArrival ? "isNewArrival" :
+        isOfferItem ? "isOfferItem" :
+        isTopSell ? "isTopSell" :
+        isTrendingItem ? "isTrendingNow" : 
+        "isRegular";
+      return {
+        ...prev,
+        categoryValue: searchParams.get('category') ?? prev.categoryValue,
+        subCategoryValue: searchParams.get('subcategory') ?? prev.subCategoryValue,
+        priceOrder: searchParams.get('priceOrder') as "normal" | "increasing" | "decreasing" ?? prev.priceOrder,
+        ratingOrder: searchParams.get('ratingOrder') as "normal" | "increasing" | "decreasing" ?? prev.ratingOrder,
+        highlightedValues
+      };
+    });
+  }, [searchParams, setSearchValues]);
   return (
     <div>
-      <CategorySelection intialCategory ={category}/>
-      <SubCategoriesSelection initialSubCategory={subCategory} />
-      <PriceSelection initialPriceOrder={priceOrder} />
-        <RatingSelection initialRatingOrder={ratingOrder}/>
-        <HighLightSelection initialHighLights={initialHighLights}/>
+      <CategorySelection />
+      <SubCategoriesSelection />
+      <PriceSelection />
+      <RatingSelection />
+      <HighLightSelection />
     </div>
   )
 }

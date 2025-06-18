@@ -1,12 +1,9 @@
-import React from 'react';
-interface IRatingSelectionProps {
-  initialRatingOrder: string;
-}
-const RatingSelection: React.FC<IRatingSelectionProps> = ({ 
-  initialRatingOrder 
-}) => {
+import React, { useContext } from 'react';
+import { SearchContext } from './AdvanceSearchContext';
+const RatingSelection = () => {
+  const { searchValues } = useContext(SearchContext);
   return (
-    <div>{initialRatingOrder}</div>
+    <div>Rating Order: {searchValues.ratingOrder}</div>
   );
 };
 export default RatingSelection;

@@ -1,10 +1,11 @@
-import React from 'react'
-interface IPriceSelectionProps{
-    initialPriceOrder:string;
-}
-const PriceSelection:React.FC<IPriceSelectionProps> = ({initialPriceOrder}) => {
+import React, { useContext } from 'react'
+import { SearchContext } from './AdvanceSearchContext'
+const PriceSelection = () => {
+  const { searchValues } = useContext(SearchContext)
   return (
-    <div>{initialPriceOrder}</div>
+    <div>
+      Price Order: {searchValues.priceOrder}
+    </div>
   )
 }
 export default PriceSelection
