@@ -6,10 +6,14 @@ import RatingSelection from './RatingSelection';
 import HighLightSelection from './HighLightSelection';
 import { useSearchParams } from 'next/navigation';
 import CategorySelection from './CategorySelection';
-import AdvanceSearchContext, { SearchContext } from './AdvanceSearchContext';
 import ProductsLayout from './ProductsLayout';
+import { AdvanceSearchProvider, SearchContext } from '@/app/context/AdvanceSearchContext';
 const AdvanceSearch = () => {
-  const { setSearchValues } = useContext(SearchContext);
+const context = useContext(SearchContext);
+    if (!context) {
+        throw new Error('useSearchContext must be used within an AdvanceSearchProvider');
+    }
+    const {searchValues,setSearchValues} = context
   const searchParams = useSearchParams();
   useEffect(() => {
     setSearchValues(prev => {
@@ -17,12 +21,14 @@ const AdvanceSearch = () => {
       const isTrendingItem = searchParams.get('isTrendingItem') === "true";
       const isNewArrival = searchParams.get('isNewArrival') === "true";
       const isTopSell = searchParams.get('isTopSell') === "true";
+      const isRegular = searchParams.get('isRegular') ==="true";
       const highlightedValues = 
         isNewArrival ? "New Arrival" :
         isOfferItem ? "Offer Item" :
         isTopSell ? "Top Sell" :
         isTrendingItem ? "Trending" : 
-        "Regular";
+        isRegular?"Regular":
+        "Select";
       return {
         ...prev,
         categoryValue: searchParams.get('category') ?? prev.categoryValue,
@@ -35,14 +41,12 @@ const AdvanceSearch = () => {
   }, [searchParams, setSearchValues]);
   return (
     <div className='container w-full flex justify-between my-2 gap-4  items-center shadow-primaryLight p-2'>
-      <AdvanceSearchContext>
-      <CategorySelection />
+       <CategorySelection />
       <SubCategoriesSelection />
       <PriceSelection />
       <RatingSelection />
       <HighLightSelection />
       <ProductsLayout/>
-      </AdvanceSearchContext>
     </div>
   )
 }

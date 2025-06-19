@@ -1,4 +1,4 @@
-import { ISearchValues } from "./AdvanceSearchContext";
+import { ISearchValues } from "@/app/context/AdvanceSearchContext";
 export const updateUrl=(searchValues:ISearchValues)=>{
 const params = new URLSearchParams()
 if(searchValues.categoryValue !=="category"){
@@ -21,8 +21,11 @@ if(searchValues.highlightedValues){
       case 'Offer Item':
         params.set('isOfferItem', "true");
         break;
+        case 'Regular':
+          params.set('isRegular',"true")
+          break;
         default:
-            params.set('isRegular',"true")
+            params.set('highlighted',"none")
     }
 }
 if(searchValues.ratingOrder !== "normal"){

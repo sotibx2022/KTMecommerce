@@ -2,7 +2,6 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react'
 import AdvanceSearch from './AdvanceSearch'
 import CatalogPageLayout from './CatalogPageLayout'
-import AdvanceSearchContext, { SearchContext } from './AdvanceSearchContext'
 import { APIResponseError, APIResponseSuccess } from '@/app/services/queryFunctions/users'
 import axios from 'axios'
 import { IResponseData } from '@/app/admin/components/products'
@@ -13,10 +12,19 @@ import TableNavigation from '@/app/admin/components/TableNavigation'
 import { IProductDisplay } from '@/app/types/products'
 import ProductCard from '@/app/_components/productCard/ProductCard'
 import VerticalProductCard from '@/app/_components/productCard/VertivalProductCard'
+import { AdvanceSearchProvider, SearchContext } from '@/app/context/AdvanceSearchContext'
+import AdvanceSearchSkeleton from './AdvanceSearchSkeleton'
+import ProductDetailsSkeleton from '@/app/admin/components/ProductDetailsSkeleton'
+import SkeletonSlide from '@/app/_components/loadingComponent/SkeletonSlide'
+import NoData from '@/app/_components/noData/NoData'
+import { PackageX } from 'lucide-react'
 const page = () => {
   const router = useRouter()
-  const { searchValues, setSearchValues } = useContext(SearchContext);
-  console.log(searchValues);
+ const context = useContext(SearchContext);
+    if (!context) {
+        throw new Error('useSearchContext must be used within an AdvanceSearchProvider');
+    }
+    const {searchValues,setSearchValues} = context
   const params = useMemo(() => updateUrl(searchValues), [
     searchValues.categoryValue,
     searchValues.highlightedValues,
@@ -55,30 +63,44 @@ const page = () => {
     totalProducts: 0,
     totalPages: 1
   };
-  console.log(searchValues.layout);
-  return (
-    <div>
-      <CatalogPageLayout>
-        <AdvanceSearchContext>
-        <AdvanceSearch />
-        <div className='container flex justify-between flex-wrap'>
-        {products.map((product: IProductDisplay, index: number) => {
-          return <div key={index} >
-            {searchValues.layout === 'grid' ?
-              <div className=''>
-                <ProductCard {...product} />
-              </div>
-              :
-              <div className='container'>
-                <VerticalProductCard {...product} />
-              </div>}
+return (
+  <div className="container">
+    {isPending ? (
+      <>
+        <AdvanceSearchSkeleton />
+        <div className="skeletonSlidesContainer flex justify-between flex-wrap gap-4">
+  {Array.from({ length: 12 }).map((_, index) => (
+          <div key={index}>
+            <SkeletonSlide />
           </div>
-        })}
+        ))}
         </div>
-        <TableNavigation pagination={pagination} />
-        </AdvanceSearchContext>
-      </CatalogPageLayout>
-    </div>
-  )
+      </>
+    ) : products.length > 0 ? (
+      <>
+      <div className="flex justify-between flex-wrap gap-4 mt-2">
+        <AdvanceSearch/>
+        {products.map((product: IProductDisplay) => (
+          <div key={product._id}>
+            {searchValues.layout === 'grid' ? (
+              <ProductCard {...product} />
+            ) : (
+              <VerticalProductCard {...product} />
+            )}
+          </div>
+        ))}
+      </div>
+      </>
+    ) : (
+<>
+      <AdvanceSearch/>
+      <NoData 
+  icon={<PackageX className="w-12 h-12" />} 
+  notFoundMessage="There are no Products Matching Search Criteria."
+/>
+</>
+    )}
+  </div>
+);
 }
 export default page

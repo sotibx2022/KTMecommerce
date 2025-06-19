@@ -1,10 +1,13 @@
 import { LayoutGrid, List } from 'lucide-react';
 import React, { useContext, useState } from 'react'
-import { SearchContext } from './AdvanceSearchContext';
+import { SearchContext } from '@/app/context/AdvanceSearchContext';
 const ProductsLayout = () => {
-     const {searchValues,setSearchValues} = useContext(SearchContext)
+const context = useContext(SearchContext);
+    if (!context) {
+        throw new Error('useSearchContext must be used within an AdvanceSearchProvider');
+    }
+    const {searchValues,setSearchValues} = context
   const toggleLayout = () => {
-    console.log("activated")
     setSearchValues((prev)=>({...prev,layout:prev.layout==="grid"?"list":"grid"}));
   };
   return (

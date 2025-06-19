@@ -1,12 +1,16 @@
+"use client"
 import React, { useContext } from 'react';
-import { SearchContext } from './AdvanceSearchContext';
 import { useCategories } from '@/app/hooks/queryHooks/useCategory';
-import { Select, SelectContent, SelectValue,SelectItem,SelectTrigger } from '@/components/ui/select';
-import { ChevronDown } from 'lucide-react'; // Import an icon
+import { Select, SelectContent, SelectItem,SelectTrigger } from '@/components/ui/select';
 import { Category } from '@/app/types/categories';
+import { SearchContext } from '@/app/context/AdvanceSearchContext';
 const CategorySelection = () => {
   const { data: categories, isPending } = useCategories();
-  const { searchValues, setSearchValues } = useContext(SearchContext);
+ const context = useContext(SearchContext);
+     if (!context) {
+         throw new Error('useSearchContext must be used within an AdvanceSearchProvider');
+     }
+     const {searchValues,setSearchValues} = context
   return (
     <div className='w-[200px]'>
       <Select 

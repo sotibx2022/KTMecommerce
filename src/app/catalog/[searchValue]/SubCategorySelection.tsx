@@ -1,11 +1,15 @@
 import React, { useContext } from 'react';
-import { SearchContext } from './AdvanceSearchContext';
 import { ISubCategoryData, useSubCategory } from '@/app/hooks/queryHooks/useSubCategory';
 import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/ui/select';
 import { ChevronDown } from 'lucide-react';
 import { Category } from '@/app/types/categories';
+import { SearchContext } from '@/app/context/AdvanceSearchContext';
 const SubCategoriesSelection = () => {
-  const { searchValues,setSearchValues } = useContext(SearchContext);
+  const context = useContext(SearchContext);
+      if (!context) {
+          throw new Error('useSearchContext must be used within an AdvanceSearchProvider');
+      }
+      const {searchValues,setSearchValues} = context
   const {data:subCategoreis, isPending} = useSubCategory(searchValues.categoryValue)
   return (
     <div className='w-[200px]'>

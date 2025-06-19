@@ -1,6 +1,5 @@
 "use client"
 import React, { createContext, useState, ReactNode } from 'react';
-// Define the shape of your context
 export interface FilterState {
   categoryText: string;
   subCategoryText: string;

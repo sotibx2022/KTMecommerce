@@ -7,6 +7,8 @@ import React, { useContext } from 'react';
 import OrderDetails from '@/app/_components/orderDetails/OrderDetails';
 import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponent';
 import { useOrders } from '@/app/hooks/queryHooks/useOrders';
+import { PackageX } from 'lucide-react';
+import NoData from '@/app/_components/noData/NoData';
 const Page = () => {
   const context = useContext(UserDetailsContext);
   if (!context) {
@@ -33,7 +35,12 @@ const Page = () => {
           </div>
         ))
       ) : (
-        <div className="text-red-600">No orders found</div>
+        <NoData
+  icon={<PackageX className="w-12 h-12 text-red-500" strokeWidth={1.5} />}
+  notFoundMessage="No orders found"
+  buttonText="Browse Products"
+  buttonLink="/catalog/advanceSearch?highlighted=none"
+/>
       )}
     </div>
   );

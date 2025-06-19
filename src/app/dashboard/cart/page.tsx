@@ -7,22 +7,22 @@ import CartSummary from "@/app/_components/cartSummary/CartSummary";
 import CartTable from "@/app/_components/cartTable/CartTable";
 import { useDispatch, useSelector } from "react-redux";
 import CartSkeleton from "@/app/_components/skeletontext/CartSkleton";
+import NoData from "@/app/_components/noData/NoData";
+import { ShoppingCart } from "lucide-react";
 const Page = () => {
   const dispatch = useDispatch();
   const { cartItems, loading: cartLoading } = useSelector((state: { cart: CartState }) => state.cart);
   return (
     <div className="container">
       {cartLoading ? (
-        <CartSkeleton/>
+        <CartSkeleton />
       ) : cartItems.length === 0 ? (
-        <div className="flex-center w-full h-full flex flex-col my-4">
-          <p className="text-red-500 my-4 text-xl">
-            There are no items in the cart. Please browse and add products.
-          </p>
-          <Link href="/pages/isNewArrivals">
-            <PrimaryButton searchText="Browse" />
-          </Link>
-        </div>
+        <NoData
+          icon={<ShoppingCart className="w-12 h-12 text-gray-400"  />}
+          notFoundMessage="There are no items in the cart. Please browse and add products"
+          buttonText="Browse"
+          buttonLink="/catalog/advanceSearch?highlighted=none"
+        />
       ) : (
         <div className="cartDetailsWrapper">
           <div className="cartTableandSummary">

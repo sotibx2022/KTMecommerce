@@ -1,26 +1,33 @@
 import React, { useContext } from 'react';
-import { SearchContext } from './AdvanceSearchContext';
 import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/ui/select';
+import { SearchContext } from '@/app/context/AdvanceSearchContext';
 const HighLightSelection = () => {
-  const { searchValues, setSearchValues } = useContext(SearchContext);
+ const context = useContext(SearchContext);
+     if (!context) {
+         throw new Error('useSearchContext must be used within an AdvanceSearchProvider');
+     }
+     const {searchValues,setSearchValues} = context
+     console.log(searchValues.highlightedValues);
   return (
     <div className='w-[200px]'>
       <Select
-        value={searchValues.categoryValue}
-        onValueChange={(value) => setSearchValues(prev => ({
-          ...prev,
-          subCategoryValue: value
-        }))}
+        onValueChange={(value: "New Arrival" | "Offer Item" | "Top Sell" | "Trending" | "Regular"|"Select") => 
+  setSearchValues(prev => ({
+    ...prev,
+    highlightedValues: value
+  }))
+}
       >
         <SelectTrigger>
           <Select>{searchValues.highlightedValues}</Select>
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="isNewArrival">New Arrival</SelectItem>
-          <SelectItem value="isOfferItem">Offer Item</SelectItem>
-          <SelectItem value="isTrendingItem">Trending</SelectItem>
-          <SelectItem value="isTopSell">Top Sell</SelectItem>
-          <SelectItem value="isRegular">Regular</SelectItem>
+          <SelectItem value="New Arrival">New Arrival</SelectItem>
+          <SelectItem value="Offer Item">Offer Item</SelectItem>
+          <SelectItem value="Trending">Trending</SelectItem>
+          <SelectItem value="Top Sell">Top Sell</SelectItem>
+          <SelectItem value="Regular">Regular</SelectItem>
+          <SelectItem value="Select">Normal</SelectItem>
         </SelectContent>
       </Select>
     </div>

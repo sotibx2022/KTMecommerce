@@ -1,5 +1,3 @@
-import React, { useContext } from 'react';
-import { SearchContext } from './AdvanceSearchContext';
 import { DollarSign, Equal, ArrowUp, ArrowDown, ChevronDown } from 'lucide-react';
 import {
   DropdownMenu,
@@ -7,8 +5,14 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { SearchContext } from '@/app/context/AdvanceSearchContext';
+import { useContext } from 'react';
 const PriceSelection = () => {
-  const { searchValues, setSearchValues } = useContext(SearchContext);
+const context = useContext(SearchContext);
+    if (!context) {
+        throw new Error('useSearchContext must be used within an AdvanceSearchProvider');
+    }
+    const {searchValues,setSearchValues} = context
   const handlePriceChange = (value: "normal" | "increasing" | "decreasing") => {
     setSearchValues(prev => ({
       ...prev,

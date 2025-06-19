@@ -13,6 +13,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
 import { removeFromWishList } from '@/app/redux/wishListSlice';
+import NoData from '@/app/_components/noData/NoData';
+import { HeartOff } from 'lucide-react';
 const wishListItemsPage = () => {
   const context = useContext(UserDetailsContext);
   if(!context){
@@ -50,12 +52,15 @@ deleteWishListMutation.mutate(productId)
   return (
     <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8  w-full">
   {!wishListLoading && wishListItems.length === 0 ? (
-    <div className='w-full h-full text-red-500 flex flex-col items-center gap-4'>
-      <p>There are no wish List Items Items Saved.</p>
-      <Link href="/pages/isNewItems">
-        <PrimaryButton searchText="Browse" />
-      </Link>
-    </div>):(<div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+    <NoData
+  icon={<HeartOff className="w-12 h-12 text-red-500" strokeWidth={1.5} />}
+  notFoundMessage="No orders found"
+  buttonText="Browse Products"
+  buttonLink="/catalog/advanceSearch?highlighted=none"
+/>
+  )
+  :
+  (<div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
             {wishListItems?.map((item:IWishListItemDisplay,index:number) => (
               <div
                 key={index}

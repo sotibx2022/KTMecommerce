@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import { SearchContext } from './AdvanceSearchContext';
 import { Star, Equal, ArrowUp, ArrowDown, ChevronDown } from 'lucide-react';
 import {
   DropdownMenu,
@@ -7,8 +6,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { SearchContext } from '@/app/context/AdvanceSearchContext';
 const RatingSelection = () => {
-  const { searchValues, setSearchValues } = useContext(SearchContext);
+  const context = useContext(SearchContext);
+      if (!context) {
+          throw new Error('useSearchContext must be used within an AdvanceSearchProvider');
+      }
+      const {searchValues,setSearchValues} = context
   const handleRatingChange = (value: "normal" | "increasing" | "decreasing") => {
     setSearchValues(prev => ({
       ...prev,
