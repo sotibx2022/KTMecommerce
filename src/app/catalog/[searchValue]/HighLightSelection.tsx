@@ -7,6 +7,7 @@ const HighLightSelection = () => {
          throw new Error('useSearchContext must be used within an AdvanceSearchProvider');
      }
      const {searchValues,setSearchValues} = context
+     console.log(searchValues.highlightedValues);
   return (
     <div className='w-full'>
       <Select
@@ -23,7 +24,7 @@ const HighLightSelection = () => {
         <SelectContent>
           <SelectItem value="New Arrival">New Arrival</SelectItem>
           <SelectItem value="Offer Item">Offer Item</SelectItem>
-          <SelectItem value="Trending">Trending</SelectItem>
+          <SelectItem value="Trending Item">Trending</SelectItem>
           <SelectItem value="Top Sell">Top Sell</SelectItem>
           <SelectItem value="Regular">Regular</SelectItem>
           <SelectItem value="Select">Normal</SelectItem>

@@ -115,7 +115,7 @@ const CategoryCards = ({ categoryType, title }: CategoryCardsProps) => {
           {!productResponse.isPending && products && products.length > 0 && (
             <div className="viewMore text-helper items-center text-xl mt-8 flex justify-center">
               <Link
-                href={`/pages/${categoryType}`}
+                href={`/catalog/advanceSearch?${categoryType}=true`}
                 className="flex items-center"
               >
                 View More <FontAwesomeIcon icon={faCaretRight} className="ml-1" />

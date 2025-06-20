@@ -89,7 +89,6 @@ return (
       ))}
     </div>
   ) : (
-    // List layout - use a flex container with column direction
     <div className="flex flex-col gap-4">
       {products.map((product: IProductDisplay) => (
         <VerticalProductCard key={product._id} {...product} />
