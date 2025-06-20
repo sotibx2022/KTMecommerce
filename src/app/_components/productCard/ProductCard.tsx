@@ -4,6 +4,8 @@ import DisplaySingleProductRating from '../singleProductReviews/DisplaySinglePro
 import { IProductDisplay } from '@/app/types/products';
 import ProductCardAction from './ProductCardAction';
 import Image from 'next/image';
+import { Badge } from '@/components/ui/badge';
+import ProductTitle from './ProductTitle';
 const ProductCard: React.FC<IProductDisplay> = ({
   brand,
   productName,
@@ -14,7 +16,11 @@ const ProductCard: React.FC<IProductDisplay> = ({
   url_slug,
   image,
   _id,
-  overallRating
+  overallRating,
+  isNewArrivals,
+  isTrendingNow,
+  isTopSell,
+  isOfferItem,
 }) => {
   return (
     <div className="group w-full max-w-[280px] overflow-hidden rounded-xl bg-background shadow-sm shadow-primaryLight transition-all duration-300 hover:shadow-lg">
@@ -26,7 +32,7 @@ const ProductCard: React.FC<IProductDisplay> = ({
             className="object-cover transition-transform duration-500 group-hover:scale-105"
             loading="lazy"
           />
-           {stockAvailability ? (
+          {stockAvailability ? (
             <span className="absolute top-3 right-3 rounded-full bg-green-500 px-2 py-1 text-xs font-semibold text-white">
               In Stock
             </span>
@@ -35,24 +41,26 @@ const ProductCard: React.FC<IProductDisplay> = ({
               Out of Stock
             </span>
           )}
-</div>
-          <div className="text-center p-2"
-          style={{ background: "var(--gradientwithOpacity)" }}>
-            <h2 className="text-primaryDark font-bold text-lg">{productName}</h2>
-          </div>
-          <p className="mb-3 text-sm text-primaryDark line-clamp-2 p-2">
-            {truncateText(productDescription)}
-          </p>
+        </div>
+        <ProductTitle productName={productName} productHighlight={{
+          isNewArrivals,
+          isTrendingNow,
+          isTopSell,
+          isOfferItem
+        }} />
+        <p className="mb-3 text-sm text-primaryDark line-clamp-2 p-2">
+          {truncateText(productDescription)}
+        </p>
         <div>
           <div className="mb-2 flex items-center justify-center gap-2">
-             <p className="text-primaryDark font-bold bg-helper p-2 rounded-lg">{categoryName}</p>
+            <p className="text-primaryDark font-bold bg-helper p-2 rounded-lg">{categoryName}</p>
             <p className="text-primaryDark font-bold bg-helper p-2 rounded-lg">{brand}</p>
           </div>
           <p className="price-highlight my-2">
-              ${parseFloat(price).toFixed(2)}
-            </p>
+            ${parseFloat(price).toFixed(2)}
+          </p>
           <div className="productRatingArea flex justify-center items-center mb-2">
-            <DisplaySingleProductRating rating={overallRating}/>
+            <DisplaySingleProductRating rating={overallRating} />
           </div>
         </div>
       </Link>

@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react"; // Import Swiper components
 import { Navigation, Pagination, Scrollbar, A11y, Autoplay } from "swiper/modules"; // Import Swiper modules
 import "swiper/css"; // Import Swiper styles
@@ -8,8 +8,8 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import Image from "next/image";
 import gsap from 'gsap'
-import LimitedOffer from "../../limitedOffer/LimitedOffer";
 import { slidesData } from "@/app/data/slidesData";
+import LimitedOffer from "../../limitedOffer/LimitedOffer";
 const Banner = () => {
   const findTitleHeight =()=>{
     const sliderTitle = document.querySelectorAll('.sliderTitle')[0] as HTMLElement;

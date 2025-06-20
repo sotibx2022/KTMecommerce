@@ -7,14 +7,12 @@ import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { error } from 'console';
 import { IAddReviewDatas,IAddReviewsProps } from '@/app/types/remarks';
 import { APIResponseError, APIResponseSuccess } from '@/app/services/queryFunctions/users';
 import { postSingleProductReview } from '@/app/services/queryFunctions/remarks';
 import LoadingButton from '../primaryButton/LoadingButton';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'next/navigation';
+import { AbsoluteComponent } from '../absoluteComponent/AbsoluteComponent';
 const AddSingleProductRating = dynamic(() => import('./AddSingleProductRating'), { ssr: false });
 const DisplaySingleProductRating = dynamic(() => import('./DisplaySingleProductRating'), { ssr: false });
 const AddSingleProductReviews: React.FC<IAddReviewsProps> = ({ readOnly, productIdentifier }) => {
@@ -72,13 +70,8 @@ setValue('rating',ratingInString)
     mutation.mutate(data)
   }
   return (
-    <div className="absolute top-0 left-0 w-screen min-h-screen flex flex-col justify-center items-center z-10 bg-[rgba(0,0,0,0.7)]">
-  <div className='bg-background max-w-[450px] p-6 rounded-lg shadow-lg relative'>
-    <FontAwesomeIcon
-      icon={faTimes}
-      className="text-background bg-helper w-[30px] h-[30px] absolute -top-3 -right-3 cursor-pointer rounded-full p-1"
-      onClick={() => setVisibleComponent('')}
-    />
+  <AbsoluteComponent>
+    <div className='bg-background max-w-[450px] p-6 rounded-lg shadow-lg relative'>
     <form className='w-full flex flex-col gap-4' onSubmit={handleSubmit(onSubmit)}>
       <h1 className='text-xl font-bold text-primaryDark mb-2'>Add Your Review</h1>
       {readOnly && <SubmitError message='Please Login to Add Reviews' />}
@@ -174,7 +167,7 @@ setValue('rating',ratingInString)
       </div>
     </form>
   </div>
-</div>
+  </AbsoluteComponent>
   );
 };
 export default AddSingleProductReviews;

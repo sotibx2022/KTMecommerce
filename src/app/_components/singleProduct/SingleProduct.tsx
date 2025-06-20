@@ -20,10 +20,11 @@ import { IWishListItem, IWishListItemDisplay } from "@/app/types/wishlist";
 import { addToWishList, IWishListState } from "@/app/redux/wishListSlice";
 import useAddItemToWishList from "./useAddItemToWishList";
 import SubmitError from "../submit/SubmitError";
+import ProductTitle from "../productCard/ProductTitle";
 const SingleProduct: React.FC<IProductDisplay> = ({ ...cartItemDetails }) => {
-  const {visibleComponent,setVisibleComponent} = useContext(DisplayContext);
+  const { visibleComponent, setVisibleComponent } = useContext(DisplayContext);
   const cartItems = useSelector((state: { cart: CartState }) => state.cart.cartItems);
-  const wishListItems = useSelector((state:{wishList:IWishListState})=>state.wishList.wishListItems)
+  const wishListItems = useSelector((state: { wishList: IWishListState }) => state.wishList.wishListItems)
   const {
     productName,
     productDescription,
@@ -36,11 +37,15 @@ const SingleProduct: React.FC<IProductDisplay> = ({ ...cartItemDetails }) => {
     quantity,
     userId,
     category,
-    overallRating
+    overallRating,
+    isNewArrivals,
+    isTrendingNow,
+    isTopSell,
+    isOfferItem
   } = cartItemDetails;
   // Construct the dataToSend object based on ICartItem interface
-  const baseData={
-productName,
+  const baseData = {
+    productName,
     productId: _id,
     brand,
     price,
@@ -53,75 +58,77 @@ productName,
     quantity
   };
   const context = useContext(UserDetailsContext);
-  if(!context){
+  if (!context) {
     throw new Error("User Details Context is not accessible");
   }
-  const {userDetails} = context;
-const isAlreadyOnCart = cartItems.some((item: ICartItem) => item.productId === _id);
-const isAlreadyOnWishList = wishListItems.some((item:IWishListItemDisplay)=>item.productId === _id);
+  const { userDetails } = context;
+  const isAlreadyOnCart = cartItems.some((item: ICartItem) => item.productId === _id);
+  const isAlreadyOnWishList = wishListItems.some((item: IWishListItemDisplay) => item.productId === _id);
   const addItemToCart = useAddItemToCart();
   const addItemsToWishList = useAddItemToWishList();
   return (
     <>
-    <div className="container">
-      <div className="flex-col md:flex-row flex justify-between items-center py-4 gap-4 min-h-[50vh]">
-        <div className="singleProductLeft md:w-1/2 w-full">
-          <h1 className="subHeading">
-            {productName}
-            </h1>
+      <div className="container">
+        <div className="flex-col md:flex-row flex justify-between items-center py-4 gap-4 min-h-[50vh]">
+          <div className="singleProductLeft md:w-1/2 w-full">
+            <ProductTitle productName={productName} productHighlight={{
+              isNewArrivals,
+              isTrendingNow,
+              isTopSell,
+              isOfferItem
+            }} />
             <div className="overallRatingArea my-2">
-             <DisplaySingleProductRating rating={overallRating}/>
+              <DisplaySingleProductRating rating={overallRating} />
             </div>
-          <p className="primaryParagraph">{productDescription}</p>
-          <div className="productDetails flex items-center gap-4 my-2">
-            <p className="text-background bg-helper p-2 rounded-md">Brand: {brand}</p>
-            <h3
-              className={`text-background p-2 rounded-md ${
-                stockAvailability ? "bg-green-500" : "bg-red-500"
-              }`}
-            >
-              {stockAvailability ? "In Stock" : "Out of Stock"}
-            </h3>
-            <p className="price-highlight">${price}</p>
+            <p className="primaryParagraph">{productDescription}</p>
+            <div className="productDetails flex items-center gap-4 my-2">
+              <p className="text-background bg-helper p-2 rounded-md">Brand: {brand}</p>
+              <h3
+                className={`text-background p-2 rounded-md ${stockAvailability ? "bg-green-500" : "bg-red-500"
+                  }`}
+              >
+                {stockAvailability ? "In Stock" : "Out of Stock"}
+              </h3>
+              <p className="price-highlight">${price}</p>
+            </div>
+            <h2 className="text-xl font-semibold mb-4 text-primaryDark">Features</h2>
+            <ul className="primaryList">
+              {productFeatures &&
+                productFeatures.map((feature: string, index: number) => (
+                  <li key={index} className="text-primaryDark flex items-center gap-1">
+                    <FontAwesomeIcon icon={faCaretRight} className="mr-2" />
+                    <p>{feature}</p>
+                  </li>
+                ))}
+            </ul>
           </div>
-          <h2 className="text-xl font-semibold mb-4 text-primaryDark">Features</h2>
-          <ul className="primaryList">
-            {productFeatures &&
-              productFeatures.map((feature: string, index: number) => (
-                <li key={index} className="text-primaryDark flex items-center gap-1">
-                  <FontAwesomeIcon icon={faCaretRight} className="mr-2" />
-                  <p>{feature}</p>
-                </li>
-              ))}
-          </ul>
+          <div className="md:w-1/2  h-auto">
+            <img src={image} alt={productName} className="max-w-[300px] h-auto rounded-lg" loading="lazy" />
+          </div>
         </div>
-        <div className="md:w-1/2  h-auto">
-          <img src={image} alt={productName} className="max-w-[300px] h-auto rounded-lg" loading="lazy" />
+        <div className="productActions flex gap-4 my-4 items-center justify-center md:justify-start">
+          <PrimaryButton
+            searchText="To Cart"
+            onClick={() => userDetails ? addItemToCart(dataForCartItem) : setVisibleComponent('login')}
+            disabled={userDetails !== null && isAlreadyOnCart && !stockAvailability}
+          />
+          <PrimaryButton searchText="To WishList"
+            onClick={() => userDetails ? addItemsToWishList(baseData) : setVisibleComponent('login')}
+            disabled={userDetails !== null && isAlreadyOnWishList}
+          />
+          <PrimaryButton searchText="To Others" onClick={() => setVisibleComponent('productImage')} />
+          {visibleComponent === 'productImage' && <ProductImage {...cartItemDetails} />}
         </div>
+        {isAlreadyOnCart && (
+          <SubmitSuccess message="This Item is already in the cart. You can update it from the cart page." />
+        )}
+        {isAlreadyOnWishList && (
+          <SubmitSuccess message="This Item is already in the WishList. You can add it to the cart page." />
+        )}
+        {!stockAvailability && <SubmitError message="This item cannot be added to the cart. You can add it to your wishlist and will be notified once stock is available." />}
+        <Toaster />
       </div>
-      <div className="productActions flex gap-4 my-4 items-center justify-center md:justify-start">
-        <PrimaryButton
-  searchText="To Cart"
-  onClick={() => userDetails ? addItemToCart(dataForCartItem) : setVisibleComponent('login')}
-  disabled={userDetails !==null && isAlreadyOnCart && !stockAvailability}
-/>
-        <PrimaryButton searchText="To WishList"
-        onClick={() => userDetails ? addItemsToWishList(baseData) : setVisibleComponent('login')}
-  disabled={userDetails !==null && isAlreadyOnWishList}
-   />
-        <PrimaryButton searchText="To Others" onClick={()=>setVisibleComponent('productImage')}/>
-          {visibleComponent === 'productImage' && <ProductImage {...cartItemDetails}/>}
-      </div>
-      {isAlreadyOnCart && (
-  <SubmitSuccess message="This Item is already in the cart. You can update it from the cart page." />
-)}
-    {isAlreadyOnWishList && (
-  <SubmitSuccess message="This Item is already in the WishList. You can add it to the cart page." />
-)}
-{!stockAvailability && <SubmitError message="This item cannot be added to the cart. You can add it to your wishlist and will be notified once stock is available."/>}
-      <Toaster />
-    </div>
-    {visibleComponent==='login' && <LoginComponent/>}
+      {visibleComponent === 'login' && <LoginComponent />}
     </>
   );
 };
