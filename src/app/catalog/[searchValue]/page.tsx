@@ -78,17 +78,42 @@ return (
       </>
     ) : products.length > 0 ? (
       <>
-      <div className="flex justify-between flex-wrap gap-4 mt-2">
+      <div>
         <AdvanceSearch/>
-        {products.map((product: IProductDisplay) => (
-          <div key={product._id}>
-            {searchValues.layout === 'grid' ? (
-              <ProductCard {...product} />
-            ) : (
-              <VerticalProductCard {...product} />
-            )}
-          </div>
-        ))}
+        <div className="w-full">
+  {searchValues.layout === 'grid' ? (
+    // Grid layout - use a grid container
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+      {products.map((product: IProductDisplay) => (
+        <ProductCard key={product._id} {...product} />
+      ))}
+    </div>
+  ) : (
+    // List layout - use a flex container with column direction
+    <div className="flex flex-col gap-4">
+      {products.map((product: IProductDisplay) => (
+        <VerticalProductCard key={product._id} {...product} />
+      ))}
+    </div>
+  )}
+  <div className="paginationArea">
+    <div className="container justify-center my-2 flex items-center gap-2">
+      {Array.from({ length: pagination.totalPages }).map((_, index) => (
+        <button
+          key={index}
+          className={`flex h-10 w-10 items-center justify-center rounded-md border ${
+            pagination.currentPage === index + 1
+              ? "bg-primaryDark text-background"
+              : "hover:bg-primaryLight"
+          }`}
+          onClick={() => setSearchValues((prev)=>({...prev,pageNumber:index+1}))}
+        >
+          {index + 1}
+        </button>
+      ))}
+    </div>
+  </div>
+</div>
       </div>
       </>
     ) : (

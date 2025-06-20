@@ -12,7 +12,7 @@ const CategorySelection = () => {
      }
      const {searchValues,setSearchValues} = context
   return (
-    <div className='w-[200px]'>
+    <div className='w-full'>
       <Select 
         value={searchValues.categoryValue}
         onValueChange={(value) => setSearchValues(prev => ({

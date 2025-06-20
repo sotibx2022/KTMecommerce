@@ -12,7 +12,7 @@ if(searchValues.highlightedValues){
       case 'New Arrival':
         params.set('isNewArrival', "true");
         break;
-      case 'Trending':
+      case 'Trending Item':
         params.set('isTrendingNow', "true");
         break;
       case 'Top Sell':
@@ -36,6 +36,9 @@ if(searchValues.priceOrder !== "normal"){
 }
 if (searchValues.pageNumber && searchValues.pageNumber !== 1) {
     params.set('page', searchValues.pageNumber.toString());
+  }
+  if(searchValues.keyword && searchValues.keyword !==""){
+    params.set('keyword',searchValues.keyword)
   }
   return params;
 }

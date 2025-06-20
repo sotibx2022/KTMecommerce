@@ -12,7 +12,7 @@ const SubCategoriesSelection = () => {
       const {searchValues,setSearchValues} = context
   const {data:subCategoreis, isPending} = useSubCategory(searchValues.categoryValue)
   return (
-    <div className='w-[200px]'>
+    <div className='w-full'>
      <Select 
         value={searchValues.categoryValue}
         onValueChange={(value) => setSearchValues(prev => ({

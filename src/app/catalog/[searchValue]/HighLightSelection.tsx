@@ -7,11 +7,10 @@ const HighLightSelection = () => {
          throw new Error('useSearchContext must be used within an AdvanceSearchProvider');
      }
      const {searchValues,setSearchValues} = context
-     console.log(searchValues.highlightedValues);
   return (
-    <div className='w-[200px]'>
+    <div className='w-full'>
       <Select
-        onValueChange={(value: "New Arrival" | "Offer Item" | "Top Sell" | "Trending" | "Regular"|"Select") => 
+        onValueChange={(value: "New Arrival" | "Offer Item" | "Top Sell" | "Trending Item" | "Regular"|"Select") => 
   setSearchValues(prev => ({
     ...prev,
     highlightedValues: value

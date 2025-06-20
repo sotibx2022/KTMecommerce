@@ -39,7 +39,7 @@ const RatingSelection = () => {
         );
       default:
         return (
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 w-full">
             <Star className="h-4 w-4 text-yellow-400 fill-yellow-400" />
             <span>Normal</span>
             <Equal className="h-4 w-4" />
@@ -49,13 +49,13 @@ const RatingSelection = () => {
   };
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="flex items-center justify-between gap-2 p-2 rounded-lg w-[180px] border bg-primaryLight text-background  focus:outline-none">
+      <DropdownMenuTrigger className="h-12 flex items-center justify-between gap-2 p-2 rounded-lg w-full border bg-primaryLight text-background  focus:outline-none">
         {getCurrentSelection()}
         <ChevronDown className="h-4 w-4 opacity-50" />
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-[180px]">
+      <DropdownMenuContent className="">
         <DropdownMenuItem 
-          className="flex items-center gap-2 focus:bg-primary/10"
+          className="flex items-center gap-2 focus:bg-primaryLight w-full"
           onClick={() => handleRatingChange("normal")}
         >
           <Star className="h-4 w-4 text-yellow-400 fill-yellow-400" />

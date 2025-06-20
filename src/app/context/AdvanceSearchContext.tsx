@@ -5,10 +5,11 @@ export interface ISearchValues {
     subCategoryValue: string;
     priceOrder: "normal" | "increasing" | "decreasing";
     ratingOrder: "normal" | "increasing" | "decreasing";
-    highlightedValues: "New Arrival" | "Offer Item" | "Top Sell" | "Trending" | "Regular"|"Select";
+    highlightedValues: "New Arrival" | "Offer Item" | "Top Sell" | "Trending Item" | "Regular"|"Select";
     pageNumber: number;
     layout: "grid" | "list";
     loading: boolean;
+    keyword:string;
 }
 export const defaultSearchValues: ISearchValues = {
     categoryValue: 'category',
@@ -19,6 +20,7 @@ export const defaultSearchValues: ISearchValues = {
     pageNumber: 1,
     layout: "grid",
     loading: false,
+    keyword:"",
 };
 const defaultContextValue: SearchFilterContextType = {
     searchValues: defaultSearchValues,
@@ -41,6 +43,7 @@ export const AdvanceSearchProvider: React.FC<{ children: ReactNode }> = ({ child
         pageNumber: 1,
         layout: "grid",
         loading: false,
+        keyword:""
     });
     return (
         <SearchContext.Provider value={{ searchValues, setSearchValues }}>
