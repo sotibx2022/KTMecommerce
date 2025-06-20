@@ -45,7 +45,7 @@ const ResponsiveHeader = () => {
         <div className="sticky top-0 bg-background z-10 p-4">
           <HeaderSection onClose={() => setVisibleComponent('')} />
           <ActionIcons
-            onSearch={() => setVisibleComponent('pureSearch')}
+            onSearch={() => setVisibleComponent('advanceSearch')}
             onCart={() => handleProtectedRoute('dashboard/cart')}
             onWishlist={() => handleProtectedRoute('dashboard/wishlist')}
             cartCount={cartItems?.length ?? 0}
