@@ -109,7 +109,7 @@ const BrandCaurosel = () => {
                 <FontAwesomeIcon icon={faArrowDown} />
               </button>
               <h2 className="text-3xl text-white mb-2">{brand.brandName}</h2>
-              <Link href={`/catalog/keyword=${brand.brandName}`} className="secondaryButton">Show Products</Link>
+              <Link href={`/catalog/advanceSearch?keyword=${brand.brandName}`} className="secondaryButton">Show Products</Link>
             </div>
           </SwiperSlide>
         ))}

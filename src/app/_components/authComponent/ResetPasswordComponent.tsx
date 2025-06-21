@@ -61,14 +61,14 @@ const ResetresetPasswordComponent = () => {
         <AbsoluteComponent>
           <div className="bg-background max-w-[400px] p-6 rounded-lg shadow-lg relative">
             <div className="resetresetPasswordComponentWrapper">
-              <h2 className="subHeading mb-4">Reset resetPassword</h2>
+              <h2 className="subHeading mb-4">Reset Password</h2>
               <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
                 {/* resetEmail */}
                 <div>
                   <div className="flex items-center mb-1">
                     <FontAwesomeIcon icon={faEnvelope} className="text-primaryDark mr-2" />
                     <label htmlFor="resetEmail" className="text-primaryParagraph">
-                      resetEmail <span className="text-red-500">*</span>
+                      Email <span className="text-red-500">*</span>
                     </label>
                   </div>
                   <input
@@ -88,7 +88,7 @@ const ResetresetPasswordComponent = () => {
                   <div className="flex items-center mb-1">
                     <FontAwesomeIcon icon={faLock} className="text-primaryDark mr-2" />
                     <label htmlFor="newresetPassword" className="text-primaryParagraph">
-                      New resetPassword <span className="text-red-500">*</span>
+                      New Password <span className="text-red-500">*</span>
                     </label>
                   </div>
                   <div className="resetPasswordArea relative">
@@ -118,7 +118,7 @@ const ResetresetPasswordComponent = () => {
                   <div className="flex items-center mb-1">
                     <FontAwesomeIcon icon={faLock} className="text-primaryDark mr-2" />
                     <label htmlFor="confirmNewresetPassword" className="text-primaryParagraph">
-                      Confirm New resetPassword <span className="text-red-500">*</span>
+                      Confirm New Password <span className="text-red-500">*</span>
                     </label>
                   </div>
                   <div className="resetPasswordArea relative">

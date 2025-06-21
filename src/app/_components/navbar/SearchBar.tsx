@@ -1,7 +1,7 @@
 "use client"
 import PrimaryButton from '../primaryButton/PrimaryButton';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter,useSearchParams } from 'next/navigation';
 import { useContext, useState } from 'react';
 import IconGroup from '../iconText/IconGroup';
 import { DisplayContext } from '@/app/context/DisplayComponents';
@@ -14,6 +14,8 @@ const SearchBar = () => {
   const [searchValue, setSearchValue] = useState("");
   const {visibleComponent,setVisibleComponent} = useContext(DisplayContext)
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const keyword = searchParams.get("keyword")??""
   const handleSearch = () => {
     if (searchValue) {
       router.push(`/catalog/advanceSearch?keyword=${searchValue}`);
@@ -34,7 +36,7 @@ setVisibleComponent('advanceSearch')
           type='text'
           placeholder='Search the product'
           className='min-w-[300px] h-full pl-10  bg-background text-primaryDark border-b-2 border-primaryDark border-solid focus:outline-none focus:placeholder-opacity-0'
-          value={searchValue}
+          value={keyword || searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
         />
         <FontAwesomeIcon 

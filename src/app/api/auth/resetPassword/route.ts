@@ -31,9 +31,7 @@ export async function POST(req: NextRequest) {
     }
     // Check password history - ADDED SAFETY CHECK
     if (user.passwordHistory && user.passwordHistory.length > 0) {
-      console.log("yes there is password history and more then 0 length")
       for (const entry of user.passwordHistory) {
-        console.log(entry)
         if (entry.password && await bcrypt.compare(newPassword, entry.password)) {
           return NextResponse.json({
             success: false,
@@ -43,9 +41,7 @@ export async function POST(req: NextRequest) {
         }
       }
     }
-    // Hash new password
     const hashedPassword = await bcrypt.hash(newPassword, 10);
-    // Update password history
     const newEntry = { password: hashedPassword, createdAt: new Date() };
     const updatedHistory = [
       newEntry,
