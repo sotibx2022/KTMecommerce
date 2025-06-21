@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import QueryProvider from "./provider/queryProvider";
 import { AdvanceSearchProvider } from "./context/AdvanceSearchContext";
+import { Suspense } from "react";
 const myFont = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--myFont",
@@ -52,9 +53,11 @@ export default function RootLayout({
       </head>
       <body className={`${myFont.variable}`}>
         <QueryProvider>
-          <AdvanceSearchProvider>
+          <Suspense fallback={<h1>Loading</h1>}>
+           <AdvanceSearchProvider>
           {children}
           </AdvanceSearchProvider>
+          </Suspense>
         </QueryProvider>
       </body>
     </html>
