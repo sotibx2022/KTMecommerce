@@ -1,12 +1,12 @@
 "use client"
-import React, { useContext, useEffect, useMemo, useState } from 'react'
+import React, { Suspense, useContext, useEffect, useMemo, useState } from 'react'
 import AdvanceSearch from './AdvanceSearch'
 import CatalogPageLayout from './CatalogPageLayout'
 import { APIResponseError, APIResponseSuccess } from '@/app/services/queryFunctions/users'
 import axios from 'axios'
 import { IResponseData } from '@/app/admin/components/products'
 import { useQuery } from '@tanstack/react-query'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { updateUrl } from './updateUrl'
 import TableNavigation from '@/app/admin/components/TableNavigation'
 import { IProductDisplay } from '@/app/types/products'
@@ -18,13 +18,39 @@ import ProductDetailsSkeleton from '@/app/admin/components/ProductDetailsSkeleto
 import SkeletonSlide from '@/app/_components/loadingComponent/SkeletonSlide'
 import NoData from '@/app/_components/noData/NoData'
 import { PackageX } from 'lucide-react'
+import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponent'
 const page = () => {
   const router = useRouter()
  const context = useContext(SearchContext);
+ const searchParams = useSearchParams()
     if (!context) {
         throw new Error('useSearchContext must be used within an AdvanceSearchProvider');
     }
     const {searchValues,setSearchValues} = context
+      useEffect(() => {
+    setSearchValues(prev => {
+      const isOfferItem = searchParams.get('isOfferItem') === "true";
+      const isTrendingNow = searchParams.get('isTrendingItem') === "true";
+      const isNewArrival = searchParams.get('isNewArrival') === "true";
+      const isTopSell = searchParams.get('isTopSell') === "true";
+      const isRegular = searchParams.get('isRegular') ==="true";
+      const highlightedValues = 
+        isNewArrival ? "New Arrival" :
+        isOfferItem ? "Offer Item" :
+        isTopSell ? "Top Sell" :
+        isTrendingNow? "Trending Item" : 
+        isRegular?"Regular":
+        "Select";
+      return {
+        ...prev,
+        categoryValue: searchParams.get('category') ?? prev.categoryValue,
+        subCategoryValue: searchParams.get('subcategory') ?? prev.subCategoryValue,
+        priceOrder: searchParams.get('priceOrder') as "normal" | "increasing" | "decreasing" ?? prev.priceOrder,
+        ratingOrder: searchParams.get('ratingOrder') as "normal" | "increasing" | "decreasing" ?? prev.ratingOrder,
+        highlightedValues
+      };
+    });
+  }, [searchParams, setSearchValues]);
   const params = useMemo(() => updateUrl(searchValues), [
     searchValues.categoryValue,
     searchValues.highlightedValues,
@@ -65,7 +91,8 @@ const page = () => {
   };
 return (
   <div className="container">
-    {isPending ? (
+  <Suspense fallback={<LoadingComponent/>}>
+      {isPending ? (
       <>
         <AdvanceSearchSkeleton />
         <div className="skeletonSlidesContainer flex justify-between flex-wrap gap-4">
@@ -124,6 +151,7 @@ return (
 />
 </>
     )}
+  </Suspense>
   </div>
 );
 }
