@@ -53,6 +53,7 @@ const page = () => {
     });
   }, [searchParams, setSearchValues]);
   const params = useMemo(() => updateUrl(searchValues), [
+    searchValues.keyword,
     searchValues.categoryValue,
     searchValues.highlightedValues,
     searchValues.subCategoryValue,
