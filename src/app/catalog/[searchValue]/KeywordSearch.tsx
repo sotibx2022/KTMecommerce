@@ -14,7 +14,7 @@ const KeywordSearch = () => {
         setError(null) // Clear error while typing
         const timer = setTimeout(() => {
             setIsTyping(false)
-            if (inputValue.length > 0 && inputValue.length < 5) {
+            if (inputValue.length > 0 && inputValue.length < 4) {
                 setError('Minimum 5 characters required')
             } else if (inputValue.length > 20) {
                 setError('Maximum 20 characters allowed')

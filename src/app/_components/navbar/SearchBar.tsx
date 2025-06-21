@@ -20,6 +20,8 @@ const SearchBar = () => {
   useEffect(() => {
     if (keyword) {
       setSearchValue(keyword);
+    }else{
+      setSearchValue("")
     }
   }, [keyword]);
   const handleSearch = () => {
