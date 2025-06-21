@@ -29,7 +29,7 @@ const SecondaryButton: React.FC<SecondaryButtonProps> = ({
       onClick={onClick}
       whileHover="hover" // <-- Add this to enable hover state
     >
-      <button className="relative z-20 w-full h-full flex items-center justify-center gap-2">
+      <button className="relative z-50 w-full h-full flex items-center justify-center gap-2">
         {icon && <FontAwesomeIcon icon={icon} className="w-4 h-4" />}
         {text}
       </button>
