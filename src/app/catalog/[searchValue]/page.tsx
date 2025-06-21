@@ -43,7 +43,7 @@ const page = () => {
         "Select";
       return {
         ...prev,
-        keyword:searchParams.get('keyWord')?? "",
+        keyword:searchParams.get('keyword')?? "",
         categoryValue: searchParams.get('category') ?? prev.categoryValue,
         subCategoryValue: searchParams.get('subcategory') ?? prev.subCategoryValue,
         priceOrder: searchParams.get('priceOrder') as "normal" | "increasing" | "decreasing" ?? prev.priceOrder,
