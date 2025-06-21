@@ -1,5 +1,7 @@
 "use client"
+import { useSearchParams } from 'next/navigation';
 import React, { createContext, useState, ReactNode } from 'react';
+const searchParams= useSearchParams()
 export interface ISearchValues {
     categoryValue: string;
     subCategoryValue: string;
@@ -12,15 +14,19 @@ export interface ISearchValues {
     keyword:string;
 }
 export const defaultSearchValues: ISearchValues = {
-    categoryValue: 'category',
-    subCategoryValue: 'subCategory',
-    priceOrder: "normal",
-    ratingOrder: "normal",
-    highlightedValues: "Select",
-    pageNumber: 1,
+    categoryValue: searchParams.get("category") ?? "category",
+    subCategoryValue: searchParams.get("subCategory") ?? "subCategory",
+    priceOrder: (searchParams.get("priceOrder") as "increasing" | "decreasing") ?? "normal",
+    ratingOrder: (searchParams.get("ratingOrder") as "increasing" | "decreasing") ?? "normal",
+    highlightedValues: searchParams.get("isNewArrival") ? "New Arrival" :
+                      searchParams.get("isTopSell") ? "Top Sell" :
+                      searchParams.get("isTrending") ? "Trending Item" :
+                      searchParams.get("isOfferItem") ? "Offer Item" : 
+                      searchParams.get("isRegular") ? "Regular" : "Select",
+    pageNumber: Number(searchParams.get("pageNumber")) || 1,
     layout: "grid",
     loading: false,
-    keyword:"",
+    keyword: searchParams.get("keyword") ?? "",
 };
 const defaultContextValue: SearchFilterContextType = {
     searchValues: defaultSearchValues,
