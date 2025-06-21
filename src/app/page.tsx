@@ -5,7 +5,6 @@ import { Toaster } from 'react-hot-toast'
 import { UserDetailsContextComponent } from './context/UserDetailsContextComponent'
 import { Provider } from "react-redux";
 import store from './redux/store'
-import { AdvanceSearchProvider } from './context/AdvanceSearchContext'
 const page = () => {
   return (
     <Provider store={store}>
