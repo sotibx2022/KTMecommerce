@@ -35,7 +35,7 @@ const SecondaryButton: React.FC<SecondaryButtonProps> = ({
       </button>
       {/* Animated background layer */}
       <motion.div
-        className="absolute top-0 left-0 h-full z-10 bg-helper"
+        className="absolute top-0 left-0 h-full z-40 bg-helper"
         initial={{ width: 0 }}
         variants={{
           hover: { width: "100%" } // <-- Controlled by parent's whileHover

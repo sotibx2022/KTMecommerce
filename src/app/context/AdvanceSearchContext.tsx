@@ -38,12 +38,12 @@ export const AdvanceSearchProvider: React.FC<{ children: ReactNode }> = ({ child
     const searchParams = useSearchParams()
     const [searchValues, setSearchValues] = useState<ISearchValues>({
         categoryValue: searchParams.get("category") ?? "category",
-        subCategoryValue: searchParams.get("subCategory") ?? "subCategory",
+        subCategoryValue: searchParams.get("subcategory") ?? "subCategory",
         priceOrder: (searchParams.get("priceOrder") as "increasing" | "decreasing") ?? "normal",
         ratingOrder: (searchParams.get("ratingOrder") as "increasing" | "decreasing") ?? "normal",
         highlightedValues: searchParams.get("isNewArrival") ? "New Arrival" :
             searchParams.get("isTopSell") ? "Top Sell" :
-                searchParams.get("isTrending") ? "Trending Item" :
+                searchParams.get("isTrendingNow") ? "Trending Item" :
                     searchParams.get("isOfferItem") ? "Offer Item" :
                         searchParams.get("isRegular") ? "Regular" : "Select",
         pageNumber: Number(searchParams.get("pageNumber")) || 1,

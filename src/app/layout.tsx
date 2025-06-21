@@ -4,6 +4,7 @@ import "./globals.css";
 import QueryProvider from "./provider/queryProvider";
 import { AdvanceSearchProvider } from "./context/AdvanceSearchContext";
 import { Suspense } from "react";
+import LoadingComponent from "./_components/loadingComponent/LoadingComponent";
 const myFont = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--myFont",
@@ -53,7 +54,7 @@ export default function RootLayout({
       </head>
       <body className={`${myFont.variable}`}>
         <QueryProvider>
-          <Suspense fallback={<h1>Loading</h1>}>
+          <Suspense fallback={<LoadingComponent/>}>
            <AdvanceSearchProvider>
           {children}
           </AdvanceSearchProvider>
