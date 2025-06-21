@@ -14,19 +14,15 @@ export interface ISearchValues {
     keyword:string;
 }
 export const defaultSearchValues: ISearchValues = {
-    categoryValue: searchParams.get("category") ?? "category",
-    subCategoryValue: searchParams.get("subCategory") ?? "subCategory",
-    priceOrder: (searchParams.get("priceOrder") as "increasing" | "decreasing") ?? "normal",
-    ratingOrder: (searchParams.get("ratingOrder") as "increasing" | "decreasing") ?? "normal",
-    highlightedValues: searchParams.get("isNewArrival") ? "New Arrival" :
-                      searchParams.get("isTopSell") ? "Top Sell" :
-                      searchParams.get("isTrending") ? "Trending Item" :
-                      searchParams.get("isOfferItem") ? "Offer Item" : 
-                      searchParams.get("isRegular") ? "Regular" : "Select",
-    pageNumber: Number(searchParams.get("pageNumber")) || 1,
+    categoryValue: 'category',
+    subCategoryValue: 'subCategory',
+    priceOrder: "normal",
+    ratingOrder: "normal",
+    highlightedValues: "Select",
+    pageNumber: 1,
     layout: "grid",
     loading: false,
-    keyword: searchParams.get("keyword") ?? "",
+    keyword:"",
 };
 const defaultContextValue: SearchFilterContextType = {
     searchValues: defaultSearchValues,
@@ -41,15 +37,19 @@ interface SearchFilterContextType {
 export const SearchContext = createContext<SearchFilterContextType>(defaultContextValue);
 export const AdvanceSearchProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [searchValues, setSearchValues] = useState<ISearchValues>({
-        categoryValue: 'category',
-        subCategoryValue: 'subCategory',
-        priceOrder: "normal",
-        ratingOrder: "normal",
-        highlightedValues: "Select",
-        pageNumber: 1,
-        layout: "grid",
-        loading: false,
-        keyword:""
+categoryValue: searchParams.get("category") ?? "category",
+    subCategoryValue: searchParams.get("subCategory") ?? "subCategory",
+    priceOrder: (searchParams.get("priceOrder") as "increasing" | "decreasing") ?? "normal",
+    ratingOrder: (searchParams.get("ratingOrder") as "increasing" | "decreasing") ?? "normal",
+    highlightedValues: searchParams.get("isNewArrival") ? "New Arrival" :
+                      searchParams.get("isTopSell") ? "Top Sell" :
+                      searchParams.get("isTrending") ? "Trending Item" :
+                      searchParams.get("isOfferItem") ? "Offer Item" : 
+                      searchParams.get("isRegular") ? "Regular" : "Select",
+    pageNumber: Number(searchParams.get("pageNumber")) || 1,
+    layout: "grid",
+    loading: false,
+    keyword: searchParams.get("keyword") ?? "",
     });
     return (
         <SearchContext.Provider value={{ searchValues, setSearchValues }}>
