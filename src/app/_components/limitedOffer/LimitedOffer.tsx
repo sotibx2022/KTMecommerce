@@ -8,8 +8,9 @@ const AnalogClock = dynamic(
 );
 import Timer from './Timer';
 import dynamic from 'next/dynamic';
+import { Button } from '@/components/ui/button';
 let options = {
-    width: "100px",
+    width: "80px",
     border: true,
     borderColor: "#531c1d",
     baseColor: "#876061",
@@ -31,10 +32,13 @@ const LimitedOffer = () => {
         onMouseLeave={() => setShowTimer(false)}
       >
         {!showTimer ? (
-          <div className="flex justify-end"> {/* Parent container pushes child to the right */}
-  <div className="clockArea flex flex-col items-end">
+          <div className="flex justify-end "  >
+  <div className="clockArea flex  items-center justify-center gap-2 shadow-helper p-2  cursor-pointer" style={{ background: "var(--gradientwithOpacity)" }}>
     <AnalogClock {...options} ticks />
-    <h2 className="text-helper font-bold rounded-lg mt-1">Limited Offer</h2>
+    <div className="clockDeta flex-col justify-center gap-2">
+      <h2 className="text-lg text-helper">Limited Offer</h2>
+    <Button variant="outline">Check</Button>
+    </div>
   </div>
 </div>
         ) : (
