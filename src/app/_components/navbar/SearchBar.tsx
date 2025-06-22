@@ -1,7 +1,7 @@
 "use client"
 import PrimaryButton from '../primaryButton/PrimaryButton';
 import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useContext, useState, useEffect } from 'react'; // Added useEffect
 import IconGroup from '../iconText/IconGroup';
 import { DisplayContext } from '@/app/context/DisplayComponents';
@@ -11,6 +11,7 @@ import { Filter } from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 const SearchBar = () => {
+  const pathName = usePathname()
   const [searchValue, setSearchValue] = useState("");
   const { visibleComponent, setVisibleComponent } = useContext(DisplayContext);
   const router = useRouter();
@@ -30,6 +31,9 @@ const SearchBar = () => {
     }
   };
   const handleFilter = () => {
+    if(!pathName.includes('/catalog')){
+      router.push('/catalog/advanceSearch?highlightedValues=none')
+    }
     setVisibleComponent('advanceSearch');
   };
   return (
