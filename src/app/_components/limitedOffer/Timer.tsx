@@ -86,7 +86,6 @@ setVisibleComponent('register');
       <Link href="/pages/isOfferItem" className="w-full">
         <PrimaryButton 
           searchText="View Offers"
-          theme='light'
         />
       </Link>
     ) : (

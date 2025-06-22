@@ -17,7 +17,8 @@ const CategorySelection = () => {
         value={searchValues.categoryValue}
         onValueChange={(value) => setSearchValues(prev => ({
           ...prev, 
-          categoryValue: value
+          categoryValue: value,
+          subCategoryValue:'subCategory'
         }))}
       >
         <SelectTrigger>

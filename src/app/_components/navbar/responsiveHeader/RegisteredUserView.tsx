@@ -21,7 +21,7 @@ const RegisteredUserView:React.FC<IRegistedUserView> = ({userDetails}) => {
                 className="w-[30px] h-[30px] rounded-full"
               />
             ) : (
-              <h1 className="text-primaryDark uppercase bg-background w-[30px] h-[30px] flex-center text-xl rounded-full">
+              <h1 className="text-primaryDark uppercase bg-background w-[30px] h-[30px] flex-center text-xl rounded-full border-2 border-helper">
                 {userDetails.fullName.split("")[0].toUpperCase()}
               </h1>
             )}

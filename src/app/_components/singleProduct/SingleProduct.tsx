@@ -21,6 +21,7 @@ import { addToWishList, IWishListState } from "@/app/redux/wishListSlice";
 import useAddItemToWishList from "./useAddItemToWishList";
 import SubmitError from "../submit/SubmitError";
 import ProductTitle from "../productCard/ProductTitle";
+import ProductInformations from "./ProductInformations";
 const SingleProduct: React.FC<IProductDisplay> = ({ ...cartItemDetails }) => {
   const { visibleComponent, setVisibleComponent } = useContext(DisplayContext);
   const cartItems = useSelector((state: { cart: CartState }) => state.cart.cartItems);
@@ -32,7 +33,7 @@ const SingleProduct: React.FC<IProductDisplay> = ({ ...cartItemDetails }) => {
     price,
     stockAvailability,
     productFeatures,
-    _id, // _id is received as a string
+    _id,
     image,
     quantity,
     userId,
@@ -43,7 +44,6 @@ const SingleProduct: React.FC<IProductDisplay> = ({ ...cartItemDetails }) => {
     isTopSell,
     isOfferItem
   } = cartItemDetails;
-  // Construct the dataToSend object based on ICartItem interface
   const baseData = {
     productName,
     productId: _id,
@@ -62,8 +62,10 @@ const SingleProduct: React.FC<IProductDisplay> = ({ ...cartItemDetails }) => {
     throw new Error("User Details Context is not accessible");
   }
   const { userDetails } = context;
-  const isAlreadyOnCart = cartItems.some((item: ICartItem) => item.productId === _id);
-  const isAlreadyOnWishList = wishListItems.some((item: IWishListItemDisplay) => item.productId === _id);
+  console.log(userDetails);
+  console.log(stockAvailability);
+  const isAlreadyOnCart = cartItems && cartItems.length>0 && cartItems.some((item: ICartItem) => item.productId === _id);
+  const isAlreadyOnWishList = wishListItems && wishListItems.length>0 && wishListItems.some((item: IWishListItemDisplay) => item.productId === _id);
   const addItemToCart = useAddItemToCart();
   const addItemsToWishList = useAddItemToWishList();
   return (
@@ -110,22 +112,22 @@ const SingleProduct: React.FC<IProductDisplay> = ({ ...cartItemDetails }) => {
           <PrimaryButton
             searchText="To Cart"
             onClick={() => userDetails ? addItemToCart(dataForCartItem) : setVisibleComponent('login')}
-            disabled={userDetails !== null && isAlreadyOnCart && !stockAvailability}
+            disabled={userDetails === null || isAlreadyOnCart || !stockAvailability}
           />
           <PrimaryButton searchText="To WishList"
             onClick={() => userDetails ? addItemsToWishList(baseData) : setVisibleComponent('login')}
-            disabled={userDetails !== null && isAlreadyOnWishList}
+            disabled={userDetails === null || isAlreadyOnWishList}
           />
           <PrimaryButton searchText="To Others" onClick={() => setVisibleComponent('productImage')} />
           {visibleComponent === 'productImage' && <ProductImage {...cartItemDetails} />}
         </div>
-        {isAlreadyOnCart && (
-          <SubmitSuccess message="This Item is already in the cart. You can update it from the cart page." />
-        )}
-        {isAlreadyOnWishList && (
-          <SubmitSuccess message="This Item is already in the WishList. You can add it to the cart page." />
-        )}
-        {!stockAvailability && <SubmitError message="This item cannot be added to the cart. You can add it to your wishlist and will be notified once stock is available." />}
+<ProductInformations
+  productInformations={{
+    stockAvailability,
+    isAlreadyOnCart,
+    isAlreadyOnWishList
+  }}
+/>
         <Toaster />
       </div>
       {visibleComponent === 'login' && <LoginComponent />}

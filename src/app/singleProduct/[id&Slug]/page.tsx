@@ -15,12 +15,10 @@ import EditSingleProductReview from '@/app/_components/singleProductReviews/Edit
 import { getSpecificRemarks } from '@/app/services/queryFunctions/remarks';
 import SingleProductPageSkeleton from '@/app/_components/loadingComponent/SingleProductPageSkeleton';
 import { useSearchParams } from 'next/navigation';
-import SingleProductLayout from './SingleProductLayout';
-import CatalogPageLayout from '@/app/catalog/[searchValue]/CatalogPageLayout';
+import RemarksSkeleton from './RemarksSkleton';
 const ProductPage = () => {
   const searchParams = useSearchParams();
-  console.log(searchParams)
- const [productId,setProductId] = useState<string>(searchParams.get('id') ?? "");
+  const [productId, setProductId] = useState<string>(searchParams.get('id') ?? "");
   const context = useContext(UserDetailsContext);
   const { visibleComponent, setVisibleComponent } = useContext(DisplayContext);
   if (!context) {
@@ -28,33 +26,43 @@ const ProductPage = () => {
   }
   const { userDetails } = context;
   const [showReviews, setShowReviews] = useState(true);
-  const toggleReviews = (value: boolean) => {
-    setShowReviews(value);
-  };
-  const { data: productDetails, isPending, error } = useQuery({
+  // Product query
+  const { 
+    data: productDetails, 
+    isPending: isProductPending, 
+    error: productError 
+  } = useQuery({
     queryKey: ['specificProduct', productId],
     queryFn: () => getSingleProduct(productId),
     enabled: !!productId
   });
-  const { data: remarks, isPending: isRemarksPending } = useQuery({
+  // Remarks query - only enabled when product is loaded
+  const { 
+    data: remarks, 
+    isPending: isRemarksPending,
+    isFetching: isRemarksFetching
+  } = useQuery({
     queryKey: ['specificRemarks', productId],
     queryFn: () => getSpecificRemarks(productId),
-    enabled: !!productId
+    enabled: !!productId && !!productDetails?.success
   });
+  const toggleReviews = (value: boolean) => {
+    setShowReviews(value);
+  };
   const productDatas = productDetails?.success ? productDetails?.data : null;
   const productIdentifier = {
     productId: productDatas?._id || "",
     productName: productDatas?.productName || "",
     productImage: productDatas?.image || ""
   };
-  if (isPending) {
+  if (isProductPending) {
     return <SingleProductPageSkeleton />;
   }
   if (productDatas === null) {
     return <h1>There is no product Data at all.</h1>;
   }
   return (
-      <>
+    <>
       {productDatas && <SingleProduct {...productDatas} />}
       <div className="reviewsContainer container">
         <div className="reviewsHeading flex gap-4 mb-2 items-center">
@@ -69,8 +77,16 @@ const ProductPage = () => {
             onClick={() => setVisibleComponent('addReview')}
           />
         </div>
-        {showReviews && remarks?.success && remarks.data && (
-          <RemarksDisplay remarks={remarks.data} />
+        {showReviews && (
+          <>
+            {isRemarksPending || isRemarksFetching ? (
+              <RemarksSkeleton />
+            ) : (
+              remarks?.success && remarks.data && (
+                <RemarksDisplay remarks={remarks.data} />
+              )
+            )}
+          </>
         )}
         {visibleComponent === 'addReview' && (
           <AddSingleProductReviews 
@@ -82,7 +98,7 @@ const ProductPage = () => {
           <EditSingleProductReview productIdentifier={productIdentifier} />
         )}
       </div>
-      </>
+    </>
   );
 };
 export default ProductPage;
