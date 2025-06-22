@@ -25,7 +25,7 @@ throw new Error ("User Details Context is not defined at this component")
   const {userDetails,userDetailsLoading} = context;
   const userId = userDetails?._id;
   const dispatch = useDispatch()
-const removeFromWishList = useRemoveWishListFromDB(userDetails!._id.toString()) 
+const removeFromWishList = useRemoveWishListFromDB() 
   const dataForCartItem = (item: IWishListItemDisplay) => {
   return {
     productName: item.productName,
@@ -41,7 +41,7 @@ const removeFromWishList = useRemoveWishListFromDB(userDetails!._id.toString())
   const removeItemFromWishList =(productId:string) =>{
     removeFromWishList.mutate(productId);
   }
-  const addItemToCart = useAddItemToCart(userDetails!._id.toString())
+  const addItemToCart = useAddItemToCart()
   const { wishListItems,wishListLoading } = useSelector((state:ReduxState) => state.wishList);
   if(wishListLoading || userDetailsLoading){
     return (<div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">

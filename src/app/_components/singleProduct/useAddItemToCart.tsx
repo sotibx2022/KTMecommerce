@@ -1,3 +1,4 @@
+"use client"
 import { APIResponseError, APIResponseSuccess, updatedCartItems } from '@/app/services/queryFunctions/users';
 import { useMutation } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
@@ -6,9 +7,15 @@ import { addToCart } from '@/app/redux/cartSlice';
 import { ICartItem } from '@/app/types/cart';
 import { removeFromWishList } from '@/app/redux/wishListSlice';
 import { useRemoveWishListFromDB } from '@/app/dashboard/wishlist/useRemoveWIshListFromDB';
-const useAddItemToCart = (userId:string) => {
+import { useContext } from 'react';
+import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
+const useAddItemToCart = () => {
+  const context = useContext(UserDetailsContext);
+  if(!context){
+    throw new Error("User Details Context is not defined.")
+  }
   const dispatch = useDispatch();
-  const removeItemFromWishList = useRemoveWishListFromDB(userId)
+  const removeItemFromWishList = useRemoveWishListFromDB()
   // React Query mutation for updating cart in the database
   const mutation = useMutation<APIResponseSuccess | APIResponseError, Error, ICartItem>({
     mutationFn: updatedCartItems,
