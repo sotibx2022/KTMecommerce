@@ -15,11 +15,11 @@ const ResetSearchValues = () => {
     const resetSearchValues=()=>{
       setSearchValues({...defaultSearchValues,loading:true})
     }
-    useEffect(()=>{
-        if(!pathName.includes('/catelog')){
-            resetSearchValues()
-        }
-    },[pathName])
+    // useEffect(()=>{
+    //     if(!pathName.includes('/catalog')){
+    //         resetSearchValues()
+    //     }
+    // },[pathName])
   return (
     <Button variant="failure" className="gap-2 h-12" onClick={resetSearchValues}>
   <RotateCcw className="w-4 h-4" />

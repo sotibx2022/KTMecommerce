@@ -31,9 +31,6 @@ const SearchBar = () => {
     }
   };
   const handleFilter = () => {
-    if(!pathName.includes('/catalog')){
-      router.push('/catalog/advanceSearch?highlightedValues=none')
-    }
     setVisibleComponent('advanceSearch');
   };
   return (

@@ -4,7 +4,7 @@ import SubCategoriesSelection from './SubCategorySelection';
 import PriceSelection from './PriceSelection';
 import RatingSelection from './RatingSelection';
 import HighLightSelection from './HighLightSelection';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import CategorySelection from './CategorySelection';
 import ProductsLayout from './ProductsLayout';
 import { AdvanceSearchProvider, defaultSearchValues, SearchContext } from '@/app/context/AdvanceSearchContext';
@@ -25,6 +25,7 @@ const AdvanceSearch = () => {
   const prevSearchValuesRef = useRef(context?.searchValues);
   const router = useRouter();
   const searchParams = useSearchParams();
+  const pathName = usePathname()
   const params = useMemo(() => updateUrl(searchValues), [
       searchValues.keyword,
       searchValues.categoryValue,
@@ -39,7 +40,11 @@ useEffect(() => {
         JSON.stringify(prevSearchValuesRef.current) !== JSON.stringify(searchValues) &&
         visibleComponent === 'advanceSearch') {
       setVisibleComponent("");
-      router.push(`/catalog/advanceSearch?${params}`)
+      if(!pathName.includes('/catalog')){
+        router.push(`/catalog/advanceSearch?${params}`)
+      }else{
+        router.replace(`?${params}`)
+      }
     }
     prevSearchValuesRef.current = searchValues;
   }, [searchValues, visibleComponent, setVisibleComponent]);
