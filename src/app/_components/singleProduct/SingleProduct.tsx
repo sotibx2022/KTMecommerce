@@ -64,7 +64,7 @@ const SingleProduct: React.FC<IProductDisplay> = ({ ...cartItemDetails }) => {
   const { userDetails } = context;
   const isAlreadyOnCart = cartItems && cartItems.length>0 && cartItems.some((item: ICartItem) => item.productId === _id);
   const isAlreadyOnWishList = wishListItems && wishListItems.length>0 && wishListItems.some((item: IWishListItemDisplay) => item.productId === _id);
-  const addItemToCart = useAddItemToCart(userDetails!._id.toString());
+  const addItemToCart = useAddItemToCart();
   const addItemsToWishList = useAddItemToWishList();
   return (
     <>
