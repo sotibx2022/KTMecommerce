@@ -14,23 +14,20 @@ const Footer2 = () => {
                 <Link className='text-white'
                   href={`/catalog/advanceSearch?category=${item.category_name}`}>{item.category_name}</Link>
               </div>
-              {item.subcategories &&
-                item.subcategories.length > 0 &&
-                 (
-                  <ul className=" flex flex-col gap-2 pt-1">
-                    {item.subcategories.map(
-                      (subItem: Subcategory, subIndex: number) => (
-                        <li
-                          key={subItem.url_slug || subIndex}
-                          className="text-md"
-                        >
-                         <Link className='text-white'
-                  href={`/catalog/advanceSearch?category=${item.category_name}&subcategory=${subItem.category_name}`}>{subItem.category_name}</Link>
-                        </li>
-                      )
-                    )}
-                  </ul>
-                )}
+              <ul className="flex flex-col gap-2 pt-1">
+                {item.subcategories &&
+                  item.subcategories.map(
+                    (subItem: Subcategory, subIndex: number) => (
+                      <li
+                        key={subItem.url_slug || subIndex}
+                        className="text-md"
+                      >
+                       <Link className='text-white'
+                href={`/catalog/advanceSearch?category=${item.category_name}&subcategory=${subItem.category_name}`}>{subItem.category_name}</Link>
+                      </li>
+                    )
+                  )}
+              </ul>
             </li>
           ))}
         </ul>
