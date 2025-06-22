@@ -7,6 +7,7 @@ import React, { useContext, useEffect } from 'react'
 const ResetSearchValues = () => {
     const context = useContext(SearchContext);
     const pathName = usePathname()
+    console.log(pathName);
     if (!context) {
         throw new Error('useSearchContext must be used within an AdvanceSearchProvider');
     }
