@@ -15,7 +15,9 @@ const wishListSlice = createSlice({
     // Replace entire wishlist (e.g., after fetching from API)
     setWishList: (state, action: PayloadAction<IWishListItemDisplay[]>) => {
       state.wishListItems = action.payload;
-      state.wishListLoading = false;
+      if(action.payload){
+state.wishListLoading = false;
+      }
     },
     addToWishList: (state, action: PayloadAction<IWishListItemDisplay>) => {
         state.wishListItems.push(action.payload);

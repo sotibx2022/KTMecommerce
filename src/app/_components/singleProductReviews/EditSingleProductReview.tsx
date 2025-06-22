@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from 'react';
 import { DisplayContext } from '@/app/context/DisplayComponents';
 import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
 import { useForm } from 'react-hook-form';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { Mutation, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { IAddReviewDatas, IDisplayReviewDatas, IProductIdentifier, IUpdateRemarkAPIData} from '@/app/types/remarks';
 import { APIResponseError, APIResponseSuccess } from '@/app/services/queryFunctions/users';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -17,6 +17,7 @@ import LoadingButton from '../primaryButton/LoadingButton';
 import SkletonText from '../skeletontext/SkletonText';
 import { shortName } from '@/app/services/helperFunctions/functions';
 import ReadOnlyUserProfile from './ReadOnlyUserProfile';
+import LoadingComponent from '../loadingComponent/LoadingComponent';
 const AddSingleProductRating = dynamic(() => import('./AddSingleProductRating'), { ssr: false });
 const DisplaySingleProductRating = dynamic(() => import('./DisplaySingleProductRating'), { ssr: false });
 interface EditSingleProductReviewProps{
@@ -118,6 +119,9 @@ const EditSingleProductReview: React.FC<EditSingleProductReviewProps> = ({produc
         userEmail:formData.reviewedBy.email,
         reviewDescription:formData.reviewDescription,})
   };
+  if(updateMutation.isPending){
+    return <LoadingComponent/>
+  }
   return (
     <AbsoluteComponent>
       <form className='w-full flex flex-col gap-4' onSubmit={handleSubmit(onSubmit)}>

@@ -10,38 +10,40 @@ import { IWishListItem, IWishListItemDisplay } from '@/app/types/wishlist';
 import SkeletonSlide from '@/app/_components/loadingComponent/SkeletonSlide';
 import LinkComponent from '@/app/_components/linkComponent/LinkComponent';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import axios from 'axios';
 import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
 import { removeFromWishList } from '@/app/redux/wishListSlice';
 import NoData from '@/app/_components/noData/NoData';
 import { HeartOff } from 'lucide-react';
+import { ICartItem } from '@/app/types/cart';
+import useAddItemToCart from '@/app/_components/singleProduct/useAddItemToCart';
+import { useRemoveWishListFromDB } from './useRemoveWIshListFromDB';
 const wishListItemsPage = () => {
   const context = useContext(UserDetailsContext);
   if(!context){
 throw new Error ("User Details Context is not defined at this component")
   }
-  const {userDetails} = context;
+  const {userDetails,userDetailsLoading} = context;
   const userId = userDetails?._id;
   const dispatch = useDispatch()
-  const queryClient = useQueryClient()
-  const removeItemFromDataBase = async(productId:string) =>{
-const response = await axios.post('/api/wishList/removeFromWishList',productId);
-return response.data;
-  }
-  const deleteWishListMutation =useMutation({mutationFn:removeItemFromDataBase,
-    onSuccess:()=>{
-queryClient.invalidateQueries({ 
-      queryKey: ["wishListItems", userId],
-      refetchType: 'active',
-    });
-    }
-  })
+const removeFromWishList = useRemoveWishListFromDB(userDetails!._id.toString()) 
+  const dataForCartItem = (item: IWishListItemDisplay) => {
+  return {
+    productName: item.productName,
+    productId: item.productId,
+    brand: item.brand!,
+    price: item.price,
+    image: item.image,
+    quantity: 1,
+    userId: userDetails!._id.toString(),
+    category: item.category!
+  };
+};
   const removeItemFromWishList =(productId:string) =>{
-    dispatch(removeFromWishList(productId));
-deleteWishListMutation.mutate(productId)
+    removeFromWishList.mutate(productId);
   }
+  const addItemToCart = useAddItemToCart(userDetails!._id.toString())
   const { wishListItems,wishListLoading } = useSelector((state:ReduxState) => state.wishList);
-  if(wishListLoading){
+  if(wishListLoading || userDetailsLoading){
     return (<div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
        <SkeletonSlide/>
        <SkeletonSlide/>
@@ -85,7 +87,7 @@ deleteWishListMutation.mutate(productId)
                   </p>
                 </div>
                 <div className="mt-4 flex justify-between items-center">
-                  <PrimaryButton searchText="addToCart"/>
+                  <PrimaryButton searchText="To Cart" onClick={()=>addItemToCart(dataForCartItem(item))}/>
                  <button
                        className="p-2 text-red-600 hover:text-red-800 hover:bg-red-50 rounded-full transition-colors"
                        aria-label="Delete review"

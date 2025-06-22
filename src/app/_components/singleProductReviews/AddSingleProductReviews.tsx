@@ -14,6 +14,7 @@ import LoadingButton from '../primaryButton/LoadingButton';
 import { useRouter } from 'next/navigation';
 import { AbsoluteComponent } from '../absoluteComponent/AbsoluteComponent';
 import ReadOnlyUserProfile from './ReadOnlyUserProfile';
+import LoadingComponent from '../loadingComponent/LoadingComponent';
 const AddSingleProductRating = dynamic(() => import('./AddSingleProductRating'), { ssr: false });
 const DisplaySingleProductRating = dynamic(() => import('./DisplaySingleProductRating'), { ssr: false });
 const AddSingleProductReviews: React.FC<IAddReviewsProps> = ({ readOnly, productIdentifier }) => {
@@ -69,6 +70,9 @@ setValue('rating',ratingInString)
       toast.error("Please Select the Rating."); 
     }
     mutation.mutate(data)
+  }
+  if(mutation.isPending){
+    return <LoadingComponent/>
   }
   return (
   <AbsoluteComponent>
