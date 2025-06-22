@@ -1,12 +1,12 @@
 "use client"
-import { useFormContext } from "react-hook-form"
+import { useFormContext, useWatch } from "react-hook-form"
 import PaymentCardDetails from "./PaymentCardDetails"
 import SubmitError from "../submit/SubmitError"
 import { useState } from "react"
 import { IOrderDetails } from "@/app/types/orders"
 const PaymentMethod = () => {
-  const [paymentMethod, setPaymentMethod] = useState<string>("")
-  const { register, formState: { errors } } = useFormContext<IOrderDetails>()
+  const { register, formState: { errors },control } = useFormContext<IOrderDetails>()
+  const paymentMethod = useWatch({control,name:'paymentMethod'})
   return (
     <div className="bg-background p-6 rounded-lg shadow-helper">
       <h2 className="text-xl font-semibold mb-4 text-primaryDark">Payment Method</h2>

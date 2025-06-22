@@ -67,7 +67,7 @@ const CartTable = () => {
       {/* Mobile View (Cards) */}
       <div className="md:hidden space-y-4">
         {cartItems.map((item, index) => (
-          <div key={index} className="bg-background p-4 rounded-lg shadow-helper border border-helper">
+          <div key={`${item.productId}+${item.productName}`} className="bg-background p-4 rounded-lg shadow-helper border border-helper">
             <div className="flex gap-4">
               <img
                 src={item.image}
@@ -77,7 +77,7 @@ const CartTable = () => {
               <div className="flex-1">
                 <div className="flex justify-between items-start">
                   <LinkComponent 
-                    href={`/singleProduct/id:${item.productId}&slug:${item.productName}`} 
+                    href={`/singleProduct/productIdentifier?id=${item.productId}&slug=${item.productName}`} 
                     text={item.productName}
                   />
                   <button 
@@ -128,7 +128,7 @@ const CartTable = () => {
           <Tbody>
             {cartItems.map((item, index) => (
               <Tr
-                key={index}
+                key={`${item.productId}+${item.productName}`}
                 className="border-b border-b-helper hover:bg-primaryLight hover:text-background"
               >
                 <Td className="p-3">

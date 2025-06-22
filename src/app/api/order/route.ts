@@ -1,8 +1,10 @@
+import { connectToDB } from "@/config/db";
 import { NotificationModel } from "@/models/notification.model";
 import OrderModel from "@/models/orders.model";
 import UserModel from "@/models/users.model";
 import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
+  await connectToDB();
   try {
     const { userEmail, items, status, paymentMethod, shippingAddress, shippingPerson } = await req.json();
     // Validate required fields

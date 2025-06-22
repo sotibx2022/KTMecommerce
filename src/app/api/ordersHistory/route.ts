@@ -1,6 +1,8 @@
 import OrderModel from "@/models/orders.model";
 import { NextRequest, NextResponse } from "next/server";
+import { connectToDB } from "@/config/db";
 export async function POST(req: NextRequest) {
+  await connectToDB()
   try {
     const { userEmail } = await req.json();
     if (!userEmail) {
