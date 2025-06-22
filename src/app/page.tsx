@@ -1,20 +1,24 @@
 "use client"
+import { Suspense } from 'react';
 import { DisplayComponents } from './context/DisplayComponents'
 import ClientPage from './_components/clientPage/ClientPage'
 import { Toaster } from 'react-hot-toast'
 import { UserDetailsContextComponent } from './context/UserDetailsContextComponent'
 import { Provider } from "react-redux";
 import store from './redux/store'
-const page = () => {
+import LoadingComponent from './_components/loadingComponent/LoadingComponent';
+const Page = () => {
   return (
     <Provider store={store}>
       <UserDetailsContextComponent>
-          <DisplayComponents>
+        <DisplayComponents>
+          <Suspense fallback={<LoadingComponent />}>
             <ClientPage />
-          </DisplayComponents>
-          <Toaster />
+          </Suspense>
+        </DisplayComponents>
+        <Toaster />
       </UserDetailsContextComponent>
-      </Provider>
+    </Provider>
   )
 }
-export default page
+export default Page

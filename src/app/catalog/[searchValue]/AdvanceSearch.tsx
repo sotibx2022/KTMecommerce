@@ -10,6 +10,9 @@ import ProductsLayout from './ProductsLayout';
 import { AdvanceSearchProvider, SearchContext } from '@/app/context/AdvanceSearchContext';
 import { updateUrl } from './updateUrl';
 import KeywordSearch from './KeywordSearch';
+import { Button } from '@/components/ui/button';
+import { RotateCcw } from 'lucide-react';
+import ResetSearchValues from './ResetSearchValues';
 const AdvanceSearch = () => {
   return (
     <div className='hidden lg:flex container w-full justify-between my-4 gap-4  items-center shadow-primaryLight p-2'>
@@ -18,6 +21,7 @@ const AdvanceSearch = () => {
       <PriceSelection />
       <RatingSelection />
       <HighLightSelection />
+      <ResetSearchValues/>
       <ProductsLayout/>
     </div>
   )

@@ -7,11 +7,14 @@ import HighLightSelection from './HighLightSelection';
 import { useRouter, useSearchParams } from 'next/navigation';
 import CategorySelection from './CategorySelection';
 import ProductsLayout from './ProductsLayout';
-import { AdvanceSearchProvider, SearchContext } from '@/app/context/AdvanceSearchContext';
+import { AdvanceSearchProvider, defaultSearchValues, SearchContext } from '@/app/context/AdvanceSearchContext';
 import { AbsoluteComponent } from '@/app/_components/absoluteComponent/AbsoluteComponent';
 import { updateUrl } from './updateUrl';
 import KeywordSearch from './KeywordSearch';
 import { DisplayContext } from '@/app/context/DisplayComponents';
+import { Button } from '@/components/ui/button';
+import { RotateCcw } from 'lucide-react';
+import ResetSearchValues from './ResetSearchValues';
 const AdvanceSearch = () => {
   const{visibleComponent,setVisibleComponent} = useContext(DisplayContext)
   const context = useContext(SearchContext);
@@ -22,11 +25,21 @@ const AdvanceSearch = () => {
   const prevSearchValuesRef = useRef(context?.searchValues);
   const router = useRouter();
   const searchParams = useSearchParams();
+  const params = useMemo(() => updateUrl(searchValues), [
+      searchValues.keyword,
+      searchValues.categoryValue,
+      searchValues.highlightedValues,
+      searchValues.subCategoryValue,
+      searchValues.priceOrder,
+      searchValues.ratingOrder,
+      searchValues.pageNumber
+    ])
 useEffect(() => {
     if (prevSearchValuesRef.current && 
         JSON.stringify(prevSearchValuesRef.current) !== JSON.stringify(searchValues) &&
         visibleComponent === 'advanceSearch') {
       setVisibleComponent("");
+      router.push(`/catalog/advanceSearch?${params}`)
     }
     prevSearchValuesRef.current = searchValues;
   }, [searchValues, visibleComponent, setVisibleComponent]);
@@ -40,6 +53,7 @@ useEffect(() => {
       <PriceSelection />
       <RatingSelection />
       <HighLightSelection />
+     <ResetSearchValues/>
     </div>
     </AbsoluteComponent>
   )
