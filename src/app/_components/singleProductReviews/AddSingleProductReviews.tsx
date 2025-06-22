@@ -13,6 +13,7 @@ import { postSingleProductReview } from '@/app/services/queryFunctions/remarks';
 import LoadingButton from '../primaryButton/LoadingButton';
 import { useRouter } from 'next/navigation';
 import { AbsoluteComponent } from '../absoluteComponent/AbsoluteComponent';
+import ReadOnlyUserProfile from './ReadOnlyUserProfile';
 const AddSingleProductRating = dynamic(() => import('./AddSingleProductRating'), { ssr: false });
 const DisplaySingleProductRating = dynamic(() => import('./DisplaySingleProductRating'), { ssr: false });
 const AddSingleProductReviews: React.FC<IAddReviewsProps> = ({ readOnly, productIdentifier }) => {
@@ -76,41 +77,7 @@ setValue('rating',ratingInString)
       <h1 className='text-xl font-bold text-primaryDark mb-2'>Add Your Review</h1>
       {readOnly && <SubmitError message='Please Login to Add Reviews' />}
       {/* User Profile Section - Display Only */}
-      <div className="bg-primaryLight text-white p-4 rounded-lg">
-        <div className="flex items-center gap-4 mb-4">
-          {readOnly ? (
-            <img
-              src='../assets/dummyProfile.jpeg'
-              alt="Guest Profile"
-              className="w-16 h-16 rounded-full object-cover"
-            />
-          ) : userDetails?.profileImage ? (
-            <img
-              src={userDetails.profileImage}
-              alt="User Profile"
-              className="w-16 h-16 rounded-full object-cover"
-            />
-          ) : (
-            <div className="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center text-xl font-bold">
-              {userDetails?.fullName?.[0]?.toUpperCase()}
-            </div>
-          )}
-          <div>
-            <input 
-              type="text" 
-              className="font-medium text-white bg-transparent border-none pointer-events-none" 
-              value={readOnly ? 'Guest User' : userDetails?.fullName || ''}
-              readOnly
-            />
-            <input 
-              type="text" 
-              className="text-sm text-white bg-transparent border-none pointer-events-none w-full" 
-              value={readOnly ? 'guest@example.com' : userDetails?.email || ''}
-              readOnly
-            />
-          </div>
-        </div>
-      </div>
+      <ReadOnlyUserProfile/>
       {/* Editable Review Section */}
       <div className="space-y-4">
         <div>

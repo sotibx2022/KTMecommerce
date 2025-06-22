@@ -62,8 +62,6 @@ const SingleProduct: React.FC<IProductDisplay> = ({ ...cartItemDetails }) => {
     throw new Error("User Details Context is not accessible");
   }
   const { userDetails } = context;
-  console.log(userDetails);
-  console.log(stockAvailability);
   const isAlreadyOnCart = cartItems && cartItems.length>0 && cartItems.some((item: ICartItem) => item.productId === _id);
   const isAlreadyOnWishList = wishListItems && wishListItems.length>0 && wishListItems.some((item: IWishListItemDisplay) => item.productId === _id);
   const addItemToCart = useAddItemToCart();
@@ -112,11 +110,11 @@ const SingleProduct: React.FC<IProductDisplay> = ({ ...cartItemDetails }) => {
           <PrimaryButton
             searchText="To Cart"
             onClick={() => userDetails ? addItemToCart(dataForCartItem) : setVisibleComponent('login')}
-            disabled={userDetails === null || isAlreadyOnCart || !stockAvailability}
+            disabled={ isAlreadyOnCart || !stockAvailability}
           />
           <PrimaryButton searchText="To WishList"
             onClick={() => userDetails ? addItemsToWishList(baseData) : setVisibleComponent('login')}
-            disabled={userDetails === null || isAlreadyOnWishList}
+            disabled={isAlreadyOnWishList}
           />
           <PrimaryButton searchText="To Others" onClick={() => setVisibleComponent('productImage')} />
           {visibleComponent === 'productImage' && <ProductImage {...cartItemDetails} />}

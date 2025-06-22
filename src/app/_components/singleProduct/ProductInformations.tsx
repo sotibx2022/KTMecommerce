@@ -11,9 +11,6 @@ const ProductInformations: React.FC<IProductInformationProps> = ({
   productInformations
 }) => {
   const {stockAvailability,isAlreadyOnCart,isAlreadyOnWishList} = productInformations
-  console.log("Is the item already in the cart?", isAlreadyOnCart, "| Type:", typeof isAlreadyOnCart);
-  console.log("Is the item already in the wishlist?", isAlreadyOnWishList, "| Type:", typeof isAlreadyOnWishList);
-  console.log("Stock availability status:", stockAvailability, "| Type:", typeof stockAvailability);
   return (
     <div className='flex flex-col gap-3 max-w-[400px]'>
       {stockAvailability === false && (

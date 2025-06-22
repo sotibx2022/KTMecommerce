@@ -54,7 +54,7 @@ await queryCLient.invalidateQueries({queryKey:['user']});
   return (
     <>
          {visibleComponent==='loadingComponent' ? <LoadingComponent/>: <AbsoluteComponent>
-          <div className="bg-background max-w-[400px] p-6 rounded-lg shadow-lg relative">
+          <div className="max-w-[400px] p-6 rounded-lg shadow-lg relative">
           <form className="flex flex-col gap-2" onSubmit={handleSubmit(onSubmit)}>
             {/* Close Icon */}
             <h2 className="subHeading mb-4">Login</h2>

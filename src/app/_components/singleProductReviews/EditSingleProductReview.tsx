@@ -15,6 +15,8 @@ import {getSpecificRemarksofUser, getSpecificReviewofProductbyUser, updateSingle
 import toast from 'react-hot-toast';
 import LoadingButton from '../primaryButton/LoadingButton';
 import SkletonText from '../skeletontext/SkletonText';
+import { shortName } from '@/app/services/helperFunctions/functions';
+import ReadOnlyUserProfile from './ReadOnlyUserProfile';
 const AddSingleProductRating = dynamic(() => import('./AddSingleProductRating'), { ssr: false });
 const DisplaySingleProductRating = dynamic(() => import('./DisplaySingleProductRating'), { ssr: false });
 interface EditSingleProductReviewProps{
@@ -121,49 +123,7 @@ const EditSingleProductReview: React.FC<EditSingleProductReviewProps> = ({produc
       <form className='w-full flex flex-col gap-4' onSubmit={handleSubmit(onSubmit)}>
         <h1 className='text-xl font-bold text-primaryDark mb-2'>Update Your Review</h1>
         {/* User Profile Section - Display Only */}
-        <div className="bg-primaryLight text-white p-4 rounded-lg">
-          <div className="flex items-center gap-4 mb-4">
-            {userDetails?.profileImage ? (
-              <img
-                src={userDetails.profileImage}
-                alt="User Profile"
-                className="w-16 h-16 rounded-full object-cover"
-              />
-            ) : (
-              <div className="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center text-xl font-bold">
-                {userDetails?.fullName?.[0]?.toUpperCase()}
-              </div>
-            )}
-            <div>
-              <input 
-                type="text" 
-                className="font-medium text-white bg-transparent border-none pointer-events-none" 
-                value={userDetails?.fullName || ''}
-                readOnly
-              />
-              <input 
-                type="text" 
-                className="text-sm text-white bg-transparent border-none pointer-events-none w-full" 
-                value={userDetails?.email || ''}
-                readOnly
-              />
-              {remarks?.success && remarks.data?.createdAt && (
-                <p className="text-sm text-white">
-                  Reviewed on: {format(new Date(remarks.data.createdAt), 'MMM dd, yyyy')}
-                </p>
-              )}
-<div className="flex">
-  {isPending ? (
-    <SkletonText/>
-  ) : (
-    remarks?.success && remarks.data?.rating && (
-      <DisplaySingleProductRating rating={parseInt(remarks.data.rating)} />
-    )
-  )}
-</div>
-            </div>
-          </div>
-        </div>
+        <ReadOnlyUserProfile/>
         {/* Editable Review Section */}
         <div className="space-y-4">
           <div>

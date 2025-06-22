@@ -66,7 +66,7 @@ const onSubmit = async (data: RegisterData) => {
     <>
       {visibleComponent==='loadingComponent' ? <LoadingComponent/> : 
 <AbsoluteComponent>
-  <div className="bg-background max-w-[400px] p-6 rounded-lg shadow-lg relative">
+  <div className="max-w-[400px] p-6 rounded-lg shadow-lg relative">
     <div className="registerComponentWrapper">
       <h2 className="subHeading mb-4">Register</h2>
       <form className='flex flex-col gap-4' onSubmit={handleSubmit(onSubmit)}>
