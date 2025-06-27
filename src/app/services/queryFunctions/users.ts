@@ -16,9 +16,8 @@ export interface APIResponseError {
 }
 // Input Interface for Mutation
 export interface ICreateUserMutaion {
-  fullName: string;
   email: string;
-  phoneNumber: string;
+  password:string;
 }
 // Function with Generic Type
 export const createUserMutation = async (
@@ -45,7 +44,6 @@ export const createUserMutation = async (
     }
   }
 };
-
 export const updateUserMutation = async (
   formData: FormData // Change this to accept FormData
 ): Promise<APIResponseSuccess<IUser> | APIResponseError> => {

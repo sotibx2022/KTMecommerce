@@ -90,7 +90,7 @@ const Page = () => {
         <div className="sm:w-2/5 flex flex-col gap-2">
           <div>
             <label className="formLabel">Full Name</label>
-            <input type="text" className="formItem " placeholder="Binaya Raj Soti" id='fullName'
+            <input type="text" className="formItem " placeholder="Mukhtar Thapa" id='fullName'
             disabled={!userDetails}
               {...register("fullName", {
                               validate: (value) => validateFullName("Full Name", value, 3, 20)
@@ -100,7 +100,7 @@ const Page = () => {
           </div>
           <div>
             <label className="formLabel">Email</label>
-            <input type="text" className="formItem " placeholder="example@email.com" id='email' readOnly
+            <input type="text" className="formItem " placeholder="example@gmail.com" id='email' readOnly
             {...register("email")}/>
           </div>
           <div>

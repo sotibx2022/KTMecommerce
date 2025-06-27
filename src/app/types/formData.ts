@@ -1,7 +1,5 @@
 export interface RegisterData {
-    fullName:string;
-    email: string; // Corrected: Changed `email` to `string`
-    phoneNumber: string; // Corrected: Changed `Number` to `number`
+    email: string; 
     password: string;
     confirmPassword: string;
   }
@@ -11,8 +9,8 @@ export interface RegisterData {
   }
 export interface IUpdateUserData{
   fullName:string,
-  email: string; // Corrected: Changed `email` to `string`
-  phoneNumber: string; // Corrected: Changed `Number` to `number`
+  email: string; 
+  phoneNumber: string;
   password: string;
   confirmPassword: string;
   fullAddress:string;

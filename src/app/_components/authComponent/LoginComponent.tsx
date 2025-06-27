@@ -16,6 +16,10 @@ import LoadingComponent from '../loadingComponent/LoadingComponent';
 import { signIn } from 'next-auth/react';
 import { getUserDetails } from '@/app/services/helperFunctions/getUserDetails';
 import ResetPasswordComponent from './ResetPasswordComponent';
+import AuthProvider from './AuthProvider';
+import SocialMediaAuth from './SocialMediaAuth';
+import AuthOptionLinks from './AccountOptionLinks'
+import Divider from './Divider';
 const LoginComponent = () => {
   const[showPassword,setShowPassword] = useState(false);
   const {refetch:refetchUserDetails} = useQuery({queryKey:['user'],queryFn:getUserDetails,enabled:false})
@@ -54,7 +58,8 @@ await queryCLient.invalidateQueries({queryKey:['user']});
   return (
     <>
          {visibleComponent==='loadingComponent' ? <LoadingComponent/>: <AbsoluteComponent>
-          <div className="max-w-[400px] p-6 rounded-lg shadow-lg relative">
+         <AuthProvider>
+           <div className="max-w-[400px] p-6 rounded-lg shadow-lg relative">
           <form className="flex flex-col gap-2" onSubmit={handleSubmit(onSubmit)}>
             {/* Close Icon */}
             <h2 className="subHeading mb-4">Login</h2>
@@ -105,21 +110,13 @@ await queryCLient.invalidateQueries({queryKey:['user']});
                           </div>
            <PrimaryButton searchText='Login' />
             </form>
-            <div className="usefulLinks mt-6 space-y-3 border-t border-primaryLight pt-4">
-                         <p className='text-sm text-primaryParagraph'>
-                           <FontAwesomeIcon icon={faCaretRight} className='mr-2 primaryParagraph' />
-                           Already have an account? <span className='link' onClick={() => {
-      setVisibleComponent('register');
-    }} >Register</span>
-                         </p>
-                         <p className='text-sm text-primaryParagraph'>
-                           <FontAwesomeIcon icon={faCaretRight} className='mr-2 primaryParagraph' />
-                           Forget Password <span className='link' onClick={() => {
-      setVisibleComponent('resetPassword');
-    }} >Reset</span>
-                         </p>
-                       </div>
+            <Divider text="or Conitnue with social Media"/>
+            <SocialMediaAuth/>
+            <Divider text="Other Account Links"/>
+            <AuthOptionLinks visibleItem={'register'} visibleText={'Account Not Created Yet?'}/>
+            <AuthOptionLinks visibleItem={'resetPassword'} visibleText={'Forget Your Password'}/>
       </div>
+         </AuthProvider>
       </AbsoluteComponent>}
       {visibleComponent==='register' && <RegisterComponent/>}
       {visibleComponent ==='resetPassword' && <ResetPasswordComponent/>}

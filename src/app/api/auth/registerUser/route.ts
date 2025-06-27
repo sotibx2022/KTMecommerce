@@ -6,8 +6,8 @@ import { NotificationModel } from "@/models/notification.model";
 export async function POST(request: NextRequest) {
   connectToDB();
   try {
-    const { fullName, email, phoneNumber, address,password } = await request.json();
-    if (!fullName || !email || !phoneNumber || !password) {
+    const { email, password } = await request.json();
+    if (!email ||!password) {
       return NextResponse.json({
         status: 400,
         message: "All fields are required",
@@ -25,10 +25,7 @@ export async function POST(request: NextRequest) {
     const hashedPassword = await bcrypt.hash(password,10);
     const passwordHistory = {password:hashedPassword,createdAt:Date.now()}
     const newUser = new UserModel({
-      fullName,
       email,
-      phoneNumber,
-      address,
       password:hashedPassword,
       passwordHistory:[passwordHistory]
     });

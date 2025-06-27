@@ -71,15 +71,19 @@ const SingleProduct: React.FC<IProductDisplay> = ({ ...cartItemDetails }) => {
       <div className="container">
         <div className="flex-col md:flex-row flex justify-between items-center py-4 gap-4 min-h-[50vh]">
           <div className="singleProductLeft md:w-1/2 w-full">
-            <ProductTitle productName={productName} productHighlight={{
+            <StaggerWrapper>
+              <ProductTitle productName={productName} productHighlight={{
               isNewArrivals,
               isTrendingNow,
               isTopSell,
               isOfferItem
             }} />
-            <div className="overallRatingArea my-2">
+            </StaggerWrapper>
+            <StaggerWrapper>
+              <div className="overallRatingArea my-2">
               <DisplaySingleProductRating rating={overallRating} />
             </div>
+            </StaggerWrapper>
             <p className="primaryParagraph">{productDescription}</p>
             <div className="productDetails flex items-center gap-4 my-2">
               <p className="text-background bg-helper p-2 rounded-md">Brand: {brand}</p>
@@ -117,7 +121,6 @@ const SingleProduct: React.FC<IProductDisplay> = ({ ...cartItemDetails }) => {
             disabled={isAlreadyOnWishList}
           />
           <PrimaryButton searchText="To Others" onClick={() => setVisibleComponent('productImage')} />
-          {visibleComponent === 'productImage' && <ProductImage {...cartItemDetails} />}
         </div>
 <ProductInformations
   productInformations={{
@@ -129,6 +132,7 @@ const SingleProduct: React.FC<IProductDisplay> = ({ ...cartItemDetails }) => {
         <Toaster />
       </div>
       {visibleComponent === 'login' && <LoginComponent />}
+      {visibleComponent === 'productImage' && <ProductImage {...cartItemDetails} />}
     </>
   );
 };

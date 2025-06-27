@@ -50,11 +50,9 @@ const RegisterComponent = () => {
 const onSubmit = async (data: RegisterData) => {
   setVisibleComponent('loadingComponent');
   try {
-    const { fullName, email, phoneNumber,password } = data;
+    const { email,password } = data;
     mutation.mutate({
-      fullName,
       email,
-      phoneNumber,
       password
     });
   } catch (error: any) {
@@ -70,24 +68,6 @@ const onSubmit = async (data: RegisterData) => {
     <div className="registerComponentWrapper">
       <h2 className="subHeading mb-4">Register</h2>
       <form className='flex flex-col gap-4' onSubmit={handleSubmit(onSubmit)}>
-        {/* Full Name */}
-        <div>
-          <div className="flex items-center mb-1">
-            <FontAwesomeIcon icon={faUser} className='text-primaryDark mr-2' />
-            <label htmlFor="fullName" className='primaryParagraph'>
-              Full Name <span className="text-red-500">*</span>
-            </label>
-          </div>
-          <input
-            type="text"
-            placeholder="John"
-            className="formItem w-full"
-            {...register("fullName", {
-              validate: (value) => validateFullName("First Name", value, 2, 20)
-            })}
-          />
-          {errors.fullName?.message && <SubmitError message={errors.fullName.message} />}
-        </div>
         {/* Email */}
         <div>
           <div className="flex items-center mb-1">
@@ -105,34 +85,6 @@ const onSubmit = async (data: RegisterData) => {
             })}
           />
           {errors.email?.message && <SubmitError message={errors.email.message} />}
-        </div>
-        {/* Phone Number */}
-        <div>
-          <div className="flex items-center mb-1">
-            <FontAwesomeIcon icon={faPhone} className='text-primaryDark mr-2' />
-            <label htmlFor="phoneNumber" className='primaryParagraph'>
-              Phone Number <span className="text-red-500">*</span>
-            </label>
-          </div>
-          <div className="phoneNumberItem relative w-full">
-            <div className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center gap-2 pointer-events-none">
-              <img 
-                src="/assets/nepal-flag-icon.png" 
-                alt="Nepal Flag" 
-                className="w-5 h-auto object-contain"
-              />
-              <span className="text-primaryDark text-sm font-medium">+977</span>
-            </div>
-            <input
-              type="text"
-              placeholder="98XXXXXXXX"
-              className="py-3 w-full border border-helper bg-background rounded-md shadow-helper shadow-sm focus:outline-none text-primaryDark pl-[80px] "
-              {...register("phoneNumber", {
-                validate: (value) => validateNumber("Phone Number", value, 10, 10)
-              })}
-            />
-          </div>
-          {errors.phoneNumber?.message && <SubmitError message={errors.phoneNumber.message} />}
         </div>
         {/* Password */}
         <div>
