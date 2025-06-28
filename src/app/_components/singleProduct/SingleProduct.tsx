@@ -22,6 +22,7 @@ import useAddItemToWishList from "./useAddItemToWishList";
 import SubmitError from "../submit/SubmitError";
 import ProductTitle from "../productCard/ProductTitle";
 import ProductInformations from "./ProductInformations";
+import StaggerWrapper from "../animation/StaggerWrapper";
 const SingleProduct: React.FC<IProductDisplay> = ({ ...cartItemDetails }) => {
   const { visibleComponent, setVisibleComponent } = useContext(DisplayContext);
   const cartItems = useSelector((state: { cart: CartState }) => state.cart.cartItems);
