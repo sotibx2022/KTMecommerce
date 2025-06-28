@@ -18,6 +18,10 @@ import LoginComponent from './LoginComponent';
 import LoadingComponent from '../loadingComponent/LoadingComponent';
 import { signIn } from 'next-auth/react';
 import ResetPasswordComponent from './ResetPasswordComponent';
+import AuthProvider from './AuthProvider';
+import AccountOptionLinks from './AccountOptionLinks';
+import Divider from './Divider';
+import SocialMediaAuth from './SocialMediaAuth';
 const RegisterComponent = () => {
   const[showPassword,setShowPassword] = useState(false);
   const queryClient = useQueryClient();
@@ -63,12 +67,10 @@ const onSubmit = async (data: RegisterData) => {
   return (
     <>
       {visibleComponent==='loadingComponent' ? <LoadingComponent/> : 
-<AbsoluteComponent>
+<AuthProvider>
   <div className="max-w-[400px] p-6 rounded-lg shadow-lg relative">
-    <div className="registerComponentWrapper">
-      <h2 className="subHeading mb-4">Register</h2>
       <form className='flex flex-col gap-4' onSubmit={handleSubmit(onSubmit)}>
-        {/* Email */}
+        <h2 className="subHeading mb-4">Register</h2>
         <div>
           <div className="flex items-center mb-1">
             <FontAwesomeIcon icon={faEnvelope} className='text-primaryDark mr-2' />
@@ -146,19 +148,13 @@ const onSubmit = async (data: RegisterData) => {
         </div>
       <PrimaryButton searchText='Register' />
       </form>
-      <div className="usefulLinks mt-6 space-y-3 border-t border-primaryLight pt-4">
-        <p className='text-sm text-primaryParagraph'>
-          <FontAwesomeIcon icon={faCaretRight} className='mr-2 primaryParagraph' />
-          Already have an account? <span className='link' onClick={()=>setVisibleComponent('login')}>Login</span>
-        </p>
-        <p className='text-sm text-primaryParagraph'>
-          <FontAwesomeIcon icon={faCaretRight} className='mr-2 primaryParagraph' />
-          Forget Password <span className='link' onClick={()=>setVisibleComponent('resetPassword')}>Reset</span>
-        </p>
-      </div>
-    </div>
+      <Divider text={'orLogin With Social Accounts.'}/>
+      <SocialMediaAuth/>
+      <Divider text={'Account Access Options'}/>
+      <AccountOptionLinks visibleItem={'login'} visibleText={'Already Registered?'}/>
+      <AccountOptionLinks visibleItem={'resetPassword'} visibleText={'Forget Password?'}/>
   </div>
-</AbsoluteComponent>
+</AuthProvider>
       }
     {visibleComponent==='login' && <LoginComponent/>}
     {visibleComponent==='resetPassword' && <ResetPasswordComponent/>}

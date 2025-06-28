@@ -8,7 +8,11 @@ const _config = {
   },
   nextAuth:{
     nextAuthSecret:process.env.NEXTAUTH_SECRET!,
-    nextAuthUrl:process.env.NEXTAUTH_URL!
+    nextAuthUrl:process.env.NEXTAUTH_URL!,
+    faceBookClientId:process.env.FACEBOOK_CLIENT_ID!,
+    faceBookClientSecret:process.env.FACEBOOK_CLIENT_SECRET!,
+    googleClientId:process.env.GOOGLE_CLIENT_ID!,
+    googleClientSecret:process.env.GOOGLE_CLIENT_SECRET!
   }
 };
 export const config = Object.freeze(_config);

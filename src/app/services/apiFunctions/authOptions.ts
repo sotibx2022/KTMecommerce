@@ -1,76 +1,72 @@
 import { NextAuthOptions } from "next-auth";
+import GoogleProvider from "next-auth/providers/google";
+import FacebookProvider from "next-auth/providers/facebook";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { loginAuthorize } from "@/app/services/apiFunctions/loginAuthorize";
+import { config } from "@/config/configuration";
+import { registerOrFetchUser } from "./registerOrFetchUser";
 export const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID as string,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      clientId: config.nextAuth.googleClientId,
+      clientSecret: config.nextAuth.googleClientSecret,
     }),
     FacebookProvider({
-      clientId: process.env.FACEBOOK_CLIENT_ID as string,
-      clientSecret: process.env.FACEBOOK_CLIENT_SECRET as string,
+      clientId: config.nextAuth.faceBookClientId,
+      clientSecret: config.nextAuth.faceBookClientSecret,
     }),
     CredentialsProvider({
       id: "credentials",
       name: "Credentials",
       credentials: {
         email: { label: "Email", type: "text" },
-        password: { label: "Password", type: "password" }
+        password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        try {
-          // Validate credentials
-          if (!credentials?.email || !credentials?.password) {
-            throw new Error(JSON.stringify({
-              message: "Email and password are required",
-            }));
-          }
-          const result = await loginAuthorize(credentials.email, credentials.password);
-          if (!result.success || !result.data) {
-            throw new Error(JSON.stringify({
-              message: result.message,
-            }));
-          }
-          return {
-            id: result.data.id.toString(),
-            email: result.data.email,
-          };
-        } catch (error) {
-          throw error;
+        if (!credentials?.email || !credentials?.password) {
+          throw new Error(
+            JSON.stringify({ message: "Email and password are required" })
+          );
         }
-      }
-    })
+        const result = await loginAuthorize(credentials.email, credentials.password);
+        if (!result.success || !result.data) {
+          throw new Error(
+            JSON.stringify({ message: result.message || "Login failed" })
+          );
+        }
+        return {
+          id: result.data.id.toString(),
+          email: result.data.email,
+        };
+      },
+    }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
+    async jwt({ token, user, account }) {
+      if ((account?.provider === "google" || account?.provider === "facebook") && user) {
+      const dbUser = await registerOrFetchUser(user);
+      token.id = dbUser._id.toString();
+      token.email = dbUser.email;
+    }
+      if (account?.provider === "credentials" && user) {
         token.id = user.id;
         token.email = user.email;
-        token.exp = Math.floor(Date.now() / 1000) + 1 * 60 * 60;
       }
       return token;
     },
     async session({ session, token }) {
       session.user = {
         ...session.user,
-        email: token.email || ""
+        id: token.id as string,
+        email: token.email || "",
       };
       return session;
-    }
+    },
   },
   session: {
     strategy: "jwt",
-    maxAge:1*60*60,
+    maxAge: 1 * 60 * 60, // 1 hour
   },
   secret: process.env.NEXTAUTH_SECRET,
-  debug: process.env.NODE_ENV === 'development'
+  debug: process.env.NODE_ENV === "development",
 };
-
-function GoogleProvider(arg0: { clientId: string; clientSecret: string; }): import("next-auth/providers/index").Provider {
-  throw new Error("Function not implemented.");
-}
-function FacebookProvider(arg0: { clientId: string; clientSecret: string; }): import("next-auth/providers/index").Provider {
-  throw new Error("Function not implemented.");
-}
-

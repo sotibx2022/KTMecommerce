@@ -17,7 +17,13 @@ export async function loginAuthorize(
 ): Promise<LoginResponse> {
   try {
     await connectToDB();
-    // 1. Find user by email
+    if (!email || !password) {
+      return {
+        message: "Email and password are required",
+        status: 400,
+        success: false,
+      };
+    }
     const user = await UserModel.findOne({ email });
     if (!user) {
       return {
@@ -26,7 +32,14 @@ export async function loginAuthorize(
         success: false,
       };
     }
-    // 2. Verify password
+    if (!user.password) {
+      return {
+        message:
+          "User registered using Google or Facebook login.",
+        status: 403,
+        success: false,
+      };
+    }
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       return {
@@ -35,7 +48,6 @@ export async function loginAuthorize(
         success: false,
       };
     }
-    // 3. Return sanitized user data
     const responseData = {
       id: user._id.toString(),
       email: user.email,
@@ -48,6 +60,7 @@ export async function loginAuthorize(
       data: responseData,
     };
   } catch (error) {
+    console.error("Login error:", error);
     return {
       message: "Authentication error: Internal server error",
       status: 500,

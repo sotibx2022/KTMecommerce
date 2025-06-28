@@ -18,8 +18,8 @@ import { getUserDetails } from '@/app/services/helperFunctions/getUserDetails';
 import ResetPasswordComponent from './ResetPasswordComponent';
 import AuthProvider from './AuthProvider';
 import SocialMediaAuth from './SocialMediaAuth';
-import AuthOptionLinks from './AccountOptionLinks'
 import Divider from './Divider';
+import AccountOptionLinks from './AccountOptionLinks';
 const LoginComponent = () => {
   const[showPassword,setShowPassword] = useState(false);
   const {refetch:refetchUserDetails} = useQuery({queryKey:['user'],queryFn:getUserDetails,enabled:false})
@@ -57,7 +57,7 @@ await queryCLient.invalidateQueries({queryKey:['user']});
   };
   return (
     <>
-         {visibleComponent==='loadingComponent' ? <LoadingComponent/>: <AbsoluteComponent>
+         {visibleComponent==='loadingComponent' ? <LoadingComponent/>: 
          <AuthProvider>
            <div className="max-w-[400px] p-6 rounded-lg shadow-lg relative">
           <form className="flex flex-col gap-2" onSubmit={handleSubmit(onSubmit)}>
@@ -112,12 +112,11 @@ await queryCLient.invalidateQueries({queryKey:['user']});
             </form>
             <Divider text="or Conitnue with social Media"/>
             <SocialMediaAuth/>
-            <Divider text="Other Account Links"/>
-            <AuthOptionLinks visibleItem={'register'} visibleText={'Account Not Created Yet?'}/>
-            <AuthOptionLinks visibleItem={'resetPassword'} visibleText={'Forget Your Password'}/>
+            <Divider text="Account Access Options"/>
+            <AccountOptionLinks visibleItem={'register'} visibleText={'Account Not Created Yet?'}/>
+            <AccountOptionLinks visibleItem={'resetPassword'} visibleText={'Forget Password?'}/>
       </div>
-         </AuthProvider>
-      </AbsoluteComponent>}
+         </AuthProvider>}
       {visibleComponent==='register' && <RegisterComponent/>}
       {visibleComponent ==='resetPassword' && <ResetPasswordComponent/>}
     </>

@@ -13,8 +13,8 @@ export interface IUser {
   _id:Object;
     fullName: string;
     email: string;
-    password:string;
-    passwordHistory:IPasswordHistory[];
+    password?:string;
+    passwordHistory?:IPasswordHistory[];
     phoneNumber?: string;
     isAdmin?: boolean; // Optional field
     accountStatus?: string; // Optional field, e.g., "Registered", "Customer"

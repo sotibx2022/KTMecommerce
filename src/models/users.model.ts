@@ -18,15 +18,13 @@ const UserSchema: Schema = new Schema<IUser>(
     },
     password:{
       type:String,
-      required:true,
     },
 passwordHistory: [{
-  password: { type: String, required: true },
-  createdAt: { type: Date, required: true, default: Date.now }
+  password: { type: String },
+  createdAt: { type: Date, default: Date.now }
 }],
     phoneNumber: {
       type: String,
-      required: true,
       match: [/^\d{10}$/, "Please provide a valid 10-digit phone number"],
     },
     isAdmin: {
@@ -64,10 +62,9 @@ passwordHistory: [{
     },
   },
   {
-    timestamps: true, // Automatically adds `createdAt` and `updatedAt`
+    timestamps: true, 
   }
 );
-// Create the User model
 const UserModel: Model<IUser> =
   mongoose.models.User || mongoose.model<IUser>("User", UserSchema);
 export default UserModel;
