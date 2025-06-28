@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import ProductSearchBar from './ProductSearchBar'
 import { defaultFilterState, ProductFilterContext } from '@/app/context/ProductFilterContext'
 import { useContext } from 'react'
+import Link from 'next/link'
 export const ProductsPageHeader = () => {
   const {setFilterState} = useContext(ProductFilterContext)
   return (
@@ -12,7 +13,7 @@ export const ProductsPageHeader = () => {
         <ProductSearchBar />
       </div>
       <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
-        <Button 
+       <Link href='/admin/addProduct'> <Button 
           variant="success" 
           size="default"
           className="gap-2"
@@ -20,7 +21,7 @@ export const ProductsPageHeader = () => {
         >
           <Plus className="h-4 w-4" />
           <span className="hidden sm:inline">Add Product</span>
-        </Button>
+        </Button></Link>
         <Button 
           variant="failure" 
           size="default"

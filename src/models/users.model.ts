@@ -16,13 +16,13 @@ const UserSchema: Schema = new Schema<IUser>(
       lowercase: true,
       match: [/^\S+@\S+\.\S+$/, "Please provide a valid email address"],
     },
-    password:{
-      type:String,
+    password: {
+      type: String,
     },
-passwordHistory: [{
-  password: { type: String },
-  createdAt: { type: Date, default: Date.now }
-}],
+    passwordHistory: [{
+      password: { type: String },
+      createdAt: { type: Date, default: Date.now }
+    }],
     phoneNumber: {
       type: String,
       match: [/^\d{10}$/, "Please provide a valid 10-digit phone number"],
@@ -42,27 +42,27 @@ passwordHistory: [{
     },
     address: {
       type: String,
-      default:null,
+      default: null,
     },
     profileImage: {
       type: String,
-      default:null,
+      default: null,
     },
     profileFileOriginalName: {
       type: String,
-      default:null,
+      default: null,
     },
     profileFileSize: {
       type: String,
-      default:null,
+      default: null,
     },
     profileFileType: {
       type: String,
-      default:null
+      default: null
     },
   },
   {
-    timestamps: true, 
+    timestamps: true,
   }
 );
 const UserModel: Model<IUser> =
