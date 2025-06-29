@@ -40,9 +40,10 @@
         orderSummary:{totalItems:number, totalCost:number, discount:number, shippingPrice:number, grossTotal:number}
     }
     export interface OrderDetailsProps extends IOrderDetails {
-        _id: string;
-        createdAt: Date;
-        updatedAt: Date;
+        _id?: string;
+        createdAt?: Date;
+        updatedAt?: Date;
+        nonExpandable?:boolean
       }
       export interface IOrderItem {
         quantity: number;

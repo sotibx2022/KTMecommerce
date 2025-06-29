@@ -11,6 +11,7 @@ import ProductImage from '../singleProduct/ProductImage'
 import AddSingleProductReviews from '../singleProductReviews/AddSingleProductReviews'
 import AdvanceSearchMobile from '@/app/catalog/[searchValue]/AdvanceSearchMobile'
 import TotalProducts from '@/app/admin/components/ecommerceSummary/TotalProducts'
+import OrderDetails from '../orderDetails/OrderDetails'
 const ConditionalComponents = () => {
     const { visibleComponent,setVisibleComponent } = useContext(DisplayContext)
   return (

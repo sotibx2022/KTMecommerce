@@ -4,7 +4,7 @@ import { createContext } from 'react'
 // Define the type once
 type VisibleComponentType = '' | 'login' | 'register' | 'responsiveHeader' | 'pureSearch' |
  'productImage' | 'addReview' |'dilaugeBox' | 'editReview' | 'resetPassword' |
-  'loadingComponent' | 'advanceSearch' | 'productsSummary'
+  'loadingComponent' | 'advanceSearch' | 'productsSummary' | 'orderDetails'
 interface DisplayContextProps {
     visibleComponent: VisibleComponentType
     setVisibleComponent: Dispatch<SetStateAction<VisibleComponentType>>

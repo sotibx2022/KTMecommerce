@@ -1,28 +1,24 @@
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
-import AdminSideBar from "./AdminSideBar"
-import { cookies } from "next/headers"
-import ProductFilterProvider from "../context/ProductFilterContext"
-import { ProductDeleteProvider } from "../context/ProductDeleteContext"
-import { Toaster } from "react-hot-toast"
-import ConditionalComponents from "../_components/conditionalVisibleComponents/ConditionalComponents"
+import { SidebarProvider } from "@/components/ui/sidebar"
 import { DisplayComponents } from "../context/DisplayComponents"
+import { ProductDeleteProvider } from "../context/ProductDeleteContext"
+import AdminSideBar from "./AdminSideBar"
+import ProductFilterProvider from "../context/ProductFilterContext"
+import ConditionalComponents from "../_components/conditionalVisibleComponents/ConditionalComponents"
+import { cookies } from "next/headers"
+import { Toaster } from "react-hot-toast"
 export default async function Layout({ children }: { children: React.ReactNode }) {
-  const cookieStore = await cookies()
-  const defaultOpen = cookieStore.get("sidebar_state")?.value === "true"
   return (
-      <div className="flex container">
-        <DisplayComponents>
-          <ProductDeleteProvider>
+    <DisplayComponents>
+      <ProductDeleteProvider>
         <SidebarProvider>
-        <AdminSideBar/>
-        <ProductFilterProvider>
-          {children}
+          <AdminSideBar />
+          <ProductFilterProvider>
+              {children}
           </ProductFilterProvider>
-          </SidebarProvider>
-          </ProductDeleteProvider>
-          <ConditionalComponents/>
-        </DisplayComponents>
-          <Toaster/>
-      </div>
+        </SidebarProvider>
+      </ProductDeleteProvider>
+      <ConditionalComponents />
+      <Toaster/>
+    </DisplayComponents>
   )
 }

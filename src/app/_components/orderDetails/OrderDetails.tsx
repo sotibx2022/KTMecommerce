@@ -8,7 +8,7 @@ import { faFilePdf, faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import CartSummary from '../cartSummary/CartSummary';
 import { toPng } from 'html-to-image';
 import { jsPDF } from 'jspdf'; 
-const OrderDetails: React.FC<{ order: OrderDetailsProps }> = ({ order }) => {
+const OrderDetails: React.FC<{ order: OrderDetailsProps,nonExpandable?:boolean }> = ({ order,nonExpandable }) => {
 const downloadPdf = async (name: string) => {
   if (typeof document !== "undefined") {
     try {
@@ -56,17 +56,17 @@ const downloadPdf = async (name: string) => {
       <div className="mb-4 md:mb-6">
         <div className="flex justify-between items-center mb-2">
           <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-primaryDark">
-            Order # {_id.slice(-8).toUpperCase()}
+            Order # {_id!.slice(-8).toUpperCase()}
           </h2>
-          <FontAwesomeIcon
+          {!nonExpandable && <FontAwesomeIcon
             icon={showOrderDetails ? faMinus : faPlus}
             className="bg-helper p-2 md:p-3 rounded-full cursor-pointer text-background text-sm md:text-base"
             onClick={() => setShowOrderDetails(!showOrderDetails)}
-          />
+          />}
         </div>
         <div className="flex justify-between items-center">
           <p className="text-xs sm:text-sm md:text-base text-primaryLight">
-            {format(new Date(createdAt), 'MMM dd, yyyy')}
+            {format(new Date(createdAt!), 'MMM dd, yyyy')}
           </p>
           <span className={`px-2 py-1 rounded-full text-xs md:text-sm font-semibold 
             ${status === 'ordered' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'}`}>
@@ -75,7 +75,7 @@ const downloadPdf = async (name: string) => {
         </div>
       </div>
       {/* Order Details - Responsive */}
-      {showOrderDetails && (
+      {showOrderDetails || nonExpandable && (
         <div className="orderDetails space-y-6">
           {/* Shipping Info - Responsive Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
@@ -130,7 +130,7 @@ const downloadPdf = async (name: string) => {
             <button 
               className="text-red-600 hover:text-red-800 transition-colors"
               aria-label="Download PDF"
-              onClick={()=>downloadPdf(_id.slice(-8).toUpperCase())}
+              onClick={()=>downloadPdf(_id!.slice(-8).toUpperCase())}
             >
               <FontAwesomeIcon
                 icon={faFilePdf}
