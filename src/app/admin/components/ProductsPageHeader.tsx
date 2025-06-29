@@ -5,10 +5,12 @@ import ProductSearchBar from './ProductSearchBar'
 import { defaultFilterState, ProductFilterContext } from '@/app/context/ProductFilterContext'
 import { useContext } from 'react'
 import Link from 'next/link'
+import TotalProducts from './ecommerceSummary/TotalProducts'
 export const ProductsPageHeader = () => {
   const {setFilterState} = useContext(ProductFilterContext)
   return (
     <div className="flex flex-col sm:flex-row justify-between items-center gap-4 my-4">
+      <TotalProducts/>
       <div className="w-full sm:w-auto">
         <ProductSearchBar />
       </div>

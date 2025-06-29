@@ -1,9 +1,9 @@
 import React from 'react'
-import HelpButton from './HelpButton'
+import TotalReviews from './reviewsComponent/TotalReviews'
 const page = () => {
   return (
     <div>
-      <HelpButton/>
+        <TotalReviews/>
     </div>
   )
 }

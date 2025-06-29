@@ -11,7 +11,6 @@ const StaggerWrapper: React.FC<IStaggerWrapper> = ({
   baseDelay = 0
 }) => {
   // Log all children at once
-  console.log('Children:', children)
   return (
     <>
       {Children.map(children, (child, index) => {

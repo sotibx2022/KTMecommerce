@@ -1,9 +1,9 @@
 import React from 'react'
-import SummaryWrapper from './components/ecommerceSummary/SummaryWrapper'
+import TotalOrders from './ordersComponents/TotalOrders'
 const page = () => {
   return (
     <div className='w-full my-4'>
-      <SummaryWrapper/>
+        <TotalOrders/>
     </div>
   )
 }

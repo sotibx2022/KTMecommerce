@@ -1,6 +1,3 @@
-import { ICartItem } from "./cart";
-import { IOrderDetails } from "./orders";
-import { IProductCreate } from "./products";
 export interface RegisterUserInput {
   email: string;
   password:string;
