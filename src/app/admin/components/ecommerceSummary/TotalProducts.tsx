@@ -1,5 +1,6 @@
 import React from "react";
 import { AlertCircle, CheckCircle, XCircle, Package } from "lucide-react";
+import { AbsoluteComponent } from "@/app/_components/absoluteComponent/AbsoluteComponent";
 const TotalProducts: React.FC = () => {
   const data = {
     total: 320,
@@ -10,7 +11,8 @@ const TotalProducts: React.FC = () => {
     newThisMonth: 25,
   };
   return (
-    <div className=" rounded-2xl p-4">
+    <AbsoluteComponent>
+      <div className=" rounded-2xl p-4">
       <h2 className="text-xl font-semibold text-[#531c1d] mb-4 flex items-center gap-2">
         <Package className="w-5 h-5" />
         Product Inventory Summary
@@ -54,6 +56,7 @@ const TotalProducts: React.FC = () => {
         </div>
       </div>
     </div>
+    </AbsoluteComponent>
   );
 };
 export default TotalProducts;

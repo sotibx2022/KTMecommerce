@@ -1,16 +1,19 @@
 "use client"
-import { Plus, FilterX } from 'lucide-react'
+import { Plus, FilterX, Notebook } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import ProductSearchBar from './ProductSearchBar'
 import { defaultFilterState, ProductFilterContext } from '@/app/context/ProductFilterContext'
 import { useContext } from 'react'
 import Link from 'next/link'
 import TotalProducts from './ecommerceSummary/TotalProducts'
+import { DisplayContext } from '@/app/context/DisplayComponents'
 export const ProductsPageHeader = () => {
   const {setFilterState} = useContext(ProductFilterContext)
+  const{visibleComponent,setVisibleComponent} = useContext(DisplayContext)
   return (
+    <>
     <div className="flex flex-col sm:flex-row justify-between items-center gap-4 my-4">
-      <TotalProducts/>
+      {/* <TotalProducts/> */}
       <div className="w-full sm:w-auto">
         <ProductSearchBar />
       </div>
@@ -34,7 +37,19 @@ export const ProductsPageHeader = () => {
           <FilterX className="h-4 w-4" />
           <span className="hidden sm:inline">Reset Filters</span>
         </Button>
+        <Button 
+          variant="helper" 
+          size="default"
+          className="gap-2"
+          aria-label="Products Summary"
+          onClick={()=>setVisibleComponent("productsSummary")}
+        >
+          <Notebook className="h-4 w-4" />
+          <span className="hidden sm:inline text-primaryDark">Summary</span>
+        </Button>
       </div>
     </div>
+    {visibleComponent ==='productsSummary' && <TotalProducts/>}
+    </>
   )
 }
