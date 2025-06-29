@@ -26,6 +26,7 @@
         quantity:number,
     }
     export interface IOrderDetails {
+        _id?:string,
         userEmail: string
         items:IProductDetailsforOrder[],
         status: "ordered" | "pending"| "confirmed" | "delivered" | "cancelled"
@@ -33,7 +34,10 @@
         shippingAddress: IShippingAddress
         shippingPerson:IShippingPerson
         cardDetails?:ICardDetails
-        termsAgreed?:boolean
+        termsAgreed?:boolean,
+        createdAt?:Date,
+        updatedAt?:Date,
+        orderSummary:{totalItems:number, totalCost:number, discount:number, shippingPrice:number, grossTotal:number}
     }
     export interface OrderDetailsProps extends IOrderDetails {
         _id: string;

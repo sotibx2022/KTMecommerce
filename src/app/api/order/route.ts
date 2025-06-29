@@ -6,9 +6,9 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
   await connectToDB();
   try {
-    const { userEmail, items, status, paymentMethod, shippingAddress, shippingPerson } = await req.json();
+    const { userEmail, items, status, paymentMethod, shippingAddress, shippingPerson,orderSummary } = await req.json();
     // Validate required fields
-    if (!userEmail || !items || !status || !paymentMethod || !shippingAddress || !shippingPerson) {
+    if (!userEmail || !items || !status || !paymentMethod || !shippingAddress || !shippingPerson || !orderSummary) {
       return NextResponse.json(
         { message: "Missing required fields", success: false },
         { status: 400 }
@@ -22,7 +22,8 @@ export async function POST(req: NextRequest) {
       status,
       paymentMethod,
       shippingAddress,
-      shippingPerson
+      shippingPerson,
+      orderSummary
     });
     await order.save();
     const newNotification = new NotificationModel({

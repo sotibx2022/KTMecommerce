@@ -1,5 +1,5 @@
 import { IOrderDetails } from '@/app/types/orders';
-import mongoose ,{ Schema, model, Document } from 'mongoose';
+import mongoose, { Schema, model, Document } from 'mongoose';
 const OrderSchema = new Schema<IOrderDetails>(
   {
     userEmail: {
@@ -17,17 +17,19 @@ const OrderSchema = new Schema<IOrderDetails>(
         required: true,
         min: 1
       },
-      image:{
-        type:String,
-        required:true
+      image: {
+        type: String,
+        required: true
       },
-      productName:{
-        type:String,
-        requried:true
+      productName: {
+        type: String,
+        requried: true
       },
       price:
-      {type:String,
-      required:true}
+      {
+        type: String,
+        required: true
+      }
     }],
     status: {
       type: String,
@@ -47,7 +49,7 @@ const OrderSchema = new Schema<IOrderDetails>(
     shippingPerson: {
       firstName: { type: String, required: true },
       lastName: { type: String, required: true },
-      email: { 
+      email: {
         type: String,
         required: true,
       },
@@ -65,12 +67,15 @@ const OrderSchema = new Schema<IOrderDetails>(
         type: String,
         select: false // Never store raw CVV in production!
       }
-    }
+    },
+    orderSummary: {
+      totalItems: { type: Number, required: true }, totalCost: { type: Number, required: true }, discount: { type: Number, required: true }, shippingPrice: { type: Number, required: true }, grossTotal: { type: Number, required: true }
+    },
   },
   {
     timestamps: true,
-    versionKey:false,
+    versionKey: false,
   }
 );
- const OrderModel = mongoose.models.Order || mongoose.model<IOrderDetails>('Order', OrderSchema);
- export default OrderModel;
+const OrderModel = mongoose.models.Order || mongoose.model<IOrderDetails>('Order', OrderSchema);
+export default OrderModel;
