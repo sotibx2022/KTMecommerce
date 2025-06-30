@@ -7,19 +7,25 @@ import ConditionalComponents from "../_components/conditionalVisibleComponents/C
 import { cookies } from "next/headers"
 import { Toaster } from "react-hot-toast"
 import AdminDashboardHeader from "./AdminDashboardHeader"
+import { ThemeProvider } from "../context/ThemeProvider"
+import AdminChildrenWrapper from "./AdminChildrenWrapper"
 export default async function Layout({ children }: { children: React.ReactNode }) {
   return (
     <DisplayComponents>
       <ProductDeleteProvider>
+      <ThemeProvider>
         <SidebarProvider>
           <AdminSideBar />
           <ProductFilterProvider>
-              <div>
+              <div className="adminChild mx-4">
                 <AdminDashboardHeader/>
-                {children}
+                <AdminChildrenWrapper>
+                  {children}
+                  </AdminChildrenWrapper>
               </div>
           </ProductFilterProvider>
         </SidebarProvider>
+      </ThemeProvider>
       </ProductDeleteProvider>
       <ConditionalComponents />
       <Toaster/>

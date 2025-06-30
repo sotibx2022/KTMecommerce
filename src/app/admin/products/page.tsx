@@ -28,7 +28,14 @@ import { FilterX, Plus } from "lucide-react";
 import { ProductsPageHeader } from "../components/ProductsPageHeader";
 import LoadingComponent from "@/app/_components/loadingComponent/LoadingComponent";
 import { useProductDelete } from "@/app/context/ProductDeleteContext";
+import { generateClassName } from "@/app/services/helperFunctions/generateClassNames";
+import { ThemeProvider, ThemeProviderContext } from "@/app/context/ThemeProvider";
 const page=() =>{
+  const themeContext = useContext(ThemeProviderContext);
+  if(!themeContext){
+    throw new Error ("Context is not available here")
+  }
+  const{theme} = themeContext;
   const {isPending:deleteProductPending} = useProductDelete()
     const context = useContext(ProductFilterContext);
   const { filterState,setFilterState } = context;
@@ -81,12 +88,12 @@ const pagination = productsResponse?.success ? productsResponse.data!.pagination
 <div className={width > 1000 
   ? "overflow-x-hidden w-full" 
   : "overflow-x-auto max-w-[800px]"}>
-  <Table className="min-w-[1000px]">
-    <TableTop />
-    <TableBody>
+  <Table className={`${generateClassName(theme)}`}>
+    <TableTop theme={theme}/>
+    <TableBody >
       {isPending?<TableRowSkleton rowNumber={10}/>:(<>
       {products.map((product: IProductDisplay, index: number) => (
-        <TableData key={index} product={product} index={index}  />
+        <TableData key={index} product={product} index={index} theme={theme} />
       ))}
       </>)}
     </TableBody>

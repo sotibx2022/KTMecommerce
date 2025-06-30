@@ -213,3 +213,9 @@ button, input, textarea, select, optgroup, option {
     @apply bg-background text-foreground;
   }
 }
+.darkTheme td,th,span,h1,select,button{
+  @apply bg-primaryDark text-background
+}
+.lightTheme td,th,span,h1,select{
+  @apply bg-background text-primaryDark
+}
