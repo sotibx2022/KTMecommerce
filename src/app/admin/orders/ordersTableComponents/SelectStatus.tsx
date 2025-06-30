@@ -49,7 +49,7 @@ const SelectStatus: React.FC<ISelectStatus> = ({ status, orderId }) => {
     },
   })
   return (
-    <TableCell className="flex gap-2 items-center">
+    <div className="flex gap-2 items-center">
       <Select
         value={statusValue}
         onValueChange={(val) => setStatusValue(val as typeof status)}
@@ -81,7 +81,7 @@ const SelectStatus: React.FC<ISelectStatus> = ({ status, orderId }) => {
           <Save className="text-green-500 text-sm hover:text-green-800 transition-all duration-300" />
         )}
       </button>
-    </TableCell>
+    </div>
   )
 }
 export default SelectStatus

@@ -43,7 +43,6 @@
         _id?: string;
         createdAt?: Date;
         updatedAt?: Date;
-        nonExpandable?:boolean
       }
       export interface IOrderItem {
         quantity: number;
