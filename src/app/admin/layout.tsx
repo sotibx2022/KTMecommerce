@@ -6,6 +6,7 @@ import ProductFilterProvider from "../context/ProductFilterContext"
 import ConditionalComponents from "../_components/conditionalVisibleComponents/ConditionalComponents"
 import { cookies } from "next/headers"
 import { Toaster } from "react-hot-toast"
+import AdminDashboardHeader from "./AdminDashboardHeader"
 export default async function Layout({ children }: { children: React.ReactNode }) {
   return (
     <DisplayComponents>
@@ -13,7 +14,10 @@ export default async function Layout({ children }: { children: React.ReactNode }
         <SidebarProvider>
           <AdminSideBar />
           <ProductFilterProvider>
-              {children}
+              <div>
+                <AdminDashboardHeader/>
+                {children}
+              </div>
           </ProductFilterProvider>
         </SidebarProvider>
       </ProductDeleteProvider>

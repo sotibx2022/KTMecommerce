@@ -10,7 +10,11 @@ import {
 import { 
   Package, ClipboardList, Users, Layers, Tags,
   MessageSquare, Home, ChevronLeft, ChevronRight,
-  Mail, Briefcase, LayoutDashboard
+  Mail, Briefcase, LayoutDashboard,
+  ShoppingCart,
+  Heart,
+  Settings,
+  ImageIcon
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { usePathname, useRouter } from "next/navigation"
@@ -20,9 +24,12 @@ const sideBarItems = [
   { href: '/admin/orders', icon: ClipboardList, text: 'Orders' },
   { href: '/admin/users', icon: Users, text: 'Users' },
   { href: '/admin/categories', icon: Layers, text: 'Categories' },
-  { href: '/admin/subcategories', icon: Tags, text: 'Subcategories' },
-  { href: '/admin/remarks', icon: MessageSquare, text: 'Remarks' }
-]
+  { href: '/admin/remarks', icon: MessageSquare, text: 'Remarks' },
+  { href: '/admin/carts', icon: ShoppingCart, text: 'Carts' },
+  { href: '/admin/wishlists', icon: Heart, text: 'Wishlists' },
+  { href: '/admin/sliders', icon: ImageIcon, text: 'Sliders' },  // New entry
+  { href: '/admin/settings', icon: Settings, text: 'Settings' }
+];
 const AdminSideBar = () => {
   const router = useRouter()
   const pathName = usePathname()
