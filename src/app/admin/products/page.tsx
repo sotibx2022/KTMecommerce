@@ -88,8 +88,9 @@ const pagination = productsResponse?.success ? productsResponse.data!.pagination
 <div className={width > 1000 
   ? "overflow-x-hidden w-full" 
   : "overflow-x-auto max-w-[800px]"}>
-  <Table className={`${generateClassName(theme)}`}>
-    <TableTop theme={theme}/>
+  <div >
+    <Table className={`${theme==='dark'? "darkTable":"lightTable"}`}>
+    <TableTop/>
     <TableBody >
       {isPending?<TableRowSkleton rowNumber={10}/>:(<>
       {products.map((product: IProductDisplay, index: number) => (
@@ -98,6 +99,7 @@ const pagination = productsResponse?.success ? productsResponse.data!.pagination
       </>)}
     </TableBody>
   </Table>
+  </div>
 </div>
      <TableNavigation pagination={pagination}/>
     </div>

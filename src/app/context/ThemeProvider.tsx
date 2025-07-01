@@ -1,19 +1,21 @@
-"use client"
+"use client";
 import React, { createContext, useState } from 'react';
-interface IInitialTheme {
-  theme: "light" | "dark";
-  setTheme: React.Dispatch<React.SetStateAction<"light" | "dark">>;
+type Theme = "light" | "dark";
+interface IThemeContext {
+  theme: Theme;
+  setTheme: (theme: Theme) => void;
 }
-const ThemeProviderContext = createContext<IInitialTheme | undefined>(undefined);
-interface IThemeProviderProps {
-  children: React.ReactNode;
-}
-const ThemeProvider: React.FC<IThemeProviderProps> = ({ children }) => {
-  const [theme, setTheme] = useState<"light" | "dark">("light");
+export const ThemeProviderContext = createContext<IThemeContext | undefined>(undefined);
+export function ThemeProvider({ children }: { children: React.ReactNode }) {
+  // Default theme is 'light'
+  const [theme, setThemeState] = useState<Theme>("light");
+  // Simple setter
+  const setTheme = (newTheme: Theme) => {
+    setThemeState(newTheme);
+  };
   return (
     <ThemeProviderContext.Provider value={{ theme, setTheme }}>
-      {children} {/* Render children here instead of string */}
+      {children}
     </ThemeProviderContext.Provider>
   );
-};
-export { ThemeProvider, ThemeProviderContext };
+}

@@ -19,8 +19,8 @@ import {
 import { Button } from "@/components/ui/button"
 import { usePathname, useRouter } from "next/navigation"
 import { useContext } from "react"
-import { ThemeProviderContext } from "../context/ThemeProvider"
 import { generateClassName } from "../services/helperFunctions/generateClassNames"
+import { ThemeProviderContext } from "../context/ThemeProvider"
 const sideBarItems = [
   { href: '/admin', icon: Home, text: 'Dashboard' },
   { href: '/admin/products', icon: Package, text: 'Products' },
@@ -49,7 +49,7 @@ const AdminSideBar = () => {
     toggleSidebar,
   } = useSidebar()
   return (
-    <div className={generateClassName(theme)}>
+    <div className={generateClassName(theme) }>
       <Sidebar 
         collapsible="icon" 
         className={`shadow-helper ${generateClassName(theme)}`}

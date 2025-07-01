@@ -1,13 +1,11 @@
 import React from 'react'
-import OrdersToday from './OrdersToday'
-import OrdersThisMonth from './OrdersThisMonth'
-import OrdersThisWeek from './OrdersThisWeek'
+import TimeSummaryCard from '../../components/ecommerceSummary/TimeSummaryCard'
 const TotalOrders = () => {
   return (
-    <div className='flex justify-between items-center w-full'>
-      <OrdersToday count={10} trend='down'/>
-      <OrdersThisMonth count={6} trend='up'/>
-      <OrdersThisWeek count={3} trend='down'/>
+    <div className='grid grid-cols-1 md:grid-cols-3 gap-4 container'>
+      <TimeSummaryCard title={'Orders Today'} amount={'12'} trend={'up'} />
+      <TimeSummaryCard title={'Orders This Week'} amount={'94'} trend={'down'} />
+      <TimeSummaryCard title={'Orders This Month'} amount={'256'} trend={'up'}/>
     </div>
   )
 }

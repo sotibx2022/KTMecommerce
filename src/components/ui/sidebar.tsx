@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
+import {useContext} from "react"
 import {
   Sheet,
   SheetContent,
@@ -49,7 +50,8 @@ const SidebarProvider = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<"div"> & {
     defaultOpen?: boolean
-    open?: boolean
+    open?: boolean,
+    theme:string,
     onOpenChange?: (open: boolean) => void
   }
 >(
@@ -61,6 +63,7 @@ const SidebarProvider = React.forwardRef<
       className,
       style,
       children,
+      theme,
       ...props
     },
     ref
@@ -131,9 +134,10 @@ const SidebarProvider = React.forwardRef<
               } as React.CSSProperties
             }
             className={cn(
-              "group/sidebar-wrapper flex min-h-svh w-full has-[[data-variant=inset]]:bg-sidebar",
-              className
-            )}
+  "group/sidebar-wrapper sideBarWrapper flex min-h-svh w-full has-[[data-variant=inset]]:bg-sidebar",
+  className,
+  theme === 'dark' ? "bg-primaryDark" : "bg-background"
+)}
             ref={ref}
             {...props}
           >

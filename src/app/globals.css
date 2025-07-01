@@ -4,6 +4,7 @@
 :root {
   --primary: #876061;
   --primaryDark: #531c1d;
+  --primaryLight: #876061;
   --helper: #fcae04;
   --background:#feffdf;
   --radius: 8px;
@@ -213,9 +214,11 @@ button, input, textarea, select, optgroup, option {
     @apply bg-background text-foreground;
   }
 }
-.darkTheme td,th,span,h1,select,button{
-  @apply bg-primaryDark text-background
-}
-.lightTheme td,th,span,h1,select{
-  @apply bg-background text-primaryDark
+.darkTable span,
+.darkTable svg,
+.darkTable th,
+.darkTable td,
+.darkTable tr,
+.darkTable thead {
+  color: var(--background)!important;
 }

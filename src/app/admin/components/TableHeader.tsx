@@ -4,11 +4,7 @@ import React, { useContext } from 'react'
 import { ShortableTableHead } from './ShortableTableHead'
 import SelectableTableHeader from './SelectableTableHeader'
 import { ProductFilterContext } from '@/app/context/ProductFilterContext'
-import { generateClassName } from '@/app/services/helperFunctions/generateClassNames'
-interface TableTopProps {
-  theme: "light" | "dark"
-}
-const TableTop: React.FC<TableTopProps> = ({ theme }) => {
+const TableTop = () => {
   const { filterState, setFilterState } = useContext(ProductFilterContext)
   const UpdatePriceSorting = () => {
     setFilterState((prev) => ({
@@ -23,15 +19,15 @@ const TableTop: React.FC<TableTopProps> = ({ theme }) => {
     }))
   }
   return (
-    <TableHeader className={`${generateClassName(theme)}`}>
-      <TableRow className={`${generateClassName(theme)}`}>
-        <TableHead className={`${generateClassName(theme)} min-w-[50px]`}>
+    <TableHeader >
+      <TableRow >
+        <TableHead className={`min-w-[50px]`}>
           SN.
         </TableHead>
-        <TableHead className={`${generateClassName(theme)} min-w-[100px]`}>
+        <TableHead className={` min-w-[100px]`}>
           Image
         </TableHead>
-        <TableHead className={`${generateClassName(theme)} min-w-[150px]`}>
+        <TableHead className={` min-w-[150px]`}>
           Product Name
         </TableHead>
         <ShortableTableHead 
@@ -39,13 +35,13 @@ const TableTop: React.FC<TableTopProps> = ({ theme }) => {
           onClick={UpdatePriceSorting} 
           state={filterState.price === "Price" ? "normal" : filterState.price}
         />
-        <SelectableTableHeader 
+        <SelectableTableHeader  
           title="Stock" 
         />
         <SelectableTableHeader 
           title="Category" 
         />
-        <SelectableTableHeader 
+        <SelectableTableHeader
           title="Type" 
         />
         <SelectableTableHeader 
@@ -56,7 +52,7 @@ const TableTop: React.FC<TableTopProps> = ({ theme }) => {
           onClick={UpdateRatingSorting} 
           state={filterState.rating === "Rating" ? "normal" : filterState.rating}
         />
-        <TableHead className={`${generateClassName(theme)}`}>
+        <TableHead >
           Action
         </TableHead>
       </TableRow>

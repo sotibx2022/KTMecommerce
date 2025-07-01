@@ -8,10 +8,10 @@ import ProductHighLightSelection from './ProductHighLightSelection'
 import StockSelection from './StockSelection'
 import { ProductFilterContext } from '@/app/context/ProductFilterContext'
 import SubCategoriesSelection from './SubCategoriesSelection'
-interface ISelectableTableHeader {
-    title: string
+interface SelectableTableHeader{
+    title:String
 }
-const SelectableTableHeader: React.FC<ISelectableTableHeader> = ({ title }) => {
+const SelectableTableHeader:React.FC<SelectableTableHeader> = ({title}) => {
     const dropdownRef = useRef<HTMLDivElement>(null) // Added proper type
     const [showAbsoluteComponent, setShowAbsoluteComponent] = useState(false)
     const {filterState} = useContext(ProductFilterContext)
@@ -32,10 +32,10 @@ const SelectableTableHeader: React.FC<ISelectableTableHeader> = ({ title }) => {
         }
     }, [clickedEvent])
     return (
-        <TableHead className={`relative ${title === 'Sub Category'}?" min-w-[150px]":""`}>
+        <TableHead className={`relative  ${title === 'Sub Category'}?" min-w-[150px]":""`}>
             <div className="flex items-center gap-2" ref={dropdownRef}>
                 <>
-                        {title === "Category" &&<span>{filterState.categoryText}</span> }
+                        {title === "Category" &&<span >{filterState.categoryText}</span> }
                         {title === "Type" && <span>{filterState.categoryText === "Category" ? "Item" :filterState.subCategoryText}</span>}
                         {title === "Highlights" && <span>{filterState.highlights}</span>}
                         {title === "Stock" && <span>{filterState.stock}</span>}

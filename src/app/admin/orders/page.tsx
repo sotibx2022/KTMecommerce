@@ -26,7 +26,15 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import SkeletonOrdersTable from './ordersComponents/SkeletonOrdersTable'
 import NoData from '@/app/_components/noData/NoData'
 import TableNavigation from '../components/TableNavigation'
+import { ThemeProviderContext } from '@/app/context/ThemeProvider'
+import { generateClassName } from '@/app/services/helperFunctions/generateClassNames'
+import DynamicOrderData from './ordersComponents/DynamicOrderData'
 const page = () => {
+  const themeContext = useContext(ThemeProviderContext);
+  if(!themeContext){
+    throw new Error ("Theme Context is not Defined here")
+  }
+  const {theme} = themeContext
   const{visibleComponent,setVisibleComponent} = useContext(DisplayContext);
   const[orderDetails,setOrderDetails] = useState<null | OrderDetailsProps>(null)
   const router = useRouter()
@@ -38,22 +46,22 @@ const page = () => {
     setOrderDetails(order)
   }
   return (
-    <div className="ml-4">
+    <div className={`{"ml-4"}`}>
       <Provider store={store}>
     <div className='w-[90%] my-4'>
       <TotalOrders />
       <div className="w-full overflow-x-auto">
-      <Table className='my-4 w-[90%]'>
+      <Table className={`${theme}==="dark"?"darkTable:"lightTable" 'my-4 w-[90%]'`}>
         <TableHeader>
           <TableRow>
-            <TableHead>SN</TableHead>
-            <TableHead>Order#</TableHead>
-            <TableHead>User Email</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Total Items</TableHead>
-            <TableHead>Total Cost</TableHead>
-            <TableHead>Created At</TableHead>
-            <TableHead>View Order</TableHead>
+            <TableHead><DynamicOrderData text='SN' /></TableHead>
+            <TableHead><DynamicOrderData text='Order#' /></TableHead>
+            <TableHead><DynamicOrderData text='User Email' /></TableHead>
+            <TableHead><DynamicOrderData text='Status' /></TableHead>
+            <TableHead><DynamicOrderData text='Total Items' /></TableHead>
+            <TableHead><DynamicOrderData text='Total Cost' /></TableHead>
+            <TableHead><DynamicOrderData text='Created At' /></TableHead>
+            <TableHead><DynamicOrderData text='View Order' /></TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -63,28 +71,28 @@ const page = () => {
   orders.data.length > 0 ? (
     orders.data.map((order: IOrderDetails, index: number) => (
       <TableRow key={index}>
-  <TableCell className="min-w-[50px]">{index + 1}</TableCell>
+  <TableCell className="min-w-[50px]"><DynamicOrderData text={(index + 1).toString()} /></TableCell>
   <TableCell className="min-w-[120px]">
-    <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-primaryDark">
-      {order._id!.slice(-8).toUpperCase()}
-    </h2>
+      <h2 className="text-lg sm:text-xl md:text-2xl font-bold">
+        <DynamicOrderData text={order._id!.slice(-8).toUpperCase()} />
+      </h2>
   </TableCell>
-  <TableCell className="min-w-[50px]">{order.userEmail}</TableCell>
+  <TableCell className="min-w-[50px]"><DynamicOrderData text={order.userEmail} /></TableCell>
   <TableCell className="min-w-[150px]">
-    <SelectStatus status={order.status} orderId={order._id!} />
+      <SelectStatus status={order.status} orderId={order._id!} />
   </TableCell>
-  <TableCell className="min-w-[100px]">{order.orderSummary.totalItems}</TableCell>
-  <TableCell className="min-w-[100px]">{order.orderSummary.grossTotal}</TableCell>
-  <TableCell className="min-w-[150px]">{DateFormator(order.createdAt!)}</TableCell>
+  <TableCell className="min-w-[100px]"><DynamicOrderData text={order.orderSummary.totalItems.toString()} /></TableCell>
+  <TableCell className="min-w-[100px]"><DynamicOrderData text={order.orderSummary.grossTotal.toString()} /></TableCell>
+  <TableCell className="min-w-[150px]"><DynamicOrderData text={DateFormator(order.createdAt!)} /></TableCell>
   <TableCell className="min-w-[100px]">
-    <Button onClick={() => handleDisplayOrderDetails(order)}>View</Button>
+      <Button onClick={() => handleDisplayOrderDetails(order)}>View</Button>
   </TableCell>
 </TableRow>
     ))
   ) : (
     <TableRow>
       <TableCell colSpan={9} className="h-24 text-center">
-        <NoData icon={<ShoppingCart/>} notFoundMessage="There are no Orders Created Yet" />
+          <NoData icon={<ShoppingCart/>} notFoundMessage="There are no Orders Created Yet" />
       </TableCell>
     </TableRow>
   )
