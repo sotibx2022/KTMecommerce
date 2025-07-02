@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
       { message: "Login successful", success: true },
       { status: 200 }
     );
-    return setAuthCookies(user);
+    return setAuthCookies(user,response);
   } catch (error) {
     return NextResponse.json(
       { message: "Internal server error", success: false },

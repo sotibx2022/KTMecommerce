@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
         email: newUser.email,
       }
     });
-    return setAuthCookies(newUser);
+    return setAuthCookies(newUser,response);
   } catch (error) {
     return NextResponse.json({
       status: 500,
