@@ -2,9 +2,9 @@ import UserModel from "@/models/users.model";
 import { NextRequest, NextResponse } from "next/server";
 import { getUserIdFromCookies } from "../auth/authFunctions/getUserIdFromCookies";
 import { connectToDB } from "@/config/db";
-export async function GET(req: NextRequest,res:NextResponse) {
+export async function GET(req: NextRequest) {
     try {
-        connectToDB();
+        await connectToDB();
         const userId = await getUserIdFromCookies(req)
         if (!userId) {
             return NextResponse.json(
