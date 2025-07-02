@@ -35,11 +35,6 @@ const RegisterComponent = () => {
         setVisibleComponent('')
         queryClient.setQueryData(['user'], response.data);
         await queryClient.invalidateQueries({queryKey:['user']});
-        signIn("credentials", {
-      email: response.data.email,
-      password: variables.password,
-      redirect: false,
-    });
       } else {
         toast.error(response.message);
         setVisibleComponent('')

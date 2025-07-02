@@ -20,50 +20,45 @@ import AuthProvider from './AuthProvider';
 import SocialMediaAuth from './SocialMediaAuth';
 import Divider from './Divider';
 import AccountOptionLinks from './AccountOptionLinks';
+import axios from 'axios';
 const LoginComponent = () => {
-  const[showPassword,setShowPassword] = useState(false);
-  const {refetch:refetchUserDetails} = useQuery({queryKey:['user'],queryFn:getUserDetails,enabled:false})
-  const {visibleComponent,setVisibleComponent} = useContext(DisplayContext);
-  const {register, formState:{errors}, handleSubmit} = useForm<LoginData>({mode:'onBlur'})
-  const queryCLient = useQueryClient()
- const onSubmit = async (data: LoginData) => {
-  setVisibleComponent('loadingComponent')
+  const [showPassword, setShowPassword] = useState(false);
+  const { refetch: refetchUserDetails } = useQuery({ queryKey: ['user'], queryFn: getUserDetails, enabled: false })
+  const { visibleComponent, setVisibleComponent } = useContext(DisplayContext);
+  const { register, formState: { errors }, handleSubmit } = useForm<LoginData>({ mode: 'onBlur' })
+  const queryClient = useQueryClient()
+  const onSubmit = async (data: LoginData) => {
+    setVisibleComponent('loadingComponent');
     try {
-      const result = await signIn('credentials', {
-        email: data.loginEmail,
-        password: data.loginPassword,
-        redirect: false,
-      });
-      if (result?.error) {
-        setVisibleComponent('')
-        try {
-          const errorData = JSON.parse(result.error);
-          toast.error(errorData.message);
-        } catch {
-          toast.error(result.error || 'Login failed');
-        }
-      } else {
+      const response = await axios.post('/api/auth/loginUser', data); // Make sure to send the form data
+      if (response.data.success) {
+        setVisibleComponent("")
         toast.success('Login successful');
-        setVisibleComponent('')
-        const {data:userDetails} =  await refetchUserDetails();
-        queryCLient.setQueryData(['user'],userDetails)
-await queryCLient.invalidateQueries({queryKey:['user']});
+        const { data: userDetails } = await refetchUserDetails();
+        await Promise.all([
+          queryClient.setQueryData(['user'], userDetails),
+          queryClient.invalidateQueries({ queryKey: ['user'] })
+        ]);
+      } else {
+        toast.error(response.data.message || 'Login failed');
       }
     } catch (error) {
+      toast.error(
+        'An unexpected error occurred during login'
+      );
+    } finally {
       setVisibleComponent('');
-      toast.error('An unexpected error occurred');
-      console.error('Login error:', error);
     }
   };
   return (
     <>
-         {visibleComponent==='loadingComponent' ? <LoadingComponent/>: 
-         <AuthProvider>
-           <div className="max-w-[400px] p-6 rounded-lg shadow-lg relative">
-          <form className="flex flex-col gap-2" onSubmit={handleSubmit(onSubmit)}>
-            {/* Close Icon */}
-            <h2 className="subHeading mb-4">Login</h2>
-            <div>
+      {visibleComponent === 'loadingComponent' ? <LoadingComponent /> :
+        <AuthProvider>
+          <div className="max-w-[400px] p-6 rounded-lg shadow-lg relative">
+            <form className="flex flex-col gap-2" onSubmit={handleSubmit(onSubmit)}>
+              {/* Close Icon */}
+              <h2 className="subHeading mb-4">Login</h2>
+              <div>
                 <div className="flex items-center mb-1">
                   <FontAwesomeIcon icon={faEnvelope} className='text-primaryDark mr-2' />
                   <label htmlFor="email" className='primaryParagraph'>
@@ -80,45 +75,45 @@ await queryCLient.invalidateQueries({queryKey:['user']});
                 />
                 {errors.loginEmail?.message && <SubmitError message={errors.loginEmail.message} />}
               </div>
-            <div>
-                            <div className="flex items-center mb-1">
-                              <FontAwesomeIcon icon={faLock} className='text-primaryDark mr-2' />
-                              <label htmlFor="password" className='primaryParagraph'>
-                                Password <span className="text-red-500">*</span>
-                              </label>
-                            </div>
-                            <div className="passwordArea relative">
-                            <input
-                              type={showPassword?"text":"password"}
-                              placeholder="••••••••"
-                              className="formItem w-full"
-                              autoComplete='off'
-                              {...register("loginPassword", {
-                                validate: (value) => validatePassword("Password", value, 8)
-                              })}
-                            />
-                             <button
-                                      type="button"
-                                      className="absolute right-3 top-1/2 -translate-y-1/2 text-primaryDark hover:text-primary transition-colors"
-                                      onClick={() => setShowPassword(!showPassword)}
-                                      aria-label={showPassword ? "Hide password" : "Show password"}
-                                    >
-                                      <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
-                                    </button>
-                                    </div>
-                            {errors.loginPassword?.message && <SubmitError message={errors.loginPassword.message} />}
-                          </div>
-           <PrimaryButton searchText='Login' />
+              <div>
+                <div className="flex items-center mb-1">
+                  <FontAwesomeIcon icon={faLock} className='text-primaryDark mr-2' />
+                  <label htmlFor="password" className='primaryParagraph'>
+                    Password <span className="text-red-500">*</span>
+                  </label>
+                </div>
+                <div className="passwordArea relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="••••••••"
+                    className="formItem w-full"
+                    autoComplete='off'
+                    {...register("loginPassword", {
+                      validate: (value) => validatePassword("Password", value, 8)
+                    })}
+                  />
+                  <button
+                    type="button"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-primaryDark hover:text-primary transition-colors"
+                    onClick={() => setShowPassword(!showPassword)}
+                    aria-label={showPassword ? "Hide password" : "Show password"}
+                  >
+                    <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
+                  </button>
+                </div>
+                {errors.loginPassword?.message && <SubmitError message={errors.loginPassword.message} />}
+              </div>
+              <PrimaryButton searchText='Login' />
             </form>
-            <Divider text="or Conitnue with social Media"/>
-            <SocialMediaAuth/>
-            <Divider text="Account Access Options"/>
-            <AccountOptionLinks visibleItem={'register'} visibleText={'Account Not Created Yet?'}/>
-            <AccountOptionLinks visibleItem={'resetPassword'} visibleText={'Forget Password?'}/>
-      </div>
-         </AuthProvider>}
-      {visibleComponent==='register' && <RegisterComponent/>}
-      {visibleComponent ==='resetPassword' && <ResetPasswordComponent/>}
+            <Divider text="or Conitnue with social Media" />
+            <SocialMediaAuth />
+            <Divider text="Account Access Options" />
+            <AccountOptionLinks visibleItem={'register'} visibleText={'Account Not Created Yet?'} />
+            <AccountOptionLinks visibleItem={'resetPassword'} visibleText={'Forget Password?'} />
+          </div>
+        </AuthProvider>}
+      {visibleComponent === 'register' && <RegisterComponent />}
+      {visibleComponent === 'resetPassword' && <ResetPasswordComponent />}
     </>
   );
 };

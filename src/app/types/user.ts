@@ -8,7 +8,7 @@ interface IPasswordHistory{
 }
 export interface IUser {
   _id:Object;
-    fullName: string;
+    fullName?: string;
     email: string;
     password?:string;
     passwordHistory?:IPasswordHistory[];

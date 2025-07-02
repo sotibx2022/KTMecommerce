@@ -2,6 +2,7 @@
 import { DisplayContext } from "@/app/context/DisplayComponents";
 import { UserDetailsContext } from "@/app/context/UserDetailsContextComponent";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
@@ -18,21 +19,20 @@ export const useLogout = () => {
   return useMutation({
     mutationFn: async () => {
       setVisibleComponent('loadingComponent');
-      await signOut({ redirect: false });
+      const response = await axios.get('/api/auth/logoutUser');
+      return response.data;
     },
-    onSuccess: async () => {
+    onSuccess: async (response) => {
       try {
-        // Reset all relevant state first
+        setVisibleComponent('')
         setUserDetails(null);
-        // Invalidate queries in parallel for better performance
         await Promise.all([
           queryClient.setQueryData(['user'], null),
           queryClient.setQueryData(['cartItems'], null),
           queryClient.invalidateQueries({ queryKey: ['user'] }),
           queryClient.invalidateQueries({ queryKey: ['cartItems'] }),
-          // Add any other queries that need invalidation
         ]);
-        toast.success("Logged out successfully");
+        toast.success(response.message);
         router.push('/');
       } catch (error) {
         console.error("Logout cleanup error:", error);

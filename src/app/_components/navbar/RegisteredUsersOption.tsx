@@ -54,10 +54,16 @@ useEffect(() => {
         />
       ) : (
         <h1 className="text-primaryDark text-upperCase bg-background w-[30px] h-[30px] flex-center text-xl rounded-full">
-          {userDetails!.fullName.split("")[0].toUpperCase()}
+         {userDetails?.fullName
+  ? userDetails.fullName[0].toUpperCase()
+  : userDetails?.email?.[0]?.toUpperCase()}
         </h1>
       )}
-      <p className="text-white capitalize"><span className='text-helper'>Welcome</span> {userDetails?.fullName.split(" ")[0]}</p>
+     <p className="text-white capitalize">
+  <span className='text-helper'>Welcome</span> {userDetails?.fullName
+    ? userDetails.fullName.split(" ")[0]
+    : userDetails?.email?.split("@")[0]}
+</p>
       <FontAwesomeIcon
         icon={showUserOptions ? faCaretUp : faCaretDown}
         className="text-background"

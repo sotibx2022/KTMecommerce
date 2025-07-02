@@ -27,7 +27,6 @@ export const createUserMutation = async (
     const response = await axios.post(`/api/auth/registerUser`, userData);
     return response.data as APIResponseSuccess; // Explicitly cast to success type
   } catch (error) {
-    // Check if the error is an Axios error
     if (axios.isAxiosError(error) && error.response) {
       return {
         message: error.response.data.message || "An error occurred",
@@ -35,7 +34,6 @@ export const createUserMutation = async (
         status: error.response.status || 500,
       };
     } else {
-      // Handle unexpected errors
       return {
         message: "Unexpected error occurred",
         success: false,

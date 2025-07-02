@@ -3,11 +3,11 @@ import { CartModel } from "@/models/carts.model";
 import { Types } from "mongoose";
 import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
+import { getUserIdFromCookies } from "../../auth/authFunctions/getUserIdFromCookies";
 export async function GET(req: NextRequest) {
   try {
     connectToDB();
-     const token = await getToken({req});
-            const userId = token?.id;
+    const userId = getUserIdFromCookies(req);
     if (!userId) {
       return NextResponse.json(
         { message: "User ID is required", success: false },

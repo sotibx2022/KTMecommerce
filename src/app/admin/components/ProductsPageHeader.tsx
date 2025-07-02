@@ -13,7 +13,6 @@ export const ProductsPageHeader = () => {
   return (
     <>
     <div className="flex flex-col sm:flex-row justify-between items-center gap-4 my-4">
-      {/* <TotalProducts/> */}
       <div className="w-full sm:w-auto">
         <ProductSearchBar />
       </div>

@@ -1,16 +1,13 @@
 import { NextResponse } from 'next/server';
 import { NextRequest } from 'next/server';
 import { getToken } from 'next-auth/jwt';
+import { getUserIdFromCookies } from './app/api/auth/authFunctions/getUserIdFromCookies';
 const ALLOWED_ORIGINS = [
   'https://ecommercektm.vercel.app/',
   'http://localhost:3000', 
 ];
 export async function middleware(request: NextRequest) {
-  const token = await getToken({
-    req: request,
-    secret: process.env.NEXTAUTH_SECRET,
-  });
-              const tokenCookie = token?.id;
+  const userId = await getUserIdFromCookies(request)
   const path = request.nextUrl.pathname;
   const origin = request.headers.get('origin') || '';
   const privatePaths = [
@@ -47,7 +44,7 @@ export async function middleware(request: NextRequest) {
     return response;
   }
   // Handle private paths
-  if (isPrivatePath && !tokenCookie) {
+  if (isPrivatePath && !userId) {
     return NextResponse.redirect(new URL('/', request.url));
   }
   return NextResponse.next();
