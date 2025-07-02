@@ -8,7 +8,7 @@ import { useForm } from 'react-hook-form';
 import SubmitError from '../submit/SubmitError';
 import { validateConfirmPassword, validateEmail, validateFullName, validateNumber, validatePassword } from '@/app/services/helperFunctions/validatorFunctions';
 import { RegisterData } from '@/app/types/formData';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { APIResponseError, APIResponseSuccess, createUserMutation } from '@/app/services/queryFunctions/users';
 import { IUser, RegisterUserInput } from '@/app/types/user';
 import LoadingButton from '../primaryButton/LoadingButton';
@@ -22,10 +22,12 @@ import AuthProvider from './AuthProvider';
 import AccountOptionLinks from './AccountOptionLinks';
 import Divider from './Divider';
 import SocialMediaAuth from './SocialMediaAuth';
+import { getUserDetails } from '@/app/services/helperFunctions/getUserDetails';
 const RegisterComponent = () => {
   const[showPassword,setShowPassword] = useState(false);
   const queryClient = useQueryClient();
   const { visibleComponent,setVisibleComponent } = useContext(DisplayContext);
+  const {refetch:refetchUserDetails} =useQuery({queryKey:['user'],queryFn:getUserDetails})
   const mutation = useMutation<APIResponseSuccess | APIResponseError, Error, RegisterUserInput>({
     mutationFn: createUserMutation,
     onSuccess: async (response,variables) => {
@@ -33,8 +35,11 @@ const RegisterComponent = () => {
       if (response.success) {
         toast.success(response.message);
         setVisibleComponent('')
-        queryClient.setQueryData(['user'], response.data);
-        await queryClient.invalidateQueries({queryKey:['user']});
+        const{data:userDetails} = await refetchUserDetails()
+        await Promise.all([
+          queryClient.setQueryData(['user'], userDetails),
+        await queryClient.invalidateQueries({queryKey:['user']})
+        ])
       } else {
         toast.error(response.message);
         setVisibleComponent('')
