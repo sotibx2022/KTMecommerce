@@ -1,3 +1,9 @@
+import NextAuth from "next-auth";
+import GoogleProvider from "next-auth/providers/google";
+import FacebookProvider from "next-auth/providers/facebook";
+import type { NextAuthOptions } from "next-auth";
+import UserModel from "@/models/users.model";
+// Extend JWT and Session types
 declare module "next-auth" {
   interface Session {
     user: {
@@ -14,11 +20,6 @@ declare module "next-auth" {
     provider?: string;
   }
 }
-import NextAuth from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
-import FacebookProvider from "next-auth/providers/facebook";
-import type { NextAuthOptions } from "next-auth";
-import UserModel from "@/models/users.model";
 export const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
@@ -32,12 +33,11 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async signIn({ account, profile }) {
-      // You can add custom logic here if needed
       return true;
     },
     async session({ session, token }) {
       if (session.user && token._id) {
-        session.user.id = token._id as string;
+        session.user.id = token._id as string
       }
       return session;
     },
@@ -52,9 +52,8 @@ export const authOptions: NextAuthOptions = {
           });
           await dbUser.save();
         }
-        // Assign user info to token
         token.email = dbUser.email;
-        token._id = dbUser._id.toString(); // MongoDB ObjectId as string
+        token._id = dbUser._id.toString();
       }
       if (account?.provider) {
         token.provider = account.provider;
@@ -67,5 +66,6 @@ export const authOptions: NextAuthOptions = {
   },
   secret: process.env.NEXTAUTH_SECRET,
 };
+// ✅ App Router expects a default export handler:
 const handler = NextAuth(authOptions);
-export { handler as GET, handler as POST };
+export default handler;

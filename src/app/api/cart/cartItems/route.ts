@@ -7,7 +7,7 @@ import { getUserIdFromCookies } from "../../auth/authFunctions/getUserIdFromCook
 export async function GET(req: NextRequest) {
   try {
     connectToDB();
-    const userId = getUserIdFromCookies(req);
+    const userId = await getUserIdFromCookies(req);
     if (!userId) {
       return NextResponse.json(
         { message: "User ID is required", success: false },
