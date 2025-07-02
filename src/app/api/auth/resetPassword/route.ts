@@ -1,8 +1,10 @@
+import { connectToDB } from "@/config/db";
 import UserModel from "@/models/users.model";
 import bcrypt from "bcryptjs";
 import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
   try {
+    connectToDB();
      const {data}= await req.json();
      const { newPassword, confirmNewPassword, email } = data;
     // Validate input
