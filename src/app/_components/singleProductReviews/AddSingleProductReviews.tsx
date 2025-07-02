@@ -53,7 +53,7 @@ router.refresh();
     } 
   };
 if(userDetails){
-  setValue('reviewedBy.fullName',userDetails!.fullName);
+  setValue('reviewedBy.fullName',userDetails!.fullName ?? userDetails.email);
   setValue('reviewedBy.email',userDetails!.email);
   if(userDetails!.profileImage){
     setValue('reviewerImage',userDetails!.profileImage)
