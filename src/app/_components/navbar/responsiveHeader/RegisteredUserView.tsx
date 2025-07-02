@@ -22,12 +22,12 @@ const RegisteredUserView:React.FC<IRegistedUserView> = ({userDetails}) => {
               />
             ) : (
               <h1 className="text-primaryDark uppercase bg-background w-[30px] h-[30px] flex-center text-xl rounded-full border-2 border-helper">
-                {userDetails.fullName.split("")[0].toUpperCase()}
+                {(userDetails.fullName ?? userDetails.email)?.charAt(0).toUpperCase()}
               </h1>
             )}
             <p className="text-primaryDark capitalize flex gap-2">
-              <span className="text-helper">Welcome</span> 
-              {userDetails.fullName.split(" ")[0]}
+              <span className="text-helper">Welcome</span>
+              {userDetails.fullName ? userDetails.fullName.split(" ")[0]:userDetails.email.split("@")[0]}
             </p>
           </div>
           </Link>
