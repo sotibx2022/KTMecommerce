@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
   try {
     connectToDB();
-     const {data}= await req.json();
+     const data= await req.json();
      const { newPassword, confirmNewPassword, email } = data;
     // Validate input
     if (!newPassword || !confirmNewPassword || !email) {

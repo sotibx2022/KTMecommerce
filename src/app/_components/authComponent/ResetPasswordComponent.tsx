@@ -33,13 +33,13 @@ const ResetresetPasswordComponent = () => {
   const updateNewresetPassword = async (data: ResetresetPasswordData): Promise<APIResponseSuccess | APIResponseError> => {
     setVisibleComponent('loadingComponent');
     try {
-      const response = await axios.post('/api/auth/resetPassword', { data });
+      const response = await axios.post('/api/auth/resetPassword', data );
       return response.data;
     } catch (error) {
       return { message: "Axios Error Occurred.", status: 400, success: false };
     }
   };
-  const resetresetPasswordMutation = useMutation<APIResponseSuccess | APIResponseError, Error, ResetresetPasswordData>({
+  const resetPasswordMutation = useMutation<APIResponseSuccess | APIResponseError, Error, ResetresetPasswordData>({
     mutationFn: updateNewresetPassword,
     onSuccess: (response) => {
       toast.success(response.message);
@@ -51,7 +51,7 @@ const ResetresetPasswordComponent = () => {
     }
   });
   const onSubmit = async (data: ResetresetPasswordData) => {
-    resetresetPasswordMutation.mutate(data);
+    resetPasswordMutation.mutate(data);
   };
   return (
     <>
