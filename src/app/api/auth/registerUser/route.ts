@@ -53,7 +53,6 @@ export async function POST(request: NextRequest) {
       status: 500,
       message: "Server error",
       success: false,
-      error: process.env.NODE_ENV === 'development' ? error.message : undefined
     });
   }
 }
