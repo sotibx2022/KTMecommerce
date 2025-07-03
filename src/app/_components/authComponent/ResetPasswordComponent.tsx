@@ -42,8 +42,13 @@ const ResetresetPasswordComponent = () => {
   const resetPasswordMutation = useMutation<APIResponseSuccess | APIResponseError, Error, ResetresetPasswordData>({
     mutationFn: updateNewresetPassword,
     onSuccess: (response) => {
-      toast.success(response.message);
+      if(response.success){
+        toast.success(response.message);
       setVisibleComponent('');
+      }else{
+        toast.error(response.message);
+      setVisibleComponent('');
+      }
     },
     onError: (error) => {
       toast.error(error.message);
@@ -72,8 +77,8 @@ const ResetresetPasswordComponent = () => {
                     </label>
                   </div>
                   <input
-                    type="resetEmail"
-                    placeholder="your@resetEmail.com"
+                    type="text"
+                    placeholder="your@resetemail.com"
                     className="formItem w-full"
                     id="resetEmail"
                     {...register("resetEmail", {
@@ -93,7 +98,7 @@ const ResetresetPasswordComponent = () => {
                   </div>
                   <div className="resetPasswordArea relative">
                     <input
-                      type={showresetPassword ? "text" : "resetPassword"}
+                      type={showresetPassword ? "text" : "password"}
                       placeholder="••••••••"
                       className="formItem w-full"
                       autoComplete="new-resetPassword"
@@ -108,7 +113,7 @@ const ResetresetPasswordComponent = () => {
                       onClick={() => setShowresetPassword(!showresetPassword)}
                       aria-label={showresetPassword ? "Hide resetPassword" : "Show resetPassword"}
                     >
-                      <FontAwesomeIcon icon={showresetPassword ? faEyeSlash : faEye} />
+                      <FontAwesomeIcon icon={showresetPassword ? faEye : faEyeSlash} />
                     </button>
                   </div>
                   {errors.newresetPassword?.message && <SubmitError message={errors.newresetPassword.message} />}
@@ -123,7 +128,7 @@ const ResetresetPasswordComponent = () => {
                   </div>
                   <div className="resetPasswordArea relative">
                     <input
-                      type={showConfirmresetPassword ? "text" : "resetPassword"}
+                      type={showConfirmresetPassword ? "text" : "password"}
                       placeholder="••••••••"
                       className="formItem w-full"
                       autoComplete="new-resetPassword"
@@ -139,7 +144,7 @@ const ResetresetPasswordComponent = () => {
                       onClick={() => setShowConfirmresetPassword(!showConfirmresetPassword)}
                       aria-label={showConfirmresetPassword ? "Hide resetPassword" : "Show resetPassword"}
                     >
-                      <FontAwesomeIcon icon={showConfirmresetPassword ? faEyeSlash : faEye} />
+                      <FontAwesomeIcon icon={showresetPassword ? faEye : faEyeSlash} />
                     </button>
                   </div>
                   {errors.confirmNewresetPassword?.message && (

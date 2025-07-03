@@ -1,7 +1,7 @@
 import UserModel from "@/models/users.model";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
-import { setAuthCookies } from "../authFunctions/setauthCookies";
+import { setAuthCookies } from "../authFunctions/setAuthCookies";
 import { connectToDB } from "@/config/db";
 export async function POST(req: NextRequest) {
   try {
@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
       { message: "Login successful", success: true },
       { status: 200 }
     );
-    return setAuthCookies(user,response);
+    return setAuthCookies(user, response);
   } catch (error) {
     return NextResponse.json(
       { message: "Internal server error", success: false },
