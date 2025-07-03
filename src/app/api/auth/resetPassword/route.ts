@@ -2,27 +2,43 @@ import { connectToDB } from "@/config/db";
 import UserModel from "@/models/users.model";
 import bcrypt from "bcryptjs";
 import { NextRequest, NextResponse } from "next/server";
+import { getUserIdFromCookies } from "../authFunctions/getUserIdFromCookies";
 export async function POST(req: NextRequest) {
   try {
     connectToDB();
     const data = await req.json();
     const { resetEmail, newresetPassword, confirmNewresetPassword } = data;
+    const userId = await getUserIdFromCookies(req)
     // Validate input
-    if (!newresetPassword || !confirmNewresetPassword || !resetEmail) {
+    if (!newresetPassword || !confirmNewresetPassword) {
       return NextResponse.json({
         success: false,
-        message: "All fields are required",
+        message: "New password and confirmation are required",
+        status: 400,
+      });
+    }
+    // Either email (for reset) or userId (for update) must be present
+    if (!resetEmail && !userId) {
+      return NextResponse.json({
+        success: false,
+        message: "Either email or user authentication is required",
         status: 400,
       });
     }
     if (newresetPassword !== confirmNewresetPassword) {
       return NextResponse.json({
         success: false,
-        message: "Passwords don't match",
+        message: "Passwords do not match",
         status: 400,
       });
     }
-    const user = await UserModel.findOne({ email: resetEmail });
+    let user;
+    if (resetEmail) {
+      user = await UserModel.findOne({ email: resetEmail });
+    }
+    else if (userId) {
+      user = await UserModel.findById(userId);
+    }
     if (!user) {
       return NextResponse.json({
         success: false,
@@ -30,7 +46,6 @@ export async function POST(req: NextRequest) {
         status: 404,
       });
     }
-    // Check password history
     if (user.passwordHistory && user.passwordHistory.length > 0) {
       for (const entry of user.passwordHistory) {
         if (entry.password && (await bcrypt.compare(newresetPassword, entry.password))) {

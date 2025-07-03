@@ -1,8 +1,8 @@
 import UserModel from "@/models/users.model";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
-import { setAuthCookies } from "../authFunctions/setAuthCookies";
 import { connectToDB } from "@/config/db";
+import { setAuthCookies } from "../authFunctions/setauthCookies";
 export async function POST(req: NextRequest) {
   try {
     connectToDB();

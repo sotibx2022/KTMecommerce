@@ -1,14 +1,13 @@
 "use client"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
+import SubmitError from '../submit/SubmitError'
 import { faEye, faEyeSlash, faLock } from '@fortawesome/free-solid-svg-icons'
 import { useForm, useFormContext, useWatch } from 'react-hook-form'
+import { ResetresetPasswordData } from './ResetPasswordComponent'
 import { validateConfirmPassword, validatePassword } from '@/app/services/helperFunctions/validatorFunctions'
-import { Info, Lock, Eye, EyeOff } from 'lucide-react'
-import { UpdatePasswordData } from './UpdatePassword'
-import SubmitError from '@/app/_components/submit/SubmitError'
-import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent'
-const NewPasswordEnter = () => {
+import { Info } from 'lucide-react'
+const UpdatePassword = () => {
     const [showresetPassword, setShowresetPassword] = useState(false);
     const [showConfirmresetPassword, setShowConfirmresetPassword] = useState(false);
     const {
@@ -16,16 +15,11 @@ const NewPasswordEnter = () => {
         formState: { errors },
         getValues,
         control
-    } = useFormContext<UpdatePasswordData>();
-    const checkOriginalPassword = useWatch({control,name:'checkOriginalPassword'})
-    const context = useContext(UserDetailsContext);
-        if (!context) {
-            throw new Error("user detail context is not defined here.")
-        }
-        const { userDetails } = context;
+    } = useFormContext<ResetresetPasswordData>();
+    const passwordExist = useWatch({control,name:'passwordExist'})
     return (
         <div>
-            {!checkOriginalPassword &&  (userDetails?.passwordHistory?.length ===0) &&(
+            {!passwordExist && (
               <div className="bg-blue-50 border-l-4 border-primaryLight p-4 mb-4 rounded text-sm">
                 <div className="flex flex-col gap-2">
                   <div className="flex gap-1">
@@ -40,9 +34,9 @@ const NewPasswordEnter = () => {
                 </div>
               </div>
             )}
-            <div className='mb-2'>
+            <div>
                 <div className="flex items-center mb-1">
-                    <Lock className="text-primaryDark mr-2" />
+                    <FontAwesomeIcon icon={faLock} className="text-primaryDark mr-2" />
                     <label htmlFor="newresetPassword" className="text-primaryParagraph">
                         New Password <span className="text-red-500">*</span>
                     </label>
@@ -53,7 +47,7 @@ const NewPasswordEnter = () => {
                         placeholder="••••••••"
                         className="formItem w-full"
                         autoComplete="new-resetPassword"
-                        {...register('newupdatedPassword', {
+                        {...register("newresetPassword", {
                             required: "New resetPassword is required",
                             validate: (value) => validatePassword("New resetPassword", value, 8),
                         })}
@@ -62,17 +56,17 @@ const NewPasswordEnter = () => {
                         type="button"
                         className="absolute right-3 top-1/2 -translate-y-1/2 text-primaryDark hover:text-primary transition-colors"
                         onClick={() => setShowresetPassword(!showresetPassword)}
-                        aria-label={showresetPassword ? "Hide password" : "Show password"}
+                        aria-label={showresetPassword ? "Hide resetPassword" : "Show resetPassword"}
                     >
-                        {showresetPassword ? <Eye className="w-5 h-5" /> : <EyeOff className="w-5 h-5" />}
+                        <FontAwesomeIcon icon={showresetPassword ? faEye : faEyeSlash} />
                     </button>
                 </div>
-                {errors.newupdatedPassword?.message && <SubmitError message={errors.newupdatedPassword.message} />}
+                {errors.newresetPassword?.message && <SubmitError message={errors.newresetPassword.message} />}
             </div>
-            {/* Confirm New Password */}
+            {/* Confirm New resetPassword */}
             <div>
                 <div className="flex items-center mb-1">
-                    <Lock className="text-primaryDark mr-2" />
+                    <FontAwesomeIcon icon={faLock} className="text-primaryDark mr-2" />
                     <label htmlFor="confirmNewresetPassword" className="text-primaryParagraph">
                         Confirm New Password <span className="text-red-500">*</span>
                     </label>
@@ -83,26 +77,26 @@ const NewPasswordEnter = () => {
                         placeholder="••••••••"
                         className="formItem w-full"
                         autoComplete="new-resetPassword"
-                        {...register('confirmupdatedPassword', {
-                            required: "Please confirm your new password",
+                        {...register("confirmNewresetPassword", {
+                            required: "Please confirm your new resetPassword",
                             validate: (value) =>
-                                validateConfirmPassword("Confirm New password", getValues('newupdatedPassword'), value),
+                                validateConfirmPassword("Confirm New resetPassword", getValues("newresetPassword"), value),
                         })}
                     />
                     <button
                         type="button"
                         className="absolute right-3 top-1/2 -translate-y-1/2 text-primaryDark hover:text-primary transition-colors"
                         onClick={() => setShowConfirmresetPassword(!showConfirmresetPassword)}
-                        aria-label={showConfirmresetPassword ? "Hide password" : "Show password"}
+                        aria-label={showConfirmresetPassword ? "Hide resetPassword" : "Show resetPassword"}
                     >
-                        {showConfirmresetPassword ? <Eye className="w-5 h-5" /> : <EyeOff className="w-5 h-5" />}
+                        <FontAwesomeIcon icon={showresetPassword ? faEye : faEyeSlash} />
                     </button>
                 </div>
-                {errors.confirmupdatedPassword?.message && (
-                    <SubmitError message={errors.confirmupdatedPassword.message} />
+                {errors.confirmNewresetPassword?.message && (
+                    <SubmitError message={errors.confirmNewresetPassword.message} />
                 )}
             </div>
         </div>
     )
 }
-export default NewPasswordEnter
+export default UpdatePassword

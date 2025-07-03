@@ -1,43 +1,48 @@
 import { connectToDB } from "@/config/db";
 import UserModel from "@/models/users.model";
 import bcrypt from "bcryptjs";
-import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
-import jwt from 'jsonwebtoken';
+import { getUserIdFromCookies } from "../authFunctions/getUserIdFromCookies"; // Assuming this function exists and works correctly
 export async function POST(req: NextRequest) {
-  console.log("1. Starting password verification endpoint");
   try {
-    console.log("2. Attempting to connect to database");
     await connectToDB();
-    console.log("3. Database connection successful");
-    console.log("4. Parsing request body");
-    const data = await req.json();
-    const { currentPassword } = data;
-    console.log("5. Current password received:", !!currentPassword ? "*****" : "undefined");
-    console.log("6. Getting token from cookies");
-    const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
-    console.log("7. Token received:", token ? "exists" : "null");
-    if (!token) {
-      console.log("8. No token found - returning unauthorized");
+    const { currentPassword } = await req.json();
+    const userId = await getUserIdFromCookies(req);
+    if (!userId) {
       return NextResponse.json(
-        { success: false, message: "Unauthorized: No token provided" },
+        { success: false, message: "Unauthorized: User ID not found in cookies" },
         { status: 401 }
       );
     }
-    console.log("9. Raw token content:", JSON.stringify(token, null, 2));
-    // If you need to decode the raw JWT (when using JWT strategy)
-    const rawToken = await getToken({ req, raw: true });
-    if (rawToken && process.env.NEXTAUTH_SECRET) {
-      console.log("10. Raw JWT string:", rawToken);
-      const decoded = jwt.decode(rawToken);
-      console.log("11. Decoded JWT content:", JSON.stringify(decoded, null, 2));
+    const user = await UserModel.findOne({_id:userId}); 
+    if (!user) {
+      return NextResponse.json(
+        { success: false, message: "User not found" },
+        { status: 404 } 
+      );
+    }
+    if (!user.password) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Account registered with social login. No password set for direct login.",
+        },
+        { status: 400 } // Bad request or conflict, as they can't 'verify' a non-existent password
+      );
+    }
+    const isPasswordValid = await bcrypt.compare(currentPassword, user.password);
+    if (!isPasswordValid) {
+      return NextResponse.json(
+        { success: false, message: "Incorrect current password" },
+        { status: 401 } 
+      );
     }
     return NextResponse.json(
-      { success: true, message: "Token decoded successfully" },
+      { success: true, message: "Current password verified successfully" },
       { status: 200 }
     );
   } catch (error) {
-    console.error("12. ERROR in token handling:", error);
+    console.error("Error in POST /api/verify-password:", error); 
     return NextResponse.json(
       { success: false, message: "Internal server error" },
       { status: 500 }
