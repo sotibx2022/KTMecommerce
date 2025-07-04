@@ -13,7 +13,7 @@ interface IDataTOSendForAPI {
     confirmNewresetPassword: string,
 }
 import PrimaryButton from '@/app/_components/primaryButton/PrimaryButton';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { APIResponseError, APIResponseSuccess } from '@/app/services/queryFunctions/users';
@@ -24,7 +24,9 @@ import CurrentPasswordCheck from './CurrentPasswordCheck';
 import NewPasswordEnter from './NewPasswordEnter';
 import LoadingButton from '@/app/_components/primaryButton/LoadingButton';
 import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponent';
+import GoogleAccountInfo from './GoogleAccountInfo';
 const UpdatePassword = () => {
+    const [showGoogleAccountInfo, setShowGoogleAccountInfo] = useState(false);
     const context = useContext(UserDetailsContext);
     if (!context) {
         throw new Error("user detail context is not defined here.")
@@ -73,18 +75,28 @@ const UpdatePassword = () => {
             updatePasswordMutation.mutate(dataToSend);
         }
     };
-    const showPasswordCheck = !checkOriginalPassword || (userDetails?.passwordHistory?.length === 0);
+    console.log(userDetails)
+    useEffect(() => {
+        if (userDetails?.passwordHistory) {
+            if (userDetails!.passwordHistory!.length === 0) {
+                formMethod.setValue('checkOriginalPassword', true)
+                setShowGoogleAccountInfo(true)
+            }
+        }
+    }, [userDetails])
+    const showPasswordCheck = !checkOriginalPassword;
     const showPasswordEnter = checkOriginalPassword
     return (
         <div className="resetresetPasswordComponentWrapper">
             <h2 className="subHeading mb-4">Reset Password</h2>
             <FormProvider {...formMethod}>
                 <form className="flex flex-col gap-4" onSubmit={formMethod.handleSubmit(onSubmit)}>
-                        <>
-                        {showPasswordCheck && <CurrentPasswordCheck/>}
-                            {showPasswordEnter && <NewPasswordEnter />}
-                                {showPasswordEnter && <PrimaryButton searchText="Update" />}
-                        </>
+                    <>
+                        {showPasswordCheck && <CurrentPasswordCheck />}
+                        {showGoogleAccountInfo && <GoogleAccountInfo />}
+                        {showPasswordEnter && <NewPasswordEnter />}
+                        {showPasswordEnter && <PrimaryButton searchText="Update" />}
+                    </>
                     {updatePasswordMutation.isPending && <LoadingComponent />}
                 </form>
             </FormProvider>

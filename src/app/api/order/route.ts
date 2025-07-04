@@ -1,4 +1,5 @@
 import { connectToDB } from "@/config/db";
+import DeliveryDetailsModel from "@/models/deliveryDetails.model";
 import { NotificationModel } from "@/models/notification.model";
 import OrderModel from "@/models/orders.model";
 import UserModel from "@/models/users.model";
@@ -33,7 +34,11 @@ export async function POST(req: NextRequest) {
       category:"OrderCreated",
     })
     await newNotification.save();
-    // Return success response
+    const newDeliveryDetails = new DeliveryDetailsModel({
+      shippingAddress,
+      userId:user?._id
+    })
+    newDeliveryDetails.save()
     return NextResponse.json(
       {
         message: "Order created successfully",
