@@ -32,7 +32,6 @@ const UpdatePassword = () => {
         throw new Error("user detail context is not defined here.")
     }
     const { userDetails } = context;
-    console.log(userDetails)
     const formMethod = useForm<UpdatePasswordData>({
         mode: 'onBlur',
         defaultValues: {
@@ -48,7 +47,6 @@ const UpdatePassword = () => {
         control: formMethod.control,
         name: 'checkOriginalPassword'
     });
-    console.log(checkOriginalPassword);
     const updatePasswordMutation = useMutation<APIResponseSuccess | APIResponseError, Error, IDataTOSendForAPI>({
         mutationFn: async (data: IDataTOSendForAPI) => {
             const response = await axios.post('/api/auth/resetPassword', data);
@@ -88,7 +86,7 @@ const UpdatePassword = () => {
     const showPasswordEnter = checkOriginalPassword
     return (
         <div className="resetresetPasswordComponentWrapper">
-            <h2 className="subHeading mb-4">Reset Password</h2>
+            <h2 className="text-xl font-semibold mb-4 text-primaryDark">Update Password</h2>
             <FormProvider {...formMethod}>
                 <form className="flex flex-col gap-4" onSubmit={formMethod.handleSubmit(onSubmit)}>
                     <>

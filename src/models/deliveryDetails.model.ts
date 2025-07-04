@@ -31,5 +31,5 @@ const deliveryDetailsSchema = new Schema<IDeliveryDetails>({
     }
 },
 {timestamps:true})
-const DeliveryDetailsModel = mongoose.models.DeliveryDetailsModel || mongoose.model("deliveryDetailsSchema")
+const DeliveryDetailsModel = mongoose.models.delivery || mongoose.model("delivery",deliveryDetailsSchema)
 export default DeliveryDetailsModel

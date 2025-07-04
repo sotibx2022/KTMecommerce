@@ -58,7 +58,7 @@ const CurrentPasswordCheck = () => {
     };
     return (
         <>
-            <div>
+            <div className=''>
                 <div className="flex items-center">
                     <Lock className='text-primaryDark mr-2 h-4 w-4' />
                     <label htmlFor="originalPassword" className='primaryParagraph'>

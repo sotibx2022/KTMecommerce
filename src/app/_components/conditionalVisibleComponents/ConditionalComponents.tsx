@@ -7,11 +7,9 @@ import RegisterComponent from '../authComponent/RegisterComponent'
 import PureSearch from '../pureSearch/PureSearch'
 import LoadingComponent from '../loadingComponent/LoadingComponent'
 import ResetPasswordComponent from '../authComponent/ResetPasswordComponent'
-import ProductImage from '../singleProduct/ProductImage'
-import AddSingleProductReviews from '../singleProductReviews/AddSingleProductReviews'
 import AdvanceSearchMobile from '@/app/catalog/[searchValue]/AdvanceSearchMobile'
 import TotalProducts from '@/app/admin/components/ecommerceSummary/TotalProducts'
-import OrderDetails from '../orderDetails/OrderDetails'
+import DeleteUser from '@/app/dashboard/settings/DashboardSettingComponents/DeleteUser'
 const ConditionalComponents = () => {
     const { visibleComponent,setVisibleComponent } = useContext(DisplayContext)
   return (
@@ -24,6 +22,7 @@ const ConditionalComponents = () => {
       {visibleComponent ==='resetPassword' && <ResetPasswordComponent/>}
       {visibleComponent ==='advanceSearch' && <AdvanceSearchMobile/>}
       {visibleComponent ==='productsSummary' && <TotalProducts/>}
+      {visibleComponent ==='deleteUser' && <DeleteUser/>}
     </div>
   )
 }

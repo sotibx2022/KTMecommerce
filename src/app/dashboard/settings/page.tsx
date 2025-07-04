@@ -1,12 +1,29 @@
-import React from 'react'
-import UpdatePassword from './DashboardSettingComponents/UpdatePassword'
-import UpdateDeliveryDetails from './DashboardSettingComponents/UpdateDeliveryDetails'
-const page = () => {
+import React from 'react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import UpdatePassword from './DashboardSettingComponents/UpdatePassword';
+import UpdateDeliveryDetails from './DashboardSettingComponents/UpdateDeliveryDetails';
+import DeleteUserAccount from './DashboardSettingComponents/DeleteUserAccount';
+const SettingsPage = () => {
   return (
-    <div>
-      <UpdateDeliveryDetails/>
-      <UpdatePassword/>
+    <div className="max-w-[500px]">
+      <h1 className="subHeading">Account Settings</h1>
+      <Tabs defaultValue="delivery" className="w-full">
+        <TabsList className="grid w-[300px] grid-cols-3">
+          <TabsTrigger value="delivery">Delivery</TabsTrigger>
+          <TabsTrigger value="password">Password</TabsTrigger>
+          <TabsTrigger value="account">Account</TabsTrigger>
+        </TabsList>
+        <TabsContent value="delivery">
+          <UpdateDeliveryDetails />
+        </TabsContent>
+        <TabsContent value="password" className="mt-6 p-6">
+          <UpdatePassword />
+        </TabsContent>
+        <TabsContent value="account" className="mt-6 p-6">
+          <DeleteUserAccount />
+        </TabsContent>
+      </Tabs>
     </div>
-  )
-}
-export default page
+  );
+};
+export default SettingsPage;

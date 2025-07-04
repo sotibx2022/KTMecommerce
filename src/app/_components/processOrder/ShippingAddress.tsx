@@ -3,10 +3,13 @@ import { useFormContext } from "react-hook-form"
 import SubmitError from "../submit/SubmitError"
 import { validateNumber, validateSentence, validateWord } from "@/app/services/helperFunctions/validatorFunctions"
 import { IOrderDetails } from "@/app/types/orders"
-const ShippingAddress = () => {
+interface IshippingAddress{
+shadow?:boolean
+}
+const ShippingAddress:React.FC<IshippingAddress> = ({shadow}) => {
   const { register, formState: { errors } } = useFormContext<IOrderDetails>()
   return (
-    <div className="bg-background p-6 rounded-lg shadow-helper">
+    <div className={`bg-background p-6 rounded-lg ${shadow===false?"":"shadow-helper"}`}>
       <h2 className="text-xl font-semibold mb-4 text-primaryDark">Shipping Address</h2>
       <div>
         <label className="block text-sm font-medium text-primaryDark mb-1">Street Address*</label>
