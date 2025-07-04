@@ -59,6 +59,7 @@ const loginMutation = useMutation<APIResponseSuccess | APIResponseError, Error, 
   },
   onError: (error) => {
     toast.error(error.message || 'An unexpected error occurred during login.');
+  setVisibleComponent('');
   },
   onSettled: () => {
     setVisibleComponent('');

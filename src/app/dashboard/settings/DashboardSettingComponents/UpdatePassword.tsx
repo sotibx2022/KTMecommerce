@@ -46,6 +46,7 @@ const UpdatePassword = () => {
         control: formMethod.control,
         name: 'checkOriginalPassword'
     });
+    console.log(checkOriginalPassword);
     const updatePasswordMutation = useMutation<APIResponseSuccess | APIResponseError, Error, IDataTOSendForAPI>({
         mutationFn: async (data: IDataTOSendForAPI) => {
             const response = await axios.post('/api/auth/resetPassword', data);

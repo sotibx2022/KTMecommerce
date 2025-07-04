@@ -12,6 +12,7 @@ import { APIResponseError, APIResponseSuccess } from '@/app/services/queryFuncti
 import { UpdatePasswordData } from './UpdatePassword';
 import LoadingButton from '@/app/_components/primaryButton/LoadingButton';
 import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
+import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponent';
 interface ICurrentPasswordCheckPayload {
     currentPassword: string;
 }
@@ -26,17 +27,19 @@ const CurrentPasswordCheck = () => {
     >({
         mutationFn: async () => {
             const response = await axios.post('/api/auth/checkPassword', { currentPassword: currentPasswordValue },
-                {validateStatus:(status)=>{
-                    return status<500
-                }}
+                {
+                    validateStatus: (status) => {
+                        return status < 500
+                    }
+                }
             );
             return response.data;
         },
         onSuccess: (response) => {
             if (response.success) {
                 toast.success(response.message);
-                if(response.data.password){
-setValue('checkOriginalPassword', true);
+                if (response.data.password) {
+                    setValue('checkOriginalPassword', true);
                 }
             } else {
                 toast.error(response.message);
@@ -89,6 +92,7 @@ setValue('checkOriginalPassword', true);
                     onClick={handlePasswordCheck}
                 />}
             </div>
+            {checkPasswordMutation.isPending && <LoadingComponent/>}
         </>
     );
 };

@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
       );
     }
     return NextResponse.json(
-      { success: true, message: "Current password verified successfully" },
+      { success: true, message: "Current password verified successfully",data:{password:user.password}},
       { status: 200 }
     );
   } catch (error) {
