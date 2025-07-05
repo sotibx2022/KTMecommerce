@@ -2,6 +2,7 @@
 import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent'
 import { useOrders } from '@/app/hooks/queryHooks/useOrders'
 import { CartState } from '@/app/redux/cartSlice'
+import { ReduxState } from '@/app/redux/store'
 import { IWishListState } from '@/app/redux/wishListSlice'
 import { faClipboardList, faHeart, faShoppingCart, faUser } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -10,7 +11,7 @@ import React, { useContext } from 'react'
 import { useSelector } from 'react-redux'
 const ProfileAdditionalDetails = () => {
   const cartItems = useSelector((state: { cart: CartState }) => state.cart.cartItems);
-  const wishListItems = useSelector((state:IWishListState)=>state.wishListItems)
+  const { wishListItems } = useSelector((state:ReduxState) => state.wishList);
     const context = useContext(UserDetailsContext);
     if(!context){
       throw new Error ("The User Details Context is not defined")
