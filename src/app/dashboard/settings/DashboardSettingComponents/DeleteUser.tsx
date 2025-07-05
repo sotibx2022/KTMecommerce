@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { useMutation } from '@tanstack/react-query';
 import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponent';
 const DeleteUser = () => {
+    const logout = useLogout()
     const [confirmationText, setConfirmationText] = useState('');
     const { mutate: deleteUserMutation, isPending } = useMutation({
         mutationFn: async () => {
@@ -26,7 +27,7 @@ const DeleteUser = () => {
         }
     })
     const deleteHandler = () => {
-        useLogout()
+        logout.mutate()
         deleteUserMutation()
     }
     return (
