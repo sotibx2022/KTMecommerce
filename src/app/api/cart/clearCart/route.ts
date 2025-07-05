@@ -2,16 +2,17 @@ import { CartModel } from "@/models/carts.model";
 import UserModel from "@/models/users.model";
 import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
+import { getUserIdFromCookies } from "../../auth/authFunctions/getUserIdFromCookies";
 export async function POST(req: NextRequest) {
   try {
-    const token = await getToken({ req });
-    if (!token?.id) {
+    const userId = await getUserIdFromCookies(req);
+    if (!userId) {
       return NextResponse.json(
         { message: "Unauthorized", success: false },
         { status: 401 }
       );
     }
-    const objectUserId = new Object(token.id);
+    const objectUserId = new Object(userId);
     const user = await UserModel.findOne({ _id: objectUserId });
     if (!user) {
       return NextResponse.json(

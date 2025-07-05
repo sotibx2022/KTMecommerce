@@ -4,6 +4,7 @@ import { productModel } from "@/models/products.model";
 import { WishListModel } from "@/models/wishList.model";
 import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
+import { getUserIdFromCookies } from "../../auth/authFunctions/getUserIdFromCookies";
 export async function POST(req: NextRequest) {
   try {
     const { productId, productName, image, price, brand } = await req.json(); // Default quantity to 1
@@ -15,8 +16,7 @@ export async function POST(req: NextRequest) {
       );
     }
     // Retrieve user ID from cookies
-    const token = await getToken({req});
-                const userId = token?.id;
+   const userId = await getUserIdFromCookies(req);
     if (!userId) {
       return NextResponse.json(
         { message: "User ID not found in cookies.", success: false, status: 401 },

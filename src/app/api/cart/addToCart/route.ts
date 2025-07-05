@@ -1,12 +1,15 @@
 import { findCategoryNamefromCategoryId } from "@/app/services/apiFunctions/categoryText2CategoryObj";
 import { ICartItem, ICreateCart } from "@/app/types/cart";
+import { connectToDB } from "@/config/db";
 import { CartModel } from "@/models/carts.model";
 import { productModel } from "@/models/products.model";
 import { Types } from "mongoose";
 import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
+import { getUserIdFromCookies } from "../../auth/authFunctions/getUserIdFromCookies";
 export async function POST(req: NextRequest) {
   try {
+    connectToDB()
     const { productId, productName, image, price, brand, quantity = 1 } = await req.json(); // Default quantity to 1
     // Validate required fields
     if (!productId || !productName || !image || !price || !brand) {
@@ -16,8 +19,7 @@ export async function POST(req: NextRequest) {
       );
     }
     // Retrieve user ID from cookies
-    const token = await getToken({req});
-                const userId = token?.id;
+    const userId = await getUserIdFromCookies(req);
     if (!userId) {
       return NextResponse.json(
         { message: "User ID not found in cookies.", success: false, status: 401 },

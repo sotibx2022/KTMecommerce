@@ -2,20 +2,23 @@ import { NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
 import { WishListModel } from "@/models/wishList.model";
 import { Types } from "mongoose";
+import { getUserIdFromCookies } from "../../auth/authFunctions/getUserIdFromCookies";
+import { connectToDB } from "@/config/db";
 export async function POST(req: NextRequest) {
   try {
+    connectToDB()
     // Parse the request body as JSON
     const requestBody = await req.json();
     const productId = requestBody.productId; // Extract productId from the object
-    const token = await getToken({ req });
-    if (!token?.id) {
+    const userId = getUserIdFromCookies(req);
+    if (!userId) {
       return NextResponse.json(
         { message: "Unauthorized", success: false },
         { status: 401 }
       );
     }
     // Convert user ID to ObjectId
-    const userIdString = token.id.toString();
+    const userIdString = userId.toString();
     if (!Types.ObjectId.isValid(userIdString)) {
       return NextResponse.json(
         { message: "Invalid user ID format", status: 400, success: false },

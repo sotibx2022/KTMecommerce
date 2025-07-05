@@ -2,8 +2,11 @@ import { CartModel } from "@/models/carts.model";
 import { NextRequest, NextResponse } from "next/server";
 import mongoose from "mongoose";
 import { getToken } from "next-auth/jwt";
+import { connectToDB } from "@/config/db";
+import { getUserIdFromCookies } from "../../auth/authFunctions/getUserIdFromCookies";
 export async function POST(req: NextRequest) {
   try {
+    connectToDB()
     const data = await req.json();
     const { productId, quantity } = data;
     if (!productId || typeof quantity !== "number" || quantity <= 0) {
@@ -13,14 +16,14 @@ export async function POST(req: NextRequest) {
         status: 400,
       });
     }
- const token = await getToken({ req });
-     if (!token?.id) {
+ const userId = await getUserIdFromCookies(req)
+     if (!userId) {
        return NextResponse.json(
          { message: "Unauthorized", success: false },
          { status: 401 }
        );
      }
-     const objectUserId = new Object(token.id);
+     const objectUserId = new Object(userId);
     if (!objectUserId) {
       return NextResponse.json({
         message: "Authentication Error: Invalid or missing userId in cookies",

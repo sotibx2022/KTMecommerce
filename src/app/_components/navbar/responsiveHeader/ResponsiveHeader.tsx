@@ -22,7 +22,6 @@ const ResponsiveHeader = () => {
   const { data: NavItems = [] } = useCategories();
   const [activeCategory, setActiveCategory] = useState<number | null>(null);
   const [activeScreen, setActiveScreen] = useState(false);
-  const logout = useLogout();
   const userContext = useContext(UserDetailsContext);
   if (!userContext) {
     throw new Error("The User Details context is not working.");

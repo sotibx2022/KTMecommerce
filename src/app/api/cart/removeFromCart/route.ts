@@ -2,16 +2,19 @@ import { NextRequest, NextResponse } from "next/server";
 import { CartModel } from "@/models/carts.model";
 import { Types } from "mongoose";
 import { getToken } from "next-auth/jwt";
+import { connectToDB } from "@/config/db";
+import { getUserIdFromCookies } from "../../auth/authFunctions/getUserIdFromCookies";
 export async function POST(req: NextRequest) {
   const { productId } = await req.json();
- const token = await getToken({ req });
-     if (!token?.id) {
+ connectToDB()
+ const userId = await getUserIdFromCookies(req);
+     if (!userId) {
        return NextResponse.json(
          { message: "Unauthorized", success: false },
          { status: 401 }
        );
      }
-     const objectUserId = new Object(token.id);
+     const objectUserId = new Object(userId);
   if (!productId) {
     return NextResponse.json(
       { message: "Missing productId in request body", status: 400, success: false },
