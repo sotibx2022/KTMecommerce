@@ -30,19 +30,26 @@ const UpdateDeliveryDetails = () => {
     queryKey: ['deliveryDetails'],
   })
   const formMethods = useForm<DeliveryDetailsProps>()
-  useEffect(() => {
+useEffect(() => {
+  if (isPending) {
+    formMethods.setValue('shippingAddress.state', "Loading");
+    formMethods.setValue('shippingAddress.city', "Loading");
+    formMethods.setValue('shippingAddress.street', "Loading");
+  } else {
+    // Clear loading states and set actual values if they exist
     if (deliveryDetails?.success && deliveryDetails.data) {
-      const { state, city, street } = deliveryDetails.data.shippingAddress
+      const { state, city, street } = deliveryDetails.data.shippingAddress;
       formMethods.setValue('shippingAddress.state', state);
       formMethods.setValue('shippingAddress.city', city);
-      formMethods.setValue('shippingAddress.street', street)
+      formMethods.setValue('shippingAddress.street', street);
+    } else {
+      // Set empty strings if no data exists
+      formMethods.setValue('shippingAddress.state', "");
+      formMethods.setValue('shippingAddress.city', "");
+      formMethods.setValue('shippingAddress.street', "");
     }
-    if (isPending) {
-      formMethods.setValue('shippingAddress.state', "Loading");
-      formMethods.setValue('shippingAddress.city', "Loading");
-      formMethods.setValue('shippingAddress.street', "Loading")
-    }
-  }, [deliveryDetails, isPending])
+  }
+}, [deliveryDetails, isPending, formMethods]);
   const createDeliveryDetailsMutation = useMutation<APIResponseSuccess | APIResponseError, AxiosError, DeliveryDetailsProps>({
     mutationFn: async (data) => {
       const response = await axios.post('/api/deliveryDetails', data, {
