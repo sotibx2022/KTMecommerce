@@ -31,7 +31,7 @@ const ProfileAdditionalDetails = () => {
         </li></Link>
         <Link href="/dashboard/wishlist"><li className='primaryParagraph'>
           <FontAwesomeIcon icon={faHeart} className="mr-2" size='sm' />
-          Wishlists:<span className='hover:underline ml-2'>{wishListItems.length || 0}</span>
+          Wishlists:<span className='hover:underline ml-2'>{wishListItems && wishListItems.length || 0}</span>
         </li></Link>
         <Link href="/dashboard/orders"><li className='primaryParagraph'>
           <FontAwesomeIcon icon={faShoppingCart} className="mr-2" size='sm' />
