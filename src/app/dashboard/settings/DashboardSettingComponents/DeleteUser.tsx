@@ -17,7 +17,6 @@ const DeleteUser = () => {
         onSuccess: (response) => {
             if (response.success) {
                 toast.success(response.message)
-                useLogout()
             } else {
                 toast.error(response.message)
             }
@@ -26,6 +25,10 @@ const DeleteUser = () => {
             toast.error(error.message)
         }
     })
+    const deleteHandler = () => {
+        useLogout()
+        deleteUserMutation()
+    }
     return (
         <>
             <AbsoluteComponent>
@@ -48,7 +51,7 @@ const DeleteUser = () => {
                     />
                     <Button variant={'destructive'}
                         className='mt-2'
-                        onClick={() => deleteUserMutation()}
+                        onClick={deleteHandler}
                         disabled={confirmationText !== 'delete my account'}
                     >
                         {isPending ? 'Deleting...' : 'Delete Permanently'}

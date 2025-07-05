@@ -1,8 +1,8 @@
 "use client"
+import React, { useContext, useState } from 'react';
 import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponent';
 import { DisplayContext } from '@/app/context/DisplayComponents';
 import { Button } from '@/components/ui/button';
-import React, { useContext, useState } from 'react';
 import DeleteUser from './DeleteUser';
 const DeleteUserAccount = () => {
     const { visibleComponent, setVisibleComponent } = useContext(DisplayContext)
