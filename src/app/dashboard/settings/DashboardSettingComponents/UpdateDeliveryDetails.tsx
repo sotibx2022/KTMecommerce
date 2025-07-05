@@ -36,14 +36,12 @@ useEffect(() => {
     formMethods.setValue('shippingAddress.city', "Loading");
     formMethods.setValue('shippingAddress.street', "Loading");
   } else {
-    // Clear loading states and set actual values if they exist
     if (deliveryDetails?.success && deliveryDetails.data) {
       const { state, city, street } = deliveryDetails.data.shippingAddress;
       formMethods.setValue('shippingAddress.state', state);
       formMethods.setValue('shippingAddress.city', city);
       formMethods.setValue('shippingAddress.street', street);
     } else {
-      // Set empty strings if no data exists
       formMethods.setValue('shippingAddress.state', "");
       formMethods.setValue('shippingAddress.city', "");
       formMethods.setValue('shippingAddress.street', "");
