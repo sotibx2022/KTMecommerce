@@ -18,8 +18,6 @@ export async function middleware(request: NextRequest) {
     `/dashboard/setting`,
     `/dashboard/wishlist`,
     `/dashboard/notifications`,
-    `/pages/cart`,
-    `/pages/wishlist`,
   ];
   const isPrivatePath = privatePaths.includes(path);
   // Handle API routes with proper CORS

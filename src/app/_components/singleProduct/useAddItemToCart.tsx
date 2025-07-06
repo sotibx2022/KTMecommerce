@@ -16,7 +16,6 @@ const useAddItemToCart = () => {
   }
   const dispatch = useDispatch();
   const removeItemFromWishList = useRemoveWishListFromDB()
-  // React Query mutation for updating cart in the database
   const mutation = useMutation<APIResponseSuccess | APIResponseError, Error, ICartItem>({
     mutationFn: updatedCartItems,
     onSuccess: (response: APIResponseSuccess | APIResponseError) => {
