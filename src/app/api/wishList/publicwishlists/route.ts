@@ -39,7 +39,7 @@ export async function GET(req: NextRequest) {
     }).lean();
     const wishersDetails = await UserModel.findById(userId).select("email fullName profileImage");
     const updatedWishlistDetails = wishListItems.map((singleWishList) => ({
-      ...singleWishList.toObject(),         
+      ...singleWishList,         
       wishersId: userId
     }));
     const wishListDetails = {
