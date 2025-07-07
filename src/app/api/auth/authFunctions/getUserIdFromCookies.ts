@@ -1,6 +1,6 @@
 import { getToken } from "next-auth/jwt";
 import { NextRequest } from "next/server";
-import jwt from "jsonwebtoken";
+import { jwtVerify } from "jose";
 interface JwtPayload {
   userId: string;
 }
@@ -11,15 +11,19 @@ export const getUserIdFromCookies = async (
   const rawToken = req.cookies.get("userToken")?.value;
   if (rawToken) {
     try {
-      const decoded = jwt.verify(rawToken, JWT_SECRET) as JwtPayload;
-      return decoded.userId;
-    } catch {
-      return undefined;
+      const { payload } = await jwtVerify(rawToken, new TextEncoder().encode(JWT_SECRET));
+      return payload.userId as string;
+    } catch (error) {
+      // Fall through to NextAuth token check
     }
   }
-  const nextAuthToken = await getToken({
-    req,
-    secret: process.env.NEXTAUTH_SECRET,
-  });
-  return nextAuthToken?._id as string | undefined;
+  try {
+    const nextAuthToken = await getToken({
+      req,
+      secret: process.env.NEXTAUTH_SECRET,
+    });
+    return nextAuthToken?._id as string | undefined;
+  } catch (error) {
+    return undefined;
+  }
 };
