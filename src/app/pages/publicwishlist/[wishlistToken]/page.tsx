@@ -45,6 +45,7 @@ const PublicWishlistPage = () => {
     wishersDetails = wishlistDetails.data.wishersDetails;
     wishListItems = wishlistDetails.data.updatedWishlistDetails;
   }
+  console.log(wishListItems,wishersDetails);
   const handleOrderWishersList = () => {
     if(userDetails?._id === wishersDetails._id){
       toast.success("Navigate to your WishList page to order these materials.");
