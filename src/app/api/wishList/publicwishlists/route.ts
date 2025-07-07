@@ -52,10 +52,14 @@ export async function GET(req: NextRequest) {
     console.log('[6] Wishlist items query result:', wishListItems);
     console.log('[7] Attempting to find user details for userId:', userId);
     const wishersDetails = await UserModel.findById(userId).select("email fullName profileImage");
+   const updatedWishlistDetails = wishListItems.map((singleWishList) => ({
+  ...singleWishList,         // Spread existing properties
+  wishersId: userId          // Add new property
+}));
     console.log('[7] User details query result:', wishersDetails);
     const wishListDetails = {
       wishListItems,
-      wishersDetails,
+      updatedWishlistDetails,
     };
     console.log('[8] Combined response data:', wishListDetails);
     console.log('[9] Returning successful response');

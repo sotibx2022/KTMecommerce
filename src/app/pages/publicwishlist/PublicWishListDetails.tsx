@@ -50,9 +50,9 @@ const PublicWishListDetails: React.FC<PublicWishListDetailsProps> = ({ wishersDe
           className="bg-white rounded-lg shadow-primaryDark p-6 mb-8 flex flex-col sm:flex-row items-center gap-6"
         >
           <div className="relative w-24 h-24 rounded-full overflow-hidden border-4 border-helper">
-            {/* {wishersDetails.image ? (
+            {wishersDetails.profileImage ? (
               <img
-                src={wishersDetails.image}
+                src={wishersDetails.profileImage}
                 alt="Reviewer Image"
                 className="w-12 h-12 rounded-full object-cover border-2 border-primaryLight/30"
               />
@@ -60,7 +60,7 @@ const PublicWishListDetails: React.FC<PublicWishListDetailsProps> = ({ wishersDe
               <div className="inline-flex w-12 h-12 rounded-full border-2 border-primaryDark text-primaryDark bg-background justify-center items-center">
                 <User className="w-5 h-5" />
               </div>
-            )} */}
+            )} 
           </div>
           <div className="text-center sm:text-left">
             <h1 className="text-2xl font-bold text-primaryDark">{wishersDetails.fullName}</h1>

@@ -17,7 +17,7 @@ const NotificationSchema = new Schema<INotificationCreate>(
     },
     category: { 
       type: String,
-      enum: ["UserCreated", "UserUpdated", "OrderCreated", "OrderShipped", "PasswordUpdated"],
+      enum: ["UserCreated", "UserUpdated", "OrderCreated", "OrderShipped", "PasswordUpdated",'PublicWishList'],
       required: true 
     },
     read: { 

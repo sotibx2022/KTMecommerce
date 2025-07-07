@@ -19,7 +19,12 @@ const cartSlice = createSlice({
     },
     // Add a new item to the cart
     addToCart: (state, action: PayloadAction<ICartItem>) => {
-      state.cartItems.push(action.payload);
+      const duplicatedCartItem = (state.cartItems.some((cartItem) => {
+        return cartItem.productId === action.payload.productId
+      }))
+      if (!duplicatedCartItem) {
+        state.cartItems.push(action.payload);
+      }
       state.loading = false;
     },
     // Remove an item from the cart

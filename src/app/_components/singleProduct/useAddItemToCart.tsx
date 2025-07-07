@@ -31,7 +31,6 @@ const useAddItemToCart = () => {
       dispatch(addToCart(cartItemDetails));
       removeItemFromWishList.mutate(cartItemDetails.productId)
     } catch (error) {
-      console.error("Error adding item to the cart:", error);
     }
   };
   return addItemToCart; // Return the function
