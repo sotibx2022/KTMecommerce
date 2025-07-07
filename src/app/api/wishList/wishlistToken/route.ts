@@ -3,7 +3,6 @@ import { getUserIdFromCookies } from "../../auth/authFunctions/getUserIdFromCook
 import jwt from 'jsonwebtoken';
 export async function GET(req: NextRequest) {
     try {
-        console.log(process.env.TOKENSECRET)
         const userId = await getUserIdFromCookies(req);
         if (!userId) {
             return NextResponse.json(
@@ -26,7 +25,6 @@ export async function GET(req: NextRequest) {
             { status: 200 }
         );
     } catch (error) {
-        console.error("[WISHLIST_TOKEN_ERROR]", error);
         return NextResponse.json(
             { success: false, message: "Internal server error" },
             { status: 500 }

@@ -58,8 +58,8 @@ export async function GET(req: NextRequest) {
 }));
     console.log('[7] User details query result:', wishersDetails);
     const wishListDetails = {
-      wishListItems,
       updatedWishlistDetails,
+      wishersDetails,
     };
     console.log('[8] Combined response data:', wishListDetails);
     console.log('[9] Returning successful response');
