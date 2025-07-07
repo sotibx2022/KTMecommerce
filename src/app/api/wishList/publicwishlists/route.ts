@@ -36,11 +36,11 @@ export async function GET(req: NextRequest) {
     const wishListItems = await WishListModel.find({ userId }).populate({
       path: "productId",
       select: "productDescription stockAvailability isNewArrivals isTrendingNow isTopSell isOfferItem overallRating",
-    });
+    }).lean();
     const wishersDetails = await UserModel.findById(userId).select("email fullName profileImage");
     const updatedWishlistDetails = wishListItems.map((singleWishList) => ({
-      ...singleWishList,         // Spread existing properties
-      wishersId: userId          // Add new property
+      ...singleWishList.toObject(),         
+      wishersId: userId
     }));
     const wishListDetails = {
       updatedWishlistDetails,
