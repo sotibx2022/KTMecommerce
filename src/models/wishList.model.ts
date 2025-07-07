@@ -8,6 +8,11 @@ const wishListSchema = new Schema<IWishListItem>(
       ref: "User",
       required: true,
     },
+    wishersId:{
+     type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true, 
+    },
     productId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "product",

@@ -27,6 +27,11 @@ const SingleProduct: React.FC<IProductDisplay> = ({ ...cartItemDetails }) => {
   const { visibleComponent, setVisibleComponent } = useContext(DisplayContext);
   const cartItems = useSelector((state: { cart: CartState }) => state.cart.cartItems);
   const wishListItems = useSelector((state: { wishList: IWishListState }) => state.wishList.wishListItems)
+  const context = useContext(UserDetailsContext);
+  if (!context) {
+    throw new Error("User Details Context is not accessible");
+  }
+  const { userDetails } = context;
   const {
     productName,
     productDescription,
@@ -53,16 +58,12 @@ const SingleProduct: React.FC<IProductDisplay> = ({ ...cartItemDetails }) => {
     image,
     category,
     userId,
+    wishersId:userDetails!._id.toString()
   }
-  const dataForCartItem: ICartItem = {
+   const dataForCartItem: ICartItem = {
     ...baseData,
-    quantity
+    quantity,
   };
-  const context = useContext(UserDetailsContext);
-  if (!context) {
-    throw new Error("User Details Context is not accessible");
-  }
-  const { userDetails } = context;
   const isAlreadyOnCart = cartItems && cartItems.length>0 && cartItems.some((item: ICartItem) => item.productId === _id);
   const isAlreadyOnWishList = wishListItems && wishListItems.length>0 && wishListItems.some((item: IWishListItemDisplay) => item.productId === _id);
   const addItemToCart = useAddItemToCart();

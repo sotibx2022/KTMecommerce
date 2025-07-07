@@ -5,8 +5,9 @@ productName: string;
     brand?: string;
     price: string;
     image: string;
-    userId?: string;
+    userId: string;
     category?: string;
+    wishersId:string;
 }
 export interface IWishListItem {
     productName: string;
@@ -14,6 +15,7 @@ export interface IWishListItem {
     brand?: string;
     price: string;
     image: string;
-    userId?: Types.ObjectId;
+    userId: Types.ObjectId;
     category?: string;
+    wishersId:Types.ObjectId;
   }

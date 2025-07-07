@@ -10,6 +10,7 @@ const cartSchema = new Schema<ICreateCart>(
     wishersId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
+      required:true,
     },
     productId: {
       type: mongoose.Schema.Types.ObjectId,

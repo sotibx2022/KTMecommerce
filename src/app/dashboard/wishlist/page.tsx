@@ -36,7 +36,8 @@ const wishListItemsPage = () => {
       image: item.image,
       quantity: 1,
       userId: userDetails!._id.toString(),
-      category: item.category!
+      category: item.category!,
+      wishersId:userDetails!._id.toString()
     };
   };
   const removeItemFromWishList = (productId: string) => {
