@@ -170,7 +170,7 @@ const CartTable = () => {
                     </button>
                   </div>
                 </Td>
-                <Td className="p-3"><span className='text-primaryParagraph'>{item.wishersId ===userDetails?._id ? "For Self" : "For Others" }</span></Td>
+                <Td className="p-3"><span className='text-primaryParagraph'>{item.wishersId.toString() ===userDetails?._id.toString() ? "For Self" : "For Others" }</span></Td>
                 <Td className="p-3">
                   <button 
                     onClick={() => removeCartItemFromCart(item.productId)}
