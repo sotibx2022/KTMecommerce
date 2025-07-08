@@ -3,11 +3,11 @@ import { NotificationModel } from "@/models/notification.model";
 import { Types } from "mongoose";
 import { NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt"; // Import getToken from next-auth
+import { getUserIdFromCookies } from "../auth/authFunctions/getUserIdFromCookies";
 export async function GET(req: NextRequest) {
   try {
     await connectToDB();
-    const token = await getToken({ req });
-    const userId = token?.id;
+   const userId = await getUserIdFromCookies(req)
     if (!userId) {
       return NextResponse.json(
         { message: "Unauthorized - No user ID found", success: false },
