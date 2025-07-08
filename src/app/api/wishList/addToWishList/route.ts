@@ -7,9 +7,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { getUserIdFromCookies } from "../../auth/authFunctions/getUserIdFromCookies";
 export async function POST(req: NextRequest) {
   try {
-    const { productId, productName, image, price, brand } = await req.json(); // Default quantity to 1
+    const { productId, productName, image, price, brand,wishersId } = await req.json(); // Default quantity to 1
     // Validate required fields
-    if (!productId || !productName || !image || !price || !brand) {
+    if (!productId || !productName || !image || !price || !brand || wishersId) {
       return NextResponse.json(
         { message: "All fields except quantity are required.", success: false, status: 400 },
         { status: 400 }
@@ -46,6 +46,7 @@ export async function POST(req: NextRequest) {
       category: category_name,
       price,
       image,
+      wishersId:objectUserId,
     } as IWishListItem);
     // Save cart item to database
     await newWishList.save();
