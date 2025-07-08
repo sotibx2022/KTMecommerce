@@ -22,6 +22,7 @@ import useAddItemToWishList from "./useAddItemToWishList";
 import ProductTitle from "../productCard/ProductTitle";
 import ProductInformations from "./ProductInformations";
 import StaggerWrapper from "../animation/StaggerWrapper";
+import { Types } from "mongoose";
 const SingleProduct: React.FC<IProductDisplay> = ({ ...productDetails }) => {
   const { visibleComponent, setVisibleComponent } = useContext(DisplayContext);
   const cartItems = useSelector((state: { cart: CartState }) => state.cart.cartItems);
@@ -57,7 +58,7 @@ const SingleProduct: React.FC<IProductDisplay> = ({ ...productDetails }) => {
     image,
     category,
     userId,
-    wishersId:userDetails?._id.toString() ?? ""
+    wishersId: userDetails?._id ? new Types.ObjectId(userDetails._id.toString()) : new Types.ObjectId()
   }
    const dataForCartItem: ICartItem = {
     ...baseData,

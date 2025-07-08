@@ -13,11 +13,12 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
 import { removeFromWishList } from '@/app/redux/wishListSlice';
 import NoData from '@/app/_components/noData/NoData';
-import { HeartOff } from 'lucide-react';
+import { HeartOff, Type } from 'lucide-react';
 import { ICartItem } from '@/app/types/cart';
 import useAddItemToCart from '@/app/_components/singleProduct/useAddItemToCart';
 import { useRemoveWishListFromDB } from './useRemoveWIshListFromDB';
 import PublicWishlist from './PublicWishlist';
+import { Types } from 'mongoose';
 const wishListItemsPage = () => {
   const context = useContext(UserDetailsContext);
   if (!context) {
@@ -37,7 +38,7 @@ const wishListItemsPage = () => {
       quantity: 1,
       userId: userDetails!._id.toString(),
       category: item.category!,
-      wishersId:userDetails!._id.toString()
+      wishersId:new Types.ObjectId(userDetails!._id.toString()) || new Types.ObjectId("")
     };
   };
   const removeItemFromWishList = (productId: string) => {

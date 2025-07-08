@@ -7,7 +7,7 @@ productName: string;
     image: string;
     userId: string;
     category?: string;
-    wishersId:string;
+    wishersId:Types.ObjectId;
 }
 export interface IWishListItem {
     productName: string;
