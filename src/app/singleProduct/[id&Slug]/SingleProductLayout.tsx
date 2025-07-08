@@ -16,19 +16,19 @@ const SingleProductLayout: React.FC<SingleProductLayoutProps> = ({ children }) =
   const { visibleComponent } = useContext(DisplayContext);
   return (
     <div>
-            <Provider store={store}>
-            <DisplayComponents>
-            <QueryProvider>
-                <UserDetailsContextComponent>
-             <NavBar/>
-                      {children}
-             <Footer/>
-           <ConditionalComponents/>
-             </UserDetailsContextComponent>
-             </QueryProvider>
-             </DisplayComponents>
-             </Provider> 
-        </div>
+      <Provider store={store}>
+        <DisplayComponents>
+          <QueryProvider>
+            <UserDetailsContextComponent>
+              <NavBar />
+              {children}
+              <Footer />
+              <ConditionalComponents />
+            </UserDetailsContextComponent>
+          </QueryProvider>
+        </DisplayComponents>
+      </Provider>
+    </div>
   );
 };
 export default SingleProductLayout;

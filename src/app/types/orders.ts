@@ -25,6 +25,7 @@ import { ICartItem } from "./cart";
         image:string,
         price:string,
         quantity:number,
+        wishersId:Types.ObjectId,
     }
     export interface IOrderDetails {
         _id?:string,
@@ -38,7 +39,6 @@ import { ICartItem } from "./cart";
         termsAgreed?:boolean,
         createdAt?:Date,
         updatedAt?:Date,
-        wishersId:Types.ObjectId,
         orderSummary:{totalItems:number, totalCost:number, discount:number, shippingPrice:number, grossTotal:number}
     }
     export interface OrderDetailsProps extends IOrderDetails {
@@ -52,4 +52,5 @@ import { ICartItem } from "./cart";
         price:string;
         image:string;
         productName:string;
+        wishersId:string,
       }

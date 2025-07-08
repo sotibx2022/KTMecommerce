@@ -19,11 +19,10 @@ import LoginComponent from "../authComponent/LoginComponent";
 import { IWishListItem, IWishListItemDisplay } from "@/app/types/wishlist";
 import { addToWishList, IWishListState } from "@/app/redux/wishListSlice";
 import useAddItemToWishList from "./useAddItemToWishList";
-import SubmitError from "../submit/SubmitError";
 import ProductTitle from "../productCard/ProductTitle";
 import ProductInformations from "./ProductInformations";
 import StaggerWrapper from "../animation/StaggerWrapper";
-const SingleProduct: React.FC<IProductDisplay> = ({ ...cartItemDetails }) => {
+const SingleProduct: React.FC<IProductDisplay> = ({ ...productDetails }) => {
   const { visibleComponent, setVisibleComponent } = useContext(DisplayContext);
   const cartItems = useSelector((state: { cart: CartState }) => state.cart.cartItems);
   const wishListItems = useSelector((state: { wishList: IWishListState }) => state.wishList.wishListItems)
@@ -39,8 +38,8 @@ const SingleProduct: React.FC<IProductDisplay> = ({ ...cartItemDetails }) => {
     price,
     stockAvailability,
     productFeatures,
-    _id,
     image,
+    _id,
     quantity,
     userId,
     category,
@@ -49,16 +48,16 @@ const SingleProduct: React.FC<IProductDisplay> = ({ ...cartItemDetails }) => {
     isTrendingNow,
     isTopSell,
     isOfferItem
-  } = cartItemDetails;
+  } = productDetails;
   const baseData = {
     productName,
-    productId: _id,
+    productId: productDetails?._id,
     brand,
     price,
     image,
     category,
     userId,
-    wishersId:userDetails!._id.toString()
+    wishersId:userDetails?._id.toString() ?? ""
   }
    const dataForCartItem: ICartItem = {
     ...baseData,
@@ -117,7 +116,7 @@ const SingleProduct: React.FC<IProductDisplay> = ({ ...cartItemDetails }) => {
             searchText="To Cart"
             onClick={() => userDetails ? addItemToCart(dataForCartItem) : setVisibleComponent('login')}
             disabled={ isAlreadyOnCart || !stockAvailability}
-          />
+          /> 
           <PrimaryButton searchText="To WishList"
             onClick={() => userDetails ? addItemsToWishList(baseData) : setVisibleComponent('login')}
             disabled={isAlreadyOnWishList}
@@ -134,7 +133,7 @@ const SingleProduct: React.FC<IProductDisplay> = ({ ...cartItemDetails }) => {
         <Toaster />
       </div>
       {visibleComponent === 'login' && <LoginComponent />}
-      {visibleComponent === 'productImage' && <ProductImage {...cartItemDetails} />}
+      {visibleComponent === 'productImage' && <ProductImage {...productDetails} />}
     </>
   );
 };

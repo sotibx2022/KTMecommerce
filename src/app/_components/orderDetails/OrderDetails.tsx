@@ -14,19 +14,14 @@ const downloadPdf = async (name: string) => {
     try {
       const element: HTMLElement | null = document.getElementById('orderDetailsContainer');
       if (!element) return;
-      // Convert HTML to PNG
       const dataUrl = await toPng(element, { quality: 1 }); // Highest quality
-      // PDF setup (A4 dimensions in mm)
       const pdf = new jsPDF('p', 'mm', 'a4');
-      const imgWidth = 210; // A4 width (210mm)
-      const pageHeight = 297; // A4 height (297mm)
-      // Calculate image height (maintain aspect ratio)
+      const imgWidth = 210;
+      const pageHeight = 297; 
       const imgHeight = (element.offsetHeight * imgWidth) / element.offsetWidth;
-      // Add image to PDF (split across pages if too tall)
       let heightLeft = imgHeight;
       let position = 0;
       pdf.addImage(dataUrl, 'PNG', 0, position, imgWidth, imgHeight);
-      // Add new pages for overflow content
       while (heightLeft > pageHeight) {
         position -= pageHeight;
         pdf.addPage();
@@ -74,10 +69,8 @@ const downloadPdf = async (name: string) => {
           </span>
         </div>
       </div>
-      {/* Order Details - Responsive */}
       {showOrderDetails || nonExpandable && (
         <div className="orderDetails space-y-6">
-          {/* Shipping Info - Responsive Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
             <div className="md:border-r md:border-helper md:pr-6">
               <h3 className="font-semibold text-base md:text-lg mb-2 md:mb-3 text-primaryDark">

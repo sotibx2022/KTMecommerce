@@ -70,7 +70,6 @@ export async function POST(req: NextRequest) {
       shippingAddress,
       shippingPerson,
       orderSummary,
-      wishersId
     });
     await order.save();
     const newNotification = new NotificationModel({

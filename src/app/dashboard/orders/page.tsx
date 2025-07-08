@@ -17,8 +17,7 @@ const Page = () => {
   const { userDetails } = context;
   const userEmail = userDetails?.email;
  const {data:orders,isPending,error} = useOrders(userEmail!)
-  console.log('Orders data:', orders);
-  console.log('Is array:', Array.isArray(orders));
+
   if (isPending) {
     return <LoadingComponent/>
   }

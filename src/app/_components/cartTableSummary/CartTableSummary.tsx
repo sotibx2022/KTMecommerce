@@ -1,15 +1,21 @@
 "use client"
 import { CartState } from '@/app/redux/cartSlice';
-import React from 'react'
+import React, { useContext } from 'react'
 import { useSelector } from 'react-redux';
 import { Table, Thead, Tbody, Tr, Th, Td } from "react-super-responsive-table";
 import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
 import LinkComponent from '../linkComponent/LinkComponent';
 import { IOrderItem } from '@/app/types/orders';
+import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
 interface CartTableSummaryProps {
   items?: IOrderItem[];
 }
 const CartTableSummary = ({ items }: CartTableSummaryProps) => {
+  const userDetailsContext = useContext(UserDetailsContext);
+  if (!userDetailsContext) {
+    throw new Error("User Details Context is not defined here.")
+  }
+  const { userDetails } = userDetailsContext
   const cartItems = useSelector((state: { cart: CartState }) => state.cart.cartItems);
   const dataToRender = items || cartItems;
   return (
@@ -26,8 +32,8 @@ const CartTableSummary = ({ items }: CartTableSummaryProps) => {
                 className="w-16 h-16 object-cover rounded"
               />
               <div className="flex-1">
-                <LinkComponent 
-                  href={`/singleProduct/id:${item.productId}&slug:${item.productName}`} 
+                <LinkComponent
+                  href={`/singleProduct/id:${item.productId}&slug:${item.productName}`}
                   text={item.productName}
                 />
                 <div className="flex justify-between items-center mt-2">
@@ -35,6 +41,11 @@ const CartTableSummary = ({ items }: CartTableSummaryProps) => {
                   <span className="border border-helper py-1 px-3 rounded">
                     Qty: {item.quantity}
                   </span>
+                  {userDetails?._id?.toString() === item.wishersId?.toString() ? (
+                    <span>self Order</span>
+                  ) : (
+                    <span>Order for others</span>
+                  )}
                 </div>
               </div>
             </div>
@@ -50,6 +61,7 @@ const CartTableSummary = ({ items }: CartTableSummaryProps) => {
               <Th className="text-start p-3 w-[40%]">Product Name</Th>
               <Th className="text-start p-3 w-[20%]">Price</Th>
               <Th className="text-start p-3 w-[25%]">Quantity</Th>
+              <Th className="text-start p-3 w-[25%]">Order For</Th>
             </Tr>
           </Thead>
           <Tbody>
@@ -66,12 +78,19 @@ const CartTableSummary = ({ items }: CartTableSummaryProps) => {
                   />
                 </Td>
                 <Td className="p-3">
-                  <LinkComponent 
-                    href={`/singleProduct/id:${item.productId}&slug:${item.productName}`} 
-                    text={item.productName} 
+                  <LinkComponent
+                    href={`/singleProduct/id:${item.productId}&slug:${item.productName}`}
+                    text={item.productName}
                   />
                 </Td>
                 <Td className="p-3">${item.price}</Td>
+                <Td className="p-3">
+                  {userDetails?._id?.toString() === item.wishersId?.toString() ? (
+                    <span>self Order</span>
+                  ) : (
+                    <span>Order for others</span>
+                  )}
+                </Td>
                 <Td className="p-3">
                   <span className="border border-helper py-2 px-4 inline-block">
                     {item.quantity}

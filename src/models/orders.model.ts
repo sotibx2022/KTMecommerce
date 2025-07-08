@@ -29,17 +29,17 @@ const OrderSchema = new Schema<IOrderDetails>(
       {
         type: String,
         required: true
-      }
+      },
+      wishersId:{
+      type:mongoose.Schema.Types.ObjectId,
+      ref:"User",
+      required:true,
+    },
     }],
     status: {
       type: String,
       enum: ["ordered", "pending", "confirmed", "delivered", "cancelled"],
       default: "ordered"
-    },
-    wishersId:{
-      type:mongoose.Schema.Types.ObjectId,
-      ref:"User",
-      required:true,
     },
     paymentMethod: {
       type: String,

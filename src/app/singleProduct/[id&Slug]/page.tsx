@@ -1,69 +1,73 @@
 "use client";
-import RemarksDisplay from '@/app/_components/remarksDisplay/RemarksDisplay';
-import SingleProduct from '@/app/_components/singleProduct/SingleProduct';
-import AddSingleProductReviews from '@/app/_components/singleProductReviews/AddSingleProductReviews';
-import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
-import { getSingleProduct } from '@/app/services/queryFunctions/products';
+import React, { useContext, useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { useSearchParams } from 'next/navigation';
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useQuery } from '@tanstack/react-query';
-import React, { useContext, useEffect, useState } from 'react';
-import PrimaryButton from '@/app/_components/primaryButton/PrimaryButton';
-import SecondaryButton from '@/app/_components/secondaryButton/SecondaryButton';
+import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
 import { DisplayContext } from '@/app/context/DisplayComponents';
-import EditSingleProductReview from '@/app/_components/singleProductReviews/EditSingleProductReview';
+import { getSingleProduct } from '@/app/services/queryFunctions/products';
 import { getSpecificRemarks } from '@/app/services/queryFunctions/remarks';
+import SingleProduct from '@/app/_components/singleProduct/SingleProduct';
+import AddSingleProductReviews from '@/app/_components/singleProductReviews/AddSingleProductReviews';
+import EditSingleProductReview from '@/app/_components/singleProductReviews/EditSingleProductReview';
+import RemarksDisplay from '@/app/_components/remarksDisplay/RemarksDisplay';
+import SecondaryButton from '@/app/_components/secondaryButton/SecondaryButton';
 import SingleProductPageSkeleton from '@/app/_components/loadingComponent/SingleProductPageSkeleton';
-import { useSearchParams } from 'next/navigation';
 import RemarksSkeleton from './RemarksSkleton';
 const ProductPage = () => {
   const searchParams = useSearchParams();
   const [productId, setProductId] = useState<string>(searchParams.get('id') ?? "");
+  const [productIdentifier, setProductIdentifier] = useState({
+    productId: "",
+    productName: "",
+    productImage: "",
+    productLoadingComplete: false
+  });
   const context = useContext(UserDetailsContext);
   const { visibleComponent, setVisibleComponent } = useContext(DisplayContext);
-  if (!context) {
-    throw new Error("The User Details context is not working.");
-  }
+  if (!context) throw new Error("The User Details context is not working.");
   const { userDetails } = context;
   const [showReviews, setShowReviews] = useState(true);
-  // Product query
-  const { 
-    data: productDetails, 
-    isPending: isProductPending, 
-    error: productError 
+  const {
+    data: productDetails,
+    isPending: isProductPending
   } = useQuery({
     queryKey: ['specificProduct', productId],
     queryFn: () => getSingleProduct(productId),
     enabled: !!productId
   });
-  // Remarks query - only enabled when product is loaded
-  const { 
-    data: remarks, 
+  const productDatas =
+    !isProductPending && productDetails?.success && productDetails?.data
+      ? productDetails.data
+      : null;
+  useEffect(() => {
+    if (productDatas) {
+      setProductIdentifier({
+        productId: productDatas._id,
+        productName: productDatas.productName,
+        productImage: productDatas.image,
+        productLoadingComplete: true,
+      });
+    }
+  }, [productDatas]);
+  const {
+    data: remarks,
     isPending: isRemarksPending,
     isFetching: isRemarksFetching
   } = useQuery({
     queryKey: ['specificRemarks', productId],
     queryFn: () => getSpecificRemarks(productId),
-    enabled: !!productId && !!productDetails?.success
+    enabled: !!productId && !!productIdentifier.productLoadingComplete
   });
-  const toggleReviews = (value: boolean) => {
-    setShowReviews(value);
-  };
-  const productDatas = productDetails?.success ? productDetails?.data : null;
-  const productIdentifier = {
-    productId: productDatas?._id || "",
-    productName: productDatas?.productName || "",
-    productImage: productDatas?.image || ""
-  };
-  if (isProductPending) {
-    return <SingleProductPageSkeleton />;
-  }
-  if (productDatas === null) {
-    return <h1>There is no product Data at all.</h1>;
+  const toggleReviews = (value: boolean) => setShowReviews(value);
+  if (productIdentifier.productLoadingComplete && !productDatas) {
+    return <h1>There is no product data.</h1>;
   }
   return (
     <>
-      {productDatas && <SingleProduct {...productDatas} />}
+      {!productIdentifier.productLoadingComplete && <SingleProductPageSkeleton />}
+      {productIdentifier.productLoadingComplete && productDatas && <SingleProduct {...productDatas}/>}
       <div className="reviewsContainer container">
         <div className="reviewsHeading flex gap-4 mb-2 items-center">
           <h2 className="text-xl font-semibold text-primaryDark">Reviews</h2>
@@ -72,14 +76,14 @@ const ProductPage = () => {
             onClick={() => toggleReviews(!showReviews)}
             className="bg-helper p-2 rounded-full cursor-pointer text-background"
           />
-          <SecondaryButton 
-            text='Add Review' 
+          <SecondaryButton
+            text='Add Review'
             onClick={() => setVisibleComponent('addReview')}
           />
         </div>
-        {showReviews && (
+        {showReviews && productIdentifier.productLoadingComplete && (
           <>
-            {isRemarksPending || isRemarksFetching ? (
+            {(isRemarksPending || isRemarksFetching) ? (
               <RemarksSkeleton />
             ) : (
               remarks?.success && remarks.data && (
@@ -88,13 +92,13 @@ const ProductPage = () => {
             )}
           </>
         )}
-        {visibleComponent === 'addReview' && (
-          <AddSingleProductReviews 
+        {visibleComponent === 'addReview' && productIdentifier.productLoadingComplete && (
+          <AddSingleProductReviews
             readOnly={userDetails === null}
             productIdentifier={productIdentifier}
           />
         )}
-        {visibleComponent === 'editReview' && (
+        {visibleComponent === 'editReview' && productIdentifier.productLoadingComplete && (
           <EditSingleProductReview productIdentifier={productIdentifier} />
         )}
       </div>

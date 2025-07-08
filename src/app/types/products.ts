@@ -30,7 +30,7 @@ export interface IProductCreate {
 }
 // Interface for displaying product details on UI
 export interface IProductDisplay {
-  file?:File|null;
+    file?:File|null;
   productName: string;
   productDescription: string;
   status:"active" | "inActive";
@@ -59,4 +59,4 @@ export interface IProductDisplay {
   createdAt?:Date,
   updatedAt?:Date,
   remainingStock?:string
-}
+  }

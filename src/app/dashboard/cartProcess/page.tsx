@@ -1,14 +1,12 @@
 "use client"
 import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponent'
 import SkeletonSlide from '@/app/_components/loadingComponent/SkeletonSlide'
-import LoadingButton from '@/app/_components/primaryButton/LoadingButton'
 import PrimaryButton from '@/app/_components/primaryButton/PrimaryButton'
 import OrderSummary from '@/app/_components/processOrder/OrderSummary'
 import OrderTerms from '@/app/_components/processOrder/OrderTerms'
 import PaymentMethod from '@/app/_components/processOrder/PaymentMethod'
 import ShippingAddress from '@/app/_components/processOrder/ShippingAddress'
 import ShippingInformation from '@/app/_components/processOrder/ShippingInformation'
-import ProductImage from '@/app/_components/singleProduct/ProductImage'
 import ConfettiComponent from '@/app/_components/submit/ConfettiComponent'
 import { DisplayContext } from '@/app/context/DisplayComponents'
 import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent'
@@ -19,8 +17,7 @@ import { APIResponseError, APIResponseSuccess } from '@/app/services/queryFuncti
 import { ICartItem } from '@/app/types/cart'
 import { ICardDetails, IOrderDetails, IProductDetailsforOrder, IShippingAddress, IShippingPerson } from '@/app/types/orders'
 import { Mutation, useMutation } from '@tanstack/react-query'
-import axios from 'axios'
-import mongoose from 'mongoose'
+import { Types } from 'mongoose'
 import { useRouter } from 'next/navigation'
 import { useContext, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -62,7 +59,6 @@ const page = () => {
       toast.error("User not authenticated");
       return;
     }
-    const wishersId = new mongoose.Types.ObjectId(userDetails!._id.toString());
     const orderDetails = {
       userEmail: userDetails.email,
       items: cartItems.map((item: ICartItem) => ({
@@ -71,12 +67,12 @@ const page = () => {
         productName: item.productName,
         image: item.image,
         price: item.price,
+        wishersId:new Types.ObjectId(item.wishersId),
       })),
       status: "ordered" as const,
       paymentMethod: "paymentOnDelivery" as const,
       shippingAddress: data.shippingAddress,
       shippingPerson: data.shippingPerson,
-      wishersId,
       orderSummary: {
         totalItems, totalCost, discount, shippingPrice, grossTotal
       }
