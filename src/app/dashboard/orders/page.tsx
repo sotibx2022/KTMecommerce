@@ -17,7 +17,6 @@ const Page = () => {
   const { userDetails } = context;
   const userEmail = userDetails?.email;
  const {data:orders,isPending,error} = useOrders(userEmail!)
-
   if (isPending) {
     return <LoadingComponent/>
   }
@@ -30,7 +29,7 @@ const Page = () => {
       {Array.isArray(orders) && orders.length > 0 ? (
         orders.map((order: OrderDetailsProps, index: number) => (
           <div className="singleOrder mb-6" key={order._id}>
-            <OrderDetails order={order} />
+            <OrderDetails order={order} nonExpandable={false}/>
           </div>
         ))
       ) : (
