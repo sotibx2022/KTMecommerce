@@ -1,17 +1,19 @@
 import OrderModel from "@/models/orders.model";
 import { NextRequest, NextResponse } from "next/server";
 import { connectToDB } from "@/config/db";
+import { getUserIdFromCookies } from "../auth/authFunctions/getUserIdFromCookies";
 export async function POST(req: NextRequest) {
   await connectToDB()
   try {
     const { userEmail } = await req.json();
+    const userId = await getUserIdFromCookies(req)
     if (!userEmail) {
       return NextResponse.json(
         { message: "Email is required", success: false },
         { status: 400 }
       );
     }
-    const query = { userEmail };
+    const query = { userEmail,wishersId:userId };
     const orders = await OrderModel.find(query);
     if (!orders || orders.length === 0) {
       return NextResponse.json(
