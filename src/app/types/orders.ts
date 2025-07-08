@@ -52,5 +52,5 @@ import { ICartItem } from "./cart";
         price:string;
         image:string;
         productName:string;
-        wishersId:string,
+        wishersId:Types.ObjectId,
       }
