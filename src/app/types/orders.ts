@@ -1,4 +1,5 @@
-    import { ICartItem } from "./cart";
+    import { Schema, Types } from "mongoose";
+import { ICartItem } from "./cart";
     import { IProductCreate } from "./products";
     import { IUser } from "./user";
     export interface IShippingPerson{
@@ -37,6 +38,7 @@
         termsAgreed?:boolean,
         createdAt?:Date,
         updatedAt?:Date,
+        wishersId:Types.ObjectId,
         orderSummary:{totalItems:number, totalCost:number, discount:number, shippingPrice:number, grossTotal:number}
     }
     export interface OrderDetailsProps extends IOrderDetails {

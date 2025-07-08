@@ -1,6 +1,6 @@
 "use client"
 import { CartState, removeFromCart } from '@/app/redux/cartSlice';
-import React from 'react'
+import React, { useContext } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Table, Thead, Tbody, Tr, Th, Td } from "react-super-responsive-table";
 import { updateCartItem } from "@/app/redux/cartSlice";
@@ -13,7 +13,13 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import toast from 'react-hot-toast';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { APIResponseError, APIResponseSuccess } from '@/app/services/queryFunctions/users';
+import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
 const CartTable = () => {
+  const userDetailsContext = useContext(UserDetailsContext);
+  if(!userDetailsContext){
+    throw new Error("User Details Context is not defined here")
+  }
+  const {userDetails} = userDetailsContext
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
   const cartItems = useSelector((state: { cart: CartState }) => state.cart.cartItems);
@@ -106,6 +112,7 @@ const CartTable = () => {
                     >
                       <FaPlus className="text-xs" />
                     </button>
+                    <span>{item.wishersId ===userDetails?._id ? "For Self" : "For Others" }</span>
                   </div>
                 </div>
               </div>
@@ -122,6 +129,7 @@ const CartTable = () => {
               <Th className="text-start p-3 w-[35%]">Product Name</Th>
               <Th className="text-start p-3 w-[15%]">Price</Th>
               <Th className="text-start p-3 w-[20%]">Quantity</Th>
+              <Th className="text-start p-3 w-[20%]">Wisher</Th>
               <Th className="text-start p-3 w-[15%]">Action</Th>
             </Tr>
           </Thead>
@@ -162,6 +170,7 @@ const CartTable = () => {
                     </button>
                   </div>
                 </Td>
+                <Td className="p-3"><span className='text-primaryParagraph'>{item.wishersId ===userDetails?._id ? "For Self" : "For Others" }</span></Td>
                 <Td className="p-3">
                   <button 
                     onClick={() => removeCartItemFromCart(item.productId)}

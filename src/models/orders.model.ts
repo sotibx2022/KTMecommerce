@@ -1,5 +1,5 @@
 import { IOrderDetails } from '@/app/types/orders';
-import mongoose, { Schema, model, Document } from 'mongoose';
+import mongoose, { Schema, model, Document, Types } from 'mongoose';
 const OrderSchema = new Schema<IOrderDetails>(
   {
     userEmail: {
@@ -8,7 +8,7 @@ const OrderSchema = new Schema<IOrderDetails>(
     },
     items: [{
       productId: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Product',
         required: true
       },
@@ -36,6 +36,11 @@ const OrderSchema = new Schema<IOrderDetails>(
       enum: ["ordered", "pending", "confirmed", "delivered", "cancelled"],
       default: "ordered"
     },
+    wishersId:{
+      type:mongoose.Schema.Types.ObjectId,
+      ref:"User",
+      required:true,
+    },
     paymentMethod: {
       type: String,
       enum: ["paymentOnDelivery", "online"],
@@ -59,8 +64,6 @@ const OrderSchema = new Schema<IOrderDetails>(
       cardHolderName: String,
       cardNumber: {
         type: String,
-        // Consider encryption in real implementation
-        select: false // Don't return by default in queries
       },
       cardExpiry: String,
       cvvNumber: {

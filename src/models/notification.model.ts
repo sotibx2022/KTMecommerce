@@ -3,7 +3,7 @@ import mongoose, { Schema, model, Document } from "mongoose";
 const NotificationSchema = new Schema<INotificationCreate>(
   {
     userId: { 
-      type: Schema.Types.ObjectId, 
+      type: mongoose.Schema.Types.ObjectId, 
       ref: "User", 
       required: true 
     },

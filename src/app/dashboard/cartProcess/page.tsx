@@ -20,6 +20,7 @@ import { ICartItem } from '@/app/types/cart'
 import { ICardDetails, IOrderDetails, IProductDetailsforOrder, IShippingAddress, IShippingPerson } from '@/app/types/orders'
 import { Mutation, useMutation } from '@tanstack/react-query'
 import axios from 'axios'
+import mongoose from 'mongoose'
 import { useRouter } from 'next/navigation'
 import { useContext, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -61,6 +62,7 @@ const page = () => {
       toast.error("User not authenticated");
       return;
     }
+    const wishersId = new mongoose.Types.ObjectId(userDetails!._id.toString());
     const orderDetails = {
       userEmail: userDetails.email,
       items: cartItems.map((item: ICartItem) => ({
@@ -68,12 +70,13 @@ const page = () => {
         quantity: item.quantity,
         productName: item.productName,
         image: item.image,
-        price: item.price
+        price: item.price,
       })),
       status: "ordered" as const,
       paymentMethod: "paymentOnDelivery" as const,
       shippingAddress: data.shippingAddress,
       shippingPerson: data.shippingPerson,
+      wishersId,
       orderSummary: {
         totalItems, totalCost, discount, shippingPrice, grossTotal
       }
