@@ -29,13 +29,13 @@ const SecondaryButton: React.FC<SecondaryButtonProps> = ({
       onClick={onClick}
       whileHover="hover" // <-- Add this to enable hover state
     >
-      <button className="relative z-50 w-full h-full flex items-center justify-center gap-2">
+      <button className="relative z-40 w-full h-full flex items-center justify-center gap-2">
         {icon && <FontAwesomeIcon icon={icon} className="w-4 h-4" />}
         {text}
       </button>
       {/* Animated background layer */}
       <motion.div
-        className="absolute top-0 left-0 h-full z-40 bg-helper"
+        className="absolute top-0 left-0 h-full z-30 bg-helper"
         initial={{ width: 0 }}
         variants={{
           hover: { width: "100%" } // <-- Controlled by parent's whileHover
