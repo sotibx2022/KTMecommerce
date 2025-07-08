@@ -13,7 +13,12 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
-    const query = { userEmail,wishersId:userId };
+    const query = {
+  $or: [
+    { userEmail },
+    { wishersId: userId }
+  ]
+};
     const orders = await OrderModel.find(query);
     if (!orders || orders.length === 0) {
       return NextResponse.json(
