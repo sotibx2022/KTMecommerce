@@ -8,7 +8,7 @@ export interface ICartItem {
     quantity: number;
     userId: string;
     category: string;
-    wishersId:string;
+    wishersId:Types.ObjectId;
   }
   export interface ICreateCart {
     productName: string;
