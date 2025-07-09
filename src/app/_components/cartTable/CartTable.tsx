@@ -68,12 +68,15 @@ const CartTable = () => {
     dispatch(removeFromCart(productId));
     deleteCartMutation.mutate({ productId });
   };
+  console.log(cartItems[0].wishersId);
+  console.log(userDetails?._id);
+  console.log(typeof cartItems[0].wishersId, typeof userDetails?._id)
   return (
     <div className="cart-container">
       {/* Mobile View (Cards) */}
       <div className="md:hidden space-y-4">
         {cartItems.map((item, index) => (
-          <div key={`${item.productId}+${item.productName}`} className="bg-background p-4 rounded-lg shadow-helper border border-helper">
+          <div key={index} className="bg-background p-4 rounded-lg shadow-helper border border-helper">
             <div className="flex gap-4">
               <img
                 src={item.image}

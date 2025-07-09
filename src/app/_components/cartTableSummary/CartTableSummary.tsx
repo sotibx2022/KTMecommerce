@@ -41,11 +41,16 @@ const CartTableSummary = ({ items }: CartTableSummaryProps) => {
                   <span className="border border-helper py-1 px-3 rounded">
                     Qty: {item.quantity}
                   </span>
-                  {userDetails?._id?.toString() === item.wishersId?.toString() ? (
-                    <span>self Order</span>
-                  ) : (
-                    <span>Order for others</span>
-                  )}
+                  <div className="p-3">
+  <span className='text-primaryParagraph'>
+    {item.wishersId && userDetails?._id 
+      ? item.wishersId.toString() === userDetails._id.toString() 
+        ? "For Self" 
+        : "For Others"
+      : "N/A" // Fallback if either ID is missing
+    }
+  </span>
+</div>
                 </div>
               </div>
             </div>
