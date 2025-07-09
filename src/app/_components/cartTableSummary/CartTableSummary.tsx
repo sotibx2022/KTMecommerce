@@ -42,15 +42,15 @@ const CartTableSummary = ({ items }: CartTableSummaryProps) => {
                     Qty: {item.quantity}
                   </span>
                   <div className="p-3">
-  <span className='text-primaryParagraph'>
-    {item.wishersId && userDetails?._id 
-      ? item.wishersId.toString() === userDetails._id.toString() 
-        ? "For Self" 
-        : "For Others"
-      : "N/A" // Fallback if either ID is missing
-    }
-  </span>
-</div>
+                    <span className='text-primaryParagraph'>
+                      {item.wishersId && userDetails?._id
+                        ? item.wishersId.toString() === userDetails._id.toString()
+                          ? "For Self"
+                          : "For Others"
+                        : "N/A" // Fallback if either ID is missing
+                      }
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -90,11 +90,14 @@ const CartTableSummary = ({ items }: CartTableSummaryProps) => {
                 </Td>
                 <Td className="p-3">${item.price}</Td>
                 <Td className="p-3">
-                  {userDetails?._id?.toString() === item.wishersId?.toString() ? (
-                    <span>self Order</span>
-                  ) : (
-                    <span>Order for others</span>
-                  )}
+                  <span className='text-primaryParagraph'>
+                    {item.wishersId && userDetails?._id
+                      ? item.wishersId.toString() === userDetails._id.toString()
+                        ? "For Self"
+                        : "For Others"
+                      : "N/A" // Fallback if either ID is missing
+                    }
+                  </span>
                 </Td>
                 <Td className="p-3">
                   <span className="border border-helper py-2 px-4 inline-block">

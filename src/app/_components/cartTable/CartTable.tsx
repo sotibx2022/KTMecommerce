@@ -16,10 +16,10 @@ import { APIResponseError, APIResponseSuccess } from '@/app/services/queryFuncti
 import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
 const CartTable = () => {
   const userDetailsContext = useContext(UserDetailsContext);
-  if(!userDetailsContext){
+  if (!userDetailsContext) {
     throw new Error("User Details Context is not defined here")
   }
-  const {userDetails} = userDetailsContext
+  const { userDetails } = userDetailsContext
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
   const cartItems = useSelector((state: { cart: CartState }) => state.cart.cartItems);
@@ -28,14 +28,14 @@ const CartTable = () => {
     productId: string;
     quantity: number;
   }
-  const updateCart = async(data: IUpdateCartData): Promise<APIResponseSuccess | APIResponseError> => {
+  const updateCart = async (data: IUpdateCartData): Promise<APIResponseSuccess | APIResponseError> => {
     const response = await axios.post('/api/cart/updateCart', data);
     return response.data;
   }
   const updateCartMutation = useMutation<APIResponseSuccess | APIResponseError, Error, IUpdateCartData>({
     mutationFn: updateCart,
     onSuccess: (response) => {
-      queryClient.invalidateQueries({queryKey: ["cartItems"], refetchType: 'active'});
+      queryClient.invalidateQueries({ queryKey: ["cartItems"], refetchType: 'active' });
     },
     onError: (error) => {
       toast.error(error.message || "Failed to update cart");
@@ -45,14 +45,14 @@ const CartTable = () => {
   interface IDeleteCartData {
     productId: string;
   }
-  const deleteCartItem = async(data: IDeleteCartData): Promise<APIResponseSuccess | APIResponseError> => {
+  const deleteCartItem = async (data: IDeleteCartData): Promise<APIResponseSuccess | APIResponseError> => {
     const response = await axios.post('/api/cart/removeFromCart', data);
     return response.data;
   }
   const deleteCartMutation = useMutation<APIResponseSuccess | APIResponseError, Error, IDeleteCartData>({
     mutationFn: deleteCartItem,
     onSuccess: (response) => {
-      queryClient.invalidateQueries({queryKey: ["cartItems"], refetchType: 'active'});
+      queryClient.invalidateQueries({ queryKey: ["cartItems"], refetchType: 'active' });
       toast.success(response.message || "Item removed from cart!");
     },
     onError: (error) => {
@@ -85,11 +85,11 @@ const CartTable = () => {
               />
               <div className="flex-1">
                 <div className="flex justify-between items-start">
-                  <LinkComponent 
-                    href={`/singleProduct/productIdentifier?id=${item.productId}&slug=${item.productName}`} 
+                  <LinkComponent
+                    href={`/singleProduct/productIdentifier?id=${item.productId}&slug=${item.productName}`}
                     text={item.productName}
                   />
-                  <button 
+                  <button
                     onClick={() => removeCartItemFromCart(item.productId)}
                     className="text-red-500 p-1"
                     aria-label="Remove item"
@@ -115,7 +115,7 @@ const CartTable = () => {
                     >
                       <FaPlus className="text-xs" />
                     </button>
-                    <span>{item.wishersId ===userDetails?._id ? "For Self" : "For Others" }</span>
+                    <span>{item.wishersId === userDetails?._id ? "For Self" : "For Others"}</span>
                   </div>
                 </div>
               </div>
@@ -150,9 +150,9 @@ const CartTable = () => {
                   />
                 </Td>
                 <Td className="p-3">
-                  <LinkComponent 
-                    href={`/singleProduct/id:${item.productId}&slug:${item.productName}`} 
-                    text={item.productName} 
+                  <LinkComponent
+                    href={`/singleProduct/id:${item.productId}&slug:${item.productName}`}
+                    text={item.productName}
                   />
                 </Td>
                 <Td className="p-3">${item.price}</Td>
@@ -173,9 +173,18 @@ const CartTable = () => {
                     </button>
                   </div>
                 </Td>
-                <Td className="p-3"><span className='text-primaryParagraph'>{item.wishersId.toString() ===userDetails?._id.toString() ? "For Self" : "For Others" }</span></Td>
                 <Td className="p-3">
-                  <button 
+                  <span className='text-primaryParagraph'>
+                    {item.wishersId && userDetails?._id
+                      ? item.wishersId.toString() === userDetails._id.toString()
+                        ? "For Self"
+                        : "For Others"
+                      : "N/A" // Fallback if either ID is missing
+                    }
+                  </span>
+                </Td>
+                <Td className="p-3">
+                  <button
                     onClick={() => removeCartItemFromCart(item.productId)}
                     className="text-red-500 hover:text-red-700 transition-colors"
                     aria-label="Remove item"
