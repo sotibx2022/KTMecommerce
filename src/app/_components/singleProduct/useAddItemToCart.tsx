@@ -29,7 +29,7 @@ const useAddItemToCart = () => {
   const addItemToCart = async (cartItemDetails: ICartItem) => {
     try {
       const isItemInCart = cartItems.some(
-        (item) => item.productId === cartItemDetails.productId
+        (item) => item.productId.toString() === cartItemDetails.productId.toString()
       ); // Check if item exists (corrected logic)
       if (!isItemInCart) {
         mutation.mutate(cartItemDetails);
