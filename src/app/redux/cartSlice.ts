@@ -18,15 +18,20 @@ const cartSlice = createSlice({
       state.loading = false;
     },
     // Add a new item to the cart
-    addToCart: (state, action: PayloadAction<ICartItem>) => {
-      const duplicatedCartItem = (state.cartItems.some((cartItem) => {
-        return cartItem.productId === action.payload.productId
-      }))
-      if (!duplicatedCartItem) {
-        state.cartItems.push(action.payload);
-      }
-      state.loading = false;
-    },
+addToCart: (state, action: PayloadAction<ICartItem[]>) => {
+  const payloadItems = action.payload;
+  // Filter out any payload items that already exist in cart
+  const newItems = payloadItems.filter(payloadItem => 
+    !state.cartItems.some(cartItem => 
+      cartItem.productId === payloadItem.productId
+    )
+  );
+  // Only add new unique items to cart
+  if (newItems.length > 0) {
+    state.cartItems = [...state.cartItems, ...newItems];
+  }
+  state.loading = false;
+},
     // Remove an item from the cart
     removeFromCart: (state, action: PayloadAction<string>) => {
       state.cartItems = state.cartItems.filter(
