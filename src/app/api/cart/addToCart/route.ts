@@ -40,6 +40,7 @@ export async function POST(req: NextRequest) {
         quantity,
         wishersId
       });
+      const wishersName = await UserModel.findById(wishersId).select('fullName')
       console.log(`[6.${index + 1}.2] Creating new cart document...`);
       const newCart = new CartModel({
         userId: new Types.ObjectId(userId),
@@ -57,15 +58,24 @@ export async function POST(req: NextRequest) {
       console.log(`[6.${index + 1}.3] Cart document saved successfully`);
       if (wishersId) {
         console.log(`[6.${index + 1}.4] wishersId detected (${wishersId}), creating notification...`);
-        const newNotification = new NotificationModel({
+        if(wishersId.toString()!== userId.toString()){
+          const newNotification = new NotificationModel({
           userId: wishersId,
           title: "Public Wishlist Action",
-          description: `${userName?.fullName || 'A user'} added your public items to cart`,
+          description: `${userName?.fullName || 'A user'} added your public ${items.length}items to cart`,
           category: "PublicWishList",
           read: false,
         });
-        console.log(`[6.${index + 1}.4] Notification document created:`, newNotification);
+        const secondNotification = new NotificationModel({
+          userId:userId,
+          title:"Public Wishlist Action",
+          description:`You Added ${items.length} from Public WishList for ${wishersName?.fullName}`,
+          category:'PublicWishList',
+          read:false
+        })
         await newNotification.save();
+        await secondNotification.save()
+        }
         console.log(`[6.${index + 1}.4] Notification saved successfully`);
       } else {
         console.log(`[6.${index + 1}.4] No wishersId, skipping notification`);
