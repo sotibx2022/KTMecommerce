@@ -27,15 +27,25 @@ const useAddItemToCart = () => {
     },
   });
   const addItemToCart = (cartItemDetails: ICartItem) => {
-    const isItemInCart = cartItems.some(
-      (item) => item.productId.toString() === cartItemDetails.productId.toString()
-    ); 
-    if (!isItemInCart) {
-      mutation.mutate(cartItemDetails);
-      dispatch(addToCart(cartItemDetails));
-      removeItemFromWishList.mutate(cartItemDetails.productId);
-    } else {
-      toast.error(`${cartItemDetails.productName} is already in your cart. Update the quantity there instead.`);
+    try {
+      // Guard: Check if cartItemDetails or productId exists
+      if (!cartItemDetails?.productId) {
+        toast.error("Invalid product data");
+        return;
+      }
+      // Safe comparison with optional chaining
+      const isItemInCart = cartItems.some(item => 
+        item?.productId?.toString() === cartItemDetails.productId?.toString()
+      );
+      if (!isItemInCart) {
+        mutation.mutate(cartItemDetails);
+        dispatch(addToCart(cartItemDetails));
+        removeItemFromWishList.mutate(cartItemDetails.productId);
+      } else {
+        toast.error(`${cartItemDetails.productName || "This item"} is already in your cart. Update the quantity there instead.`);
+      }
+    } catch (error) {
+      toast.error("Failed to process cart item");
     }
   };
   return addItemToCart;

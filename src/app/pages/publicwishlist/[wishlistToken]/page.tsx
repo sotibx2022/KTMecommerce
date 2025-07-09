@@ -52,8 +52,8 @@ const PublicWishlistPage = () => {
       router.push('/dashboard/wishlist')
     }
     else if (userDetails) {
-      addItemToCart(wishListItems)
       router.push('/dashboard/cart')
+      addItemToCart(wishListItems)
     } else {
       setVisibleComponent('login')
     }
