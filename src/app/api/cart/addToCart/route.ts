@@ -58,23 +58,23 @@ export async function POST(req: NextRequest) {
       console.log(`[6.${index + 1}.3] Cart document saved successfully`);
       if (wishersId) {
         console.log(`[6.${index + 1}.4] wishersId detected (${wishersId}), creating notification...`);
-        if(wishersId.toString()!== userId.toString()){
+        if (wishersId.toString() !== userId.toString()) {
           const newNotification = new NotificationModel({
-          userId: wishersId,
-          title: "Public Wishlist Action",
-          description: `${userName?.fullName || 'A user'} added your public ${items.length}items to cart`,
-          category: "PublicWishList",
-          read: false,
-        });
-        const secondNotification = new NotificationModel({
-          userId:userId,
-          title:"Public Wishlist Action",
-          description:`You Added ${items.length} from Public WishList for ${wishersName?.fullName}`,
-          category:'PublicWishList',
-          read:false
-        })
-        await newNotification.save();
-        await secondNotification.save()
+            userId: wishersId,
+            title: "Public Wishlist Action",
+            description: `${userName?.fullName || 'A user'} added your public ${items.length}items to cart`,
+            category: "PublicWishList",
+            read: false,
+          });
+          const secondNotification = new NotificationModel({
+            userId: userId,
+            title: "Public Wishlist Action",
+            description: `You Added ${items.length} from Public WishList for ${wishersName?.fullName}`,
+            category: 'PublicWishList',
+            read: false
+          })
+          await newNotification.save();
+          await secondNotification.save()
         }
         console.log(`[6.${index + 1}.4] Notification saved successfully`);
       } else {
@@ -90,10 +90,10 @@ export async function POST(req: NextRequest) {
     console.error("[ERROR] Exception occurred:", error);
     console.error("[ERROR] Stack trace:", (error as Error).stack);
     return NextResponse.json(
-      { 
-        message: "Internal Server Error", 
+      {
+        message: "Internal Server Error",
         success: false,
-        error: error instanceof Error ? error.message : 'Unknown error' 
+        error: error instanceof Error ? error.message : 'Unknown error'
       },
       { status: 500 }
     );

@@ -48,7 +48,7 @@ const useAddItemToCart = () => {
       // Add only new items
       mutation.mutate(newItems);
       newItems.forEach(item => {
-        dispatch(addToCart(item));
+        dispatch(addToCart([item]));
         removeItemFromWishList.mutate(item.productId);
       });
     } catch (error) {

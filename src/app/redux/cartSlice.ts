@@ -17,29 +17,24 @@ const cartSlice = createSlice({
       state.cartItems = action.payload;
       state.loading = false;
     },
-    // Add a new item to the cart
-addToCart: (state, action: PayloadAction<ICartItem[]>) => {
-  const payloadItems = action.payload;
-  // Filter out any payload items that already exist in cart
-  const newItems = payloadItems.filter(payloadItem => 
-    !state.cartItems.some(cartItem => 
-      cartItem.productId === payloadItem.productId
-    )
-  );
-  // Only add new unique items to cart
-  if (newItems.length > 0) {
-    state.cartItems = [...state.cartItems, ...newItems];
-  }
-  state.loading = false;
-},
-    // Remove an item from the cart
+    addToCart: (state, action: PayloadAction<ICartItem[]>) => {
+      const payloadItems = action.payload;
+      const newItems = payloadItems.filter(payloadItem =>
+        !state.cartItems.some(cartItem =>
+          cartItem.productId === payloadItem.productId
+        )
+      );
+      if (newItems.length > 0) {
+        state.cartItems = [...state.cartItems, ...newItems];
+      }
+      state.loading = false;
+    },
     removeFromCart: (state, action: PayloadAction<string>) => {
       state.cartItems = state.cartItems.filter(
         (item) => item.productId !== action.payload
       );
       state.loading = false;
     },
-    // Update an item's quantity
     updateCartItem: (state, action: PayloadAction<{ productId: string; quantity: number }>) => {
       const existingItemIndex = state.cartItems.findIndex(
         (item) => item.productId === action.payload.productId
