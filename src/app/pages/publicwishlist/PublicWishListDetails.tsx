@@ -1,42 +1,7 @@
+import { PublicWishListDetailsProps } from '@/app/types/wishlist';
 import { ItemText } from '@radix-ui/react-select';
 import { User } from 'lucide-react';
 import React from 'react';
-export interface WishlistItem {
-  _id: string;
-  price: string;
-  productName: string;
-  brand: string;
-  category: string;
-  image: string;
-  productId: {
-    _id: string;
-    productDescription: string;
-    isNewArrivals: boolean;
-    isOfferItem: boolean;
-    isTopSell: boolean;
-    isTrendingNow: boolean;
-    overallRating: number;
-    stockAvailability: boolean;
-    createdAt: string;
-    updatedAt: string;
-    userId: string;
-    __v: number;
-  };
-  createdAt: string;
-  updatedAt: string;
-  userId: string;
-  __v: number;
-}
-export interface wishersDetailsforPublicWishlist {
-  _id: string;
-  fullName: string;
-  email: string;
-  profileImage: string;
-}
-interface PublicWishListDetailsProps {
-  wishersDetails: wishersDetailsforPublicWishlist;
-  wishlistItems: WishlistItem[];
-}
 const PublicWishListDetails: React.FC<PublicWishListDetailsProps> = ({ wishersDetails, wishlistItems }) => {
   return (
     <div

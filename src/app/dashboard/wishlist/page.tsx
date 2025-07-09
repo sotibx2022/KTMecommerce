@@ -6,7 +6,7 @@ import Link from 'next/link';
 import PrimaryButton from '@/app/_components/primaryButton/PrimaryButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
-import { IWishListItem, IWishListItemDisplay } from '@/app/types/wishlist';
+import { IPublicWishlistItem, IWishListItemDisplay } from '@/app/types/wishlist';
 import SkeletonSlide from '@/app/_components/loadingComponent/SkeletonSlide';
 import LinkComponent from '@/app/_components/linkComponent/LinkComponent';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -38,7 +38,7 @@ const wishListItemsPage = () => {
       quantity: 1,
       userId: userDetails!._id.toString(),
       category: item.category!,
-      wishersId:new Types.ObjectId(userDetails!._id.toString()) || new Types.ObjectId("")
+      wishersId:item.wishersId
     }];
   };
   const removeItemFromWishList = (productId: string) => {

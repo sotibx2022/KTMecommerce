@@ -25,7 +25,7 @@ import { ICartItem } from "./cart";
         image:string,
         price:string,
         quantity:number,
-        wishersId:Types.ObjectId,
+        wishersId:string,
     }
     export interface IOrderDetails {
         _id?:string,
@@ -52,5 +52,5 @@ import { ICartItem } from "./cart";
         price:string;
         image:string;
         productName:string;
-        wishersId:Types.ObjectId,
+        wishersId:string,
       }

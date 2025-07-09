@@ -3,7 +3,7 @@ import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponen
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { useRouter, useSearchParams } from 'next/navigation';
-import PublicWishListDetails, { wishersDetailsforPublicWishlist, WishlistItem } from '../PublicWishListDetails';
+import PublicWishListDetails from '../PublicWishListDetails';
 import PrimaryButton from '@/app/_components/primaryButton/PrimaryButton';
 import { useContext } from 'react';
 import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
@@ -12,6 +12,7 @@ import LoginComponent from '@/app/_components/authComponent/LoginComponent';
 import useAddItemToCart from '@/app/_components/singleProduct/useAddItemToCart';
 import toast from 'react-hot-toast';
 import { ICartItem } from '@/app/types/cart';
+import { IPublicWishlistItem, wishersDetailsforPublicWishlist } from '@/app/types/wishlist';
 const PublicWishlistPage = () => {
   const router = useRouter()
   const addItemToCart = useAddItemToCart();
@@ -46,7 +47,7 @@ const PublicWishlistPage = () => {
     wishersDetails = wishlistDetails.data.wishersDetails;
     wishListItems = wishlistDetails.data.updatedWishlistDetails;
   }
-  const structuredWishLists: ICartItem[] = wishListItems.map((item: WishlistItem, index: number) => {
+  const structuredWishLists: ICartItem[] = wishListItems.map((item: IPublicWishlistItem, index: number) => {
     return {
       productName: item.productName,
       productId: item.productId._id,

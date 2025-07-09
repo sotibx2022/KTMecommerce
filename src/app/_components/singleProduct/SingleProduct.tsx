@@ -58,7 +58,7 @@ const SingleProduct: React.FC<IProductDisplay> = ({ ...productDetails }) => {
     image,
     category,
     userId,
-    wishersId: userDetails?._id ? new Types.ObjectId(userDetails._id.toString()) : new Types.ObjectId()
+    wishersId: userDetails?._id.toString() || ""
   }
    const dataForCartItem: ICartItem = {
     ...baseData,

@@ -7,7 +7,7 @@ productName: string;
     image: string;
     userId: string;
     category?: string;
-    wishersId:Types.ObjectId;
+    wishersId:string;
 }
 export interface IWishListItem {
     productName: string;
@@ -19,3 +19,39 @@ export interface IWishListItem {
     category?: string;
     wishersId:Types.ObjectId;
   }
+  export interface IPublicWishlistItem {
+  _id: string;
+  price: string;
+  productName: string;
+  brand: string;
+  category: string;
+  image: string;
+  productId: {
+    _id: string;
+    productDescription: string;
+    isNewArrivals: boolean;
+    isOfferItem: boolean;
+    isTopSell: boolean;
+    isTrendingNow: boolean;
+    overallRating: number;
+    stockAvailability: boolean;
+    createdAt: string;
+    updatedAt: string;
+    userId: string;
+    __v: number;
+  };
+  createdAt: string;
+  updatedAt: string;
+  userId: string;
+  __v: number;
+}
+export interface wishersDetailsforPublicWishlist {
+  _id: string;
+  fullName: string;
+  email: string;
+  profileImage: string;
+}
+export interface PublicWishListDetailsProps {
+  wishersDetails: wishersDetailsforPublicWishlist;
+  wishlistItems: IPublicWishlistItem[];
+}

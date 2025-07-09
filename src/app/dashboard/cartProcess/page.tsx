@@ -67,7 +67,7 @@ const page = () => {
         productName: item.productName,
         image: item.image,
         price: item.price,
-        wishersId:new Types.ObjectId(item.wishersId),
+        wishersId:item.wishersId,
       })),
       status: "ordered" as const,
       paymentMethod: "paymentOnDelivery" as const,

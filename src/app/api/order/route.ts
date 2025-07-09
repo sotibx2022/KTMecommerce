@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
     } = requestBody;
     if (
       !userEmail || !items || !status || !paymentMethod ||
-      !shippingAddress || !shippingPerson || !orderSummary || !wishersId
+      !shippingAddress || !shippingPerson || !orderSummary
     ) {
       return NextResponse.json(
         { message: "Missing required fields", success: false },
@@ -34,34 +34,7 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
-    const wishersName = await UserModel.findById(wishersId).select("fullName");
-    if (!wishersName) {
-      return NextResponse.json(
-        { message: "Invalid wishersId provided", success: false },
-        { status: 400 }
-      );
-    }
     const userId = await getUserIdFromCookies(req);
-    if (!userId) {
-      return NextResponse.json(
-        { message: "User authentication required", success: false },
-        { status: 401 }
-      );
-    }
-    const userName = await UserModel.findById(userId).select("fullName");
-    if (!userName) {
-      return NextResponse.json(
-        { message: "User not found", success: false },
-        { status: 404 }
-      );
-    }
-    const user = await UserModel.findOne({ email: userEmail });
-    if (!user) {
-      return NextResponse.json(
-        { message: "User email not found", success: false },
-        { status: 404 }
-      );
-    }
     const order = new OrderModel({
       userEmail,
       items,
@@ -72,32 +45,46 @@ export async function POST(req: NextRequest) {
       orderSummary,
     });
     await order.save();
-    const newNotification = new NotificationModel({
-      userId: user._id,
-      title: "Order Placed",
-      description: `You placed an order for ${order.items.length} item(s) for ${wishersName.fullName}`,
-      category: "OrderCreated"
-    });
-    const secondNotification = new NotificationModel({
-      userId: wishersId,
-      title: "Order Placed",
-      description: `Your Public Wishlist Items were ordered by ${userName.fullName}. Total items: ${order.items.length}`,
-      category: "OrderCreated"
-    });
-    await Promise.all([
-      newNotification.save(),
-      secondNotification.save()
-    ]);
     const newDeliveryDetails = new DeliveryDetailsModel({
       shippingAddress,
-      userId: user._id
+      userId: userId
     });
     await newDeliveryDetails.save();
+    for (const [index, item] of items.entries()) {
+      if (userId?.toString() !== item.wishersId.toString()) {
+        const wisher = await UserModel.findById(item.wishersId).select('fullName email');
+        const user = await UserModel.findById(userId).select('fullName email');
+        const newNotification = new NotificationModel({
+          userId: userId,
+          title: "Order Placed",
+          description: `ordered : ${item.productName}, requested By ${wisher?.fullName || wisher?.email}`,
+          category: "OrderCreated"
+        });
+        const secondNotification = new NotificationModel({
+          userId: item.wishersId,
+          title: "Order Placed",
+          description: `Your requested Product ${item.productName} was ordered by ${user?.fullName || user?.email}`,
+          category: "OrderCreated"
+        });
+        await Promise.all([
+          newNotification.save(),
+          secondNotification.save()
+        ]);
+      } else {
+        const newNotification = new NotificationModel({
+          userId: userId,
+          title: "Order Placed",
+          description: `Your Order Placed with ${items.length} items`,
+          category: "OrderCreated"
+        });
+        await newNotification.save();
+      }
+    }
     return NextResponse.json(
       {
         message: "Order created successfully",
         success: true,
-        data: order
+        data: order.toObject()
       },
       { status: 201 }
     );
