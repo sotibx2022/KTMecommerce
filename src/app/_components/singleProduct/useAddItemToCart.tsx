@@ -17,7 +17,7 @@ const useAddItemToCart = () => {
   }
   const dispatch = useDispatch();
   const removeItemFromWishList = useRemoveWishListFromDB();
-  const mutation = useMutation<APIResponseSuccess | APIResponseError, Error, ICartItem>({
+  const mutation = useMutation<APIResponseSuccess | APIResponseError, Error, ICartItem[]>({
     mutationFn: updatedCartItems,
     onSuccess: (response: APIResponseSuccess | APIResponseError) => {
       toast.success(response.message);
@@ -26,26 +26,33 @@ const useAddItemToCart = () => {
       toast.error(error.message);
     },
   });
-  const addItemToCart = (cartItemDetails: ICartItem) => {
+  const addItemToCart = (cartItemDetails: ICartItem[]) => {
     try {
-      // Guard: Check if cartItemDetails or productId exists
-      if (!cartItemDetails?.productId) {
-        toast.error("Invalid product data");
+      // Validate all items first
+      for (const item of cartItemDetails) {
+        if (!item?.productId) {
+          toast.error("One or more items have invalid product data");
+          return;
+        }
+      }
+      // Filter out items already in cart
+      const newItems = cartItemDetails.filter(item => 
+        !cartItems.some(cartItem => 
+          cartItem?.productId?.toString() === item?.productId?.toString()
+        )
+      );
+      if (newItems.length === 0) {
+        toast.error("All items are already in your cart. Update quantities there instead.");
         return;
       }
-      // Safe comparison with optional chaining
-      const isItemInCart = cartItems.some(item => 
-        item?.productId?.toString() === cartItemDetails.productId?.toString()
-      );
-      if (!isItemInCart) {
-        mutation.mutate(cartItemDetails);
-        dispatch(addToCart(cartItemDetails));
-        removeItemFromWishList.mutate(cartItemDetails.productId);
-      } else {
-        toast.error(`${cartItemDetails.productName || "This item"} is already in your cart. Update the quantity there instead.`);
-      }
+      // Add only new items
+      mutation.mutate(newItems);
+      newItems.forEach(item => {
+        dispatch(addToCart(item));
+        removeItemFromWishList.mutate(item.productId);
+      });
     } catch (error) {
-      toast.error("Failed to process cart item");
+      toast.error("Failed to process cart items");
     }
   };
   return addItemToCart;

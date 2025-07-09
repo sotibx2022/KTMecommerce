@@ -63,7 +63,7 @@ export const updateUserMutation = async (
     };
   }
 };
-export const updatedCartItems = async (cartItemDetails: ICartItem):Promise<APIResponseSuccess | APIResponseError> => {
+export const updatedCartItems = async (cartItemDetails: ICartItem[]):Promise<APIResponseSuccess | APIResponseError> => {
   try {
     const response = await axios.post("/api/cart/addToCart", cartItemDetails);
     return response.data;

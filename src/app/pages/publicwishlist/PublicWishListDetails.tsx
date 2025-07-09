@@ -1,7 +1,7 @@
 import { ItemText } from '@radix-ui/react-select';
 import { User } from 'lucide-react';
 import React from 'react';
-interface WishlistItem {
+export interface WishlistItem {
   _id: string;
   price: string;
   productName: string;

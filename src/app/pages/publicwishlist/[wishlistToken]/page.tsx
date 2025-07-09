@@ -3,7 +3,7 @@ import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponen
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { useRouter, useSearchParams } from 'next/navigation';
-import PublicWishListDetails, { wishersDetailsforPublicWishlist } from '../PublicWishListDetails';
+import PublicWishListDetails, { wishersDetailsforPublicWishlist, WishlistItem } from '../PublicWishListDetails';
 import PrimaryButton from '@/app/_components/primaryButton/PrimaryButton';
 import { useContext } from 'react';
 import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
@@ -11,6 +11,7 @@ import { DisplayComponents, DisplayContext } from '@/app/context/DisplayComponen
 import LoginComponent from '@/app/_components/authComponent/LoginComponent';
 import useAddItemToCart from '@/app/_components/singleProduct/useAddItemToCart';
 import toast from 'react-hot-toast';
+import { ICartItem } from '@/app/types/cart';
 const PublicWishlistPage = () => {
   const router = useRouter()
   const addItemToCart = useAddItemToCart();
@@ -45,15 +46,27 @@ const PublicWishlistPage = () => {
     wishersDetails = wishlistDetails.data.wishersDetails;
     wishListItems = wishlistDetails.data.updatedWishlistDetails;
   }
-  console.log(wishListItems,wishersDetails);
+  const structuredWishLists: ICartItem[] = wishListItems.map((item: WishlistItem, index: number) => {
+    return {
+      productName: item.productName,
+      productId: item.productId._id,
+      brand: item.brand,
+      price: item.price,
+      image: item.image,
+      userId: userDetails?._id,
+      category: item.category,
+      wishersId: wishersDetails._id,
+    }
+  })
+  console.log(wishListItems, wishersDetails);
   const handleOrderWishersList = () => {
-    if(userDetails?._id === wishersDetails._id){
+    if (userDetails?._id === wishersDetails._id) {
       toast.success("Navigate to your WishList page to order these materials.");
       router.push('/dashboard/wishlist')
     }
     else if (userDetails) {
       router.push('/dashboard/cart')
-      addItemToCart(wishListItems)
+      addItemToCart(structuredWishLists)
     } else {
       setVisibleComponent('login')
     }

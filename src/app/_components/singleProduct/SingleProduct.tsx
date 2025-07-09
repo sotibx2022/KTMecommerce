@@ -115,7 +115,7 @@ const SingleProduct: React.FC<IProductDisplay> = ({ ...productDetails }) => {
         <div className="productActions flex gap-4 my-4 items-center justify-center md:justify-start">
           <PrimaryButton
             searchText="To Cart"
-            onClick={() => userDetails ? addItemToCart(dataForCartItem) : setVisibleComponent('login')}
+            onClick={() => userDetails ? addItemToCart([dataForCartItem]) : setVisibleComponent('login')}
             disabled={ isAlreadyOnCart || !stockAvailability}
           /> 
           <PrimaryButton searchText="To WishList"

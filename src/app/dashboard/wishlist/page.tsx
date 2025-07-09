@@ -29,7 +29,7 @@ const wishListItemsPage = () => {
   const dispatch = useDispatch()
   const removeFromWishList = useRemoveWishListFromDB()
   const dataForCartItem = (item: IWishListItemDisplay) => {
-    return {
+    return [{
       productName: item.productName,
       productId: item.productId,
       brand: item.brand!,
@@ -39,7 +39,7 @@ const wishListItemsPage = () => {
       userId: userDetails!._id.toString(),
       category: item.category!,
       wishersId:new Types.ObjectId(userDetails!._id.toString()) || new Types.ObjectId("")
-    };
+    }];
   };
   const removeItemFromWishList = (productId: string) => {
     removeFromWishList.mutate(productId);
