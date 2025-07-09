@@ -2,51 +2,26 @@
 import React, { useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ReduxState } from '@/app/redux/store';
-import Link from 'next/link';
 import PrimaryButton from '@/app/_components/primaryButton/PrimaryButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { IPublicWishlistItem, IWishListItemDisplay } from '@/app/types/wishlist';
 import SkeletonSlide from '@/app/_components/loadingComponent/SkeletonSlide';
 import LinkComponent from '@/app/_components/linkComponent/LinkComponent';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
 import { removeFromWishList } from '@/app/redux/wishListSlice';
 import NoData from '@/app/_components/noData/NoData';
-import { HeartOff, Type } from 'lucide-react';
-import { ICartItem } from '@/app/types/cart';
+import { HeartOff, Type, UnlockIcon } from 'lucide-react';
 import useAddItemToCart from '@/app/_components/singleProduct/useAddItemToCart';
 import { useRemoveWishListFromDB } from './useRemoveWIshListFromDB';
 import PublicWishlist from './PublicWishlist';
-import { Types } from 'mongoose';
+import { DisplayContext } from '@/app/context/DisplayComponents';
+import { Button } from '@/components/ui/button';
+import SingleWishListCard from '@/app/_components/wishlistCard/SingleWIshListCard';
 const wishListItemsPage = () => {
-  const context = useContext(UserDetailsContext);
-  if (!context) {
-    throw new Error("User Details Context is not defined at this component")
-  }
-  const { userDetails, userDetailsLoading } = context;
-  const userId = userDetails?._id;
-  const dispatch = useDispatch()
-  const removeFromWishList = useRemoveWishListFromDB()
-  const dataForCartItem = (item: IWishListItemDisplay) => {
-    return [{
-      productName: item.productName,
-      productId: item.productId,
-      brand: item.brand!,
-      price: item.price,
-      image: item.image,
-      quantity: 1,
-      userId: userDetails!._id.toString(),
-      category: item.category!,
-      wishersId:item.wishersId
-    }];
-  };
-  const removeItemFromWishList = (productId: string) => {
-    removeFromWishList.mutate(productId);
-  }
-  const addItemToCart = useAddItemToCart()
+  const { visibleComponent, setVisibleComponent } = useContext(DisplayContext)
   const { wishListItems, wishListLoading } = useSelector((state: ReduxState) => state.wishList);
-  if (wishListLoading || userDetailsLoading) {
+  if (wishListLoading) {
     return (<div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
       <SkeletonSlide />
       <SkeletonSlide />
@@ -65,44 +40,17 @@ const wishListItemsPage = () => {
         />
       )
         :
-        (<><div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-          {wishListItems?.map((item: IWishListItemDisplay, index: number) => (
-            <div
-              key={index}
-              className="group relative bg-background p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200 shadow-primaryLight"
-            >
-              <div className="rounded-lg overflow-hidden bg-background">
-                <img
-                  src={item.image}
-                  alt={item.productName}
-                  className="w-full max-h-[200px] object-cover object-center group-hover:opacity-75"
-                />
-              </div>
-              <div className="mt-4 flex justify-between">
-                <div>
-                  <h3 className="text-sm text-primaryDark">
-                    <LinkComponent href={`/singleProduct/productIdentifier?id=${item.productId}&slug=${item.productName}`} text={item.productName} />
-                  </h3>
-                  <p className="text-background bg-helper p-2 rounded-md text-center">{item.brand}</p>
-                </div>
-                <p className="price-highlight">
-                  ${item.price}
-                </p>
-              </div>
-              <div className="mt-4 flex justify-between items-center">
-                <PrimaryButton searchText="To Cart" onClick={() => addItemToCart(dataForCartItem(item))} />
-                <button
-                  className="p-2 text-red-600 hover:text-red-800 hover:bg-red-50 rounded-full transition-colors"
-                  aria-label="Delete review"
-                  onClick={() => removeItemFromWishList(item.productId)}
-                >
-                  <FontAwesomeIcon icon={faTrashAlt} className="w-5 h-5" />
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-        <PublicWishlist/></>)}
+        (<>
+          <div className="wishlistPageHeader">
+            <Button onClick={() => setVisibleComponent('publicWishlist')}><UnlockIcon /> Public </Button>
+          </div>
+          <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+            {wishListItems?.map((item: IWishListItemDisplay, index: number) => (
+              <SingleWishListCard item={item} />
+            ))}
+          </div>
+          {visibleComponent === 'publicWishlist' && <PublicWishlist />}
+        </>)}
     </div>
   )
 };

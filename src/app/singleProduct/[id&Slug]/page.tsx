@@ -15,6 +15,7 @@ import RemarksDisplay from '@/app/_components/remarksDisplay/RemarksDisplay';
 import SecondaryButton from '@/app/_components/secondaryButton/SecondaryButton';
 import SingleProductPageSkeleton from '@/app/_components/loadingComponent/SingleProductPageSkeleton';
 import RemarksSkeleton from './RemarksSkleton';
+import { Minus, Plus } from 'lucide-react';
 const ProductPage = () => {
   const searchParams = useSearchParams();
   const [productId, setProductId] = useState<string>(searchParams.get('id') ?? "");
@@ -67,15 +68,23 @@ const ProductPage = () => {
   return (
     <>
       {!productIdentifier.productLoadingComplete && <SingleProductPageSkeleton />}
-      {productIdentifier.productLoadingComplete && productDatas && <SingleProduct {...productDatas}/>}
+      {productIdentifier.productLoadingComplete && productDatas && <SingleProduct {...productDatas} />}
       <div className="reviewsContainer container">
         <div className="reviewsHeading flex gap-4 mb-2 items-center">
           <h2 className="text-xl font-semibold text-primaryDark">Reviews</h2>
-          <FontAwesomeIcon
-            icon={showReviews ? faMinus : faPlus}
-            onClick={() => toggleReviews(!showReviews)}
-            className="bg-helper p-2 rounded-full cursor-pointer text-background"
-          />
+          {showReviews ? (
+            <Minus
+              onClick={() => toggleReviews(!showReviews)}
+              className="bg-helper p-2 rounded-full cursor-pointer text-background"
+              size={24}
+            />
+          ) : (
+            <Plus
+              onClick={() => toggleReviews(!showReviews)}
+              className="bg-helper p-2 rounded-full cursor-pointer text-background"
+              size={24}
+            />
+          )}
           <SecondaryButton
             text='Add Review'
             onClick={() => setVisibleComponent('addReview')}

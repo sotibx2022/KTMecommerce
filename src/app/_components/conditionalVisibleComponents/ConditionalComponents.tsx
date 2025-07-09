@@ -10,6 +10,7 @@ import ResetPasswordComponent from '../authComponent/ResetPasswordComponent'
 import AdvanceSearchMobile from '@/app/catalog/[searchValue]/AdvanceSearchMobile'
 import TotalProducts from '@/app/admin/components/ecommerceSummary/TotalProducts'
 import DeleteUser from '@/app/dashboard/settings/DashboardSettingComponents/DeleteUser'
+import PublicWishlist from '@/app/dashboard/wishlist/PublicWishlist'
 const ConditionalComponents = () => {
     const { visibleComponent,setVisibleComponent } = useContext(DisplayContext)
   return (
@@ -23,6 +24,7 @@ const ConditionalComponents = () => {
       {visibleComponent ==='advanceSearch' && <AdvanceSearchMobile/>}
       {visibleComponent ==='productsSummary' && <TotalProducts/>}
       {visibleComponent ==='deleteUser' && <DeleteUser/>}
+      {visibleComponent ==='publicWishlist' && <PublicWishlist/>}
     </div>
   )
 }

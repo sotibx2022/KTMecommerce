@@ -1,30 +1,36 @@
+import NoData from '@/app/_components/noData/NoData';
+import ProductCard from '@/app/_components/productCard/ProductCard';
+import SingleWishListCard from '@/app/_components/wishlistCard/SingleWIshListCard';
+import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
 import { PublicWishListDetailsProps } from '@/app/types/wishlist';
 import { ItemText } from '@radix-ui/react-select';
-import { User } from 'lucide-react';
-import React from 'react';
+import { HeartCrack, User } from 'lucide-react';
+import React, { useContext } from 'react';
 const PublicWishListDetails: React.FC<PublicWishListDetailsProps> = ({ wishersDetails, wishlistItems }) => {
+  const userContext = useContext(UserDetailsContext);
+  if (!userContext) {
+    throw new Error("User Details context is not defined at this level")
+  }
+  const { userDetails } = userContext
   return (
-    <div
-      className="min-h-screen py-8 px-4 sm:px-6 lg:px-8"
-      style={{ backgroundColor: 'var(--background)' }}
-    >
+    <div className='container' >
       <div className="max-w-4xl mx-auto">
         {/* User Profile Section */}
         <div
-          className="bg-white rounded-lg shadow-primaryDark p-6 mb-8 flex flex-col sm:flex-row items-center gap-6"
+          className=" rounded-lg shadow-primaryDark p-6 mb-8 flex flex-col sm:flex-row items-center gap-6"
         >
           <div className="relative w-24 h-24 rounded-full overflow-hidden border-4 border-helper">
             {wishersDetails.profileImage ? (
               <img
                 src={wishersDetails.profileImage}
                 alt="Reviewer Image"
-                className="w-12 h-12 rounded-full object-cover border-2 border-primaryLight/30"
+                className="w-full h-full rounded-full object-cover border-2 border-primaryLight/30"
               />
             ) : (
               <div className="inline-flex w-12 h-12 rounded-full border-2 border-primaryDark text-primaryDark bg-background justify-center items-center">
-                <User className="w-5 h-5" />
+                <User className="w-full h-full" />
               </div>
-            )} 
+            )}
           </div>
           <div className="text-center sm:text-left">
             <h1 className="text-2xl font-bold text-primaryDark">{wishersDetails.fullName}</h1>
@@ -34,60 +40,31 @@ const PublicWishListDetails: React.FC<PublicWishListDetailsProps> = ({ wishersDe
         {/* Wishlist Section */}
         <div>
           <h2 className="text-2xl font-bold text-primaryDark mb-6 text-center">
-            My Wishlist
+            WishList for {wishersDetails.fullName || wishersDetails.email}
           </h2>
           {wishlistItems.length === 0 ? (
-            <div className="text-center py-12">
-              <p className="text-primaryLight">No items in the wishlist yet</p>
-            </div>
+            <NoData
+              icon={<HeartCrack className="w-12 h-12 text-red-500" strokeWidth={1.5} />}
+              notFoundMessage="No Wishlist Items shared"
+              buttonText="Browse"
+              buttonLink="/catalog/advanceSearch?highlighted=none"
+            />
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {wishlistItems.map((item) => {
+            <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {wishlistItems.map((item, index) => {
+                const actualItem = {
+                  productName: item.productName,
+                  productId: item._id,
+                  brand: item.brand,
+                  price: item.price,
+                  image: item.image,
+                  userId: userDetails?._id.toString() || "",
+                  category: item.category,
+                  wishersId: wishersDetails._id,
+                }
                 const product = item.productId;
                 return (
-                  <div
-                    key={item._id}
-                    className="bg-white rounded-lg overflow-hidden shadow-primaryLight hover:shadow-helper transition-shadow duration-300"
-                  >
-                    {item.image && (
-                      <div className="relative h-48 w-full">
-                        <img
-                          src={item.image}
-                          alt={item.productName}
-                          className="object-cover w-full h-full"
-                        />
-                      </div>
-                    )}
-                    <div className="p-4">
-                      <div className="flex justify-between items-start mb-2">
-                        <h3 className="text-xl font-semibold text-primaryDark">{item.productName}</h3>
-                        {product.isNewArrivals && (
-                          <span className="bg-helper text-white text-xs px-2 py-1 rounded">New</span>
-                        )}
-                      </div>
-                      <p className="text-sm text-primaryLight mb-1">Brand: {item.brand}</p>
-                      <p className="text-sm text-primaryLight mb-3">Category: {item.category}</p>
-                      {product.productDescription && (
-                        <p className="text-primaryLight mb-3">{product.productDescription}</p>
-                      )}
-                      <div className="flex justify-between items-center">
-                        <p className="text-helper font-bold text-lg">${item.price}</p>
-                        {product.stockAvailability ? (
-                          <span className="text-green-600 text-sm">In Stock</span>
-                        ) : (
-                          <span className="text-red-600 text-sm">Out of Stock</span>
-                        )}
-                      </div>
-                      <div className="mt-4 flex flex-wrap gap-2">
-                        {product.isTopSell && (
-                          <span className="bg-primaryDark text-white text-xs px-2 py-1 rounded">Top Seller</span>
-                        )}
-                        {product.isTrendingNow && (
-                          <span className="bg-primary text-white text-xs px-2 py-1 rounded">Trending</span>
-                        )}
-                      </div>
-                    </div>
-                  </div>
+                  <SingleWishListCard item={actualItem} key={index} />
                 );
               })}
             </div>

@@ -29,14 +29,14 @@ const Page = () => {
       {Array.isArray(orders) && orders.length > 0 ? (
         orders.map((order: OrderDetailsProps, index: number) => (
           <div className="singleOrder mb-6" key={order._id}>
-            <OrderDetails order={order} nonExpandable={false}/>
+            <OrderDetails order={order} expandAble={true}/>
           </div>
         ))
       ) : (
         <NoData
   icon={<PackageX className="w-12 h-12 text-red-500" strokeWidth={1.5} />}
   notFoundMessage="No orders found"
-  buttonText="Browse Products"
+  buttonText="Browse"
   buttonLink="/catalog/advanceSearch?highlighted=none"
 />
       )}

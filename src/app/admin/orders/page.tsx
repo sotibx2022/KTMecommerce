@@ -109,7 +109,7 @@ const page = () => {
                   className="text-background bg-helper w-[30px] h-[30px] z-50 absolute top-3 right-3 cursor-pointer rounded-full p-1"
                   onClick={() => setOrderDetails(null)}
                 />
-    <OrderDetails order={orderDetails} nonExpandable={true}/>
+    <OrderDetails order={orderDetails} expandAble={false}/>
       </div>
     </div>}
     </Provider>
