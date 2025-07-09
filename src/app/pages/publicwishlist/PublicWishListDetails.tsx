@@ -38,7 +38,6 @@ interface PublicWishListDetailsProps {
   wishlistItems: WishlistItem[];
 }
 const PublicWishListDetails: React.FC<PublicWishListDetailsProps> = ({ wishersDetails, wishlistItems }) => {
-  console.log(wishersDetails);
   return (
     <div
       className="min-h-screen py-8 px-4 sm:px-6 lg:px-8"

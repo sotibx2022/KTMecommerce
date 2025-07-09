@@ -115,7 +115,14 @@ const CartTable = () => {
                     >
                       <FaPlus className="text-xs" />
                     </button>
-                    <span>{item.wishersId === userDetails?._id ? "For Self" : "For Others"}</span>
+                    <span className='text-primaryParagraph'>
+                      {item.wishersId && userDetails?._id
+                        ? item.wishersId.toString() === userDetails._id.toString()
+                          ? "For Self"
+                          : "For Others"
+                        : "N/A" // Fallback if either ID is missing
+                      }
+                    </span>
                   </div>
                 </div>
               </div>
