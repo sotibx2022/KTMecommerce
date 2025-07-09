@@ -26,20 +26,16 @@ const useAddItemToCart = () => {
       toast.error(error.message);
     },
   });
-  const addItemToCart = async (cartItemDetails: ICartItem) => {
-    try {
-      const isItemInCart = cartItems.some(
-        (item) => item.productId.toString() === cartItemDetails.productId.toString()
-      ); // Check if item exists (corrected logic)
-      if (!isItemInCart) {
-        mutation.mutate(cartItemDetails);
-        dispatch(addToCart(cartItemDetails));
-        removeItemFromWishList.mutate(cartItemDetails.productId);
-      } else {
-        toast.error(`${cartItemDetails.productName} is already in your cart. Update the quantity there instead.`);
-      }
-    } catch (error) {
-      toast.error("Failed to add item to cart. Please try again.");
+  const addItemToCart = (cartItemDetails: ICartItem) => {
+    const isItemInCart = cartItems.some(
+      (item) => item.productId.toString() === cartItemDetails.productId.toString()
+    ); 
+    if (!isItemInCart) {
+      mutation.mutate(cartItemDetails);
+      dispatch(addToCart(cartItemDetails));
+      removeItemFromWishList.mutate(cartItemDetails.productId);
+    } else {
+      toast.error(`${cartItemDetails.productName} is already in your cart. Update the quantity there instead.`);
     }
   };
   return addItemToCart;
