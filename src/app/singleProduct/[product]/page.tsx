@@ -1,9 +1,6 @@
 "use client";
 import React, { useContext, useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { useSearchParams } from 'next/navigation';
-import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
 import { DisplayContext } from '@/app/context/DisplayComponents';
 import { getSingleProduct } from '@/app/services/queryFunctions/products';
@@ -16,9 +13,12 @@ import SecondaryButton from '@/app/_components/secondaryButton/SecondaryButton';
 import SingleProductPageSkeleton from '@/app/_components/loadingComponent/SingleProductPageSkeleton';
 import RemarksSkeleton from './RemarksSkleton';
 import { Minus, Plus } from 'lucide-react';
-const ProductPage = () => {
+import { IProductDisplay } from '@/app/types/products';
+import { APIResponseError, APIResponseSuccess } from '@/app/services/queryFunctions/users';
+import { useSearchParams } from 'next/navigation';
+const SingleProductPageClient = () => {
   const searchParams = useSearchParams();
-  const [productId, setProductId] = useState<string>(searchParams.get('id') ?? "");
+  const [productId, setProductId] = useState(searchParams.get("id") || "")
   const [productIdentifier, setProductIdentifier] = useState({
     productId: "",
     productName: "",
@@ -33,15 +33,14 @@ const ProductPage = () => {
   const {
     data: productDetails,
     isPending: isProductPending
-  } = useQuery({
+  } = useQuery<APIResponseSuccess<IProductDisplay>>({
     queryKey: ['specificProduct', productId],
-    queryFn: () => getSingleProduct(productId),
-    enabled: !!productId
+    queryFn: () => getSingleProduct(productId!),
+    enabled: !!productId,
   });
-  const productDatas =
-    !isProductPending && productDetails?.success && productDetails?.data
-      ? productDetails.data
-      : null;
+  const productDatas = !isProductPending && productDetails
+    ? productDetails.data
+    : null
   useEffect(() => {
     if (productDatas) {
       setProductIdentifier({
@@ -58,7 +57,7 @@ const ProductPage = () => {
     isFetching: isRemarksFetching
   } = useQuery({
     queryKey: ['specificRemarks', productId],
-    queryFn: () => getSpecificRemarks(productId),
+    queryFn: () => getSpecificRemarks(productId!),
     enabled: !!productId && !!productIdentifier.productLoadingComplete
   });
   const toggleReviews = (value: boolean) => setShowReviews(value);
@@ -114,4 +113,4 @@ const ProductPage = () => {
     </>
   );
 };
-export default ProductPage;
+export default SingleProductPageClient;
