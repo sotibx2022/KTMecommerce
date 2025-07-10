@@ -11,7 +11,6 @@ import { ReduxState } from '@/app/redux/store';
 const useAddItemToWishList = () => {
   const dispatch = useDispatch();
   const { wishListItems, wishListLoading } = useSelector((state: ReduxState) => state.wishList);
-  // React Query mutation for updating cart in the database
   const mutation = useMutation<APIResponseSuccess | APIResponseError, Error, IWishListItemDisplay>({
     mutationFn: updateWishListItem,
     onSuccess: (response: APIResponseSuccess | APIResponseError) => {
@@ -23,18 +22,12 @@ const useAddItemToWishList = () => {
   });
   const addItemsToWishList = async (wishItemDetails: IWishListItemDisplay) => {
     try {
-      for (const wishList of wishListItems) {
-        if (wishItemDetails.productId === wishList.productId) {
-          toast.error("This Item already exist in Wishlist")
-        } else {
-          mutation.mutate(wishItemDetails);
-          dispatch(addToWishList(wishItemDetails));
-        }
-      }
+      mutation.mutate(wishItemDetails);
+      dispatch(addToWishList(wishItemDetails));
     } catch (error) {
-      console.error("Error adding item to the cart:", error);
+      toast.error("Error adding item to the wishlist");
     }
   };
-  return addItemsToWishList; // Return the function
+  return addItemsToWishList;
 };
 export default useAddItemToWishList;
