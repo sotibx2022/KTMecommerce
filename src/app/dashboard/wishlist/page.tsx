@@ -2,18 +2,10 @@
 import React, { useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { ReduxState } from '@/app/redux/store';
-import PrimaryButton from '@/app/_components/primaryButton/PrimaryButton';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { IPublicWishlistItem, IWishListItemDisplay } from '@/app/types/wishlist';
 import SkeletonSlide from '@/app/_components/loadingComponent/SkeletonSlide';
-import LinkComponent from '@/app/_components/linkComponent/LinkComponent';
-import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
-import { removeFromWishList } from '@/app/redux/wishListSlice';
 import NoData from '@/app/_components/noData/NoData';
 import { HeartOff, Type, UnlockIcon } from 'lucide-react';
-import useAddItemToCart from '@/app/_components/singleProduct/useAddItemToCart';
-import { useRemoveWishListFromDB } from './useRemoveWIshListFromDB';
 import PublicWishlist from './PublicWishlist';
 import { DisplayContext } from '@/app/context/DisplayComponents';
 import { Button } from '@/components/ui/button';
@@ -46,7 +38,7 @@ const wishListItemsPage = () => {
           </div>
           <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
             {wishListItems?.map((item: IWishListItemDisplay, index: number) => (
-              <SingleWishListCard item={item} />
+              <SingleWishListCard item={item} key={index} actionAble={true} />
             ))}
           </div>
           {visibleComponent === 'publicWishlist' && <PublicWishlist />}

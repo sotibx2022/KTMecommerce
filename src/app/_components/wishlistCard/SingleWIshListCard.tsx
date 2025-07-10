@@ -11,8 +11,9 @@ import { useRemoveWishListFromDB } from '@/app/dashboard/wishlist/useRemoveWIshL
 import { useContext } from 'react';
 interface WishlistItemProps {
   item: IWishListItemDisplay;
+  actionAble?:boolean
 }
-const SingleWishListCard = ({ item }: WishlistItemProps) => {
+const SingleWishListCard:React.FC<WishlistItemProps> = ({ item,actionAble}) => {
   const userContext = useContext(UserDetailsContext);
   if (!userContext) {
     throw new Error("User Detail Context is not defined here.")
@@ -68,7 +69,7 @@ const SingleWishListCard = ({ item }: WishlistItemProps) => {
         </p>
       </div>
       {/* Action Buttons */}
-      <div className="mt-4 flex justify-between items-center">
+      {actionAble && <div className="mt-4 flex justify-between items-center">
         <PrimaryButton
           searchText="To Cart"
           onClick={() => addItemToCart(dataForCartItem(item))}
@@ -80,7 +81,7 @@ const SingleWishListCard = ({ item }: WishlistItemProps) => {
         >
           <FontAwesomeIcon icon={faTrashAlt} className="w-5 h-5" />
         </button>
-      </div>
+      </div>}
     </div>
   );
 };

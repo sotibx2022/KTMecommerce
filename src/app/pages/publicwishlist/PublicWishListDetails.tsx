@@ -13,8 +13,8 @@ const PublicWishListDetails: React.FC<PublicWishListDetailsProps> = ({ wishersDe
   }
   const { userDetails } = userContext
   return (
-    <div className='container' >
-      <div className="max-w-4xl mx-auto">
+    <div className='container my-4' >
+      <div className="max-w-4xl">
         {/* User Profile Section */}
         <div
           className=" rounded-lg shadow-primaryDark p-6 mb-8 flex flex-col sm:flex-row items-center gap-6"
@@ -39,7 +39,7 @@ const PublicWishListDetails: React.FC<PublicWishListDetailsProps> = ({ wishersDe
         </div>
         {/* Wishlist Section */}
         <div>
-          <h2 className="text-2xl font-bold text-primaryDark mb-6 text-center">
+          <h2 className="text-2xl font-bold text-primaryDark mb-6">
             WishList for {wishersDetails.fullName || wishersDetails.email}
           </h2>
           {wishlistItems.length === 0 ? (
