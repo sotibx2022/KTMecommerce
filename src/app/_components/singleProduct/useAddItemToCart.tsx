@@ -15,6 +15,7 @@ const useAddItemToCart = () => {
   if (!context) {
     throw new Error("UserDetailsContext is not defined.");
   }
+  const { userDetails } = context;
   const dispatch = useDispatch();
   const removeItemFromWishList = useRemoveWishListFromDB();
   const mutation = useMutation<APIResponseSuccess | APIResponseError, Error, ICartItem[]>({
@@ -36,8 +37,8 @@ const useAddItemToCart = () => {
         }
       }
       // Filter out items already in cart
-      const newItems = cartItemDetails.filter(item => 
-        !cartItems.some(cartItem => 
+      const newItems = cartItemDetails.filter(item =>
+        !cartItems.some(cartItem =>
           cartItem?.productId?.toString() === item?.productId?.toString()
         )
       );
@@ -49,7 +50,9 @@ const useAddItemToCart = () => {
       mutation.mutate(newItems);
       newItems.forEach(item => {
         dispatch(addToCart([item]));
-        removeItemFromWishList.mutate(item.productId);
+        if (userDetails?._id.toString() === item.wishersId.toString()) {
+          removeItemFromWishList.mutate(item.productId);
+        }
       });
     } catch (error) {
       toast.error("Failed to process cart items");

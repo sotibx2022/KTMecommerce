@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Filter } from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import LogoComponent from '../logoComponent/LogoComponent';
 const SearchBar = () => {
   const pathName = usePathname()
   const [searchValue, setSearchValue] = useState("");
@@ -21,7 +22,7 @@ const SearchBar = () => {
   useEffect(() => {
     if (keyword) {
       setSearchValue(keyword);
-    }else{
+    } else {
       setSearchValue("")
     }
   }, [keyword]);
@@ -36,23 +37,19 @@ const SearchBar = () => {
   return (
     <>
       <div className='container flex justify-between items-center gap-4 my-4 flex-wrap'>
-        <Link href="/">
-          <img src='../assets/brand/logo.png' className='w-auto h-[50px] min-w-[150px]' alt="Brand Logo" />
-        </Link>
-        <div className="searchArea flex">
-          <div className="InputArea relative">
-            <input
-              type='text'
-              placeholder='Search the product'
-              className='min-w-[300px] h-full pl-10  bg-background text-primaryDark border-b-2 border-primaryDark border-solid focus:outline-none focus:placeholder-opacity-0'
-              value={searchValue} // Only use searchValue here
-              onChange={(e) => setSearchValue(e.target.value)}
-            />
-            <FontAwesomeIcon 
-              icon={faSearch} 
-              className="w-5 h-5 absolute top-1/2 left-[10px] -translate-y-1/2 text-primaryDark" 
-            />
-          </div>
+        <LogoComponent />
+        <div className="InputArea relative flex items-center h-[50px]">
+          <input
+            type='text'
+            placeholder='Search the product'
+            className='min-w-[300px] h-full pl-10  bg-background text-primaryDark border-b-2 border-primaryDark border-solid focus:outline-none focus:placeholder-opacity-0'
+            value={searchValue} // Only use searchValue here
+            onChange={(e) => setSearchValue(e.target.value)}
+          />
+          <FontAwesomeIcon
+            icon={faSearch}
+            className="w-5 h-5 absolute top-1/2 left-[10px] -translate-y-1/2 text-primaryDark"
+          />
           <div className="searchBarButtons flex gap-2 items-center">
             <PrimaryButton searchText='Search' onClick={handleSearch} theme='dark' />
             <Button variant='helper' onClick={handleFilter}>

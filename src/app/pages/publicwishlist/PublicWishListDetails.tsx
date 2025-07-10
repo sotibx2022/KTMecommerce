@@ -13,13 +13,13 @@ const PublicWishListDetails: React.FC<PublicWishListDetailsProps> = ({ wishersDe
   }
   const { userDetails } = userContext
   return (
-    <div className='container my-4' >
+    <div className='container' >
       <div className="max-w-4xl">
         {/* User Profile Section */}
         <div
           className=" rounded-lg shadow-primaryDark p-6 mb-8 flex flex-col sm:flex-row items-center gap-6"
         >
-          <div className="relative w-24 h-24 rounded-full overflow-hidden border-4 border-helper">
+          <div className="relative w-12 h-12 rounded-full overflow-hidden">
             {wishersDetails.profileImage ? (
               <img
                 src={wishersDetails.profileImage}
@@ -27,20 +27,20 @@ const PublicWishListDetails: React.FC<PublicWishListDetailsProps> = ({ wishersDe
                 className="w-full h-full rounded-full object-cover border-2 border-primaryLight/30"
               />
             ) : (
-              <div className="inline-flex w-12 h-12 rounded-full border-2 border-primaryDark text-primaryDark bg-background justify-center items-center">
+              <div className="inline-flex w-full h-full rounded-full  text-primaryDark bg-background justify-center items-center">
                 <User className="w-full h-full" />
               </div>
             )}
           </div>
           <div className="text-center sm:text-left">
-            <h1 className="text-2xl font-bold text-primaryDark">{wishersDetails.fullName}</h1>
-            <p className="text-primaryLight mt-1">{wishersDetails.email}</p>
+            <h1 className="text-2xl font-bold text-primaryDark">{wishersDetails.fullName??wishersDetails.email.split("@")[0]}</h1>
+            <p className="text-primaryLight">{wishersDetails.email}</p>
           </div>
         </div>
         {/* Wishlist Section */}
         <div>
           <h2 className="text-2xl font-bold text-primaryDark mb-6">
-            WishList for {wishersDetails.fullName || wishersDetails.email}
+            WishList for {wishersDetails.fullName??wishersDetails.email.split("@")[0]}
           </h2>
           {wishlistItems.length === 0 ? (
             <NoData
@@ -50,7 +50,7 @@ const PublicWishListDetails: React.FC<PublicWishListDetailsProps> = ({ wishersDe
               buttonLink="/catalog/advanceSearch?highlighted=none"
             />
           ) : (
-            <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mb-2">
               {wishlistItems.map((item, index) => {
                 const actualItem = {
                   productName: item.productName,
