@@ -27,6 +27,7 @@ export async function POST(request: NextRequest) {
     const passwordHistory = { password: hashedPassword, createdAt: Date.now() };
     const newUser = new UserModel({
       email,
+      fullName:email.split("@")[0],
       password: hashedPassword,
       passwordHistory: [passwordHistory]
     });

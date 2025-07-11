@@ -1,11 +1,15 @@
+export interface IUserSafeData {
+  fullName?: string;
+  profileImage?: string;
+  _id:string;
+}
 "use client";
 import React, { createContext, ReactNode, useState, useContext, useEffect } from "react";
-import { IUser } from "../types/user";
 import { getUserDetails } from "../services/helperFunctions/getUserDetails";
 import { useQuery } from "@tanstack/react-query";
 interface UserDetailsContextProps {
-  userDetails: IUser | null;
-  setUserDetails: React.Dispatch<React.SetStateAction<IUser | null>>;
+  userDetails: IUserSafeData | null;
+  setUserDetails: React.Dispatch<React.SetStateAction<IUserSafeData | null>>;
   userDetailsLoading:boolean;
 }
 const UserDetailsContext = createContext<UserDetailsContextProps | undefined>(undefined);
@@ -13,15 +17,29 @@ interface UserDetailsProviderProps {
   children: ReactNode;
 }
 const UserDetailsContextComponent: React.FC<UserDetailsProviderProps> = ({ children }) => {
-  const [userDetails, setUserDetails] = useState<IUser | null>(null);
+  const [userDetails, setUserDetails] = useState<IUserSafeData | null>(null);
   const[userDetailsLoading,setUserDetailsLoading] = useState<boolean>(true);
 const query = useQuery({ 
   queryKey: ['user'], 
-  queryFn: getUserDetails
+  queryFn: getUserDetails,
+  staleTime: 30 * 60 * 1000,
+  enabled:!localStorage.getItem('userSafeData')
 })
+useEffect(()=>{
+ const userSafeData: IUserSafeData | null = JSON.parse(localStorage.getItem('userSafeData') || 'null');
+  if(userSafeData){
+    setUserDetails(userSafeData)
+  }
+},[])
 useEffect(() => {
   if (query.data) {
-    setUserDetails(query.data);
+    const safeUserData:IUserSafeData={
+      fullName:query.data.fullName,
+      profileImage:query.data.profileImage,
+    _id:query.data._id.toString(),
+    }
+    localStorage.setItem('userSafeData',JSON.stringify(safeUserData))
+    setUserDetails(safeUserData);
     setUserDetailsLoading(false);
   }else{
     setUserDetailsLoading(false);

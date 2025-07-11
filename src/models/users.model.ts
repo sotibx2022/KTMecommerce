@@ -6,6 +6,7 @@ const UserSchema: Schema = new Schema<IUser>(
       type: String,
       trim: true,
       maxlength: 100,
+      required:true,
     },
     email: {
       type: String,
