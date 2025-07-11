@@ -18,7 +18,7 @@ import { APIResponseError, APIResponseSuccess } from '@/app/services/queryFuncti
 import { useSearchParams } from 'next/navigation';
 const SingleProductPageClient = () => {
     const searchParams = useSearchParams();
-    const [productId, setProductId] = useState(searchParams.get("id") || "")
+    const productId = searchParams.get("id") || ""
     const [productIdentifier, setProductIdentifier] = useState({
         productId: "",
         productName: "",
@@ -38,7 +38,7 @@ const SingleProductPageClient = () => {
         queryFn: () => getSingleProduct(productId!),
         enabled: !!productId,
     });
-    const productDatas = !isProductPending && productDetails?.success && productDetails.data
+    const productDatas = (!isProductPending && productDetails?.success) && productDetails.data
     useEffect(() => {
         if (productDatas) {
             setProductIdentifier({

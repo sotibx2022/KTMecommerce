@@ -1,5 +1,6 @@
+import { Types } from "mongoose";
 export interface IProductIdentifier{
-  productId:string;
+  productId:Types.ObjectId;
   productName:string;
   productImage:string;
 }
@@ -10,8 +11,7 @@ export interface IAddReviewsProps {
 export interface IAddReviewDatas {
   reviewedBy:{
     fullName:string;
-    email:string;
-    userId?:string;
+    userId:Types.ObjectId;
   }
   reviewDescription:string;
   productIdentifier:IProductIdentifier,

@@ -6,13 +6,7 @@ export async function POST(req: NextRequest) {
   await connectToDB()
   try {
     const userId = await getUserIdFromCookies(req)
-    const query = {
-  $or: [
-    { userId },
-    { wishersId: userId }
-  ]
-};
-    const orders = await OrderModel.find(query);
+    const orders = await OrderModel.find({ userId });
     if (!orders || orders.length === 0) {
       return NextResponse.json(
         { message: "No orders found", success: true, data: [] },
@@ -27,7 +21,7 @@ export async function POST(req: NextRequest) {
     });
   } catch (error: any) {
     return NextResponse.json(
-      { 
+      {
         message: error.message || "Failed to fetch orders",
         success: false,
         errorDetails: process.env.NODE_ENV === 'development' ? error : undefined

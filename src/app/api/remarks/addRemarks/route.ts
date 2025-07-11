@@ -2,17 +2,19 @@ import updateRating from "@/app/services/apiFunctions/updateOverallRating";
 import { productModel } from "@/models/products.model";
 import { remarksModel } from "@/models/remarks.model";
 import { NextRequest, NextResponse } from "next/server";
+import { getUserIdFromCookies } from "../../auth/authFunctions/getUserIdFromCookies";
 export async function POST(req: NextRequest) {
   try {
     const requestBody = await req.json();
-    const { 
+    const userId = await getUserIdFromCookies(req);
+    const {
       reviewedBy,
       reviewDescription,
       productIdentifier,
       rating,
-      reviewerImage 
+      reviewerImage,
     } = requestBody;
-    const {productId, productName, productImage} = productIdentifier;
+    const { productId, productName, productImage } = productIdentifier || {};
     const userEmail = reviewedBy?.email;
     // Validation checks
     if (!reviewedBy || !reviewDescription || !productId || !rating) {
@@ -21,6 +23,10 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
+    const reviewerObject = {
+      ...reviewedBy,
+      userId: userId?.toString(),
+    };
     const productObjectId = new Object(productId);
     const product = await productModel.findById(productObjectId);
     if (!product) {
@@ -29,19 +35,19 @@ export async function POST(req: NextRequest) {
         { status: 404 }
       );
     }
-    const review = await remarksModel.findOne({ 
-      "reviewedBy.email": userEmail,
-      "productId": productId
+    const review = await remarksModel.findOne({
+      "reviewedBy.userId": userId,
+      productId: productId,
     });
     if (review) {
       return NextResponse.json({
         message: "Only single review allowed for the same product",
         success: false,
-        status: 400
+        status: 400,
       });
     }
     const remark = new remarksModel({
-      reviewedBy,
+      reviewedBy: reviewerObject,
       reviewDescription,
       productIdentifier: {
         productId: productObjectId,
@@ -54,19 +60,19 @@ export async function POST(req: NextRequest) {
     await remark.save();
     await updateRating(productIdentifier.productId);
     return NextResponse.json(
-      { 
-        message: "Review submitted successfully", 
-        success: true, 
-        data: remark
+      {
+        message: "Review submitted successfully",
+        success: true,
+        data: remark,
       },
       { status: 201 }
     );
   } catch (error: any) {
     return NextResponse.json(
-      { 
-        message: "Failed to submit review", 
-        success: false, 
-        error: error.message 
+      {
+        message: "Failed to submit review",
+        success: false,
+        error: error.message,
       },
       { status: 500 }
     );

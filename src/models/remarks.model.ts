@@ -1,6 +1,4 @@
 import mongoose, { Model, ObjectId, Schema } from "mongoose";
-import { productModel } from "./products.model";
-import ProductImage from "@/app/_components/singleProduct/ProductImage";
 import { IAddReviewDatas } from "@/app/types/remarks";
  const RemarkSchema = new Schema<IAddReviewDatas>({
   productIdentifier:{
@@ -11,9 +9,9 @@ import { IAddReviewDatas } from "@/app/types/remarks";
   rating: { type: String, required: true }, // Changed from Number to String to match interface
   reviewedBy: { 
     fullName: { type: String, required: true },
-    userId: { type: String, required: true }
+    userId: { type: mongoose.Schema.Types.ObjectId,ref:"User",required:true }
   },
-  reviewerImage: { type: String,},
+  reviewerImage: {type:String},
   reviewDescription: { type: String, required: true },
 },
 {
