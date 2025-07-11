@@ -1,14 +1,6 @@
-import { headers } from "next/headers";
 import type { Metadata } from "next";
-import React from "react";
 import { config } from "@/config/configuration";
 import SingleProductPageClient from "./SIngleProductClientPage";
-import { getProductIdFromHeaders } from "./getProductIdFromHeaders";
-interface PageProps {
-  params: {
-    productIdentifier: string;
-  };
-}
 async function getSingleProduct(productId: string) {
   const response = await fetch(`${config.websiteUrl}/api/products/${productId}`, {
     next: { revalidate: 3600 },
@@ -16,6 +8,7 @@ async function getSingleProduct(productId: string) {
   if (!response.ok) throw new Error("Failed to fetch product");
   return response.json();
 }
+// 🧠 SEO Metadata Generator
 export async function generateMetadata({
   searchParams: maybeSearchParams,
 }: {
@@ -37,10 +30,11 @@ export async function generateMetadata({
       title: product.productName,
       description: product.productDescription,
       openGraph: {
+        title: product.productName,
+        description: product.productDescription,
+        type: "website",
         images: [product.image],
-      },
-      alternates: {
-        canonical: `/singleProduct/${productId}?id=${productId}&slug=${slug || ""}`,
+        url: `${config.websiteUrl}/singleProduct/${productId}?id=${productId}&slug=${slug || ""}`,
       },
     };
   } catch {
@@ -50,8 +44,7 @@ export async function generateMetadata({
     };
   }
 }
-// Default export as async function
-export default async function Page({ params }: PageProps) {
+export default async function Page() {
   return (
     <div>
       <SingleProductPageClient />
