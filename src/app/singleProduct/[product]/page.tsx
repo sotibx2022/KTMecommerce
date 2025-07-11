@@ -52,16 +52,9 @@ export async function generateMetadata({
 }
 // Default export as async function
 export default async function Page({ params }: PageProps) {
-const productId = await getProductIdFromHeaders()
-  if (!productId) {
-    return <div>Product ID missing in URL.</div>;
-  }
-  const productResponse = await getSingleProduct(productId);
-  const product = productResponse.data;
-  console.log(productResponse)
   return (
     <div>
-      <SingleProductPageClient productResponse={productResponse}/>
+      <SingleProductPageClient />
     </div>
   );
 }
