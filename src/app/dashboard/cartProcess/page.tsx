@@ -60,7 +60,7 @@ const page = () => {
       return;
     }
     const orderDetails = {
-      userEmail: userDetails.email,
+      userId: userDetails._id,
       items: cartItems.map((item: ICartItem) => ({
         productId: item.productId,
         quantity: item.quantity,

@@ -8,7 +8,7 @@ export type UpdatePasswordData = {
     passwordExist: boolean;
 };
 interface IDataTOSendForAPI {
-    resetEmail: string,
+    resetEmail:string,
     newresetPassword: string,
     confirmNewresetPassword: string,
 }
@@ -47,6 +47,10 @@ const UpdatePassword = () => {
         control: formMethod.control,
         name: 'checkOriginalPassword'
     });
+    const userEmail = useWatch({
+        control:formMethod.control,
+        name:'userEmail'
+    })
     const updatePasswordMutation = useMutation<APIResponseSuccess | APIResponseError, Error, IDataTOSendForAPI>({
         mutationFn: async (data: IDataTOSendForAPI) => {
             const response = await axios.post('/api/auth/resetPassword', data);
@@ -66,7 +70,7 @@ const UpdatePassword = () => {
     const onSubmit = async (data: UpdatePasswordData) => {
         if (data.newupdatedPassword || data.confirmupdatedPassword || data.checkOriginalPassword) {
             const dataToSend = {
-                resetEmail: userDetails!.email! as string,
+                resetEmail:userEmail,
                 newresetPassword: data.newupdatedPassword,
                 confirmNewresetPassword: data.confirmupdatedPassword,
             }
@@ -76,7 +80,7 @@ const UpdatePassword = () => {
     console.log(userDetails)
     useEffect(() => {
         if (userDetails?.passwordHistory) {
-            if (userDetails!.passwordHistory!.length === 0) {
+            if (userDetails!.passwordHistory) {
                 formMethod.setValue('checkOriginalPassword', true)
                 setShowGoogleAccountInfo(true)
             }

@@ -47,17 +47,11 @@ const ReadOnlyUserProfile = () => {
                             {isGuest ? 'Guest User' : userDetails.fullName || 'Unnamed User'}
                         </h3>
                     </div>
-                    <div className="flex items-center gap-2 mt-1">
-                        <Mail className="w-4 h-4" />
-                        <p className="text-sm opacity-90">
-                            {isGuest ? 'guest@example.com' : userDetails.email || 'No email provided'}
-                        </p>
-                    </div>
-                     {!isGuest && (
-                    <Badge variant="helper">
-{userDetails.accountStatus}
-                    </Badge>
-            )}
+                    {!isGuest && (
+                        <Badge variant="helper">
+                            {userDetails.accountStatus}
+                        </Badge>
+                    )}
                 </div>
             </div>
         </div>

@@ -2,10 +2,10 @@ import { remarksModel } from "@/models/remarks.model";
 import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
   try {
-    const userEmail = req.headers.get('userEmail');
+    const userId = req.headers.get('userEmail');
     const productId = req.headers.get('productId');
     // Validate required parameters
-    if (!userEmail || !productId) {
+    if (!userId || !productId) {
       return NextResponse.json(
         { message: "Missing required parameters", success: false },
         { status: 400 }
@@ -15,7 +15,7 @@ export async function GET(req: NextRequest) {
     // Query the database
     const remark = await remarksModel.findOne({ 
       'productIdentifier.productId': productObjectId, 
-      'reviewedBy.email': userEmail 
+      'reviewedBy.id': userId 
     });
     if (!remark) {
       return NextResponse.json(

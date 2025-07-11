@@ -15,7 +15,7 @@ export const postOrderDetails = async (
         validateStatus: (status) => status < 600
       }
     );
-    await deleteCartItems(orderDetails.userEmail); // Add this line
+    await deleteCartItems(orderDetails.userId); // Add this line
     return response.data;
   } catch (error) {
     const axiosError = error as AxiosError<ApiError>;
@@ -25,9 +25,9 @@ export const postOrderDetails = async (
     throw new Error(axiosError.message || 'Unknown Error Occurred');
   }
 };
-export const fetchAllOrders = async (userEmail: string) => {
+export const fetchAllOrders = async (userId: string) => {
   try {
-    const response = await axios.post('/api/ordersHistory', { userEmail }, {
+    const response = await axios.post('/api/ordersHistory', { userId }, {
       headers: { 'Content-Type': 'application/json' }
     })
     return response.data.data;
@@ -41,9 +41,9 @@ export const fetchAllOrders = async (userEmail: string) => {
     throw new Error(axiosError.message || 'Unknown Error Occured')
   }
 }
-const deleteCartItems = async (userEmail: string) => {
+const deleteCartItems = async (userId: string) => {
   try {
-    await axios.post('/api/cart/clearCart', { userEmail }); // Fixed payload format
+    await axios.post('/api/cart/clearCart', { userId }); // Fixed payload format
   } catch (error) {
     throw new Error('Failed to remove cart items from database'); // Fixed typo
   }

@@ -1,15 +1,15 @@
 import { fetchAllOrders } from "@/app/services/queryFunctions/orders";
 import { OrderDetailsProps } from "@/app/types/orders";
 import { useQuery } from "@tanstack/react-query"
- export const useOrders = (userEmail:string)=>{
+ export const useOrders = (userId:string)=>{
     return useQuery<OrderDetailsProps[]>({
-    queryKey: ['orders', userEmail],
+    queryKey: ['orders', userId],
     queryFn: () => {
-      if (!userEmail) {
+      if (!userId) {
         throw new Error("Email is required");
       }
-      return fetchAllOrders(userEmail);
+      return fetchAllOrders(userId);
     },
-    enabled: !!userEmail
+    enabled: !!userId
   });
 }

@@ -6,10 +6,10 @@ export async function POST(req: NextRequest) {
   try {
     // 1. Parse and validate incoming data
     const data = await req.json();
-    const { userEmail, productIdentifier, reviewDescription, rating } = data as IUpdateRemarkAPIData;
+    const { userId, productIdentifier, reviewDescription, rating } = data as IUpdateRemarkAPIData;
     const { productId } = productIdentifier;
     // 2. Validate required fields
-    if (!userEmail || !productId) {
+    if (!userId || !productId) {
       return NextResponse.json(
         { message: "Both userEmail and productId are required", success: false },
         { status: 400 }
@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
     const productObjectId = new Object(productId);
     // 4. Find the existing review
     const review = await remarksModel.findOne({ 
-      'reviewedBy.email': userEmail, 
+      'reviewedBy.userId': userId, 
       "productIdentifier.productId": productObjectId 
     });
     if (!review) {

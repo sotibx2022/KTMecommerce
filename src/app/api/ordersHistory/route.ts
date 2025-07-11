@@ -5,17 +5,10 @@ import { getUserIdFromCookies } from "../auth/authFunctions/getUserIdFromCookies
 export async function POST(req: NextRequest) {
   await connectToDB()
   try {
-    const { userEmail } = await req.json();
     const userId = await getUserIdFromCookies(req)
-    if (!userEmail) {
-      return NextResponse.json(
-        { message: "Email is required", success: false },
-        { status: 400 }
-      );
-    }
     const query = {
   $or: [
-    { userEmail },
+    { userId },
     { wishersId: userId }
   ]
 };

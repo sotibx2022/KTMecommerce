@@ -10,21 +10,21 @@ import SubmitError from '@/app/_components/submit/SubmitError';
 import { IUpdateUserData } from '@/app/types/formData';
 import toast from 'react-hot-toast';
 import { APIResponseError, APIResponseSuccess, updateUserMutation } from '@/app/services/queryFunctions/users';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import LoadingButton from '@/app/_components/primaryButton/LoadingButton';
 import { IUser } from '@/app/types/user';
 import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponent';
 import { DisplayContext } from '@/app/context/DisplayComponents';
+import { getUserDetails } from '@/app/services/helperFunctions/getUserDetails';
 const Page = () => {
   const{visibleComponent, setVisibleComponent} = useContext(DisplayContext);
   const[isLoading,setIsLoading] = useState(false);
   const[profileFile,setProfileFile] = useState<undefined | File>(undefined)
-  const context = useContext(UserDetailsContext);
-  if (!context) {
-    throw new Error("The User Details Context is not defined");
-  }
-  const { userDetails } = context;
   const queryClient = useQueryClient();
+  const query = useQuery({ 
+    queryKey: ['user'], 
+    queryFn: getUserDetails,
+  })
   const {register,formState:{errors},handleSubmit,setValue} = useForm<IUpdateUserData>({mode:"all"})
  const mutation = useMutation({
   mutationFn: updateUserMutation,
@@ -72,18 +72,18 @@ const Page = () => {
     setProfileFile(file)
   }
   useEffect(()=>{
-  if(userDetails){
-    setValue("fullName",userDetails.fullName||"");
-    setValue("phoneNumber",userDetails.phoneNumber || "");
-    setValue("email",userDetails.email);
-    if(userDetails.address){
-      setValue("fullAddress",userDetails.address)
+  if(query.data){
+    setValue("fullName",query.data.fullName);
+    setValue("phoneNumber",query.data.phoneNumber || "");
+    setValue("email",query.data.email);
+    if(query.data.address){
+      setValue("fullAddress",query.data.address)
     }
-    if(userDetails.profileImage){
-      setValue('profileUrl',userDetails.profileImage)
+    if(query.data.profileImage){
+      setValue('profileUrl',query.data.profileImage)
     }
   }
-  },[userDetails])
+  },[query.data])
   return (
     <>{isLoading?<LoadingComponent/>:<form className='container my-4' onSubmit={handleSubmit(onSubmit)}>
       <div className="flex flex-col-reverse sm:flex-row gap-4 justify-between mb-4">
@@ -91,7 +91,7 @@ const Page = () => {
           <div>
             <label className="formLabel">Full Name</label>
             <input type="text" className="formItem " placeholder="Mukhtar Thapa" id='fullName'
-            disabled={!userDetails}
+            disabled={!query.data}
               {...register("fullName", {
                               validate: (value) => validateFullName("Full Name", value, 3, 20)
               })}
@@ -115,7 +115,7 @@ const Page = () => {
               <span className="text-primaryDark text-sm font-medium">+977</span>
             </div>
             <input type="text" className="border border-helper bg-background rounded-md p-3 w-full shadow-helper shadow-sm focus:outline-none text-primaryDark pl-[80px] " placeholder="+123 456 7890" id="phoneNumber"
-            disabled={!userDetails}
+            disabled={!query.data}
             {...register("phoneNumber",{
               validate: (value) =>validateNumber("Phone Number",value,10,10)
             })} />
@@ -129,7 +129,7 @@ const Page = () => {
   className="formItem"
   placeholder="123 Main St, City, Country"
   id="fullAddress"
-  disabled={!userDetails}
+  disabled={!query.data}
   {...register("fullAddress", {
     required: "Full Address is Required.",
     minLength: {
@@ -147,7 +147,7 @@ const Page = () => {
         </div>
         <div className="sm:w-2/5">
           <div className="flex flex-col w-full h-full">
-           <UploadProfile profileImageURL ={receiveImageURL} imageFromDb={userDetails?.profileImage}/>
+           <UploadProfile profileImageURL ={receiveImageURL} imageFromDb={query.data?.profileImage}/>
             <ProfileAdditionalDetails />
           </div>
         </div>

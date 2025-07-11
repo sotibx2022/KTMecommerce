@@ -1,7 +1,9 @@
 export interface IUserSafeData {
-  fullName?: string;
+  fullName: string;
   profileImage?: string;
   _id:string;
+  accountStatus?:string,
+  passwordHistory:boolean,
 }
 "use client";
 import React, { createContext, ReactNode, useState, useContext, useEffect } from "react";
@@ -37,6 +39,8 @@ useEffect(() => {
       fullName:query.data.fullName,
       profileImage:query.data.profileImage,
     _id:query.data._id.toString(),
+    accountStatus:query.data.accountStatus,
+    passwordHistory:query.data.passwordHistory ? true :false
     }
     localStorage.setItem('userSafeData',JSON.stringify(safeUserData))
     setUserDetails(safeUserData);

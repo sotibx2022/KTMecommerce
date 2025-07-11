@@ -77,7 +77,7 @@ const page = () => {
         <DynamicOrderData text={order._id!.slice(-8).toUpperCase()} />
       </h2>
   </TableCell>
-  <TableCell className="min-w-[50px]"><DynamicOrderData text={order.userEmail} /></TableCell>
+  <TableCell className="min-w-[50px]"><DynamicOrderData text={order.userId} /></TableCell>
   <TableCell className="min-w-[150px]">
       <SelectStatus status={order.status} orderId={order._id!} />
   </TableCell>

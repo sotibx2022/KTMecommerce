@@ -11,7 +11,7 @@ export interface IAddReviewDatas {
   reviewedBy:{
     fullName:string;
     email:string;
-    userEmail?:string;
+    userId?:string;
   }
   reviewDescription:string;
   productIdentifier:IProductIdentifier,
@@ -24,7 +24,7 @@ export interface IDisplayReviewDatas extends IAddReviewDatas{
 }
 export interface IUpdateRemarkAPIData{
   rating:string,
-  userEmail:string,
+  userId?:string,
   reviewDescription:string,
   productIdentifier:IProductIdentifier,
 }

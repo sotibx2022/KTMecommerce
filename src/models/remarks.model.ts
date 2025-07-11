@@ -11,7 +11,7 @@ import { IAddReviewDatas } from "@/app/types/remarks";
   rating: { type: String, required: true }, // Changed from Number to String to match interface
   reviewedBy: { 
     fullName: { type: String, required: true },
-    email: { type: String, required: true }
+    userId: { type: String, required: true }
   },
   reviewerImage: { type: String,},
   reviewDescription: { type: String, required: true },

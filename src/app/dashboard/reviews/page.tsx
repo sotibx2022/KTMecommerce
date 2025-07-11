@@ -16,11 +16,11 @@ const Page = () => {
     throw new Error("The User Details context is not working.");
   }
   const { userDetails } = context;
-  const userEmail = userDetails?.email;
+  const userId = userDetails?._id;
   const { data: remarks, isPending } = useQuery({
-    queryKey: ['specificUserRemarks', userEmail],
-    queryFn: () => getSpecificRemarksofUser(userEmail!),
-    enabled: !!userEmail
+    queryKey: ['specificUserRemarks', userId],
+    queryFn: () => getSpecificRemarksofUser(userId!),
+    enabled: !!userId
   });
   const remarksData = remarks?.success ? remarks.data : null;
   console.log(remarksData);

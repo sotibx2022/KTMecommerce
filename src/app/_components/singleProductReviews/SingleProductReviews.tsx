@@ -17,7 +17,7 @@ const SingleProductReviews: React.FC<IDisplayReviewDatas> = ({
 }) => {
   const { productId } = productIdentifier;
   const user = useContext(UserDetailsContext);
-  const isCurrentUserReview = user?.userDetails?.email === reviewedBy.email;
+  const isCurrentUserReview = user?.userDetails?._id === reviewedBy.userId;
   return (
     <div className="border border-primaryLight/20 rounded-lg p-4 w-full max-w-[350px] hover:shadow-md transition-shadow">
       <div className="flex items-start gap-4 mb-4">

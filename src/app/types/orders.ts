@@ -29,7 +29,7 @@ import { ICartItem } from "./cart";
     }
     export interface IOrderDetails {
         _id?:string,
-        userEmail: string
+        userId: string
         items:IProductDetailsforOrder[],
         status: "ordered" | "pending"| "confirmed" | "delivered" | "cancelled"
         paymentMethod: "paymentOnDelivery" | "online"

@@ -15,8 +15,8 @@ const Page = () => {
     throw new Error("The User Details context is not working.");
   }
   const { userDetails } = context;
-  const userEmail = userDetails?.email;
- const {data:orders,isPending,error} = useOrders(userEmail!)
+  const userId = userDetails?._id;
+ const {data:orders,isPending,error} = useOrders(userId!)
   if (isPending) {
     return <LoadingComponent/>
   }

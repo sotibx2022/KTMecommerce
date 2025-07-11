@@ -2,7 +2,7 @@ import { IOrderDetails } from '@/app/types/orders';
 import mongoose, { Schema, model, Document, Types } from 'mongoose';
 const OrderSchema = new Schema<IOrderDetails>(
   {
-    userEmail: {
+    userId: {
       type: String,
       required: true,
     },

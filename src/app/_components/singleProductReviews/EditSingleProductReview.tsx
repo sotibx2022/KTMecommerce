@@ -7,19 +7,13 @@ import { useForm } from 'react-hook-form';
 import { Mutation, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { IAddReviewDatas, IDisplayReviewDatas, IProductIdentifier, IUpdateRemarkAPIData} from '@/app/types/remarks';
 import { APIResponseError, APIResponseSuccess } from '@/app/services/queryFunctions/users';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { format } from 'date-fns';
 import { AbsoluteComponent } from '../absoluteComponent/AbsoluteComponent';
 import {getSpecificRemarksofUser, getSpecificReviewofProductbyUser, updateSingleProductReview } from '@/app/services/queryFunctions/remarks';
 import toast from 'react-hot-toast';
 import LoadingButton from '../primaryButton/LoadingButton';
-import SkletonText from '../skeletontext/SkletonText';
-import { shortName } from '@/app/services/helperFunctions/functions';
 import ReadOnlyUserProfile from './ReadOnlyUserProfile';
 import LoadingComponent from '../loadingComponent/LoadingComponent';
 const AddSingleProductRating = dynamic(() => import('./AddSingleProductRating'), { ssr: false });
-const DisplaySingleProductRating = dynamic(() => import('./DisplaySingleProductRating'), { ssr: false });
 interface EditSingleProductReviewProps{
   productIdentifier:IProductIdentifier
 }
@@ -33,7 +27,7 @@ const EditSingleProductReview: React.FC<EditSingleProductReviewProps> = ({produc
     throw new Error("The User Details context is not working.");
   }
   const { userDetails } = context;
-  const userEmail = userDetails?.email;
+  const userId = userDetails?._id;
   const updateMutation = useMutation<APIResponseSuccess | APIResponseError, Error, IUpdateRemarkAPIData>({
     mutationFn: updateSingleProductReview,
     onSuccess: async (response) => {
@@ -55,7 +49,7 @@ const EditSingleProductReview: React.FC<EditSingleProductReviewProps> = ({produc
       if (isRemarksPage) {
         invalidations.push(
           queryClient.invalidateQueries({ 
-            queryKey: ['specificUserRemarks', userEmail],
+            queryKey: ['specificUserRemarks', userId],
             refetchType: 'active'
           })
         );
@@ -82,20 +76,20 @@ const EditSingleProductReview: React.FC<EditSingleProductReviewProps> = ({produc
   const { data: remarks, isPending } = useQuery<
     APIResponseSuccess<IDisplayReviewDatas> | APIResponseError
   >({
-    queryKey: ['specificRemark', userEmail, productId],
-    queryFn: () => getSpecificReviewofProductbyUser(userEmail!, productId),
-    enabled: !!userEmail && !!productId
+    queryKey: ['specificRemark', userId, productId],
+    queryFn: () => getSpecificReviewofProductbyUser(userId!, productId),
+    enabled: !!userId && !!productId
   });
   useEffect(() => {
     if (isPending) {
       setValue('reviewedBy.fullName', 'Loading...');
-      setValue('reviewedBy.email', 'Loading...');
+      setValue('reviewedBy.userId', 'Loading...');
       setValue('reviewDescription', 'Loading...');
       return;
     }
     if (remarks && remarks.success && remarks.data) {
       setValue('reviewedBy.fullName', isPending ? 'Loading ...' :remarks.data.reviewedBy.fullName);
-      setValue('reviewedBy.email', isPending ? 'Loading ...' :remarks.data.reviewedBy.email);
+      setValue('reviewedBy.userId', isPending ? 'Loading ...' :remarks.data.reviewedBy.userId);
       setValue('productIdentifier.productId', isPending ? 'Loading ...' :remarks.data.productIdentifier.productId);
       setValue('reviewDescription', isPending ? 'Loading ...' :remarks.data.reviewDescription);
       setValue('rating', remarks.data.rating);
@@ -116,7 +110,7 @@ const EditSingleProductReview: React.FC<EditSingleProductReviewProps> = ({produc
           productName:formData.productIdentifier.productName,
           productImage:formData.productIdentifier.productImage
         },
-        userEmail:formData.reviewedBy.email,
+      userId:userId,
         reviewDescription:formData.reviewDescription,})
   };
   if(updateMutation.isPending){

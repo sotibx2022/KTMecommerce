@@ -17,7 +17,7 @@ const ProfileAdditionalDetails = () => {
       throw new Error ("The User Details Context is not defined")
     }
     const {userDetails} = context;
-    const {data:orders} = useOrders(userDetails?.email!)
+    const {data:orders} = useOrders(userDetails?._id!)
   return (
     <div>
                 <div className="profileAdditionalDetails">

@@ -41,8 +41,8 @@ export async function GET(req: NextRequest) {
 }
 export async function POST(req: NextRequest) {
   try {
-    const { action, productId, userEmail, reviewDescription } = await req.json();
-    if (!action || !productId || !userEmail) {
+    const { action, productId, userId, reviewDescription } = await req.json();
+    if (!action || !productId || !userId) {
       return NextResponse.json(
         { message: "Required fields missing", success: false },
         { status: 400 }
@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
     const productObjectId = new Object(productId)
     const remark = await remarksModel.findOne({
       'productIdentifier.productId': productObjectId,
-      'reviewedBy.email': userEmail
+      'reviewedBy.userId': userId
     });
     if (!remark) {
       return NextResponse.json(

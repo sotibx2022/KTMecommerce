@@ -34,7 +34,7 @@ export const getSpecificRemarks = async (
      throw new Error('Something wrong to get the data.')
     }
   };
-  export const deleteSpecificReview = async (datasToDelete: { productId: string, userEmail: string }): Promise<APIResponseSuccess | APIResponseError> => {
+  export const deleteSpecificReview = async (datasToDelete: { productId: string, userId: string }): Promise<APIResponseSuccess | APIResponseError> => {
     try {
       const response = await axios.post(
         `/api/remarks/${datasToDelete.productId}`,
