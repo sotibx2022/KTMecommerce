@@ -1,30 +1,33 @@
 import { Types } from "mongoose";
-export interface IProductIdentifier{
-  productId:Types.ObjectId;
-  productName:string;
-  productImage:string;
+export interface IProductIdentifier {
+  productId: string;
+  productName: string;
+  productImage: string;
 }
-export interface IAddReviewsProps {
-  productIdentifier:IProductIdentifier,
-  readOnly: boolean;  
+export interface IRemarksBase {
+  productIdentifier: IProductIdentifier,
+  reviewedBy: {
+    userId: string;
+    fullName: string;
+    email?:string;
+  };
+  reviewDescription: string;
+  rating: string;
+  reviewerImage?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+  readOnly?: boolean;
 }
-export interface IAddReviewDatas {
-  reviewedBy:{
-    fullName:string;
-    userId:Types.ObjectId;
-  }
-  reviewDescription:string;
-  productIdentifier:IProductIdentifier,
-  rating:string;
-  reviewerImage?:string;
-}
-export interface IDisplayReviewDatas extends IAddReviewDatas{
-  createdAt:Date;
-  updatedAt?:Date;
-}
-export interface IUpdateRemarkAPIData{
-  rating:string,
-  userId?:string,
-  reviewDescription:string,
-  productIdentifier:IProductIdentifier,
+export interface IRemarksBaseForDB 
+  extends Omit<IRemarksBase, 'productIdentifier' | 'reviewedBy'> {
+  productIdentifier: {
+    productId: Types.ObjectId;  // Override with ObjectId
+    productName: string;
+    productImage: string;
+  };
+  reviewedBy: {
+    userId: Types.ObjectId;     // Override with ObjectId
+    fullName: string;
+    email?: string;
+  };
 }

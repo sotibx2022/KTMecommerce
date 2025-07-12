@@ -1,25 +1,25 @@
-import dynamic from 'next/dynamic';  
+import dynamic from 'next/dynamic';
 import PrimaryButton from '../primaryButton/PrimaryButton';
 import { useContext, useEffect, useState } from 'react';
 import { DisplayContext } from '@/app/context/DisplayComponents';
 import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
 import { useForm } from 'react-hook-form';
 import { Mutation, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { IAddReviewDatas, IDisplayReviewDatas, IProductIdentifier, IUpdateRemarkAPIData} from '@/app/types/remarks';
+import { IRemarksBase, IProductIdentifier, } from '@/app/types/remarks';
 import { APIResponseError, APIResponseSuccess } from '@/app/services/queryFunctions/users';
 import { AbsoluteComponent } from '../absoluteComponent/AbsoluteComponent';
-import {getSpecificRemarksofUser, getSpecificReviewofProductbyUser, updateSingleProductReview } from '@/app/services/queryFunctions/remarks';
+import { getSpecificRemarksofUser, getSpecificReviewofProductbyUser, updateSingleProductReview } from '@/app/services/queryFunctions/remarks';
 import toast from 'react-hot-toast';
 import LoadingButton from '../primaryButton/LoadingButton';
 import ReadOnlyUserProfile from './ReadOnlyUserProfile';
 import LoadingComponent from '../loadingComponent/LoadingComponent';
 const AddSingleProductRating = dynamic(() => import('./AddSingleProductRating'), { ssr: false });
-interface EditSingleProductReviewProps{
-  productIdentifier:IProductIdentifier
+interface EditSingleProductReviewProps {
+  productIdentifier: IProductIdentifier
 }
-const EditSingleProductReview: React.FC<EditSingleProductReviewProps> = ({productIdentifier}) => {
+const EditSingleProductReview: React.FC<EditSingleProductReviewProps> = ({ productIdentifier }) => {
   const queryClient = useQueryClient();
-  const {productId,productName,productImage} = productIdentifier;
+  const { productId, productName, productImage } = productIdentifier;
   const { setVisibleComponent } = useContext(DisplayContext);
   const [reviewSubmitted, setReviewSubmitted] = useState(false);
   const context = useContext(UserDetailsContext);
@@ -28,7 +28,7 @@ const EditSingleProductReview: React.FC<EditSingleProductReviewProps> = ({produc
   }
   const { userDetails } = context;
   const userId = userDetails?._id;
-  const updateMutation = useMutation<APIResponseSuccess | APIResponseError, Error, IUpdateRemarkAPIData>({
+  const updateMutation = useMutation<APIResponseSuccess | APIResponseError, Error, IRemarksBase>({
     mutationFn: updateSingleProductReview,
     onSuccess: async (response) => {
       toast.success(response.message);
@@ -40,7 +40,7 @@ const EditSingleProductReview: React.FC<EditSingleProductReviewProps> = ({produc
       const invalidations = [];
       if (isSingleProductPage) {
         invalidations.push(
-          queryClient.invalidateQueries({ 
+          queryClient.invalidateQueries({
             queryKey: ['specificRemarks', productId],
             refetchType: 'active' // Only refetch if currently being observed
           })
@@ -48,7 +48,7 @@ const EditSingleProductReview: React.FC<EditSingleProductReviewProps> = ({produc
       }
       if (isRemarksPage) {
         invalidations.push(
-          queryClient.invalidateQueries({ 
+          queryClient.invalidateQueries({
             queryKey: ['specificUserRemarks', userId],
             refetchType: 'active'
           })
@@ -67,14 +67,14 @@ const EditSingleProductReview: React.FC<EditSingleProductReviewProps> = ({produc
       toast.error(error.message);
     }
   });
-  const { 
-    register, 
+  const {
+    register,
     formState: { errors },
     handleSubmit,
-    setValue 
-  } = useForm<IAddReviewDatas>({ mode: 'onBlur' });
+    setValue
+  } = useForm<IRemarksBase>({ mode: 'onBlur' });
   const { data: remarks, isPending } = useQuery<
-    APIResponseSuccess<IDisplayReviewDatas> | APIResponseError
+    APIResponseSuccess<IRemarksBase> | APIResponseError
   >({
     queryKey: ['specificRemark', userId, productId],
     queryFn: () => getSpecificReviewofProductbyUser(userId!, productId),
@@ -88,10 +88,10 @@ const EditSingleProductReview: React.FC<EditSingleProductReviewProps> = ({produc
       return;
     }
     if (remarks && remarks.success && remarks.data) {
-      setValue('reviewedBy.fullName', isPending ? 'Loading ...' :remarks.data.reviewedBy.fullName);
-      setValue('reviewedBy.userId', isPending ? 'Loading ...' :remarks.data.reviewedBy.userId);
-      setValue('productIdentifier.productId', isPending ? 'Loading ...' :remarks.data.productIdentifier.productId);
-      setValue('reviewDescription', isPending ? 'Loading ...' :remarks.data.reviewDescription);
+      setValue('reviewedBy.fullName', isPending ? 'Loading ...' : remarks.data.reviewedBy.fullName);
+      setValue('reviewedBy.userId', isPending ? 'Loading ...' : remarks.data.reviewedBy.userId);
+      setValue('productIdentifier.productId', isPending ? 'Loading ...' : remarks.data.productIdentifier.productId);
+      setValue('reviewDescription', isPending ? 'Loading ...' : remarks.data.reviewDescription);
       setValue('rating', remarks.data.rating);
       if (userDetails?.profileImage) {
         setValue('reviewerImage', userDetails.profileImage);
@@ -102,26 +102,31 @@ const EditSingleProductReview: React.FC<EditSingleProductReviewProps> = ({produc
     const ratingInString = rating.toString();
     setValue('rating', ratingInString);
   };
-  const onSubmit = (formData: IAddReviewDatas) => {
+  const onSubmit = (formData: IRemarksBase) => {
     setReviewSubmitted(true);
-    updateMutation.mutate({rating:formData.rating,
-        productIdentifier:{
-          productId:formData.productIdentifier.productId,
-          productName:formData.productIdentifier.productName,
-          productImage:formData.productIdentifier.productImage
-        },
-      userId:userId,
-        reviewDescription:formData.reviewDescription,})
+    updateMutation.mutate({
+      rating: formData.rating,
+      productIdentifier: {
+        productId: formData.productIdentifier.productId,
+        productName: formData.productIdentifier.productName,
+        productImage: formData.productIdentifier.productImage
+      },
+      reviewedBy: {
+        userId: userId || "",
+        fullName: userDetails?.fullName || ""
+      },
+      reviewDescription: formData.reviewDescription,
+    })
   };
-  if(updateMutation.isPending){
-    return <LoadingComponent/>
+  if (updateMutation.isPending) {
+    return <LoadingComponent />
   }
   return (
     <AbsoluteComponent>
       <form className='w-full flex flex-col gap-4' onSubmit={handleSubmit(onSubmit)}>
         <h1 className='text-xl font-bold text-primaryDark mb-2'>Update Your Review</h1>
         {/* User Profile Section - Display Only */}
-        <ReadOnlyUserProfile/>
+        <ReadOnlyUserProfile />
         {/* Editable Review Section */}
         <div className="space-y-4">
           <div>
@@ -149,7 +154,7 @@ const EditSingleProductReview: React.FC<EditSingleProductReviewProps> = ({produc
         </div>
         {/* Submit Button */}
         <div className="mt-4">
-         {updateMutation.isPending ? <LoadingButton/>: <PrimaryButton searchText='Update' />}
+          {updateMutation.isPending ? <LoadingButton /> : <PrimaryButton searchText='Update' />}
         </div>
       </form>
     </AbsoluteComponent>

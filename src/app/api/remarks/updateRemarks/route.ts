@@ -1,12 +1,11 @@
 import { remarksModel } from "@/models/remarks.model";
 import { NextRequest, NextResponse } from "next/server";
-import { IUpdateRemarkAPIData } from "@/app/types/remarks";
 import updateRating from "@/app/services/apiFunctions/updateOverallRating";
 export async function POST(req: NextRequest) {
   try {
     // 1. Parse and validate incoming data
     const data = await req.json();
-    const { userId, productIdentifier, reviewDescription, rating } = data as IUpdateRemarkAPIData;
+    const { userId, productIdentifier, reviewDescription, rating } = data ;
     const { productId } = productIdentifier;
     // 2. Validate required fields
     if (!userId || !productId) {

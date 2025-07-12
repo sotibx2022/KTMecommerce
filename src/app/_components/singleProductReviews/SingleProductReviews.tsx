@@ -2,11 +2,11 @@
 import React, { useContext } from 'react'
 import DisplaySingleProductRating from './DisplaySingleProductRating'
 import { DateFormator, shortName } from '@/app/services/helperFunctions/functions'
-import { IAddReviewDatas, IDisplayReviewDatas } from '@/app/types/remarks'
+import { IRemarksBase } from '@/app/types/remarks'
 import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent'
 import ReviewActionButtons from './ReviewActionButtons'
 import { MessageSquare, Edit, Calendar, User } from 'lucide-react'
-const SingleProductReviews: React.FC<IDisplayReviewDatas> = ({
+const SingleProductReviews: React.FC<IRemarksBase> = ({
   reviewedBy,
   reviewerImage,
   rating,
@@ -43,7 +43,7 @@ const SingleProductReviews: React.FC<IDisplayReviewDatas> = ({
           </div>
           <div className="flex items-center gap-2 text-sm text-primaryLight mt-1">
             <Calendar className="w-4 h-4" />
-            <span>Reviewed on: {DateFormator(createdAt)}</span>
+           <span>Reviewed on: {createdAt ? DateFormator(createdAt) : ""}</span>
           </div>
           {updatedAt && createdAt !== updatedAt && (
             <div className="flex items-center gap-2 text-sm text-primaryLight mt-1">

@@ -1,9 +1,9 @@
 import axios, { AxiosError } from "axios";
 import { APIResponseError, APIResponseSuccess } from "./users";
 import { ApiError } from "next/dist/server/api-utils";
-import { IAddReviewDatas, IDisplayReviewDatas, IUpdateRemarkAPIData } from "@/app/types/remarks";
+import { IRemarksBase } from "@/app/types/remarks";
 export const postSingleProductReview = async (
-  data: IAddReviewDatas
+  data: IRemarksBase
 ): Promise<APIResponseSuccess | APIResponseError> => {
   try {
     const response = await axios.post('/api/remarks/addRemarks', data, {
@@ -26,7 +26,7 @@ export const postSingleProductReview = async (
 };
 export const getSpecificRemarks = async (
     productId: string
-  ): Promise<APIResponseSuccess<IDisplayReviewDatas[]>| APIResponseError> => {
+  ): Promise<APIResponseSuccess<IRemarksBase[]>| APIResponseError> => {
     try {
       const response = await axios.get(`/api/remarks/${productId}`);
       return response.data;
@@ -50,7 +50,7 @@ export const getSpecificRemarks = async (
   };
   export const getSpecificReviewofProductbyUser = async (
     userEmail: string, productId: string 
-  ): Promise<APIResponseSuccess<IDisplayReviewDatas> | APIResponseError> => {
+  ): Promise<APIResponseSuccess<IRemarksBase> | APIResponseError> => {
     try {
       const response = await axios.get('/api/remarks/specificRemark', {
         headers: {  
@@ -76,7 +76,7 @@ export const getSpecificRemarks = async (
     }
   };
   export const updateSingleProductReview = async (
-    data: IUpdateRemarkAPIData  // Accept single object instead of separate params
+    data: IRemarksBase  // Accept single object instead of separate params
   ): Promise<APIResponseSuccess | APIResponseError> => {
     try {
       const response = await axios.post('/api/remarks/updateRemarks', data, {
@@ -93,7 +93,7 @@ export const getSpecificRemarks = async (
   };
   export const getSpecificRemarksofUser = async (
     userEmail: string
-  ): Promise<APIResponseSuccess<IDisplayReviewDatas[]> | APIResponseError> => {
+  ): Promise<APIResponseSuccess<IRemarksBase[]> | APIResponseError> => {
     try {
       const response = await axios.get('/api/remarks/specificUserRemarks', {
         headers: { userEmail }

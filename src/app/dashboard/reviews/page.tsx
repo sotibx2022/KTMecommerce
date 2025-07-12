@@ -5,7 +5,7 @@ import { getSpecificRemarksofUser } from '@/app/services/queryFunctions/remarks'
 import { useQuery } from '@tanstack/react-query'
 import React, { useContext } from 'react'
 import Image from 'next/image';
-import { IDisplayReviewDatas } from '@/app/types/remarks';
+import { IRemarksBase } from '@/app/types/remarks';
 import LinkComponent from '@/app/_components/linkComponent/LinkComponent';
 import DisplaySingleProductRating from '@/app/_components/singleProductReviews/DisplaySingleProductRating';
 import ReviewActionButtons from '@/app/_components/singleProductReviews/ReviewActionButtons';
@@ -32,7 +32,7 @@ const Page = () => {
       <h1 className="text-3xl font-bold text-primaryDark mb-8">Your Reviews</h1>
       {remarksData && remarksData.length > 0 ? (
         <div className="space-y-6">
-        {remarksData.map((remark: IDisplayReviewDatas, index: number) => (
+        {remarksData.map((remark: IRemarksBase, index: number) => (
           <div key={index} className="bg-background rounded-lg shadow-primaryLight p-6">
             {/* Three-column layout for the main sections */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

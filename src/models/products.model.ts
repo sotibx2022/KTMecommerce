@@ -1,7 +1,6 @@
 import mongoose, { Model, Schema } from "mongoose";
 import {remarksModel } from "./remarks.model";
 import { IProductCreate } from "@/app/types/products";
-import { IAddReviewDatas } from "@/app/types/remarks";
 interface IProductModel extends IProductCreate{
 updateOverallRating:()=>Promise<void>;
 }

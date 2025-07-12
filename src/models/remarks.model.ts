@@ -1,6 +1,6 @@
 import mongoose, { Model, ObjectId, Schema } from "mongoose";
-import { IAddReviewDatas } from "@/app/types/remarks";
-const RemarkSchema = new Schema<IAddReviewDatas>({
+import { IRemarksBaseForDB } from "@/app/types/remarks";
+const RemarkSchema = new Schema<IRemarksBaseForDB>({
   productIdentifier: {
     productId: { type: mongoose.Schema.Types.ObjectId, ref: "Product", required: true },
     productName: { type: String, required: true },
@@ -18,5 +18,5 @@ const RemarkSchema = new Schema<IAddReviewDatas>({
     timestamps: true,
     versionKey: false,
   });
-export const remarksModel: Model<IAddReviewDatas> =
+export const remarksModel: Model<IRemarksBaseForDB> =
   mongoose.models.Remark || mongoose.model("Remark", RemarkSchema);

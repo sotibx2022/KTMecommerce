@@ -7,7 +7,6 @@ import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { IAddReviewDatas,IAddReviewsProps } from '@/app/types/remarks';
 import { APIResponseError, APIResponseSuccess } from '@/app/services/queryFunctions/users';
 import { postSingleProductReview } from '@/app/services/queryFunctions/remarks';
 import LoadingButton from '../primaryButton/LoadingButton';
@@ -15,14 +14,19 @@ import { useRouter } from 'next/navigation';
 import { AbsoluteComponent } from '../absoluteComponent/AbsoluteComponent';
 import ReadOnlyUserProfile from './ReadOnlyUserProfile';
 import LoadingComponent from '../loadingComponent/LoadingComponent';
+import { IProductIdentifier, IRemarksBase } from '@/app/types/remarks';
 const AddSingleProductRating = dynamic(() => import('./AddSingleProductRating'), { ssr: false });
 const DisplaySingleProductRating = dynamic(() => import('./DisplaySingleProductRating'), { ssr: false });
-const AddSingleProductReviews: React.FC<IAddReviewsProps> = ({ readOnly, productIdentifier }) => {
+interface AddSingleProductReviewsProps{
+  productIdentifier:IProductIdentifier,
+  readOnly:boolean,
+}
+const AddSingleProductReviews: React.FC<AddSingleProductReviewsProps> = ({ readOnly, productIdentifier }) => {
   const queryClient = useQueryClient()
   const {productId, productName, productImage} = productIdentifier;
   const { visibleComponent,setVisibleComponent } = useContext(DisplayContext);
   const router = useRouter()
-  const mutation = useMutation<APIResponseSuccess| APIResponseError , Error , IAddReviewDatas>({
+  const mutation = useMutation<APIResponseSuccess| APIResponseError , Error , IRemarksBase>({
     mutationFn:postSingleProductReview,
     onSuccess:async(response)=>{
 toast.success(response.message)
@@ -43,7 +47,7 @@ router.refresh();
     throw new Error("The User Details context is not working.");
   }
   const { userDetails } = context;
-  const { register, formState: { errors },handleSubmit,setValue } = useForm<IAddReviewDatas>({ mode: 'onBlur' });
+  const { register, formState: { errors },handleSubmit,setValue } = useForm<IRemarksBase>({ mode: 'onBlur' });
   const addReviews = () => {
     setValue('productIdentifier.productId',productIdentifier.productId);
     setValue('productIdentifier.productImage',productIdentifier.productImage);
@@ -63,7 +67,7 @@ const receiveProductRating =(rating:number) =>{
   setRating(rating)
 setValue('rating',ratingInString)
 }
-  const onSubmit =(data:IAddReviewDatas) =>{
+  const onSubmit =(data:IRemarksBase) =>{
     setReviewSubmitted(true);
     if(!rating){
       toast.error("Please Select the Rating."); 

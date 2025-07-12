@@ -1,5 +1,5 @@
 import { Types } from "mongoose";
-import { IDisplayReviewDatas } from "./remarks";
+import { IRemarksBase } from "./remarks";
 // Interface for Product creation (DB use)
 export interface IProductCreate {
   _id?: Types.ObjectId; // _id is required for DB but optional when creating a new product
@@ -23,7 +23,7 @@ export interface IProductCreate {
   isOfferItem: boolean;
   image: string;
   url_slug: string;
-  remarks?: IDisplayReviewDatas[]; // Array of reviews (optional)
+  remarks?: IRemarksBase[]; // Array of reviews (optional)
   overallRating?: number; // Overall rating (optional)
   createdAt?: Date; // Timestamp for product creation (optional for new products)
   updatedAt?: Date; // Timestamp for last update (optional for new products)
