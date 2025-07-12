@@ -8,7 +8,7 @@ export type UpdatePasswordData = {
     passwordExist: boolean;
 };
 interface IDataTOSendForAPI {
-    resetEmail:string,
+    resetEmail: string,
     newresetPassword: string,
     confirmNewresetPassword: string,
 }
@@ -25,6 +25,7 @@ import NewPasswordEnter from './NewPasswordEnter';
 import LoadingButton from '@/app/_components/primaryButton/LoadingButton';
 import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponent';
 import GoogleAccountInfo from './GoogleAccountInfo';
+import { trusted } from 'mongoose';
 const UpdatePassword = () => {
     const [showGoogleAccountInfo, setShowGoogleAccountInfo] = useState(false);
     const context = useContext(UserDetailsContext);
@@ -48,8 +49,8 @@ const UpdatePassword = () => {
         name: 'checkOriginalPassword'
     });
     const userEmail = useWatch({
-        control:formMethod.control,
-        name:'userEmail'
+        control: formMethod.control,
+        name: 'userEmail'
     })
     const updatePasswordMutation = useMutation<APIResponseSuccess | APIResponseError, Error, IDataTOSendForAPI>({
         mutationFn: async (data: IDataTOSendForAPI) => {
@@ -70,7 +71,7 @@ const UpdatePassword = () => {
     const onSubmit = async (data: UpdatePasswordData) => {
         if (data.newupdatedPassword || data.confirmupdatedPassword || data.checkOriginalPassword) {
             const dataToSend = {
-                resetEmail:userEmail,
+                resetEmail: userEmail,
                 newresetPassword: data.newupdatedPassword,
                 confirmNewresetPassword: data.confirmupdatedPassword,
             }
@@ -81,8 +82,8 @@ const UpdatePassword = () => {
     useEffect(() => {
         if (userDetails?.passwordHistory) {
             if (userDetails!.passwordHistory) {
-                formMethod.setValue('checkOriginalPassword', true)
-                setShowGoogleAccountInfo(true)
+                formMethod.setValue('checkOriginalPassword', false)
+                setShowGoogleAccountInfo(false)
             }
         }
     }, [userDetails])

@@ -18,14 +18,13 @@ export async function GET(req: NextRequest) {
       );
     }
     console.log("🔄 Converting productId to Object");
-    const productObjectId = new Object(productId);
     console.log("🔎 Searching for remark with:");
-    console.log("  - productIdentifier.productId:", productObjectId);
+    console.log("  - productIdentifier.productId:", productId);
     console.log("  - reviewedBy.id:", userId);
     // Query the database
     const remark = await remarksModel.findOne({
-      "productIdentifier.productId": productObjectId,
-      "reviewedBy.id": userId,
+      "productIdentifier.productId": productId,
+      "reviewedBy.userId": userId,
     });
     if (!remark) {
       console.warn("❌ Remark not found for given user and product");
