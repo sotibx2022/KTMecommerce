@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import { getUserDetails } from "../services/helperFunctions/getUserDetails";
 import { useQuery } from "@tanstack/react-query";
+import Cookies from "js-cookie";
 // Interface for user data
 export interface IUserSafeData {
   fullName: string;
@@ -27,28 +28,48 @@ const UserDetailsContext = createContext<UserDetailsContextProps | undefined>(un
 interface UserDetailsProviderProps {
   children: ReactNode;
 }
-// Context provider component
 const UserDetailsContextComponent: React.FC<UserDetailsProviderProps> = ({ children }) => {
   const [userDetails, setUserDetails] = useState<IUserSafeData | null>(null);
   const [userDetailsLoading, setUserDetailsLoading] = useState<boolean>(true);
-  // Only enable the query on client-side
+  // Check if we're on the client
   const isClient = typeof window !== "undefined";
+  // Check token and clean up localStorage if needed
+  useEffect(() => {
+    if (!isClient) return;
+    const userToken = Cookies.get('userToken');
+    if (!userToken) {
+      localStorage.removeItem('userSafeData');
+      setUserDetails(null);
+    }
+  }, [isClient]);
+  // Only enable the query if we have a token and no cached data
+  const shouldFetchUser = Boolean(
+  isClient && 
+  Cookies.get('userToken') && 
+  !localStorage.getItem('userSafeData')
+);
   const query = useQuery({
     queryKey: ['user'],
     queryFn: getUserDetails,
     staleTime: 30 * 60 * 1000,
-    enabled: isClient && !localStorage.getItem('userSafeData')
+    enabled: shouldFetchUser,
   });
   // Load from localStorage if available
   useEffect(() => {
     if (!isClient) return;
-    const userSafeData: IUserSafeData | null = JSON.parse(localStorage.getItem('userSafeData') || 'null');
-    if (userSafeData) {
-      setUserDetails(userSafeData);
-      setUserDetailsLoading(false);
+    const userToken = Cookies.get('userToken');
+    const userSafeData = localStorage.getItem('userSafeData');
+    if (userToken && userSafeData) {
+      try {
+        const parsedData: IUserSafeData = JSON.parse(userSafeData);
+        setUserDetails(parsedData);
+      } catch {
+        localStorage.removeItem('userSafeData');
+      }
     }
+    setUserDetailsLoading(false);
   }, [isClient]);
-  // Update localStorage when data is fetched
+  // Update localStorage when new data is fetched
   useEffect(() => {
     if (!isClient || !query.data) return;
     const safeUserData: IUserSafeData = {
@@ -56,7 +77,7 @@ const UserDetailsContextComponent: React.FC<UserDetailsProviderProps> = ({ child
       profileImage: query.data.profileImage,
       _id: query.data._id.toString(),
       accountStatus: query.data.accountStatus,
-      passwordHistory: query.data.passwordHistory ? true : false
+      passwordHistory: Boolean(query.data.passwordHistory)
     };
     localStorage.setItem('userSafeData', JSON.stringify(safeUserData));
     setUserDetails(safeUserData);
