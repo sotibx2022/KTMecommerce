@@ -44,10 +44,10 @@ const UserDetailsContextComponent: React.FC<UserDetailsProviderProps> = ({ child
   }, [isClient]);
   // Only enable the query if we have a token and no cached data
   const shouldFetchUser = Boolean(
-  isClient && 
-  Cookies.get('userToken') && 
-  !localStorage.getItem('userSafeData')
-);
+    isClient &&
+    Cookies.get('userToken') &&
+    !localStorage.getItem('userSafeData')
+  );
   const query = useQuery({
     queryKey: ['user'],
     queryFn: getUserDetails,
@@ -60,12 +60,10 @@ const UserDetailsContextComponent: React.FC<UserDetailsProviderProps> = ({ child
     const userToken = Cookies.get('userToken');
     const userSafeData = localStorage.getItem('userSafeData');
     if (userToken && userSafeData) {
-      try {
         const parsedData: IUserSafeData = JSON.parse(userSafeData);
         setUserDetails(parsedData);
-      } catch {
-        localStorage.removeItem('userSafeData');
-      }
+    }else{
+localStorage.removeItem('userSafeData');
     }
     setUserDetailsLoading(false);
   }, [isClient]);
