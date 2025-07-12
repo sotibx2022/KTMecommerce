@@ -15,7 +15,7 @@ export const setAuthCookies = (user: IUser,response:NextResponse): NextResponse 
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     maxAge: 60 * 60, // 1 hour
-    sameSite: "strict",
+    sameSite: "none",
     path: "/",
   });
   return response;

@@ -8,7 +8,6 @@ import React, {
 import { getUserDetails } from "../services/helperFunctions/getUserDetails";
 import { useQuery } from "@tanstack/react-query";
 import Cookies from "js-cookie";
-// Interface for user data
 export interface IUserSafeData {
   fullName: string;
   profileImage?: string;
@@ -16,24 +15,19 @@ export interface IUserSafeData {
   accountStatus?: string;
   passwordHistory: boolean;
 }
-// Context props interface
 interface UserDetailsContextProps {
   userDetails: IUserSafeData | null;
   setUserDetails: React.Dispatch<React.SetStateAction<IUserSafeData | null>>;
   userDetailsLoading: boolean;
 }
-// Create context
 const UserDetailsContext = createContext<UserDetailsContextProps | undefined>(undefined);
-// Props for provider
 interface UserDetailsProviderProps {
   children: ReactNode;
 }
 const UserDetailsContextComponent: React.FC<UserDetailsProviderProps> = ({ children }) => {
   const [userDetails, setUserDetails] = useState<IUserSafeData | null>(null);
   const [userDetailsLoading, setUserDetailsLoading] = useState<boolean>(true);
-  // Check if we're on the client
   const isClient = typeof window !== "undefined";
-  // Check token and clean up localStorage if needed
   useEffect(() => {
     if (!isClient) return;
     const userToken = Cookies.get('userToken');
@@ -42,32 +36,31 @@ const UserDetailsContextComponent: React.FC<UserDetailsProviderProps> = ({ child
       setUserDetails(null);
     }
   }, [isClient]);
-  // Only enable the query if we have a token and no cached data
-  const shouldFetchUser = Boolean(
-    isClient &&
-    Cookies.get('userToken') &&
-    !localStorage.getItem('userSafeData')
-  );
+  const currentToken = isClient ? Cookies.get('userToken') : null;
+  const hasLocalData = isClient ? Boolean(localStorage.getItem('userSafeData')) : false;
+  const shouldFetchUser = Boolean(isClient && currentToken && !hasLocalData);
   const query = useQuery({
     queryKey: ['user'],
     queryFn: getUserDetails,
     staleTime: 30 * 60 * 1000,
     enabled: shouldFetchUser,
   });
-  // Load from localStorage if available
   useEffect(() => {
     if (!isClient) return;
     const userToken = Cookies.get('userToken');
     const userSafeData = localStorage.getItem('userSafeData');
     if (userToken && userSafeData) {
+      try {
         const parsedData: IUserSafeData = JSON.parse(userSafeData);
         setUserDetails(parsedData);
-    }else{
-localStorage.removeItem('userSafeData');
+      } catch (error) {
+        localStorage.removeItem('userSafeData');
+      }
+    } else {
+      localStorage.removeItem('userSafeData');
     }
     setUserDetailsLoading(false);
   }, [isClient]);
-  // Update localStorage when new data is fetched
   useEffect(() => {
     if (!isClient || !query.data) return;
     const safeUserData: IUserSafeData = {
