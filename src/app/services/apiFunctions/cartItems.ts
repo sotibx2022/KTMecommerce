@@ -6,7 +6,7 @@ import { IWishListItem, IWishListItemDisplay } from "@/app/types/wishlist";
 export const fetchCartFromDatabase = async ():Promise<APIResponseSuccess<ICartItem[]>|APIResponseError> => {
     try {
       const response = await axios.get(`/api/cart/cartItems`);
-      return response.data.data;
+      return response.data;
     } catch (error) {
       return {
         message:"Axios Error to fetch cart Items",

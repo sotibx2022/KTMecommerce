@@ -32,7 +32,7 @@ const RegisteredUsersOption = () => {
     dispatch(setCart({ cartItems:cartItems.data, isLoading:isPending }));
   }
   if (wishListItems && Array.isArray(wishListItems) && wishListItems.length > 0 && !wishListItemsPending) {
-    dispatch(setWishList({ wishListItems, wishListItemsPending }));
+    dispatch(setWishList(wishListItems));
   }
 }, [cartItems, wishListItems, userDetails]);
   return (
