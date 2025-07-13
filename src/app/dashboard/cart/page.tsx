@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { CartState } from "@/app/redux/cartSlice";
 import CartSummary from "@/app/_components/cartSummary/CartSummary";
 import CartTable from "@/app/_components/cartTable/CartTable";
@@ -12,12 +12,20 @@ const Page = () => {
   const dispatch = useDispatch();
   const { cartItems, loading: cartLoading } = useSelector((state: { cart: CartState }) => state.cart);
   const { userDetailsLoading } = useUserDetails();
-  // ✅ Debug logs to trace render behavior
+  // ✅ Guard variable: becomes true only when both loading flags are false
+  const [cartHasLoaded, setCartHasLoaded] = useState(false);
+  useEffect(() => {
+    if (!cartLoading && !userDetailsLoading) {
+      setCartHasLoaded(true);
+    }
+  }, [cartLoading, userDetailsLoading]);
+  // ✅ Logging for debugging
   console.log("CartPage — cartLoading:", cartLoading);
   console.log("CartPage — userDetailsLoading:", userDetailsLoading);
   console.log("CartPage — cartItems:", cartItems);
-  const isLoading = cartLoading || userDetailsLoading;
-  const isEmpty = !cartLoading && cartItems.length === 0 && !userDetailsLoading;
+  console.log("CartPage — cartHasLoaded:", cartHasLoaded);
+  const isLoading = !cartHasLoaded;
+  const isEmpty = cartHasLoaded && cartItems.length === 0;
   return (
     <div className="container">
       {isLoading ? (
