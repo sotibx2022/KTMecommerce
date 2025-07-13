@@ -4,6 +4,10 @@ export interface CartState {
   cartItems: ICartItem[];
   loading: boolean;
 }
+interface ISetCartPayload{
+  cartItems:ICartItem[],
+isLoading:boolean
+}
 const initialState: CartState = {
   cartItems: [],
   loading: true,
@@ -12,9 +16,9 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    setCart: (state, action: PayloadAction<ICartItem[]>) => {
-      state.cartItems = action.payload;
-      state.loading = false;
+    setCart: (state, action: PayloadAction<ISetCartPayload>) => {
+      state.cartItems = action.payload.cartItems;
+      state.loading = action.payload.isLoading;
     },
     addToCart: (state, action: PayloadAction<ICartItem[]>) => {
       const payloadItems = action.payload;
