@@ -3,16 +3,16 @@ import { IWishListItem, IWishListItemDisplay } from "../types/wishlist";
 export interface IWishListState {
   wishListItems: IWishListItemDisplay[];
   wishListLoading: boolean;
-  initialized:boolean;
+  initialized: boolean;
 }
 const initialState: IWishListState = {
   wishListItems: [],
   wishListLoading: true,
-  initialized:false,
+  initialized: false,
 };
-interface ISetWishlistPayload{
-  wishListItems:IWishListItemDisplay[],
-  wishListLoading:boolean
+interface ISetWishlistPayload {
+  wishListItems: IWishListItemDisplay[],
+  wishListLoading: boolean
 }
 const wishListSlice = createSlice({
   name: 'wishList',
@@ -21,8 +21,8 @@ const wishListSlice = createSlice({
     setWishList: (state, action: PayloadAction<ISetWishlistPayload>) => {
       state.wishListItems = action.payload.wishListItems;
       state.wishListLoading = action.payload.wishListLoading;
-      if(!state.wishListLoading){
-        state.initialized=true
+      if (!state.wishListLoading) {
+        state.initialized = true
       }
     },
     addToWishList: (state, action: PayloadAction<IWishListItemDisplay>) => {

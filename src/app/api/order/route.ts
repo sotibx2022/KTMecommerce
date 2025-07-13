@@ -13,7 +13,6 @@ export async function POST(req: NextRequest) {
     const requestBody = await req.json();
     console.log("📥 Received Request Body:", requestBody);
     const {
-      userEmail,
       items,
       status,
       paymentMethod,
@@ -23,7 +22,6 @@ export async function POST(req: NextRequest) {
       wishersId
     } = requestBody;
     console.log("✅ Extracted Fields:");
-    console.log("  - userEmail:", userEmail);
     console.log("  - items:", items);
     console.log("  - status:", status);
     console.log("  - paymentMethod:", paymentMethod);
@@ -31,7 +29,7 @@ export async function POST(req: NextRequest) {
     console.log("  - shippingPerson:", shippingPerson);
     console.log("  - orderSummary:", orderSummary);
     if (
-      !userEmail || !items || !status || !paymentMethod ||
+  !items || !status || !paymentMethod ||
       !shippingAddress || !shippingPerson || !orderSummary
     ) {
       console.warn("⚠️ Missing required fields");
@@ -48,11 +46,10 @@ export async function POST(req: NextRequest) {
       );
     }
     console.log("🔑 Getting userId from cookies...");
-    const userId = await getUserIdFromCookies(req);
-    console.log("👤 Resolved userId:", userId);
     console.log("📝 Creating new order...");
+    const userId = await getUserIdFromCookies(req)
     const order = new OrderModel({
-      userEmail,
+      userId,
       items,
       status,
       paymentMethod,
