@@ -12,20 +12,23 @@ const Page = () => {
   const dispatch = useDispatch();
   const { cartItems, loading: cartLoading } = useSelector((state: { cart: CartState }) => state.cart);
   const { userDetailsLoading } = useUserDetails();
-  // ✅ Guard variable: becomes true only when both loading flags are false
-  const [cartHasLoaded, setCartHasLoaded] = useState(false);
+  const [hasInitialized, setHasInitialized] = useState(false);
   useEffect(() => {
-    if (!cartLoading && !userDetailsLoading) {
-      setCartHasLoaded(true);
+    // Only set initialized after all loading is false and cartItems has been defined
+    if (!cartLoading && !userDetailsLoading && cartItems !== undefined) {
+      const frame = requestAnimationFrame(() => {
+        setHasInitialized(true);
+      });
+      return () => cancelAnimationFrame(frame);
     }
-  }, [cartLoading, userDetailsLoading]);
-  // ✅ Logging for debugging
+  }, [cartLoading, userDetailsLoading, cartItems]);
+  // 🐛 Logging to help trace state
   console.log("CartPage — cartLoading:", cartLoading);
   console.log("CartPage — userDetailsLoading:", userDetailsLoading);
   console.log("CartPage — cartItems:", cartItems);
-  console.log("CartPage — cartHasLoaded:", cartHasLoaded);
-  const isLoading = !cartHasLoaded;
-  const isEmpty = cartHasLoaded && cartItems.length === 0;
+  console.log("CartPage — hasInitialized:", hasInitialized);
+  const isLoading = !hasInitialized;
+  const isEmpty = hasInitialized && cartItems.length === 0;
   return (
     <div className="container">
       {isLoading ? (
