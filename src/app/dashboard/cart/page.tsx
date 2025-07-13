@@ -10,7 +10,7 @@ import { ShoppingCart } from "lucide-react";
 import { useUserDetails } from "@/app/context/UserDetailsContextComponent";
 const Page = () => {
   const dispatch = useDispatch();
-  const { cartItems, loading: cartLoading } = useSelector((state: { cart: CartState }) => state.cart);
+  const { cartItems, loading: cartLoading ,initialized } = useSelector((state: { cart: CartState }) => state.cart);
   const { userDetailsLoading } = useUserDetails();
   const [hasInitialized, setHasInitialized] = useState(false);
   useEffect(() => {
@@ -28,7 +28,7 @@ const Page = () => {
   console.log("CartPage — cartItems:", cartItems);
   console.log("CartPage — hasInitialized:", hasInitialized);
   const isLoading = !hasInitialized;
-  const isEmpty = hasInitialized && cartItems.length === 0;
+  const isEmpty = hasInitialized  && initialized && cartItems.length === 0;
   return (
     <div className="container">
       {isLoading ? (

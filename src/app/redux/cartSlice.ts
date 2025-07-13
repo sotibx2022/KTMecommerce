@@ -3,6 +3,7 @@ import { ICartItem } from '../types/cart';
 export interface CartState {
   cartItems: ICartItem[];
   loading: boolean;
+  initialized:boolean;
 }
 interface ISetCartPayload{
   cartItems:ICartItem[],
@@ -11,6 +12,7 @@ isLoading:boolean
 const initialState: CartState = {
   cartItems: [],
   loading: true,
+  initialized:false,
 };
 const cartSlice = createSlice({
   name: 'cart',
@@ -19,6 +21,9 @@ const cartSlice = createSlice({
     setCart: (state, action: PayloadAction<ISetCartPayload>) => {
       state.cartItems = action.payload.cartItems;
       state.loading = action.payload.isLoading;
+      if(!state.loading){
+state.initialized = true
+      }
     },
     addToCart: (state, action: PayloadAction<ICartItem[]>) => {
       const payloadItems = action.payload;
@@ -52,10 +57,6 @@ const cartSlice = createSlice({
       state.cartItems = [];
       state.loading = false;
     },
-    // Optional: Set loading state explicitly
-    setLoading: (state, action: PayloadAction<boolean>) => {
-      state.loading = action.payload;
-    },
   },
 });
 export const {
@@ -64,6 +65,5 @@ export const {
   removeFromCart,
   updateCartItem,
   clearCartItems,
-  setLoading, // Optional, for manual control
 } = cartSlice.actions;
 export default cartSlice.reducer;
