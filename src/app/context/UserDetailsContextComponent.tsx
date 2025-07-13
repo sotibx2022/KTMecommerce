@@ -38,7 +38,7 @@ const UserDetailsContextComponent: React.FC<UserDetailsProviderProps> = ({ child
         profileImage: userData?.profileImage,
         _id: userData?._id.toString() || "",
         accountStatus: userData?.accountStatus,
-        passwordHistory: userData?.passwordHistory ? true : false,
+        passwordHistory: userData?.passwordHistory && userData.passwordHistory.length>0 ? true : false,
       }
       setUserDetails(userSafeData)
     }
