@@ -17,12 +17,9 @@ export async function POST(req: NextRequest) {
         { status: 401 }
       );
     }
-    // Fetch user details
     const currentUser = await UserModel.findById(userId).select('fullName email');
-    // Parse request body
     const requestBody = await req.json();
     const items = Array.isArray(requestBody) ? requestBody : [requestBody];
-    // Insert cart items
     await Promise.all(
       items.map(async (item) => {
         const {
@@ -46,17 +43,19 @@ export async function POST(req: NextRequest) {
           wishersId
         });
         await newCart.save();
+        if (item.wishersId.toString() === userId.toString()) {
+          const wisher = await UserModel.findById(items[0].wishersId).select('fullName');
+          createNotifications(
+            item.wishersId,
+            currentUser?.fullName || currentUser?.email || "An User",
+            productName,
+            userId,
+            wisher?.fullName || "An User"
+          );
+        }
       })
     );
     // Notify the wisher
-    const wisher = await UserModel.findById(items[0].wishersId).select('fullName');
-    createNotifications(
-      items[0].wishersId,
-      currentUser?.fullName || currentUser?.email || "An User",
-      items.length,
-      userId,
-      wisher?.fullName || "An User"
-    );
     return NextResponse.json(
       { message: "Items added to cart", success: true },
       { status: 201 }
