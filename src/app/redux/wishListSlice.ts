@@ -12,16 +12,13 @@ const wishListSlice = createSlice({
   name: 'wishList',
   initialState,
   reducers: {
-    // Replace entire wishlist (e.g., after fetching from API)
     setWishList: (state, action: PayloadAction<IWishListItemDisplay[]>) => {
       state.wishListItems = action.payload;
-      if(action.payload){
-state.wishListLoading = false;
-      }
+      state.wishListLoading = false;
     },
     addToWishList: (state, action: PayloadAction<IWishListItemDisplay>) => {
-        state.wishListItems.push(action.payload);
-        state.wishListLoading = false;
+      state.wishListItems.push(action.payload);
+      state.wishListLoading = false;
     },
     removeFromWishList: (state, action: PayloadAction<string>) => {
       state.wishListItems = state.wishListItems.filter(item => item.productId !== action.payload);

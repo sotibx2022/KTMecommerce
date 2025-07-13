@@ -3,7 +3,7 @@ import React, { useContext } from 'react'
 import DisplaySingleProductRating from './DisplaySingleProductRating'
 import { DateFormator, shortName } from '@/app/services/helperFunctions/functions'
 import { IRemarksBase } from '@/app/types/remarks'
-import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent'
+import { useUserDetails } from '@/app/context/UserDetailsContextComponent'
 import ReviewActionButtons from './ReviewActionButtons'
 import { MessageSquare, Edit, Calendar, User } from 'lucide-react'
 const SingleProductReviews: React.FC<IRemarksBase> = ({
@@ -16,8 +16,8 @@ const SingleProductReviews: React.FC<IRemarksBase> = ({
   productIdentifier
 }) => {
   const { productId } = productIdentifier;
-  const user = useContext(UserDetailsContext);
-  const isCurrentUserReview = user?.userDetails?._id === reviewedBy.userId;
+  const {userDetails} = useUserDetails();
+  const isCurrentUserReview = userDetails?._id === reviewedBy.userId;
   return (
     <div className="border border-primaryLight/20 rounded-lg p-4 w-full max-w-[350px] hover:shadow-md transition-shadow">
       <div className="flex items-start gap-4 mb-4">

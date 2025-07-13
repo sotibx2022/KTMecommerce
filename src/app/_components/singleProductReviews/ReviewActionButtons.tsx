@@ -2,13 +2,13 @@
 import { DisplayContext } from '@/app/context/DisplayComponents'
 import React, { useContext, useEffect, useState } from 'react'
 import DeleteConfirmation from '../deleteConfirmation/DeleteConfirmation'
-import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
 import { useMutation, useQueries, useQueryClient } from '@tanstack/react-query';
 import EditSingleProductReview from './EditSingleProductReview';
 import { IProductIdentifier } from '@/app/types/remarks';
 import useReviewDelete from '@/app/hooks/queryHooks/useMutation/useReviewDelete';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { useUserDetails } from '@/app/context/UserDetailsContextComponent';
 interface ReviewActionButtonsProps{
   productIdentifier:IProductIdentifier
 }
@@ -19,8 +19,8 @@ const ReviewActionButtons:React.FC<ReviewActionButtonsProps> = ({productIdentifi
     const getConfirmValue =(value:boolean)=>{
       setDeleteConfirmation(value);
     }
-    const user = useContext(UserDetailsContext);
-    const userId = user!.userDetails!._id;
+    const {userDetails} = useUserDetails()
+    const userId = userDetails!._id;
 const mutation = useReviewDelete(userId,productId)
     function handleEditReview(): void {
         setVisibleComponent('editReview');

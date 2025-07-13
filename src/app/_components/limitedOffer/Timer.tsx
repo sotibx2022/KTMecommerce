@@ -3,14 +3,10 @@ import React, { useState, useEffect, useContext } from "react";
 import { DisplayContext } from "@/app/context/DisplayComponents";
 import PrimaryButton from "../primaryButton/PrimaryButton";
 import { FaGift, FaPercent } from "react-icons/fa";
-import { UserDetailsContext } from "@/app/context/UserDetailsContextComponent";
+import { useUserDetails } from "@/app/context/UserDetailsContextComponent";
 import Link from "next/link";
 const Timer: React.FC = () => {
-  const context = useContext(UserDetailsContext);
-    if(!context){
-      throw new Error("The User Details context is not working.")
-    }
-    const {userDetails} = context;
+    const {userDetails} = useUserDetails();
   const [days, setDays] = useState<number>(0);
   const [hours, setHours] = useState<number>(0);
   const [minutes, setMinutes] = useState<number>(0);

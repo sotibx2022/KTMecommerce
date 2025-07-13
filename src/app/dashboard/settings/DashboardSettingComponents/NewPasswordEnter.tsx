@@ -7,7 +7,7 @@ import { validateConfirmPassword, validatePassword } from '@/app/services/helper
 import { Info, Lock, Eye, EyeOff } from 'lucide-react'
 import { UpdatePasswordData } from './UpdatePassword'
 import SubmitError from '@/app/_components/submit/SubmitError'
-import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent'
+import { useUserDetails } from '@/app/context/UserDetailsContextComponent'
 const NewPasswordEnter = () => {
     const [showresetPassword, setShowresetPassword] = useState(false);
     const [showConfirmresetPassword, setShowConfirmresetPassword] = useState(false);
@@ -18,14 +18,9 @@ const NewPasswordEnter = () => {
         control
     } = useFormContext<UpdatePasswordData>();
     const checkOriginalPassword = useWatch({control,name:'checkOriginalPassword'})
-    const context = useContext(UserDetailsContext);
-        if (!context) {
-            throw new Error("user detail context is not defined here.")
-        }
-        const { userDetails } = context;
+        const { userDetails } = useUserDetails();
     return (
         <div>
-            
             <div className='mb-2'>
                 <div className="flex items-center mb-1">
                     <Lock className="text-primaryDark mr-2" />

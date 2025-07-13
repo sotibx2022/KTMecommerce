@@ -4,15 +4,11 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { removeFromWishList } from '@/app/redux/wishListSlice';
 import { useDispatch } from 'react-redux';
 import { useContext } from 'react';
-import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
+import { useUserDetails } from '@/app/context/UserDetailsContextComponent';
 export const useRemoveWishListFromDB = () => {
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
-  const context = useContext(UserDetailsContext);
-  if (!context) {
-    throw new Error("useRemoveWishListFromDB must be used within a UserDetailsContextProvider");
-  }
-  const { userDetails } = context;
+  const { userDetails } = useUserDetails();
   const removeItemFromDataBase = async (productId: string) => {
     if (!userDetails?._id) {
       throw new Error("User ID is not available");

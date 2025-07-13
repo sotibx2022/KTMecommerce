@@ -6,22 +6,18 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import PublicWishListDetails from '../PublicWishListDetails';
 import PrimaryButton from '@/app/_components/primaryButton/PrimaryButton';
 import { useContext } from 'react';
-import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
 import { DisplayComponents, DisplayContext } from '@/app/context/DisplayComponents';
 import LoginComponent from '@/app/_components/authComponent/LoginComponent';
 import useAddItemToCart from '@/app/_components/singleProduct/useAddItemToCart';
 import toast from 'react-hot-toast';
 import { ICartItem } from '@/app/types/cart';
 import { IPublicWishlistItem, wishersDetailsforPublicWishlist } from '@/app/types/wishlist';
+import { useUserDetails } from '@/app/context/UserDetailsContextComponent';
 const PublicWishlistPage = () => {
   const router = useRouter()
   const addItemToCart = useAddItemToCart();
   const { visibleComponent, setVisibleComponent } = useContext(DisplayContext);
-  const userDetailsContext = useContext(UserDetailsContext);
-  if (!userDetailsContext) {
-    throw new Error("User Details Context is not defined here.")
-  }
-  const { userDetails } = userDetailsContext
+  const { userDetails } = useUserDetails()
   const searchParams = useSearchParams();
   const wishlistCollectionToken = searchParams.get('wishlistCollectionToken');
   const { data: wishlistDetails, isPending, error } = useQuery({

@@ -6,16 +6,12 @@ import { Table, Thead, Tbody, Tr, Th, Td } from "react-super-responsive-table";
 import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
 import LinkComponent from '../linkComponent/LinkComponent';
 import { IOrderItem } from '@/app/types/orders';
-import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
+import { useUserDetails } from '@/app/context/UserDetailsContextComponent';
 interface CartTableSummaryProps {
   items?: IOrderItem[];
 }
 const CartTableSummary = ({ items }: CartTableSummaryProps) => {
-  const userDetailsContext = useContext(UserDetailsContext);
-  if (!userDetailsContext) {
-    throw new Error("User Details Context is not defined here.")
-  }
-  const { userDetails } = userDetailsContext
+  const { userDetails } = useUserDetails()
   const cartItems = useSelector((state: { cart: CartState }) => state.cart.cartItems);
   const dataToRender = items || cartItems;
   return (

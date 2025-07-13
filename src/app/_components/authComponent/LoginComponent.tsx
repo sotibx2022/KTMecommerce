@@ -22,52 +22,54 @@ import Divider from './Divider';
 import AccountOptionLinks from './AccountOptionLinks';
 import axios from 'axios';
 import { APIResponseError, APIResponseSuccess } from '@/app/services/queryFunctions/users';
+import { useUserDetails } from '@/app/context/UserDetailsContextComponent';
 const LoginComponent = () => {
+  const { userDetails, setUserDetails } = useUserDetails()
   const [showPassword, setShowPassword] = useState(false);
   const { refetch: refetchUserDetails } = useQuery({ queryKey: ['user'], queryFn: getUserDetails, enabled: false })
   const { visibleComponent, setVisibleComponent } = useContext(DisplayContext);
   const { register, formState: { errors }, handleSubmit } = useForm<LoginData>({ mode: 'onBlur' })
   const queryClient = useQueryClient()
-const loginMutation = useMutation<APIResponseSuccess | APIResponseError, Error, LoginData>({
-  mutationFn: async (data: LoginData) => {
-    try {
-      const response = await axios.post('/api/auth/loginUser', data, {
-        validateStatus: (status) => {
-          return status < 500;
-        }
-      });
-      return response.data;
-    } catch (error) {
-      throw error;
-    }
-  },
-  onMutate: () => {
-    setVisibleComponent('loadingComponent');
-  },
-  onSuccess: async (response) => {
-    if (response.success) {
-      setVisibleComponent("");
-      toast.success(response.message);
-      const { data: userDetails } = await refetchUserDetails();
-      await Promise.all([
-        queryClient.setQueryData(['user'], userDetails),
-        queryClient.invalidateQueries({ queryKey: ['user'] })
-      ]);
-    } else {
-      toast.error(response.message);
-    }
-  },
-  onError: (error) => {
-    toast.error(error.message || 'An unexpected error occurred during login.');
-  setVisibleComponent('');
-  },
-  onSettled: () => {
-    setVisibleComponent('');
-  },
-});
-  const onSubmit=(data:LoginData)=>{
-  loginMutation.mutate(data)
-};
+  const loginMutation = useMutation<APIResponseSuccess | APIResponseError, Error, LoginData>({
+    mutationFn: async (data: LoginData) => {
+      try {
+        const response = await axios.post('/api/auth/loginUser', data, {
+          validateStatus: (status) => {
+            return status < 500;
+          }
+        });
+        return response.data;
+      } catch (error) {
+        throw error;
+      }
+    },
+    onMutate: () => {
+      setVisibleComponent('loadingComponent');
+    },
+    onSuccess: async (response) => {
+      if (response.success) {
+        setVisibleComponent("");
+        toast.success(response.message);
+        const { data: userData } = await refetchUserDetails();
+        await Promise.all([
+          queryClient.setQueryData(['user'], userData),
+          queryClient.invalidateQueries({ queryKey: ['user'] })
+        ]);
+      } else {
+        toast.error(response.message);
+      }
+    },
+    onError: (error) => {
+      toast.error(error.message || 'An unexpected error occurred during login.');
+      setVisibleComponent('');
+    },
+    onSettled: () => {
+      setVisibleComponent('');
+    },
+  });
+  const onSubmit = (data: LoginData) => {
+    loginMutation.mutate(data)
+  };
   return (
     <>
       {visibleComponent === 'loadingComponent' ? <LoadingComponent /> :

@@ -1,14 +1,10 @@
 "use client";
-import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
 import React, { useContext } from 'react';
 import { User, UserCog, Mail } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { useUserDetails } from '@/app/context/UserDetailsContextComponent';
 const ReadOnlyUserProfile = () => {
-    const context = useContext(UserDetailsContext);
-    if (!context) {
-        throw new Error("UserDetailsContext must be used within a UserDetailsContext.Provider");
-    }
-    const { userDetails } = context;
+    const { userDetails } = useUserDetails();
     const hasProfileImage = Boolean(userDetails?.profileImage);
     const isGuest = !userDetails;
     const userNameInitial = userDetails?.fullName?.[0]?.toUpperCase() || 'G';

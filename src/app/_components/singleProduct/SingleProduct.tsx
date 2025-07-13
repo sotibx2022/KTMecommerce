@@ -14,7 +14,6 @@ import DisplaySingleProductRating from "../singleProductReviews/DisplaySinglePro
 import SocialMediaSharing from "../socialMedia/SocialMediaSharing";
 import { DisplayContext } from "@/app/context/DisplayComponents";
 import ProductImage from "./ProductImage";
-import { UserDetailsContext } from "@/app/context/UserDetailsContextComponent";
 import LoginComponent from "../authComponent/LoginComponent";
 import { IWishListItem, IWishListItemDisplay } from "@/app/types/wishlist";
 import { addToWishList, IWishListState } from "@/app/redux/wishListSlice";
@@ -22,15 +21,12 @@ import useAddItemToWishList from "./useAddItemToWishList";
 import ProductTitle from "../productCard/ProductTitle";
 import ProductInformations from "./ProductInformations";
 import StaggerWrapper from "../animation/StaggerWrapper";
+import { useUserDetails } from "@/app/context/UserDetailsContextComponent";
 const SingleProduct: React.FC<IProductDisplay> = ({ ...productDetails }) => {
   const { visibleComponent, setVisibleComponent } = useContext(DisplayContext);
   const cartItems = useSelector((state: { cart: CartState }) => state.cart.cartItems);
   const wishListItems = useSelector((state: { wishList: IWishListState }) => state.wishList.wishListItems)
-  const context = useContext(UserDetailsContext);
-  if (!context) {
-    throw new Error("User Details Context is not accessible");
-  }
-  const { userDetails } = context;
+  const { userDetails } = useUserDetails();
   const {
     productName,
     productDescription,

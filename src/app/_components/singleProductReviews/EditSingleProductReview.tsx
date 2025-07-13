@@ -2,7 +2,6 @@ import dynamic from 'next/dynamic';
 import PrimaryButton from '../primaryButton/PrimaryButton';
 import { useContext, useEffect, useState } from 'react';
 import { DisplayContext } from '@/app/context/DisplayComponents';
-import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
 import { useForm } from 'react-hook-form';
 import { Mutation, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { IRemarksBase, IProductIdentifier, } from '@/app/types/remarks';
@@ -13,6 +12,7 @@ import toast from 'react-hot-toast';
 import LoadingButton from '../primaryButton/LoadingButton';
 import ReadOnlyUserProfile from './ReadOnlyUserProfile';
 import LoadingComponent from '../loadingComponent/LoadingComponent';
+import { useUserDetails } from '@/app/context/UserDetailsContextComponent';
 const AddSingleProductRating = dynamic(() => import('./AddSingleProductRating'), { ssr: false });
 interface EditSingleProductReviewProps {
   productIdentifier: IProductIdentifier
@@ -22,11 +22,7 @@ const EditSingleProductReview: React.FC<EditSingleProductReviewProps> = ({ produ
   const { productId, productName, productImage } = productIdentifier;
   const { setVisibleComponent } = useContext(DisplayContext);
   const [reviewSubmitted, setReviewSubmitted] = useState(false);
-  const context = useContext(UserDetailsContext);
-  if (!context) {
-    throw new Error("The User Details context is not working.");
-  }
-  const { userDetails } = context;
+  const { userDetails } = useUserDetails();
   const userId = userDetails?._id;
   const updateMutation = useMutation<APIResponseSuccess | APIResponseError, Error, IRemarksBase>({
     mutationFn: updateSingleProductReview,

@@ -1,5 +1,4 @@
 "use client"
-import { UserDetailsContext, UserDetailsContextComponent } from '@/app/context/UserDetailsContextComponent';
 import React, { useContext, useEffect, useState } from 'react'
 import SecondaryButton from '../secondaryButton/SecondaryButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -15,14 +14,11 @@ import { truncateCharacters, truncateText } from '@/app/services/helperFunctions
 import { useLogout } from '@/app/hooks/queryHooks/useLogout';
 import { useWishListItems } from '@/app/hooks/queryHooks/useWishListItems';
 import { clearWishListItems, setWishList } from '@/app/redux/wishListSlice';
+import { useUserDetails } from '@/app/context/UserDetailsContextComponent';
 const RegisteredUsersOption = () => {
   const queryClient = useQueryClient();
   const [showUserOptions, setShowUserOptions] = useState(false);
-  const context = useContext(UserDetailsContext);
-  if (!context) {
-    throw new Error("The User Details context is not working.");
-  }
-  const { userDetails, setUserDetails } = context;
+  const { userDetails, setUserDetails } = useUserDetails();
   const logout = useLogout()
   const dispatch = useDispatch();
   const { data: cartItems, isPending } = useCartItems();
@@ -32,10 +28,10 @@ const RegisteredUsersOption = () => {
       dispatch(clearCartItems());
       dispatch(clearWishListItems())
     }
-    if (cartItems !== undefined && Array.isArray(cartItems) && !isPending) {
+    if (cartItems !== undefined && Array.isArray(cartItems) && !isPending && cartItems.length>0) {
       dispatch(setCart(cartItems));
     }
-    if (wishListItems !== undefined && Array.isArray(wishListItems) && !wishListItemsPending) {
+    if (wishListItems !== undefined && Array.isArray(wishListItems) && !wishListItemsPending && wishListItems.length>0) {
       dispatch(setWishList(wishListItems));
     }
   }, [cartItems, wishListItems, userDetails]);

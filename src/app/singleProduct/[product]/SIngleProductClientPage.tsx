@@ -1,7 +1,7 @@
 "use client";
 import React, { useContext, useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
+import { useUserDetails } from '@/app/context/UserDetailsContextComponent';
 import { DisplayContext } from '@/app/context/DisplayComponents';
 import { getSingleProduct } from '@/app/services/queryFunctions/products';
 import { getSpecificRemarks } from '@/app/services/queryFunctions/remarks';
@@ -25,10 +25,8 @@ const SingleProductPageClient = () => {
         productImage: "",
         productLoadingComplete: false
     });
-    const context = useContext(UserDetailsContext);
     const { visibleComponent, setVisibleComponent } = useContext(DisplayContext);
-    if (!context) throw new Error("The User Details context is not working.");
-    const { userDetails } = context;
+    const { userDetails } = useUserDetails();
     const [showReviews, setShowReviews] = useState(true);
     const {
         data: productDetails,

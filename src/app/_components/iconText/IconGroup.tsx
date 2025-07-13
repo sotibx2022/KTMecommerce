@@ -1,5 +1,4 @@
 import { DisplayContext } from '@/app/context/DisplayComponents';
-import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
 import { CartState, clearCartItems } from '@/app/redux/cartSlice';
 import { clearWishListItems, IWishListState } from '@/app/redux/wishListSlice';
 import { useRouter } from 'next/navigation';
@@ -8,12 +7,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import IconButton from './IconButton';
 import { faHeart, faLuggageCart } from '@fortawesome/free-solid-svg-icons';
 import LoginComponent from '../authComponent/LoginComponent';
+import { useUserDetails } from '@/app/context/UserDetailsContextComponent';
 const IconGroup = () => {
-    const context = useContext(UserDetailsContext);
-    if(!context){
-        throw new Error("User Details Context is not available at this component")
-    }
-    const {userDetails} = context
+const {userDetails} = useUserDetails();
     const dispatch = useDispatch()
     useEffect(()=>{
         if(!userDetails){

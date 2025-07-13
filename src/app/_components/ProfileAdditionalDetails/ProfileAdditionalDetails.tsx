@@ -1,5 +1,5 @@
 "use context"
-import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent'
+import { useUserDetails } from '@/app/context/UserDetailsContextComponent'
 import { useOrders } from '@/app/hooks/queryHooks/useOrders'
 import { CartState } from '@/app/redux/cartSlice'
 import { ReduxState } from '@/app/redux/store'
@@ -12,11 +12,7 @@ import { useSelector } from 'react-redux'
 const ProfileAdditionalDetails = () => {
   const cartItems = useSelector((state: { cart: CartState }) => state.cart.cartItems);
   const { wishListItems } = useSelector((state:ReduxState) => state.wishList);
-    const context = useContext(UserDetailsContext);
-    if(!context){
-      throw new Error ("The User Details Context is not defined")
-    }
-    const {userDetails} = context;
+    const {userDetails} = useUserDetails();
     const {data:orders} = useOrders(userDetails?._id!)
   return (
     <div>

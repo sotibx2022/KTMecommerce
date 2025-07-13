@@ -12,7 +12,6 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    // Set the entire cart (e.g., after fetching from API)
     setCart: (state, action: PayloadAction<ICartItem[]>) => {
       state.cartItems = action.payload;
       state.loading = false;

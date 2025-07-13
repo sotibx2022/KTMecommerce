@@ -4,22 +4,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { IWishListItemDisplay } from '@/app/types/wishlist';
 import useAddItemToCart from '@/app/_components/singleProduct/useAddItemToCart';
-import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
 import { removeFromWishList } from '@/app/redux/wishListSlice';
 import { useDispatch } from 'react-redux';
 import { useRemoveWishListFromDB } from '@/app/dashboard/wishlist/useRemoveWIshListFromDB';
 import { useContext } from 'react';
 import { Badge } from '@/components/ui/badge';
+import { useUserDetails } from '@/app/context/UserDetailsContextComponent';
 interface WishlistItemProps {
   item: IWishListItemDisplay;
   actionAble?:boolean
 }
 const SingleWishListCard:React.FC<WishlistItemProps> = ({ item,actionAble}) => {
-  const userContext = useContext(UserDetailsContext);
-  if (!userContext) {
-    throw new Error("User Detail Context is not defined here.")
-  }
-  const { userDetails } = userContext;
+  const { userDetails } = useUserDetails();
   const dispatch = useDispatch()
   const removeFromWishList = useRemoveWishListFromDB()
   const dataForCartItem = (item: IWishListItemDisplay) => {

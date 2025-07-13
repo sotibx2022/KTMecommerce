@@ -3,7 +3,6 @@ import PrimaryButton from '../primaryButton/PrimaryButton';
 import { useContext, useState } from 'react';
 import { DisplayContext } from '@/app/context/DisplayComponents';
 import SubmitError from '../submit/SubmitError';
-import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -15,6 +14,7 @@ import { AbsoluteComponent } from '../absoluteComponent/AbsoluteComponent';
 import ReadOnlyUserProfile from './ReadOnlyUserProfile';
 import LoadingComponent from '../loadingComponent/LoadingComponent';
 import { IProductIdentifier, IRemarksBase } from '@/app/types/remarks';
+import { useUserDetails } from '@/app/context/UserDetailsContextComponent';
 const AddSingleProductRating = dynamic(() => import('./AddSingleProductRating'), { ssr: false });
 const DisplaySingleProductRating = dynamic(() => import('./DisplaySingleProductRating'), { ssr: false });
 interface AddSingleProductReviewsProps{
@@ -42,11 +42,7 @@ router.refresh();
   })
   const[reviewSubmitted,setReviewSubmitted] = useState(false);
   const[rating,setRating] = useState(0)
-  const context = useContext(UserDetailsContext);
-  if (!context) {
-    throw new Error("The User Details context is not working.");
-  }
-  const { userDetails } = context;
+  const { userDetails } = useUserDetails();
   const { register, formState: { errors },handleSubmit,setValue } = useForm<IRemarksBase>({ mode: 'onBlur' });
   const addReviews = () => {
     setValue('productIdentifier.productId',productIdentifier.productId);

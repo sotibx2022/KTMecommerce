@@ -13,13 +13,9 @@ import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import toast from 'react-hot-toast';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { APIResponseError, APIResponseSuccess } from '@/app/services/queryFunctions/users';
-import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
+import { useUserDetails } from '@/app/context/UserDetailsContextComponent';
 const CartTable = () => {
-  const userDetailsContext = useContext(UserDetailsContext);
-  if (!userDetailsContext) {
-    throw new Error("User Details Context is not defined here")
-  }
-  const { userDetails } = userDetailsContext
+  const { userDetails } = useUserDetails()
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
   const cartItems = useSelector((state: { cart: CartState }) => state.cart.cartItems);
@@ -68,9 +64,6 @@ const CartTable = () => {
     dispatch(removeFromCart(productId));
     deleteCartMutation.mutate({ productId });
   };
-  console.log(cartItems[0].wishersId);
-  console.log(userDetails?._id);
-  console.log(typeof cartItems[0].wishersId, typeof userDetails?._id)
   return (
     <div className="cart-container">
       {/* Mobile View (Cards) */}

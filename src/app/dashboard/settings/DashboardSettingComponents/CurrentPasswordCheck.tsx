@@ -11,7 +11,6 @@ import toast from 'react-hot-toast';
 import { APIResponseError, APIResponseSuccess } from '@/app/services/queryFunctions/users';
 import { UpdatePasswordData } from './UpdatePassword';
 import LoadingButton from '@/app/_components/primaryButton/LoadingButton';
-import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
 import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponent';
 interface ICurrentPasswordCheckPayload {
     currentPassword: string;
@@ -92,7 +91,7 @@ const CurrentPasswordCheck = () => {
                     onClick={handlePasswordCheck}
                 />}
             </div>
-            {checkPasswordMutation.isPending && <LoadingComponent/>}
+            {checkPasswordMutation.isPending && <LoadingComponent />}
         </>
     );
 };

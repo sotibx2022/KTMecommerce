@@ -4,18 +4,14 @@ import LinkComponent from "../linkComponent/LinkComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { DisplayContext } from "@/app/context/DisplayComponents";
-import { UserDetailsContext } from "@/app/context/UserDetailsContextComponent";
 import RegisteredUsersOption from "./RegisteredUsersOption";
 import NonRegisteredUsersOption from "./NonRegisteredUsersOption";
 import SkletonText from "../skeletontext/SkletonText";
 import { navigationLinks } from "@/app/data/navigationLinks";
+import { useUserDetails } from "@/app/context/UserDetailsContextComponent";
 const DesktopHeader = () => {
   const { setVisibleComponent } = useContext(DisplayContext);
-  const context = useContext(UserDetailsContext);
-  if (!context) {
-    throw new Error("The User Details context is not working.");
-  }
-  const { userDetails, userDetailsLoading } = context;
+const {userDetails,userDetailsLoading} = useUserDetails();
   return (
     <header className="hidden lg:flex bg-primaryDark w-full">
       <div className="container flex justify-between items-center">

@@ -2,7 +2,7 @@
 import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponent'
 import PrimaryButton from '@/app/_components/primaryButton/PrimaryButton'
 import ShippingAddress from '@/app/_components/processOrder/ShippingAddress'
-import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent'
+import { useUserDetails } from '@/app/context/UserDetailsContextComponent'
 import { APIResponseError, APIResponseSuccess } from '@/app/services/queryFunctions/users'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import axios, { AxiosError } from 'axios'
@@ -17,11 +17,8 @@ interface DeliveryDetailsProps {
   }
 }
 const UpdateDeliveryDetails = () => {
-  const userDetailsContext = useContext(UserDetailsContext);
-  if (!userDetailsContext) {
-    throw new Error("User Details Context is not defined here")
-  }
-  const userId = userDetailsContext.userDetails?._id
+  const {userDetails} = useUserDetails()
+  const userId = userDetails?._id
   const { data: deliveryDetails, isPending } = useQuery<APIResponseSuccess<DeliveryDetailsProps> | APIResponseError>({
     queryFn: async () => {
       const response = await axios.get('/api/deliveryDetails')

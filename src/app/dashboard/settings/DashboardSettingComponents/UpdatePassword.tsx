@@ -19,20 +19,16 @@ import axios from 'axios';
 import { APIResponseError, APIResponseSuccess } from '@/app/services/queryFunctions/users';
 import toast from 'react-hot-toast';
 import { FormProvider, useForm, useWatch } from 'react-hook-form';
-import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
 import CurrentPasswordCheck from './CurrentPasswordCheck';
 import NewPasswordEnter from './NewPasswordEnter';
 import LoadingButton from '@/app/_components/primaryButton/LoadingButton';
 import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponent';
 import GoogleAccountInfo from './GoogleAccountInfo';
 import { trusted } from 'mongoose';
+import { useUserDetails } from '@/app/context/UserDetailsContextComponent';
 const UpdatePassword = () => {
     const [showGoogleAccountInfo, setShowGoogleAccountInfo] = useState(false);
-    const context = useContext(UserDetailsContext);
-    if (!context) {
-        throw new Error("user detail context is not defined here.")
-    }
-    const { userDetails } = context;
+    const { userDetails } = useUserDetails();
     const formMethod = useForm<UpdatePasswordData>({
         mode: 'onBlur',
         defaultValues: {

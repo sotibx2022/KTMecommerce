@@ -1,5 +1,4 @@
 "use client"
-import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
 import { fetchAllOrders } from '@/app/services/queryFunctions/orders';
 import { useQuery } from '@tanstack/react-query';
 import { OrderDetailsProps } from '@/app/types/orders';
@@ -9,12 +8,9 @@ import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponen
 import { useOrders } from '@/app/hooks/queryHooks/useOrders';
 import { PackageX } from 'lucide-react';
 import NoData from '@/app/_components/noData/NoData';
+import { useUserDetails } from '@/app/context/UserDetailsContextComponent';
 const Page = () => {
-  const context = useContext(UserDetailsContext);
-  if (!context) {
-    throw new Error("The User Details context is not working.");
-  }
-  const { userDetails } = context;
+  const { userDetails } = useUserDetails();
   const userId = userDetails?._id;
  const {data:orders,isPending,error} = useOrders(userId!)
   if (isPending) {

@@ -8,14 +8,10 @@ import { ICartItem } from '@/app/types/cart';
 import { removeFromWishList } from '@/app/redux/wishListSlice';
 import { useRemoveWishListFromDB } from '@/app/dashboard/wishlist/useRemoveWIshListFromDB';
 import { useContext } from 'react';
-import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
+import { useUserDetails } from '@/app/context/UserDetailsContextComponent';
 const useAddItemToCart = () => {
   const { cartItems, loading: cartLoading } = useSelector((state: { cart: CartState }) => state.cart);
-  const context = useContext(UserDetailsContext);
-  if (!context) {
-    throw new Error("UserDetailsContext is not defined.");
-  }
-  const { userDetails } = context;
+  const { userDetails } = useUserDetails();
   const dispatch = useDispatch();
   const removeItemFromWishList = useRemoveWishListFromDB();
   const mutation = useMutation<APIResponseSuccess | APIResponseError, Error, ICartItem[]>({

@@ -11,26 +11,26 @@ const ClientPage = () => {
   return (
     <>
       <NavBar />
-      <HeroLayout />
-      <AllProductsBanner/>
-    <CategoryCards 
+      {/* <HeroLayout /> */}
+      {/* <AllProductsBanner/> */}
+    {/* <CategoryCards 
       categoryType="isNewArrival"
       title="New Arrivals in Store"
-    />
-    <CategoryCards 
+    /> */}
+    {/* <CategoryCards 
       categoryType="isTrendingNow"
       title="Latest Tranding Items"
-    />
-    <CategoryCards 
+    /> */}
+    {/* <CategoryCards 
       categoryType="isTopSell"
       title="Top Sells of Day"
-    />
-    <CategoryCards 
+    /> */}
+    {/* <CategoryCards 
       categoryType="isOfferItem"
       title="Limited Offer Items"
-    />
-    <BrandCaurosel/>
-      <Footer />
+    /> */}
+    {/* <BrandCaurosel/>
+      <Footer /> */}
       <ConditionalComponents/>
     </>
   )

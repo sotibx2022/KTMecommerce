@@ -1,6 +1,5 @@
 "use client"
 import { format } from 'date-fns';
-import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent'
 import { getSpecificRemarksofUser } from '@/app/services/queryFunctions/remarks'
 import { useQuery } from '@tanstack/react-query'
 import React, { useContext } from 'react'
@@ -10,12 +9,9 @@ import LinkComponent from '@/app/_components/linkComponent/LinkComponent';
 import DisplaySingleProductRating from '@/app/_components/singleProductReviews/DisplaySingleProductRating';
 import ReviewActionButtons from '@/app/_components/singleProductReviews/ReviewActionButtons';
 import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponent';
+import { useUserDetails } from '@/app/context/UserDetailsContextComponent';
 const Page = () => {
-  const context = useContext(UserDetailsContext);
-  if (!context) {
-    throw new Error("The User Details context is not working.");
-  }
-  const { userDetails } = context;
+  const { userDetails } = useUserDetails();
   const userId = userDetails?._id;
   const { data: remarks, isPending } = useQuery({
     queryKey: ['specificUserRemarks', userId],

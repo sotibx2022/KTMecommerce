@@ -1,6 +1,6 @@
 "use client"
 import { DisplayContext } from "@/app/context/DisplayComponents";
-import { UserDetailsContext } from "@/app/context/UserDetailsContextComponent";
+import { useUserDetails } from "@/app/context/UserDetailsContextComponent";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { signOut } from "next-auth/react";
@@ -10,11 +10,7 @@ import toast from "react-hot-toast";
 export const useLogout = () => {
   const { visibleComponent, setVisibleComponent } = useContext(DisplayContext);
   const router = useRouter();
-  const context = useContext(UserDetailsContext);
-  if (!context) {
-    throw new Error("The User Details context is not working.");
-  }
-  const { setUserDetails } = context;
+  const { setUserDetails } = useUserDetails();
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: async () => {

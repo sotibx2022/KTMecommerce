@@ -3,7 +3,6 @@ import React, { useContext, useState } from "react";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { DisplayContext } from "@/app/context/DisplayComponents";
-import { UserDetailsContext } from "@/app/context/UserDetailsContextComponent";
 import { useCategories } from "@/app/hooks/queryHooks/useCategory";
 import { useLogout } from "@/app/hooks/queryHooks/useLogout";
 import { HeaderSection } from "./HeaderSection";
@@ -15,6 +14,7 @@ import LoginComponent from "../../authComponent/LoginComponent";
 import { CartState } from "@/app/redux/cartSlice";
 import { Category } from "@/app/types/categories";
 import { AdvanceSearchProvider } from "@/app/context/AdvanceSearchContext";
+import { useUserDetails } from "@/app/context/UserDetailsContextComponent";
 const ResponsiveHeader = () => {
   const cartItems = useSelector((state: { cart: CartState }) => state.cart.cartItems);
   const router = useRouter();
@@ -22,11 +22,7 @@ const ResponsiveHeader = () => {
   const { data: NavItems = [] } = useCategories();
   const [activeCategory, setActiveCategory] = useState<number | null>(null);
   const [activeScreen, setActiveScreen] = useState(false);
-  const userContext = useContext(UserDetailsContext);
-  if (!userContext) {
-    throw new Error("The User Details context is not working.");
-  }
-  const { userDetails } = userContext;
+  const { userDetails } = useUserDetails();
   const handleProtectedRoute = (path: string) => {
     if (!userDetails) {
       setVisibleComponent('login');

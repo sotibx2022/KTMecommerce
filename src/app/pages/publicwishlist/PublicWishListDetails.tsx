@@ -1,17 +1,13 @@
 import NoData from '@/app/_components/noData/NoData';
 import ProductCard from '@/app/_components/productCard/ProductCard';
 import SingleWishListCard from '@/app/_components/wishlistCard/SingleWIshListCard';
-import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent';
+import { useUserDetails } from '@/app/context/UserDetailsContextComponent';
 import { PublicWishListDetailsProps } from '@/app/types/wishlist';
 import { ItemText } from '@radix-ui/react-select';
 import { HeartCrack, User } from 'lucide-react';
 import React, { useContext } from 'react';
 const PublicWishListDetails: React.FC<PublicWishListDetailsProps> = ({ wishersDetails, wishlistItems }) => {
-  const userContext = useContext(UserDetailsContext);
-  if (!userContext) {
-    throw new Error("User Details context is not defined at this level")
-  }
-  const { userDetails } = userContext
+  const { userDetails } = useUserDetails()
   return (
     <div className='container' >
       <div className="max-w-4xl">

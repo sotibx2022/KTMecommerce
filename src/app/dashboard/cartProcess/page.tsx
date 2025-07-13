@@ -9,7 +9,7 @@ import ShippingAddress from '@/app/_components/processOrder/ShippingAddress'
 import ShippingInformation from '@/app/_components/processOrder/ShippingInformation'
 import ConfettiComponent from '@/app/_components/submit/ConfettiComponent'
 import { DisplayContext } from '@/app/context/DisplayComponents'
-import { UserDetailsContext } from '@/app/context/UserDetailsContextComponent'
+import { useUserDetails } from '@/app/context/UserDetailsContextComponent'
 import { CartState, clearCartItems } from '@/app/redux/cartSlice'
 import { calculateTotals } from '@/app/services/helperFunctions/cartFunctions'
 import { postOrderDetails } from '@/app/services/queryFunctions/orders'
@@ -25,12 +25,8 @@ import toast from 'react-hot-toast'
 import { useDispatch, useSelector } from 'react-redux'
 const page = () => {
   const { visibleComponent, setVisibleComponent } = useContext(DisplayContext)
-  const context = useContext(UserDetailsContext);
-  const [showConfetti, setShowConfetti] = useState(false);
-  if (!context) {
-    throw new Error("The User Details context is not working.")
-  }
-  const { userDetails } = context;
+  const[showConfetti,setShowConfetti] = useState(false);
+  const { userDetails } = useUserDetails();
   const router = useRouter();
   const { cartItems, loading: cartLoading } = useSelector((state: { cart: CartState }) => state.cart);
   const dispatch = useDispatch()
