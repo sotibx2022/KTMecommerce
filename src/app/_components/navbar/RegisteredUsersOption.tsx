@@ -23,18 +23,20 @@ const RegisteredUsersOption = () => {
   const dispatch = useDispatch();
   const { data: cartItems, isPending } = useCartItems();
   const { data: wishListItems, isPending: wishListItemsPending } = useWishListItems();
- useEffect(() => {
-  if (!userDetails) {
-    dispatch(clearCartItems());
-    dispatch(clearWishListItems());
-  }
-  if (cartItems?.success && cartItems.data && Array.isArray(cartItems.data) && cartItems.data.length > 0 && !isPending) {
-    dispatch(setCart({ cartItems:cartItems.data, isLoading:isPending }));
-  }
-  if (wishListItems && Array.isArray(wishListItems) && wishListItems.length > 0 && !wishListItemsPending) {
-    dispatch(setWishList(wishListItems));
-  }
-}, [cartItems, wishListItems, userDetails]);
+  const cartItemsArray = !isPending && cartItems?.success && cartItems.data && cartItems.data.length > 0 
+  const wishListArray = !wishListItemsPending && wishListItems?.success && wishListItems.data && wishListItems.data.length > 0 
+  useEffect(() => {
+    if (!userDetails) {
+      dispatch(clearCartItems());
+      dispatch(clearWishListItems());
+    }
+    if (cartItemsArray && cartItems.data) {
+      dispatch(setCart({ cartItems: cartItems.data, isLoading: isPending }));
+    }
+    if (wishListArray && wishListItems.data) {
+      dispatch(setWishList({ wishListItems: wishListItems.data, wishListLoading: wishListItemsPending }));
+    }
+  }, [cartItems, wishListItems, userDetails]);
   return (
     <div className="flex-center gap-4">
       <div

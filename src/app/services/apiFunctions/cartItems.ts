@@ -18,7 +18,7 @@ export const fetchCartFromDatabase = async ():Promise<APIResponseSuccess<ICartIt
   export const fetchWishListFromDashboard = async ():Promise<APIResponseSuccess<IWishListItemDisplay[]>|APIResponseError> => {
     try {
       const response = await axios.get(`/api/wishList/wishListItems`);
-      return response.data.data;
+      return response.data;
     } catch (error) {
       return {
         message:"Axios Error to fetch cart Items",

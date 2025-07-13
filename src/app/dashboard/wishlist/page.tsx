@@ -14,15 +14,9 @@ import { useUserDetails } from '@/app/context/UserDetailsContextComponent';
 const WishListItemsPage = () => {
   const { visibleComponent, setVisibleComponent } = useContext(DisplayContext);
   const { userDetailsLoading } = useUserDetails();
-  const { wishListItems, wishListLoading } = useSelector((state: ReduxState) => state.wishList);
-  const isLoading = wishListLoading || userDetailsLoading;
+  const { wishListItems, wishListLoading, initialized } = useSelector((state: ReduxState) => state.wishList);
+  const isLoading = wishListLoading || userDetailsLoading || !initialized;
   const isEmpty = !isLoading && wishListItems.length === 0;
-  // ✅ Debug Logs
-  console.log("userDetailsLoading:", userDetailsLoading);
-  console.log("wishListLoading:", wishListLoading);
-  console.log("wishListItems:", wishListItems);
-  console.log("isLoading:", isLoading);
-  console.log("isEmpty:", isEmpty);
   return (
     <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8 w-full">
       {isLoading ? (
