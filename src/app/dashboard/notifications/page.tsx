@@ -87,10 +87,10 @@ const NotificationPage = () => {
     },
     onSuccess: () => {
       toast.success("Notification Deleted Successfully")
-       queryClient.invalidateQueries({
-          queryKey: ['notifications'],
-          refetchType: 'active'
-        });
+      queryClient.invalidateQueries({
+        queryKey: ['notifications'],
+        refetchType: 'active'
+      });
     },
     onError: () => {
       toast.error("Notification Can't be Deleted.")
@@ -108,7 +108,7 @@ const NotificationPage = () => {
         </div>
         <div className="notificationToggleArea flex items-center gap-6">
           <div
-            className={`flex items-center gap-2 border border-helper p-2 rounded-lg text-primaryDark cursor-pointer hover:bg-helper hover:text-background duration-300 ${!unread ? 'bg-helper' : ''}`}
+            className={`relative flex items-center gap-1 border border-helper p-2 rounded-lg text-primaryDark cursor-pointer hover:bg-helper hover:text-background duration-300 ${!unread ? 'bg-helper' : ''}`}
             onClick={() => setUnread(unread)}
           >
             <MailOpen className="h-5 w-5" />
@@ -121,7 +121,7 @@ const NotificationPage = () => {
           >
             <Mail className="h-5 w-5" />
             <h3 className="text-sm font-medium">Unread</h3>
-            <span className='primaryParagraph'>{filteredNotifications ? filteredNotifications?.length : 0}</span>
+            <span className='primaryParagraph absolute top-1/2 left-1/2 -translate-1/2'>{filteredNotifications ? filteredNotifications?.length : 0}</span>
           </div>
         </div>
       </div>
