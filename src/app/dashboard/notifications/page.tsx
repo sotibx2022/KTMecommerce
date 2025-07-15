@@ -87,12 +87,16 @@ const NotificationPage = () => {
     },
     onSuccess: () => {
       toast.success("Notification Deleted Successfully")
+       queryClient.invalidateQueries({
+          queryKey: ['notifications'],
+          refetchType: 'active'
+        });
     },
     onError: () => {
       toast.error("Notification Can't be Deleted.")
     }
   })
-  if (isPending || isNotificationUpdating) {
+  if (isPending || isNotificationUpdating || deleteNotification.isPending) {
     return <SkeletonNotifications />;
   }
   return (
