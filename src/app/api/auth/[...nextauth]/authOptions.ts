@@ -1,4 +1,4 @@
-  import NextAuth from "next-auth";
+import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import FacebookProvider from "next-auth/providers/facebook";
 import type { NextAuthOptions } from "next-auth";
@@ -16,7 +16,7 @@ export const authOptions: NextAuthOptions = {
     },
     async session({ session, token }) {
       if (session.user && token._id) {
-        session.user.id = token._id as string
+        session.user.id = token._id as string;
       }
       return session;
     },
@@ -42,6 +42,10 @@ export const authOptions: NextAuthOptions = {
   },
   session: {
     strategy: "jwt",
+    maxAge: 60 * 60, // 1 hour
+  },
+  jwt: {
+    maxAge: 60 * 60, // 1 hour
   },
   secret: process.env.NEXTAUTH_SECRET,
 };
