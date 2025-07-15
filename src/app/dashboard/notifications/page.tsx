@@ -4,7 +4,7 @@ interface NotificationDatatoUpdate {
   readValue: boolean,
 }
 import React, { useState } from 'react';
-import { Bell, Mail, MailOpen } from 'lucide-react';
+import { Bell, Mail, MailOpen, Trash } from 'lucide-react';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { APIResponseError, APIResponseSuccess } from '@/app/services/queryFunctions/users';
 import { INotificationDisplay } from '@/app/types/notifications';
@@ -12,8 +12,9 @@ import axios, { AxiosError } from 'axios';
 import { formatDistanceToNow } from 'date-fns';
 import SkeletonNotifications from './SkeletonNotifications';
 import { motion } from 'framer-motion';
+import toast from 'react-hot-toast';
 const NotificationPage = () => {
-  const [isNotificationUpdating,setIsNotificationUpdating] = useState(false);
+  const [isNotificationUpdating, setIsNotificationUpdating] = useState(false);
   const queryClient = useQueryClient()
   const [unread, setUnread] = useState(true);
   const [hoveredNotificationId, setHoveredNotificationId] = useState<number | null>(null);
@@ -34,52 +35,64 @@ const NotificationPage = () => {
   const filteredNotifications = unread
     ? notifications?.filter(notification => !notification.read)
     : notifications?.filter(notification => notification.read);
- const updateNotification = async ({ notificationId, readValue }: NotificationDatatoUpdate): Promise<APIResponseSuccess | APIResponseError> => {
-  try {
-    setIsNotificationUpdating(true)
-    const response = await axios.post(`/api/notifications/${notificationId}`, { 
-      read: !readValue // Toggle the read status
-    });
-    return response.data;
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
+  const updateNotification = async ({ notificationId, readValue }: NotificationDatatoUpdate): Promise<APIResponseSuccess | APIResponseError> => {
+    try {
+      setIsNotificationUpdating(true)
+      const response = await axios.post(`/api/notifications/${notificationId}`, {
+        read: !readValue // Toggle the read status
+      });
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        return {
+          success: false,
+          message: error.response?.data?.message || "Failed to update notification",
+          status: error.response?.status || 500
+        };
+      }
       return {
         success: false,
-        message: error.response?.data?.message || "Failed to update notification",
-        status: error.response?.status || 500
+        message: "An unexpected error occurred",
+        status: 500
       };
     }
-    return {
-      success: false,
-      message: "An unexpected error occurred",
-      status: 500
-    };
-  }
-};
-const changeNotificationReadMutation = useMutation<
-  APIResponseSuccess | APIResponseError,
-  AxiosError,
-  NotificationDatatoUpdate
->({
-  mutationFn: updateNotification,
-  onSuccess: (data) => {
-    if (data.success) {
-      queryClient.invalidateQueries({ 
-        queryKey: ['notifications'],
-        refetchType: 'active'
-      });
-      setIsNotificationUpdating(false);
-    } else {
-setIsNotificationUpdating(false);
-      console.error(data.message);
+  };
+  const changeNotificationReadMutation = useMutation<
+    APIResponseSuccess | APIResponseError,
+    AxiosError,
+    NotificationDatatoUpdate
+  >({
+    mutationFn: updateNotification,
+    onSuccess: (data) => {
+      if (data.success) {
+        queryClient.invalidateQueries({
+          queryKey: ['notifications'],
+          refetchType: 'active'
+        });
+        setIsNotificationUpdating(false);
+      } else {
+        setIsNotificationUpdating(false);
+        console.error(data.message);
+      }
+    },
+    onError: (error) => {
+      console.error("Mutation error:", error.message);
+      // Optionally show a toast notification
     }
-  },
-  onError: (error) => {
-    console.error("Mutation error:", error.message);
-    // Optionally show a toast notification
-  }
-});
- if (isPending || isNotificationUpdating) {
+  });
+  const deleteNotification = useMutation({
+    mutationFn: async (notificationId: string) => {
+      const response = await axios.delete(`/api/notifications/${notificationId}`);
+      return response.data
+    },
+    onSuccess: () => {
+      toast.success("Notification Deleted Successfully")
+    },
+    onError: () => {
+      toast.error("Notification Can't be Deleted.")
+    }
+  })
+  if (isPending || isNotificationUpdating) {
     return <SkeletonNotifications />;
   }
   return (
@@ -90,23 +103,22 @@ setIsNotificationUpdating(false);
           <h1 className="text-2xl font-bold text-primaryDark">Notifications</h1>
         </div>
         <div className="notificationToggleArea flex items-center gap-6">
-          {unread ? (
-            <div
-              className="flex items-center gap-2 border border-helper p-2 rounded-lg text-primaryDark cursor-pointer hover:bg-helper hover:text-background duration-300"
-              onClick={() => setUnread(!unread)}
-            >
-              <MailOpen className="h-5 w-5" />
-              <h3 className="text-sm font-medium">Read</h3>
-            </div>
-          ) : (
-            <div
-              className="flex items-center gap-2 border border-helper p-2 rounded-lg text-primaryDark cursor-pointer hover:bg-helper hover:text-background duration-300"
-              onClick={() => setUnread(!unread)}
-            >
-              <Mail className="h-5 w-5" />
-              <h3 className="text-sm font-medium">Unread</h3>
-            </div>
-          )}
+          <div
+            className={`flex items-center gap-2 border border-helper p-2 rounded-lg text-primaryDark cursor-pointer hover:bg-helper hover:text-background duration-300 ${!unread ? 'bg-helper' : ''}`}
+            onClick={() => setUnread(unread)}
+          >
+            <MailOpen className="h-5 w-5" />
+            <span className='primaryParagraph'>{notifications && notifications?.length - (filteredNotifications ? filteredNotifications?.length : 0)}</span>
+            <h3 className="text-sm font-medium">Read</h3>
+          </div>
+          <div
+            className={`flex items-center gap-2 border border-helper p-2 rounded-lg text-primaryDark cursor-pointer hover:bg-helper hover:text-background duration-300 ${unread ? 'bg-helper' : ''}`}
+            onClick={() => setUnread(!unread)}
+          >
+            <Mail className="h-5 w-5" />
+            <h3 className="text-sm font-medium">Unread</h3>
+            <span className='primaryParagraph'>{filteredNotifications ? filteredNotifications?.length : 0}</span>
+          </div>
         </div>
       </div>
       <div className="space-y-4">
@@ -137,13 +149,21 @@ setIsNotificationUpdating(false);
                         exit={{ top: "100%" }}
                         transition={{ duration: 0.3 }}
                         className="absolute w-full h-[20px] bg-helper overflow-hidden left-0 flex justify-center items-center">
-                        <button className='text-background'
-                          onClick={() => changeNotificationReadMutation.mutate({
-                            notificationId: notification._id.toString(),
-                            readValue: notification.read
-                          })}
-                        > {!notification.read ? "Mark Read" : "Mark UnRead"}
-                        </button>
+                        <div className="buttonCollections flex items-center gap-4">
+                          <button className='text-background'
+                            onClick={() => changeNotificationReadMutation.mutate({
+                              notificationId: notification._id.toString(),
+                              readValue: notification.read
+                            })}
+                          > {!notification.read ? "Mark Read" : "Mark UnRead"}
+                          </button>
+                          <button
+                            className="text-red-500 hover:text-red-700"
+                            onClick={() => deleteNotification.mutate(notification._id.toString())}
+                          >
+                            <Trash className="w-5 h-5" />
+                          </button>
+                        </div>
                       </motion.div>
                     }
                   </div>
