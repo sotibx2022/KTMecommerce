@@ -1,5 +1,5 @@
 "use client";
-import React, {useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretRight, faDownload } from "@fortawesome/free-solid-svg-icons";
 import { toPng } from 'html-to-image';
@@ -7,30 +7,24 @@ import { faFacebookSquare, faInstagram, faTwitterSquare, faWhatsappSquare } from
 import dynamic from "next/dynamic";
 import { IProductDisplay } from "@/app/types/products";
 import { AbsoluteComponent } from "../absoluteComponent/AbsoluteComponent";
-const DisplaySingleProductRating = dynamic(
-    () => import('../singleProductReviews/DisplaySingleProductRating'),
-    { 
-      ssr: false, // Disable server-side rendering
-      loading: () => <p>Loading rating...</p> // Optional loading fallback
-    }
-  );
+import { Store } from "lucide-react";
 const ProductImage: React.FC<IProductDisplay> = ({ ...cartItemDetails }) => {
-    const[clientSide, setClientSide] = useState<boolean>(false);
-    useEffect(()=>{
+    const [clientSide, setClientSide] = useState<boolean>(false);
+    useEffect(() => {
         setClientSide(true)
-    },[])
-const handleShare =(mediaName:string) =>{}
-const downloadImage = async (name: string) => {
-    if(!clientSide) return;
-    if(typeof document !== "undefined"){
-        const element: HTMLElement | null = document.getElementById('snapshot-container') as HTMLElement;
-        const dataUrl = await toPng(element);
-    const link = document.createElement('a');
-    link.href = dataUrl;
-    link.download = `${name}.png`;
-    link.click();
-    }
-};
+    }, [])
+    const handleShare = (mediaName: string) => { }
+    const downloadImage = async (name: string) => {
+        if (!clientSide) return;
+        if (typeof document !== "undefined") {
+            const element: HTMLElement | null = document.getElementById('snapshot-container') as HTMLElement;
+            const dataUrl = await toPng(element);
+            const link = document.createElement('a');
+            link.href = dataUrl;
+            link.download = `${name}.png`;
+            link.click();
+        }
+    };
     const {
         productName,
         productDescription,
@@ -38,79 +32,84 @@ const downloadImage = async (name: string) => {
         price,
         stockAvailability,
         productFeatures,
-        _id, 
+        _id,
         image,
-        overallRating
+        overallRating,
     } = cartItemDetails;
     return (
-           <AbsoluteComponent>
-             <div id="snapshot-container" className="p-4 gap-4 bg-primaryDark max-w-[600px]   overflow-hidden">
-                <div className="text-white p-2 flex flex-col"
-                style={{ background: "var(--gradientwithOpacity)" }}>
-                    <h1 className="text-white text-xl font-bold">
-                        {productName}
-                    </h1>
-                    <div className="wrapper flex-col  flex justify-between items-center ">
-                    <div className="w-full">
-                            <div className="overallRatingArea my-2">
-                                <DisplaySingleProductRating rating={overallRating} />
-                            </div>
-                            <p className="text-white">{productDescription}</p>
-                            <div className="productDetails flex items-center gap-4 my-2">
-                                <p className="text-background bg-helper p-2 rounded-md">Brand: {brand}</p>
-                                <h3
-                                    className={`text-background p-2 rounded-md ${stockAvailability ? "bg-green-500" : "bg-red-500"
-                                        }`}
-                                >
-                                    {stockAvailability ? "In Stock" : "Out of Stock"}
-                                </h3>
-                                <p className="price-highlight">${price}</p>
-                            </div>
-                            <h2 className="text-white text-2xl">Features</h2>
-                            <ul className="primaryList">
-                                {productFeatures &&
-                                    productFeatures.map((feature: string, index: number) => (
-                                        <li key={index} className="text-primaryDark flex items-center gap-1 text-white">
-                                            <FontAwesomeIcon icon={faCaretRight} className="mr-2" size="2x" />
-                                            <p>{feature}</p>
-                                        </li>
-                                    ))}
-                            </ul>
+        <AbsoluteComponent>
+            <section className="relative max-w-[600px] overflow-hidden rounded-lg shadow-lg bg-background">
+                {/* Product Image with overlay */}
+                <div className="relative h-64 w-full">
+                    <img
+                        src={image}
+                        className="w-full h-full object-cover"
+                        alt={productName}
+                    />
+                    {/* Gradient overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-b from-transparent to-primaryDark opacity-80"></div>
+                    {/* Product Info - positioned within image area */}
+                    <div className="absolute bottom-0 left-0 w-full p-4">
+                        {/* Product Name */}
+                        <h1 className="text-2xl font-bold text-background mb-2 drop-shadow-md">
+                            {productName}
+                        </h1>
+                        {/* Price and Brand */}
+                        <div className="flex justify-between items-center">
+                            <p className="price-highlight">${price}</p>
                         </div>
                     </div>
                 </div>
-                            <div className="productLogoArea flex justify-center items-center">
-                                <img src="../assets/brand/logo.png" />
-                            </div>
-            </div>
-          {clientSide &&  <div className="imageActions flex justify-center gap-2 mt-2">
-            <FontAwesomeIcon 
-  icon={faDownload}
-  className="social-icon text-green-600 hover:text-green-800"
-  onClick={()=>downloadImage(productName)}
-/>
-<FontAwesomeIcon 
-  icon={faFacebookSquare}
-  className="social-icon text-blue-600 hover:text-blue-800"
-  onClick={() => handleShare("facebook")}
-/>
-<FontAwesomeIcon 
-  icon={faTwitterSquare}
-  className="social-icon text-blue-400 hover:text-blue-600"
-  onClick={() => handleShare("twitter")}
-/>
-<FontAwesomeIcon 
-  icon={faInstagram}
-  className="social-icon text-pink-500 hover:text-pink-700"
-  onClick={() => handleShare("instagram")}
-/>
-<FontAwesomeIcon 
-  icon={faWhatsappSquare}
-  className="social-icon text-green-500 hover:text-green-700"
-  onClick={() => handleShare("whatsapp")}
-/>
-           </div>}
-           </AbsoluteComponent>
+                {/* Available at section - now properly separated below the image */}
+                <div className="flex flex-col items-center border-t-2 border-helper">
+                    <img
+                        src="../assets/brand/logo.png"
+                        className="h-10 object-contain"
+                        alt="Store logo"
+                    />
+                </div>
+            </section>
+            {/* Social Actions */}
+            {clientSide && (
+                <div className="flex justify-center gap-4 mt-4">
+                    <button
+                        onClick={() => downloadImage(productName)}
+                        className="social-icon bg-helper text-primaryDark p-3 rounded-full hover:bg-primaryDark hover:text-background transition-all duration-300 transform hover:scale-110"
+                        aria-label="Download"
+                    >
+                        <FontAwesomeIcon icon={faDownload} size="lg" />
+                    </button>
+                    <button
+                        onClick={() => handleShare("facebook")}
+                        className="social-icon bg-helper text-primaryDark p-3 rounded-full hover:bg-[#1877F2] hover:text-background transition-all duration-300 transform hover:scale-110"
+                        aria-label="Share on Facebook"
+                    >
+                        <FontAwesomeIcon icon={faFacebookSquare} size="lg" />
+                    </button>
+                    <button
+                        onClick={() => handleShare("twitter")}
+                        className="social-icon bg-helper text-primaryDark p-3 rounded-full hover:bg-[#1DA1F2] hover:text-background transition-all duration-300 transform hover:scale-110"
+                        aria-label="Share on Twitter"
+                    >
+                        <FontAwesomeIcon icon={faTwitterSquare} size="lg" />
+                    </button>
+                    <button
+                        onClick={() => handleShare("instagram")}
+                        className="social-icon bg-helper text-primaryDark p-3 rounded-full hover:bg-[#E4405F] hover:text-background transition-all duration-300 transform hover:scale-110"
+                        aria-label="Share on Instagram"
+                    >
+                        <FontAwesomeIcon icon={faInstagram} size="lg" />
+                    </button>
+                    <button
+                        onClick={() => handleShare("whatsapp")}
+                        className="social-icon bg-helper text-primaryDark p-3 rounded-full hover:bg-[#25D366] hover:text-background transition-all duration-300 transform hover:scale-110"
+                        aria-label="Share on WhatsApp"
+                    >
+                        <FontAwesomeIcon icon={faWhatsappSquare} size="lg" />
+                    </button>
+                </div>
+            )}
+        </AbsoluteComponent>
     );
 };
 export default ProductImage;
