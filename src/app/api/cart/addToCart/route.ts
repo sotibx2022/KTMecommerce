@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
           wishersId
         });
         await newCart.save();
-        if (item.wishersId.toString() === userId.toString()) {
+        if (item.wishersId.toString() !== userId.toString()) {
           const wisher = await UserModel.findById(items[0].wishersId).select('fullName');
           createNotifications(
             item.wishersId,

@@ -1,6 +1,4 @@
-import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import FacebookProvider from "next-auth/providers/facebook";
 import type { NextAuthOptions } from "next-auth";
 import UserModel from "@/models/users.model";
 export const authOptions: NextAuthOptions = {
