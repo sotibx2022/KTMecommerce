@@ -8,8 +8,8 @@ async function getSingleProduct(productId: string) {
   if (!response.ok) throw new Error("Failed to fetch product");
   return response.json();
 }
-interface ISearchParams{
-  searchParams:Promise<{ id?: string; slug?: string }>
+interface ISearchParams {
+  searchParams: Promise<{ id?: string; slug?: string }>
 }
 export async function generateMetadata({
   searchParams: mysearchParams

@@ -20,14 +20,13 @@ const fetchMinimumWishlistDetails = async (wishlistCollectionToken: string): Pro
   return response.json()
 }
 interface ISearchParams {
-  searchParams: Promise<{ wishlistCollectionToken?: string }>
+  searchParams: Promise<{ wishlistCollectionToken?: string }>;
 }
 export async function generateMetadata({
-  searchParams: maybeSearchParams,
-}: ISearchParams
-): Promise<Metadata> {
-  const searchParams = await maybeSearchParams
-  const  wishlistCollectionToken  = searchParams.wishlistCollectionToken
+  searchParams: maybeSearchParams
+}: ISearchParams): Promise<Metadata> {
+  const searchParams = await maybeSearchParams;
+  const {wishlistCollectionToken} = searchParams;
   if (wishlistCollectionToken) {
     let { message, data } = await fetchMinimumWishlistDetails(wishlistCollectionToken!)
     return {
