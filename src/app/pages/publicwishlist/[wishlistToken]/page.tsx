@@ -41,12 +41,12 @@ export async function generateMetadata({
           }`,
         url: `${config.websiteUrl}/pages/publicwishlist/token?wishlistCollectionToken=${wishlistCollectionToken}`,
         images: data.wishlistDetails.map(item => ({
-    url: item.url, // Required
-    alt: item.alt || `Wishlist item from ${data.userName}`,
-    // Optional but recommended:
-    width: 800,
-    height: 600,
-  })),
+          url: item.url, // Required
+          alt: item.alt || `Wishlist item from ${data.userName}`,
+          // Optional but recommended:
+          width: 800,
+          height: 600,
+        })),
         type: 'website',
         siteName: 'ecommerceKTM'
       }
