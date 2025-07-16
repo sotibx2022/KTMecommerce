@@ -1,19 +1,22 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 :root {
   --primary: #876061;
   --primaryDark: #531c1d;
   --primaryLight: #876061;
   --helper: #fcae04;
-  --background:#feffdf;
+  --background: #feffdf;
   --radius: 8px;
-  --gradientwithOpacity: linear-gradient(
-    90deg,
-    rgba(135, 96, 97, 0.8) 0%, /* rgba version of --primary with opacity */
-    rgba(83, 28, 29, 0.8) 100% /* rgba version of --primaryDark with opacity */
-  );
+  --gradientwithOpacity: linear-gradient(90deg,
+      rgba(135, 96, 97, 0.8) 0%,
+      /* rgba version of --primary with opacity */
+      rgba(83, 28, 29, 0.8) 100%
+      /* rgba version of --primaryDark with opacity */
+    );
 }
+
 html {
   background-color: var(--background);
   margin: 0;
@@ -24,117 +27,149 @@ html {
   overflow-x: hidden;
   height: 100%;
 }
-body{
-  background-color:var(--background);
+
+body {
+  background-color: var(--background);
 }
-ol, ul, li {
+
+ol,
+ul,
+li {
   font-family: inherit;
 }
-button, input, textarea, select, optgroup, option {
+
+button,
+input,
+textarea,
+select,
+optgroup,
+option {
   font-family: inherit;
 }
+
 .slideOverlay {
   background: var(--gradientwithOpacity);
   position: absolute;
   width: 100%;
   height: 100%;
 }
-.selectItem{
+
+.selectItem {
   @apply text-lg text-primaryDark py-4 focus:bg-primaryLight cursor-pointer focus:text-background focus:outline-none pl-2
 }
-.primaryParagraph{
+
+.primaryParagraph {
   @apply text-primaryDark text-sm;
 }
-.primaryHeading{
+
+.primaryHeading {
   @apply text-primaryDark sm:text-3xl md:text-5xl text-2xl;
 }
-.secondaryHeading{
+
+.secondaryHeading {
   @apply text-primaryDark text-lg;
 }
-.subHeading{
-  @apply text-helper sm:text-2xl md:text-3xl text-lg relative pl-4 my-4  py-2;
+
+.subHeading {
+  @apply text-helper sm:text-2xl md:text-3xl text-lg relative pl-4 my-4 py-2;
 }
+
 .subHeading::before {
   content: '';
- position: absolute;
- top:0;
- left: 0;
- width: 10px;
- height: 100%;
- background-color: var(--helper);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 10px;
+  height: 100%;
+  background-color: var(--helper);
 }
+
 /* Reusable Primary Button Class */
 /* Reusable Secondary Button Class */
-.primaryButton{
+.primaryButton {
   transition: 0.5 all;
 }
-.buttonText{
+
+.buttonText {
   background-color: var(--primaryDark);
   color: white;
   text-transform: capitalize;
   font-size: 1.5rem;
 }
-.primaryButton:hover .buttonText{
+
+.primaryButton:hover .buttonText {
   transform: translateX(10px);
   transform: translateY(-10px);
 }
-.primaryButton:hover{
-  border:2px solid var(--primaryDark);
+
+.primaryButton:hover {
+  border: 2px solid var(--primaryDark);
 }
+
 .secondaryButton {
   @apply bg-primaryLight text-primaryDark border-2 border-primaryDark px-4 py-2 rounded-md cursor-pointer transition-colors duration-300 flex justify-center items-center max-w-xs max-h-12;
 }
+
 .secondaryButton:hover {
   @apply bg-primaryDark text-primaryLight;
 }
-.flex-center{
+
+.flex-center {
   @apply flex justify-center items-center;
 }
-.flex-between{
+
+.flex-between {
   @apply flex justify-between items-center;
 }
-.container{
+
+.container {
   @apply max-w-[90vw] mx-auto;
 }
-.link{
+
+.link {
   @apply text-helper underline text-lg transition-colors duration-300 cursor-pointer;
 }
-.link:hover{
+
+.link:hover {
   @apply text-helper font-semibold
 }
-.errorMessage{
+
+.errorMessage {
   @apply text-lg text-red-600;
 }
-.successMessage{
+
+.successMessage {
   @apply text-lg text-green-600;
 }
-.formItem input[type='text']{
+
+.formItem input[type='text'] {
   @apply bg-background outline-none border-2 border-primaryDark rounded-lg p-2;
 }
+
 .responsiveHeaderIcon {
   @apply text-primaryDark w-[50px] h-[50px] cursor-pointer hover:scale-125 hover:rotate-12 transition-transform duration-300;
 }
-.formItem{
+
+.formItem {
   @apply w-full p-3 border border-helper bg-background rounded-md shadow-helper shadow-sm focus:outline-none text-primaryDark
 }
+
 .price-highlight {
   @apply text-orange-500 font-bold text-lg bg-gradient-to-r from-yellow-100 to-yellow-300 p-2 rounded-md shadow-md text-center;
 }
-.selectInput{
-  @apply w-full bg-primaryDark p-2 text-background rounded-lg  focus:outline-none focus:bg-primaryDark focus:text-background
+
+.selectInput {
+  @apply w-full bg-primaryDark p-2 text-background rounded-lg focus:outline-none focus:bg-primaryDark focus:text-background
 }
-.formLabel{
+
+.formLabel {
   @apply text-primaryDark
 }
+
 .social-icon {
-  @apply cursor-pointer 
-         transition-colors 
-         duration-200 
-         bg-primaryDark 
-         p-2 
-         rounded-full 
-         hover:bg-primaryLight;
+  @apply cursor-pointer transition-colors duration-200 bg-primaryLight w-[50px] h-[50px] rounded-full
 }
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -171,6 +206,7 @@ button, input, textarea, select, optgroup, option {
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
+
   .dark {
     --background: 0 0% 3.9%;
     --foreground: 0 0% 98%;
@@ -206,19 +242,22 @@ button, input, textarea, select, optgroup, option {
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
+
 @layer base {
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
 }
+
 .darkTable span,
 .darkTable svg,
 .darkTable th,
 .darkTable td,
 .darkTable tr,
 .darkTable thead {
-  color: var(--background)!important;
+  color: var(--background) !important;
 }

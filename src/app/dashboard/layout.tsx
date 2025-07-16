@@ -8,7 +8,6 @@ export const metadata: Metadata = {
     default: "Dashboard - EcommerceKTM",
     template: "%s | Dashboard - EcommerceKTM",
   },
-  description: "Dashboard page of EcommerceKTM",
 };
 export default function RootLayout({
   children,
@@ -16,11 +15,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-        <DashboardLayout>
-          <div className="dashboard flex gap-2 container my-4">
-            <DashboardSidebar/>
-              {children}
-          </div>
-          </DashboardLayout>
+    <DashboardLayout>
+      <div className="dashboard flex gap-2 container my-4">
+        <DashboardSidebar />
+        {children}
+      </div>
+    </DashboardLayout>
   );
 }

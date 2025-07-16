@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "../../globals.css";
 export const metadata: Metadata = {
-    title: "WishList",
+    title: "Settings",
 };
 export default function RootLayout({
     children,
