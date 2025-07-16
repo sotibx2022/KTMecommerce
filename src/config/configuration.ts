@@ -13,6 +13,8 @@ const _config = {
     faceBookClientSecret:process.env.FACEBOOK_CLIENT_SECRET!,
     googleClientId:process.env.GOOGLE_CLIENT_ID!,
     googleClientSecret:process.env.GOOGLE_CLIENT_SECRET!
-  }
+  },
+  cookieSecret:process.env.NEXTJS_COOKIE_SECRET!,
+  tokenSecret:process.env.TOKENSECRET!
 };
 export const config = Object.freeze(_config);

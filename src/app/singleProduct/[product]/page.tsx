@@ -10,13 +10,12 @@ async function getSingleProduct(productId: string) {
 }
 // 🧠 SEO Metadata Generator
 export async function generateMetadata({
-  searchParams: maybeSearchParams,
+  searchParams,
 }: {
-  searchParams: Promise<{ id?: string; slug?: string }>;
+  searchParams: { id?: string; slug?: string };
 }): Promise<Metadata> {
-  const searchParams = await maybeSearchParams;
-  const productId = searchParams.id;
-  const slug = searchParams.slug;
+  const productId = await searchParams.id;
+  const slug = await searchParams.slug;
   if (!productId) {
     return {
       title: "Product Page",
