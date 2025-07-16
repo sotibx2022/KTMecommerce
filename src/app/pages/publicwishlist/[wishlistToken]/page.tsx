@@ -27,7 +27,7 @@ export async function generateMetadata({
 }: ISearchParams
 ): Promise<Metadata> {
   const searchParams = await maybeSearchParams
-  const { wishlistCollectionToken } = searchParams
+  const  wishlistCollectionToken  = searchParams.wishlistCollectionToken
   if (wishlistCollectionToken) {
     let { message, data } = await fetchMinimumWishlistDetails(wishlistCollectionToken!)
     return {
