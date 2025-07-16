@@ -12,22 +12,37 @@ export const OrderDetails = ({ order, expandAble = false }: { order: OrderDetail
   const [showOrderDetails, setShowOrderDetails] = useState(false);
   const { _id, status, items, paymentMethod, shippingAddress, shippingPerson, createdAt } = order;
   const downloadPdf = async (name: string) => {
-    if (typeof document !== "undefined") {
-      try {
-        const element = document.getElementById('orderDetailsContainer');
-        if (!element) return;
-        const dataUrl = await toPng(element, { quality: 1 });
-        const pdf = new jsPDF('p', 'mm', 'a4');
-        const imgWidth = 210;
-        const pageHeight = 297;
-        const imgHeight = (element.offsetHeight * imgWidth) / element.offsetWidth;
-        pdf.addImage(dataUrl, 'PNG', 0, 0, imgWidth, imgHeight);
-        pdf.save(`Order # ${name} Details.pdf`);
-      } catch (error) {
-        console.error('Error generating PDF:', error);
+  if (typeof document !== "undefined") {
+    try {
+      const element = document.getElementById('orderDetailsContainer');
+      if (!element) return;
+      // 1. Temporarily override styles for PDF (14px font, A4-optimized width)
+      const originalStyles = element.getAttribute('style');
+      element.style.width = '210mm'; // Match A4 width (210mm)
+      element.style.fontSize = '14px'; // Standard print size
+      element.style.padding = '10mm'; // Add margins
+      // 2. Convert to PNG with high DPI (300 DPI for print quality)
+      const dataUrl = await toPng(element, { 
+        quality: 1,
+        pixelRatio: 3, // 3x resolution (e.g., 288 DPI)
+      });
+      // 3. Restore original styles
+      if (originalStyles) {
+        element.setAttribute('style', originalStyles);
+      } else {
+        element.removeAttribute('style');
       }
+      // 4. Generate PDF (A4 portrait)
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const imgWidth = 190; // A4 width - margins (210mm - 20mm)
+      const imgHeight = (element.offsetHeight * imgWidth) / element.offsetWidth;
+      pdf.addImage(dataUrl, 'PNG', 10, 10, imgWidth, imgHeight); // 10mm margins
+      pdf.save(`Order # ${name} Details.pdf`);
+    } catch (error) {
+      console.error('Error generating PDF:', error);
     }
-  };
+  }
+};
   return (
     <div className="p-4 md:p-6 bg-background rounded-lg shadow-helper mb-6 min-w-[300px]" id='orderDetailsContainer'>
       {expandAble &&  (
