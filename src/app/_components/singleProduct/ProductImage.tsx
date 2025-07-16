@@ -7,7 +7,6 @@ import { faFacebookSquare, faInstagram, faTwitterSquare, faWhatsappSquare } from
 import dynamic from "next/dynamic";
 import { IProductDisplay } from "@/app/types/products";
 import { AbsoluteComponent } from "../absoluteComponent/AbsoluteComponent";
-import { Store } from "lucide-react";
 const ProductImage: React.FC<IProductDisplay> = ({ ...cartItemDetails }) => {
     const [clientSide, setClientSide] = useState<boolean>(false);
     useEffect(() => {
@@ -27,18 +26,13 @@ const ProductImage: React.FC<IProductDisplay> = ({ ...cartItemDetails }) => {
     };
     const {
         productName,
-        productDescription,
-        brand,
         price,
-        stockAvailability,
-        productFeatures,
         _id,
         image,
-        overallRating,
     } = cartItemDetails;
     return (
         <AbsoluteComponent>
-            <section className="relative max-w-[600px] overflow-hidden rounded-lg shadow-lg bg-background">
+            <section id='snapshot-container' className=" relative max-w-[600px] overflow-hidden rounded-lg shadow-lg bg-background">
                 {/* Product Image with overlay */}
                 <div className="relative h-64 w-full">
                     <img
@@ -74,38 +68,38 @@ const ProductImage: React.FC<IProductDisplay> = ({ ...cartItemDetails }) => {
                 <div className="flex justify-center gap-4 mt-4">
                     <button
                         onClick={() => downloadImage(productName)}
-                        className="social-icon bg-helper text-primaryDark p-3 rounded-full hover:bg-primaryDark hover:text-background transition-all duration-300 transform hover:scale-110"
+                        className="social-icon  text-primaryDark p-3  bg-transparent hover:bg-primaryDark hover:text-background transition-all duration-300 transform hover:scale-110"
                         aria-label="Download"
                     >
-                        <FontAwesomeIcon icon={faDownload} size="lg" />
+                        <FontAwesomeIcon icon={faDownload} size="lg" className="text-background" />
                     </button>
                     <button
                         onClick={() => handleShare("facebook")}
-                        className="social-icon bg-helper text-primaryDark p-3 rounded-full hover:bg-[#1877F2] hover:text-background transition-all duration-300 transform hover:scale-110"
+                        className="social-icon bg-helper text-primaryDark p-3  hover:bg-[#1877F2] hover:text-background transition-all duration-300 transform hover:scale-110"
                         aria-label="Share on Facebook"
                     >
-                        <FontAwesomeIcon icon={faFacebookSquare} size="lg" />
+                        <FontAwesomeIcon icon={faFacebookSquare} size="lg" className="text-background" />
                     </button>
                     <button
                         onClick={() => handleShare("twitter")}
                         className="social-icon bg-helper text-primaryDark p-3 rounded-full hover:bg-[#1DA1F2] hover:text-background transition-all duration-300 transform hover:scale-110"
                         aria-label="Share on Twitter"
                     >
-                        <FontAwesomeIcon icon={faTwitterSquare} size="lg" />
+                        <FontAwesomeIcon icon={faTwitterSquare} size="lg" className="text-background" />
                     </button>
                     <button
                         onClick={() => handleShare("instagram")}
-                        className="social-icon bg-helper text-primaryDark p-3 rounded-full hover:bg-[#E4405F] hover:text-background transition-all duration-300 transform hover:scale-110"
+                        className="social-icon bg-helper text-primaryDark p-3  hover:bg-[#E4405F] hover:text-background transition-all duration-300 transform hover:scale-110"
                         aria-label="Share on Instagram"
                     >
-                        <FontAwesomeIcon icon={faInstagram} size="lg" />
+                        <FontAwesomeIcon icon={faInstagram} size="lg" className="text-background" />
                     </button>
                     <button
                         onClick={() => handleShare("whatsapp")}
-                        className="social-icon bg-helper text-primaryDark p-3 rounded-full hover:bg-[#25D366] hover:text-background transition-all duration-300 transform hover:scale-110"
+                        className="social-icon bg-helper text-primaryDark p-3  hover:bg-[#25D366] hover:text-background transition-all duration-300 transform hover:scale-110"
                         aria-label="Share on WhatsApp"
                     >
-                        <FontAwesomeIcon icon={faWhatsappSquare} size="lg" />
+                        <FontAwesomeIcon icon={faWhatsappSquare} size="lg" className="text-background" />
                     </button>
                 </div>
             )}
