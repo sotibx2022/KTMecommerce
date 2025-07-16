@@ -13,7 +13,6 @@ import toast from 'react-hot-toast';
 import { ICartItem } from '@/app/types/cart';
 import { IPublicWishlistItem, wishersDetailsforPublicWishlist } from '@/app/types/wishlist';
 import { useUserDetails } from '@/app/context/UserDetailsContextComponent';
-
 const PublicWishlistLayout = () => {
   const router = useRouter()
   const addItemToCart = useAddItemToCart();
@@ -56,7 +55,6 @@ const PublicWishlistLayout = () => {
       wishersId: wishersDetails._id,
     }
   })
-  console.log(wishListItems, wishersDetails);
   const handleOrderWishersList = () => {
     if (userDetails?._id === wishersDetails._id) {
       toast.success("Navigate to your WishList page to order these materials.");

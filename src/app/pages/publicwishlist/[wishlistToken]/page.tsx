@@ -29,7 +29,7 @@ export async function generateMetadata({
   const { wishlistCollectionToken } = searchParams;
   if (wishlistCollectionToken) {
     let { message, data } = await fetchMinimumWishlistDetails(wishlistCollectionToken!)
-    console.log(message,data)
+    console.log(message, data)
     return {
       title: message,
       description: "This is public wishlist page",
@@ -39,8 +39,14 @@ export async function generateMetadata({
           ? `${data?.userName}'s Shared Wishlist is empty`
           : `${data?.userName}'s Shared Wishlist has ${data?.count} ${data?.count === 1 ? 'item' : 'items'}`
           }`,
-        url: `http://localhost:3000/pages/publicwishlist/token?wishlistCollectionToken=${wishlistCollectionToken}`,
-        images: data?.wishlistDetails,
+        url: `${config.websiteUrl}/pages/publicwishlist/token?wishlistCollectionToken=${wishlistCollectionToken}`,
+        images: data.wishlistDetails.map(item => ({
+    url: item.url, // Required
+    alt: item.alt || `Wishlist item from ${data.userName}`,
+    // Optional but recommended:
+    width: 800,
+    height: 600,
+  })),
         type: 'website',
         siteName: 'ecommerceKTM'
       }
