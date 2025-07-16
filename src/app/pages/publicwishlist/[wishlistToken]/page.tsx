@@ -51,8 +51,7 @@ export async function generateMetadata({
     };
   }
 };
-export default async function Page({ searchParams }: { searchParams: { wishlistCollectionToken?: string } }) {
-  const { wishlistCollectionToken } = await searchParams
+export default async function Page() {
   return (
     <div>
       <PublicWishlistLayout />
