@@ -8,14 +8,15 @@ async function getSingleProduct(productId: string) {
   if (!response.ok) throw new Error("Failed to fetch product");
   return response.json();
 }
-// 🧠 SEO Metadata Generator
+interface ISearchParams{
+  searchParams:Promise<{ id?: string; slug?: string }>
+}
 export async function generateMetadata({
-  searchParams,
-}: {
-  searchParams: { id?: string; slug?: string };
-}): Promise<Metadata> {
-  const productId = await searchParams.id;
-  const slug = await searchParams.slug;
+  searchParams: mysearchParams
+}: ISearchParams): Promise<Metadata> {
+  const searchParams = await mysearchParams;
+  const productId = searchParams.id;
+  const slug = searchParams.slug;
   if (!productId) {
     return {
       title: "Product Page",

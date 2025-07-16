@@ -1,6 +1,7 @@
 import { config } from "@/config/configuration";
 import PublicWishlistLayout from "./PublicWishlistLayout";
 import { APIResponseSuccess } from "@/app/services/queryFunctions/users";
+import { Metadata } from "next";
 interface IWishListItem {
   url: string,
   alt: string,
@@ -18,12 +19,15 @@ const fetchMinimumWishlistDetails = async (wishlistCollectionToken: string): Pro
   const response = await fetch(`${config.websiteUrl}/api/wishList/publicwishlists/minimalWishlistDetails/${wishlistCollectionToken}`);
   return response.json()
 }
-export const generateMetadata = async ({
-  searchParams
-}: {
-  searchParams: { wishlistCollectionToken?: string }
-}) => {
-  const { wishlistCollectionToken } = await searchParams
+interface ISearchParams {
+  searchParams: Promise<{ wishlistCollectionToken?: string }>
+}
+export async function generateMetadata({
+  searchParams: maybeSearchParams,
+}: ISearchParams
+): Promise<Metadata> {
+  const searchParams = await maybeSearchParams
+  const { wishlistCollectionToken } = searchParams
   if (wishlistCollectionToken) {
     let { message, data } = await fetchMinimumWishlistDetails(wishlistCollectionToken!)
     return {
