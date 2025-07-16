@@ -15,7 +15,7 @@ interface IMinimalWishListDetails {
     wishlistDetails: IWishListItem[]
   }
 }
-const fetchMinimumWishlistDetails = async (wishlistCollectionToken: string): Promise<APIResponseSuccess<IMinimalWishListDetails>> => {
+const fetchMinimumWishlistDetails = async (wishlistCollectionToken: string): Promise<IMinimalWishListDetails> => {
   const response = await fetch(`${config.websiteUrl}/api/wishList/publicwishlists/minimalWishlistDetails/${wishlistCollectionToken}`);
   return response.json()
 }
@@ -26,20 +26,21 @@ export async function generateMetadata({
   searchParams: maybeSearchParams
 }: ISearchParams): Promise<Metadata> {
   const searchParams = await maybeSearchParams;
-  const {wishlistCollectionToken} = searchParams;
+  const { wishlistCollectionToken } = searchParams;
   if (wishlistCollectionToken) {
     let { message, data } = await fetchMinimumWishlistDetails(wishlistCollectionToken!)
+    console.log(message,data)
     return {
       title: message,
       description: "This is public wishlist page",
       openGraph: {
-        title: `Wishlist Items For ${data?.data.userName}`,
-        description: `${data?.data.count === 0
-          ? `${data.data.userName}'s Shared Wishlist is empty`
-          : `${data?.data.userName}'s Shared Wishlist has ${data?.data.count} ${data?.data.count === 1 ? 'item' : 'items'}`
+        title: `Wishlist Items For ${data?.userName}`,
+        description: `${data?.count === 0
+          ? `${data?.userName}'s Shared Wishlist is empty`
+          : `${data?.userName}'s Shared Wishlist has ${data?.count} ${data?.count === 1 ? 'item' : 'items'}`
           }`,
         url: `http://localhost:3000/pages/publicwishlist/token?wishlistCollectionToken=${wishlistCollectionToken}`,
-        images: data?.data.wishlistDetails,
+        images: data?.wishlistDetails,
         type: 'website',
         siteName: 'ecommerceKTM'
       }
