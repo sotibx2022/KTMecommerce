@@ -13,19 +13,19 @@ const ClientPage = () => {
       <NavBar />
       <HeroLayout />
       <AllProductsBanner />
-      <CategoryCards 
+      <CategoryCards
         categoryType="isNewArrival"
         title="New Arrivals in Store"
       />
-      <CategoryCards 
+      <CategoryCards
         categoryType="isTrendingNow"
         title="Latest Trending Items"
       />
-      <CategoryCards 
+      <CategoryCards
         categoryType="isTopSell"
         title="Top Sells of Day"
       />
-      <CategoryCards 
+      <CategoryCards
         categoryType="isOfferItem"
         title="Limited Offer Items"
       />
