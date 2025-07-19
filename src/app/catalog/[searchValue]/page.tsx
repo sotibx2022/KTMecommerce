@@ -112,7 +112,7 @@ return (
         <div className="w-full">
   {searchValues.layout === 'grid' ? (
     // Grid layout - use a grid container
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+    <div className="grid grid-cols-1 items-center md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
       {products.map((product: IProductDisplay) => (
         <ProductCard key={product._id} {...product} />
       ))}

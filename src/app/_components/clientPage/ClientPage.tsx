@@ -1,5 +1,5 @@
 "use client"
-import React, { useContext, } from 'react'
+import React from 'react'
 import NavBar from '../navbar/Navbar'
 import HeroLayout from '../heroLayout/HeroLayout'
 import Footer from '../footer/Footer'
@@ -11,27 +11,27 @@ const ClientPage = () => {
   return (
     <>
       <NavBar />
-      {/* <HeroLayout /> */}
-      {/* <AllProductsBanner/> */}
-    {/* <CategoryCards 
-      categoryType="isNewArrival"
-      title="New Arrivals in Store"
-    /> */}
-    {/* <CategoryCards 
-      categoryType="isTrendingNow"
-      title="Latest Tranding Items"
-    /> */}
-    {/* <CategoryCards 
-      categoryType="isTopSell"
-      title="Top Sells of Day"
-    /> */}
-    {/* <CategoryCards 
-      categoryType="isOfferItem"
-      title="Limited Offer Items"
-    /> */}
-    {/* <BrandCaurosel/>
-      <Footer /> */}
-      <ConditionalComponents/>
+      <HeroLayout />
+      <AllProductsBanner />
+      <CategoryCards 
+        categoryType="isNewArrival"
+        title="New Arrivals in Store"
+      />
+      <CategoryCards 
+        categoryType="isTrendingNow"
+        title="Latest Trending Items"
+      />
+      <CategoryCards 
+        categoryType="isTopSell"
+        title="Top Sells of Day"
+      />
+      <CategoryCards 
+        categoryType="isOfferItem"
+        title="Limited Offer Items"
+      />
+      <BrandCaurosel />
+      <ConditionalComponents />
+      <Footer />
     </>
   )
 }
