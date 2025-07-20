@@ -11,17 +11,14 @@ export const QuickLinks = () => {
       <h3 className="text-lg font-semibold mb-3 text-primaryDark">Quick Links</h3>
       <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
         {navigationLinks.map((link) => (
-          <Link
-            key={link.href}
-            href={link.href}
-          >
-            <button
-              onClick={() => setVisibleComponent("")}
-              className="w-full bg-primaryLight hover:bg-primaryDark text-background rounded-md py-2 px-4 text-center transition-colors"
-            >
-              {link.text}
-            </button>
-          </Link>
+         <Link
+  key={link.href}
+  href={link.href}
+  onClick={() => setVisibleComponent("")} // YES! Link accepts onClick
+  className="w-full bg-primaryLight hover:bg-primaryDark text-background rounded-md py-2 px-4 text-center transition-colors block text-sm"
+>
+  {link.text}
+</Link>
         ))}
       </div>
     </>
