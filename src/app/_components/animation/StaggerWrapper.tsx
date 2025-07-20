@@ -2,12 +2,12 @@ import React, { Children, ReactNode } from 'react'
 import TextReveal from './TextReveal'
 interface IStaggerWrapper {
   children: ReactNode
-  staggerDelay?: number
+  staggerDelay: number
   baseDelay?: number
 }
 const StaggerWrapper: React.FC<IStaggerWrapper> = ({
   children,
-  staggerDelay = 0.2,
+  staggerDelay,
   baseDelay = 0
 }) => {
   // Log all children at once
