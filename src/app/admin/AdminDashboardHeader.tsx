@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation'
 import { useContext, useEffect, useState } from 'react'
 import { ThemeProviderContext } from '../context/ThemeProvider'
 import { generateClassName } from '../services/helperFunctions/generateClassNames'
+import LogoComponent from '../_components/logoComponent/LogoComponent'
 const AdminDashboardHeader = () => {
   const context = useContext(ThemeProviderContext)
   if (!context) {
@@ -19,7 +20,7 @@ const AdminDashboardHeader = () => {
   useEffect(() => {
     // Sync local state with context value
     setIsChecked(theme === "dark")
-    controls.start({ 
+    controls.start({
       left: theme === "dark" ? '50%' : '0%',
       transition: { duration: 0.3 }
     })
@@ -31,17 +32,17 @@ const AdminDashboardHeader = () => {
   }
   return (
     <div className={`container flex justify-between items-center px-4 ${generateClassName(theme)}`}>
-      <img src='../../assets/brand/logo.png' className='h-[50px]' />
+      <LogoComponent />
       <div className="adminHeader flex items-center gap-2">
         <Badge variant="outline">
           {pathSegment}
         </Badge>
         <label className="flex items-center gap-2 cursor-pointer">
-          <input 
-            type="checkbox" 
-            checked={isChecked} 
-            onChange={handleThemeChange} 
-            hidden 
+          <input
+            type="checkbox"
+            checked={isChecked}
+            onChange={handleThemeChange}
+            hidden
           />
           <div className="relative flex w-16 h-8 bg-white rounded-md items-center justify-between px-1">
             <motion.div

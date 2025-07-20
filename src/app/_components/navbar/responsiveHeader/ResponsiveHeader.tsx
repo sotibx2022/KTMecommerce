@@ -13,7 +13,6 @@ import { UserSection } from "./UserSection";
 import LoginComponent from "../../authComponent/LoginComponent";
 import { CartState } from "@/app/redux/cartSlice";
 import { Category } from "@/app/types/categories";
-import { AdvanceSearchProvider } from "@/app/context/AdvanceSearchContext";
 import { useUserDetails } from "@/app/context/UserDetailsContextComponent";
 const ResponsiveHeader = () => {
   const cartItems = useSelector((state: { cart: CartState }) => state.cart.cartItems);

@@ -12,7 +12,7 @@ const RegisteredUserView: React.FC<IRegistedUserView> = ({ userDetails }) => {
   const logout = useLogout()
   return (
     <div>
-      <div className="registeredUser flex justify-between items-center px-4">
+      <div className="registeredUser flex flex-col gap-2 px-4">
         <Link href="/dashboard/profile">
           <div className="imageArea flex gap-2">
             {userDetails.profileImage ? (
