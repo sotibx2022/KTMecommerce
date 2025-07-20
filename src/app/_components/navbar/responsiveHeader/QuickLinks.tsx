@@ -3,24 +3,25 @@ import { navigationLinks } from "@/app/data/navigationLinks";
 import { useContext } from "react";
 import { DisplayContext } from "@/app/context/DisplayComponents";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 export const QuickLinks = () => {
   const { setVisibleComponent } = useContext(DisplayContext);
-  const router = useRouter();
   return (
     <>
       <h3 className="text-lg font-semibold mb-3 text-primaryDark">Quick Links</h3>
       <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
         {navigationLinks.map((link) => (
-          <button
+          <Link
             key={link.href}
-            onClick={() => {
-              router.push(`/${link.href}`);
-              setVisibleComponent("");
-            }}
-            className="bg-primaryLight hover:bg-primaryDark text-background rounded-md py-2 px-4 text-center transition-colors"
+            href={link.href}
           >
-            {link.text}
-          </button>
+            <button
+              onClick={() => setVisibleComponent("")}
+              className="w-full bg-primaryLight hover:bg-primaryDark text-background rounded-md py-2 px-4 text-center transition-colors"
+            >
+              {link.text}
+            </button>
+          </Link>
         ))}
       </div>
     </>

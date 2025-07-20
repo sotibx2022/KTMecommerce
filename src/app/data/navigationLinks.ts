@@ -1,6 +1,7 @@
+import { config } from "@/config/configuration";
 export const navigationLinks = [
   { href: "/", text: "Home" },
-  { href: "/pages/careers", text: "Careers" },
+  { href: `/pages/careers`, text: "Careers" },
   { href: "/pages/terms", text: "Terms" },
   { href: "/pages/contact", text: "Contact" },
   { href: "/pages/about", text: "About" },               
