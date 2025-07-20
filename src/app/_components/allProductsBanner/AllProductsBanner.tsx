@@ -23,19 +23,19 @@ const AllProductsBanner = () => {
     <div className='screen-max-width min-h-[90vh] flex-center flex-col'>
       <div className="bannerHeading mb-4 flex flex-col justify-center items-center">
       </div>
-      <video 
-        autoPlay 
+      <video
+        autoPlay
         muted
         loop
-        playsInline={true} 
-        src={smallScreen ? "/assets/videos/smallHero.mp4" : "/assets/videos/hero.mp4"} 
-        className='max-h-[50vh] mb-4' 
+        playsInline={true}
+        src={smallScreen ? "/assets/videos/smallHero.mp4" : "/assets/videos/hero.mp4"}
+        className='max-h-[50vh] mb-4'
       />
-      <BannerHeading 
-        text1="Explore Our Full Range" 
+      <BannerHeading
+        text1="Explore Our Full Range"
       />
       <Link href='/catalog/advanceSearch?category=mobile'>
-      <PrimaryButton searchText='Browse'/></Link>
+        <PrimaryButton searchText='Browse' /></Link>
     </div>
   )
 }
