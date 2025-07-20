@@ -15,7 +15,7 @@ export const OrderDetails = ({ order, expandAble = false }: {
   const { _id } = order;
   const router = useRouter()
   return (
-    <div className="p-4 md:p-6 bg-background rounded-lg shadow-helper mb-6 min-w-[300px]">
+    <div className="p-2 md:p-6 bg-background rounded-lg shadow-helper mb-6 max-w-[500px]">
       {expandAble && (
         <OrderHeader
           _id={_id}

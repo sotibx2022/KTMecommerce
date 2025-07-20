@@ -20,7 +20,7 @@ const Page = () => {
     return <div>Error loading orders: {error.message}</div>;
   }
   return (
-    <div className="min-h-screen bg-background p-8">
+    <div className="min-h-screen bg-background md:p-8 w-full">
       <h1 className="subHeading">Orders</h1>
       {Array.isArray(orders) && orders.length > 0 ? (
         orders.map((order: OrderDetailsProps, index: number) => (

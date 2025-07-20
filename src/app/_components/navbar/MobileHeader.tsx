@@ -7,6 +7,7 @@ import SkletonText from "../skeletontext/SkletonText";
 import NonRegisteredUsersOption from "./NonRegisteredUsersOption";
 import { useUserDetails } from "@/app/context/UserDetailsContextComponent";
 import UserOptions from "./UserOptions";
+import { User } from "lucide-react";
 const MobileHeader = () => {
   const { setVisibleComponent } = useContext(DisplayContext);
   const { userDetails, userDetailsLoading } = useUserDetails();
@@ -19,7 +20,6 @@ const MobileHeader = () => {
         </div>
         <div className="flex items-center gap-4">
           {userDetailsLoading ? <div className="flex gap-4">
-            <SkletonText />
             <SkletonText />
           </div> : userDetails ?
             <div className="registeredUser flex flex-col gap-2 px-4">
@@ -47,7 +47,8 @@ const MobileHeader = () => {
                 )}
               </div>
             </div>
-            : <NonRegisteredUsersOption />}
+            : <User className="text-primaryDark cursor-pointer" onClick={() => setVisibleComponent('register')}
+            />}
           <div className="w-[20px] h-[20px] flex items-center justify-end">
             <FontAwesomeIcon
               icon={faBars}

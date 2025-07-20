@@ -128,8 +128,6 @@ const SingleProduct: React.FC<IProductDisplay> = ({ ...productDetails }) => {
             />
             <PrimaryButton searchText="To Others" onClick={() => setVisibleComponent('productImage')} />
           </div>
-        </StaggerWrapper>
-        <StaggerWrapper staggerDelay={0.16}>
           <ProductInformations
             productInformations={{
               stockAvailability,
