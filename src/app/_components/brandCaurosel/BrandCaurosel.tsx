@@ -22,7 +22,6 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Badge } from "@/components/ui/badge";
 import { motion } from "framer-motion";
 const BrandCaurosel = () => {
   const [slidesPerView, setSlidesPerView] = useState(1);
@@ -30,7 +29,7 @@ const BrandCaurosel = () => {
   const calculateSlidesPerView = () => {
     if (typeof window !== "undefined") {
       const totalWidth = window.innerWidth;
-      const availableSpace = Math.floor(totalWidth / 250);
+      const availableSpace = Math.floor(totalWidth / 150);
       return availableSpace > 0 ? availableSpace : 1;
     }
     return 1;
@@ -57,18 +56,18 @@ const BrandCaurosel = () => {
         slidesPerView={slidesPerView}
         spaceBetween={50}
         autoplay={{ delay: 5000, disableOnInteraction: true }}
-        className="h-[200px] w-full swiperWrapper"
+        className="w-full swiperWrapper"
       >
         {brands.map((brand, index) => (
           <SwiperSlide
-            className="w-[250px] h-[100px] slideItem cursor-pointer flex-center"
+            className="w-auto h-[80px] slideItem cursor-pointer flex-center"
             key={index}
             onMouseEnter={() => setHoverIndex(index)}
           >
             <motion.img
               src={brand.brandImageUrl}
               alt={brand.brandName}
-              className="w-[100px] h-[80px] object-center"
+              className="w-auto h-[80px] object-center"
               whileHover={{ scale: 1.05 }}
               initial={{ opacity: 0.8 }}
               animate={{ opacity: 1 }}

@@ -10,7 +10,7 @@ import ConditionalComponents from '../conditionalVisibleComponents/ConditionalCo
 const ClientPage = () => {
   return (
     <>
-      <NavBar />
+      {/* <NavBar />
       <HeroLayout />
       <AllProductsBanner />
       <CategoryCards
@@ -28,7 +28,7 @@ const ClientPage = () => {
       <CategoryCards
         categoryType="isOfferItem"
         title="Limited Offer Items"
-      />
+      /> */}
       <BrandCaurosel />
       <ConditionalComponents />
       <Footer />
