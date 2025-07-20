@@ -60,7 +60,6 @@ const ResponsiveHeader = () => {
             </ul>
           </div>
           <div>
-            <UserSection/>
             <QuickLinks />
           </div>
         </div>

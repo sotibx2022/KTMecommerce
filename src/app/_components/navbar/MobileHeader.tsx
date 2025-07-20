@@ -1,19 +1,53 @@
 "use client";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
 import { DisplayContext } from "@/app/context/DisplayComponents";
 import SkletonText from "../skeletontext/SkletonText";
-import LogoComponent from "../logoComponent/LogoComponent";
+import NonRegisteredUsersOption from "./NonRegisteredUsersOption";
+import { useUserDetails } from "@/app/context/UserDetailsContextComponent";
+import UserOptions from "./UserOptions";
 const MobileHeader = () => {
   const { setVisibleComponent } = useContext(DisplayContext);
+  const { userDetails, userDetailsLoading } = useUserDetails();
+  const [showUserOptions, setShowUserOptions] = useState(false);
   return (
     <header className="flex lg:hidden bg-background w-full">
       <div className="container flex justify-between items-center">
         <div className="logoImage">
-         <LogoComponent/>
+          <img src='/assets/brand/mobilelogo.png' alt="mobilelogo" width={50} />
         </div>
         <div className="flex items-center gap-4">
+          {userDetailsLoading ? <div className="flex gap-4">
+            <SkletonText />
+            <SkletonText />
+          </div> : userDetails ?
+            <div className="registeredUser flex flex-col gap-2 px-4">
+              <div className="imageArea flex gap-2">
+                {userDetails.profileImage ? (
+                  <img
+                    src={userDetails.profileImage}
+                    alt="User Profile"
+                    className="w-[30px] h-[30px] rounded-full"
+                  />
+                ) : (
+                  <div className="flex gap-1 items-center relative cursor-pointer"
+                    onMouseEnter={() => setShowUserOptions(true)}
+                    onMouseLeave={() => setShowUserOptions(false)}
+                  > <h1 className="text-primaryDark uppercase bg-background w-[30px] h-[30px] flex-center text-xl rounded-full border-2 border-helper"
+                  >
+                      {(userDetails.fullName)?.charAt(0).toUpperCase()}
+                    </h1>
+                    <h2 className="primaryParagraph">{userDetails && userDetails.fullName.split(" ")[0]}</h2>
+                    <FontAwesomeIcon
+                      icon={showUserOptions ? faCaretUp : faCaretDown}
+                    />
+                    {showUserOptions && <UserOptions />}
+                  </div>
+                )}
+              </div>
+            </div>
+            : <NonRegisteredUsersOption />}
           <div className="w-[20px] h-[20px] flex items-center justify-end">
             <FontAwesomeIcon
               icon={faBars}
