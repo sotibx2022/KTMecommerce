@@ -13,7 +13,7 @@ const ContactPage = () => {
       icon: <Phone className="w-5 h-5 text-helper" />,
       title: "Phone Support",
       description: "Speak directly with our team",
-      details: "01-XXXXXXX",
+      details: "9864890402",
       link: "tel:011234567",
       availability: "9AM-6PM, Sunday-Friday"
     },
@@ -32,24 +32,6 @@ const ContactPage = () => {
       details: "KTM Plaza, Kathmandu",
       link: "https://maps.google.com",
       availability: "10AM-5PM, Weekdays"
-    }
-  ];
-  const quickActions = [
-    {
-      title: "Track Your Order",
-      link: "/track-order"
-    },
-    {
-      title: "Returns & Refunds",
-      link: "/returns"
-    },
-    {
-      title: "Shipping Information",
-      link: "/shipping"
-    },
-    {
-      title: "FAQ Section",
-      link: "/faq"
     }
   ];
   return (
@@ -72,7 +54,7 @@ const ContactPage = () => {
             {contactMethods.map((method, index) => (
               <div 
                 key={index} 
-                className="bg-white rounded-lg shadow-sm p-6 border border-primaryLight hover:border-helper transition-colors"
+                className="bg-background  p-6 shadow-helper"
               >
                 <div className="flex items-center mb-4">
                   <div className="p-2 rounded-full bg-primaryDark/10 mr-4">
@@ -94,26 +76,9 @@ const ContactPage = () => {
             ))}
           </div>
         </section>
-        {/* Quick Help Section */}
-        <section className="mb-16">
-          <h2 className="text-2xl font-bold text-primaryDark mb-6">Quick Help</h2>
-          <div className="bg-white rounded-lg shadow-sm p-6 border border-primaryLight">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-              {quickActions.map((action, index) => (
-                <a
-                  key={index}
-                  href={action.link}
-                  className="p-4 text-center border border-primaryLight rounded-lg hover:bg-primaryLight/10 transition-colors"
-                >
-                  <span className="font-medium text-primaryDark">{action.title}</span>
-                </a>
-              ))}
-            </div>
-          </div>
-        </section>
         {/* Emergency Contact */}
         <section>
-          <div className="bg-primaryLight/10 border-l-4 border-helper rounded-lg p-6">
+          <div className="bg-red-200 border-l-4 border-helper rounded-lg p-6 ">
             <div className="flex items-start">
               <AlertTriangle className="w-6 h-6 text-helper mr-4 flex-shrink-0" />
               <div>
@@ -124,10 +89,10 @@ const ContactPage = () => {
                 <div className="flex items-center">
                   <Phone className="w-5 h-5 text-helper mr-2" />
                   <a 
-                    href="tel:011234567" 
+                    href="tel:9864890402" 
                     className="text-lg font-bold text-primaryDark hover:text-helper transition-colors"
                   >
-                    01-XXXXXXX (24/7 Emergency Line)
+                    9864890402 (24/7 Available)
                   </a>
                 </div>
               </div>

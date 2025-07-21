@@ -1,4 +1,5 @@
 import { ChevronRight } from 'lucide-react';
+import Link from 'next/link';
 import React from 'react';
 interface JobPosition {
   title: string;
@@ -70,21 +71,21 @@ const CareersPage: React.FC = () => {
             Why Work at Ecommerce KTM?
           </h2>
           <div className="grid md:grid-cols-3 gap-6">
-            <div className="bg-white p-6 rounded-lg shadow-sm border-t-4 border-helper">
+            <div className="bg-primaryLight p-6 rounded-lg shadow-sm border-t-4 border-helper">
               <h3 className="text-xl font-bold text-primaryDark mb-3">Impactful Work</h3>
-              <p className="text-primaryLight">
+              <p className="text-background">
                 Your contributions will directly shape the future of e-commerce in Kathmandu, helping local businesses thrive online.
               </p>
             </div>
-            <div className="bg-white p-6 rounded-lg shadow-sm border-t-4 border-helper">
+            <div className="bg-background p-6 rounded-lg shadow-sm border-t-4 border-helper">
               <h3 className="text-xl font-bold text-primaryDark mb-3">Growth Opportunities</h3>
               <p className="text-primaryLight">
                 We invest in our team with training, mentorship, and clear paths for career advancement.
               </p>
             </div>
-            <div className="bg-white p-6 rounded-lg shadow-sm border-t-4 border-helper">
+            <div className="bg-primaryLight p-6 rounded-lg shadow-sm border-t-4 border-helper">
               <h3 className="text-xl font-bold text-primaryDark mb-3">Great Culture</h3>
-              <p className="text-primaryLight">
+              <p className="text-background">
                 Join a supportive, collaborative team that values work-life balance and celebrates success together.
               </p>
             </div>
@@ -121,9 +122,13 @@ const CareersPage: React.FC = () => {
                       </div>
                     ))}
                   </ul>
-                  <button className="bg-helper text-primaryDark font-bold py-2 px-6 rounded hover:bg-yellow-500 transition duration-300">
+                  <Link
+                    href="mailto:info@ecommercektm.com?subject=Application"
+                    passHref
+                    className='bg-helper text-background py-2 px-4 font-bold rounded-sm'
+                  >
                     Apply Now
-                  </button>
+                  </Link>
                 </div>
               </div>
             ))}
