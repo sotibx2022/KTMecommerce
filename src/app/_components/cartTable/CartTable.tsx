@@ -14,6 +14,7 @@ import toast from 'react-hot-toast';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { APIResponseError, APIResponseSuccess } from '@/app/services/queryFunctions/users';
 import { useUserDetails } from '@/app/context/UserDetailsContextComponent';
+import { Badge } from '@/components/ui/badge';
 const CartTable = () => {
   const { userDetails } = useUserDetails()
   const queryClient = useQueryClient();
@@ -70,14 +71,23 @@ const CartTable = () => {
       <div className="md:hidden space-y-4">
         {cartItems.map((item, index) => (
           <div key={index} className="bg-background p-4 rounded-lg shadow-helper border border-helper">
-            <div className="flex gap-4">
-              <img
+            <div className="flex  flex-col gap-4">
+              <div className='flex justify-between items-center'>
+                <img
                 src={item.image}
                 alt={item.productName}
                 className="w-20 h-20 object-cover rounded"
               />
-              <div className="flex-1">
-                <div className="flex justify-between items-start">
+              <Badge variant="success">
+                      {item.wishersId && userDetails?._id
+                        ? item.wishersId.toString() === userDetails._id.toString()
+                          ? "For Self"
+                          : "For Others"
+                        : "N/A" // Fallback if either ID is missing
+                      }
+                    </Badge>
+              </div>
+              <div className="flex justify-between items-start">
                   <LinkComponent
                     href={`/singleProduct/productIdentifier?id=${item.productId}&slug=${item.productName}`}
                     text={item.productName}
@@ -90,9 +100,7 @@ const CartTable = () => {
                     <FontAwesomeIcon icon={faTimes} className="text-lg" />
                   </button>
                 </div>
-                <div className="mt-2 text-primaryDark font-semibold">${item.price}</div>
-                <div className="flex items-center justify-between mt-3">
-                  <div className="flex items-center gap-2">
+              <div className="flex  items-center gap-2">
                     <button
                       className="bg-primaryDark text-white w-8 h-8 rounded-full flex items-center justify-center"
                       onClick={() => updateQuantity(item.productId, item.quantity - 1)}
@@ -108,15 +116,10 @@ const CartTable = () => {
                     >
                       <FaPlus className="text-xs" />
                     </button>
-                    <span className='text-primaryParagraph'>
-                      {item.wishersId && userDetails?._id
-                        ? item.wishersId.toString() === userDetails._id.toString()
-                          ? "For Self"
-                          : "For Others"
-                        : "N/A" // Fallback if either ID is missing
-                      }
-                    </span>
                   </div>
+              <div className="flex-1">
+                <div className="mt-2 text-primaryDark font-semibold">${item.price}</div>
+                <div className="flex items-center justify-between mt-3">
                 </div>
               </div>
             </div>

@@ -21,83 +21,57 @@ const Page = () => {
   const remarksData = remarks?.success ? remarks.data : null;
   console.log(remarksData);
   if (isPending) {
-    return <LoadingComponent/>
+    return <LoadingComponent />
   }
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold text-primaryDark mb-8">Your Reviews</h1>
       {remarksData && remarksData.length > 0 ? (
         <div className="space-y-6">
-        {remarksData.map((remark: IRemarksBase, index: number) => (
-          <div key={index} className="bg-background rounded-lg shadow-primaryLight p-6">
-            {/* Three-column layout for the main sections */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {/* Column 1: Reviewed By */}
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-primaryDark border-b border-helper pb-2">Reviewed By</h3>
-                <div className="flex items-start gap-4">
-                  {remark.reviewerImage && (
-                    <img
-                      src={remark.reviewerImage}
-                      alt={remark.reviewedBy.fullName}
-                      width={48}
-                      height={48}
-                      className="rounded-full object-cover"
-                    />
-                  )}
-                  <div>
-                    <h4 className="font-medium text-primaryDark">{remark.reviewedBy.fullName}</h4>
-                    <p className="text-primaryLight text-sm">{remark.reviewedBy.email}</p>
-                  </div>
-                </div>
-              </div>
-              {/* Column 2: Review Details */}
+          {remarksData.map((remark: IRemarksBase, index: number) => (
+            <div key={index} className="bg-background rounded-lg shadow-primaryLight p-6">
               <div className="space-y-4">
                 <h3 className="text-lg font-semibold text-primaryDark border-b border-helper pb-2">Review Details</h3>
                 <div className="flex flex-col gap-2 mb-2">
-                  <div className="bg-helper/10 px-3 py-1 rounded-full flex items-center">
-                    <DisplaySingleProductRating rating={parseInt(remark.rating)}/>
-                  </div>
+                    <DisplaySingleProductRating rating={parseInt(remark.rating)} />
                 </div>
                 <div>
                   <h4 className="text-sm font-bold text-primaryDark mb-1">Review Description</h4>
                   <p className="text-primaryDark">{remark.reviewDescription}</p>
                 </div>
-                <div className="text-sm text-primaryLight ">
-                    <span className='font-bold'>Created :</span> {format(remark.createdAt!, 'MMM dd, yyyy')}
-                    {remark.updatedAt && remark.updatedAt !== remark.createdAt && (
-                      <span className="ml-2">(<span className='font-bold'>Updated :</span> {format(remark.updatedAt, 'MMM dd, yyyy')})</span>
-                    )}
-                  </div>
+                <div className="text-sm text-primaryLight">
+                  <span className='font-bold'>Created :</span> {format(remark.createdAt!, 'MMM dd, yyyy')}
+                  {remark.updatedAt && remark.updatedAt !== remark.createdAt && (
+                    <span className="ml-2">(<span className='font-bold'>Updated :</span> {format(remark.updatedAt, 'MMM dd, yyyy')})</span>
+                  )}
+                </div>
               </div>
-              {/* Column 3: Reviewed For */}
-              <div className="space-y-4">
+              <div className="space-y-4 mt-6">
                 <h3 className="text-lg font-semibold text-primaryDark border-b border-helper pb-2">Reviewed For</h3>
-                  <img 
-                    src={remark.productIdentifier.productImage} 
-                    alt={remark.productIdentifier.productId} 
-                    className="w-32 h-32 object-contain border rounded-lg border-helper/20"
-                  />
-                 <div className='text-lg font-semibold text-primaryDark'>
-                 <LinkComponent 
+                <img
+                  src={remark.productIdentifier.productImage}
+                  alt={remark.productIdentifier.productId}
+                  className="w-32 h-32 object-contain border rounded-lg border-helper/20"
+                />
+                <div className='text-lg font-semibold text-primaryDark'>
+                  <LinkComponent
                     href={`/singleProduct/id:${remark.productIdentifier.productId}&slug:${remark.productIdentifier.productName}`}
                     text={remark.productIdentifier.productName}
                   />
-                 </div>
+                </div>
+              </div>
+              <div className="mt-6">
+                <ReviewActionButtons
+                  productIdentifier={{
+                    productId: remark.productIdentifier.productId.toString(),
+                    productName: remark.productIdentifier.productName,
+                    productImage: remark.productIdentifier.productImage
+                  }}
+                />
               </div>
             </div>
-            <div>
-            <ReviewActionButtons 
-  productIdentifier={{
-    productId: remark.productIdentifier.productId.toString(),
-    productName: remark.productIdentifier.productName,
-    productImage: remark.productIdentifier.productImage
-  }}
-/>
-            </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
       ) : (
         <div className="text-center py-12">
           <h3 className="text-xl text-helper">No reviews found</h3>

@@ -19,32 +19,7 @@ interface DeliveryDetailsProps {
 const UpdateDeliveryDetails = () => {
   const {userDetails} = useUserDetails()
   const userId = userDetails?._id
-  const { data: deliveryDetails, isPending } = useQuery<APIResponseSuccess<DeliveryDetailsProps> | APIResponseError>({
-    queryFn: async () => {
-      const response = await axios.get('/api/deliveryDetails')
-      return response.data
-    },
-    queryKey: ['deliveryDetails'],
-  })
   const formMethods = useForm<DeliveryDetailsProps>()
-useEffect(() => {
-  if (isPending) {
-    formMethods.setValue('shippingAddress.state', "Loading");
-    formMethods.setValue('shippingAddress.city', "Loading");
-    formMethods.setValue('shippingAddress.street', "Loading");
-  } else {
-    if (deliveryDetails?.success && deliveryDetails.data) {
-      const { state, city, street } = deliveryDetails.data.shippingAddress;
-      formMethods.setValue('shippingAddress.state', state);
-      formMethods.setValue('shippingAddress.city', city);
-      formMethods.setValue('shippingAddress.street', street);
-    } else {
-      formMethods.setValue('shippingAddress.state', "");
-      formMethods.setValue('shippingAddress.city', "");
-      formMethods.setValue('shippingAddress.street', "");
-    }
-  }
-}, [deliveryDetails, isPending, formMethods]);
   const createDeliveryDetailsMutation = useMutation<APIResponseSuccess | APIResponseError, AxiosError, DeliveryDetailsProps>({
     mutationFn: async (data) => {
       const response = await axios.post('/api/deliveryDetails', data, {

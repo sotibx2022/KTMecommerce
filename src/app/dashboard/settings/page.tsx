@@ -8,7 +8,7 @@ const SettingsPage = () => {
     <div className="max-w-[500px]">
       <h1 className="subHeading">Account Settings</h1>
       <Tabs defaultValue="delivery" className="w-full">
-        <TabsList className="grid w-[300px] grid-cols-3">
+        <TabsList className="grid w-full max-w-[300px] grid-cols-3">
           <TabsTrigger value="delivery">Delivery</TabsTrigger>
           <TabsTrigger value="password">Password</TabsTrigger>
           <TabsTrigger value="account">Account</TabsTrigger>
