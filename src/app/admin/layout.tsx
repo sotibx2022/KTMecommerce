@@ -15,14 +15,14 @@ export default async function Layout({ children }: { children: React.ReactNode }
           <SideBarWrapper>
             <UserDetailsContextComponent>
               <div className="adminChildrens w-full">
-{children}
+                {children}
               </div>
             </UserDetailsContextComponent>
           </SideBarWrapper>
         </ThemeProvider>
       </ProductDeleteProvider>
       <ConditionalComponents />
-      <Toaster/>
+      <Toaster />
     </DisplayComponents>
   );
 }

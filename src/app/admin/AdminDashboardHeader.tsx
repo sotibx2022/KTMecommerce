@@ -31,7 +31,7 @@ const AdminDashboardHeader = () => {
     setTheme(newValue ? "dark" : "light")
   }
   return (
-    <div className={`w-full bg-red-200 flex justify-between items-center px-4 ${generateClassName(theme)}`}>
+    <div className={` flex justify-between items-center px-4 ${generateClassName(theme)}`}>
       <LogoComponent />
       <div className="adminHeader flex items-center gap-2">
         <Badge variant="outline">

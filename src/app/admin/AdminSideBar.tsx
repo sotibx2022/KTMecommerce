@@ -7,7 +7,7 @@ import {
   SidebarTrigger,
   useSidebar,
 } from "@/components/ui/sidebar"
-import { 
+import {
   Package, ClipboardList, Users, Layers, Tags,
   MessageSquare, Home, ChevronLeft, ChevronRight,
   Mail, Briefcase, LayoutDashboard,
@@ -32,14 +32,14 @@ const sideBarItems = [
   { href: '/admin/wishlists', icon: Heart, text: 'Wishlists' },
   { href: '/admin/sliders', icon: ImageIcon, text: 'Sliders' },
   { href: '/admin/settings', icon: Settings, text: 'Settings' },
-  {href:'admin/adminUsers',icon:Users,text:'Admin Users'}
+  { href: 'admin/adminUsers', icon: Users, text: 'Admin Users' }
 ];
 const AdminSideBar = () => {
   const context = useContext(ThemeProviderContext);
-  if(!context){
+  if (!context) {
     throw new Error("Theme is not defined")
   }
-  const {theme} = context;
+  const { theme } = context;
   const router = useRouter()
   const pathName = usePathname()
   const {
@@ -50,9 +50,9 @@ const AdminSideBar = () => {
     toggleSidebar,
   } = useSidebar()
   return (
-    <div className={generateClassName(theme) }>
-      <Sidebar 
-        collapsible="icon" 
+    <div className={generateClassName(theme)}>
+      <Sidebar
+        collapsible="icon"
         className={`shadow-helper ${generateClassName(theme)}`}
         style={{ width: state === 'expanded' ? "16rem" : "4rem" }}
       >
@@ -72,17 +72,16 @@ const AdminSideBar = () => {
         <SidebarContent className={`p-2 ${generateClassName(theme)}`}>
           <nav className={`space-y-1 ${generateClassName(theme)}`}>
             {sideBarItems.map(({ href, icon: Icon, text }) => {
-              const isActive = pathName === href || 
-                            (href !== '/admin' && pathName.startsWith(href))
+              const isActive = pathName === href ||
+                (href !== '/admin' && pathName.startsWith(href))
               return (
                 <Button
                   key={href}
                   variant="nothing"
-                  className={`w-full justify-start ${
-                    isActive 
-                      ? `bg-primaryLight text-background` 
+                  className={`w-full justify-start ${isActive
+                      ? `bg-primaryLight text-background`
                       : `text-primaryDark hover:bg-primaryLight hover:text-background`
-                  }`}
+                    }`}
                   onClick={() => {
                     router.push(href)
                     if (isMobile && state === 'expanded') {
@@ -90,9 +89,9 @@ const AdminSideBar = () => {
                     }
                   }}
                 >
-                  <Icon className={`h-4 w-4 ${theme==='dark'&& "text-background"}`} />
+                  <Icon className={`h-4 w-4 ${theme === 'dark' && "text-background"}`} />
                   {state === 'expanded' && (
-                    <span className={`ml-2 ${theme==='dark'&& "text-background"}`}>
+                    <span className={`ml-2 ${theme === 'dark' && "text-background"}`}>
                       {text}
                     </span>
                   )}
@@ -125,7 +124,7 @@ const AdminSideBar = () => {
                 </p>
               </div>
             )}
-          </div>  
+          </div>
         </SidebarFooter>
       </Sidebar>
     </div>
