@@ -14,7 +14,9 @@ export default async function Layout({ children }: { children: React.ReactNode }
         <ThemeProvider>
           <SideBarWrapper>
             <UserDetailsContextComponent>
-            {children}
+              <div className="adminChildrens w-full">
+{children}
+              </div>
             </UserDetailsContextComponent>
           </SideBarWrapper>
         </ThemeProvider>

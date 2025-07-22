@@ -31,7 +31,8 @@ const sideBarItems = [
   { href: '/admin/carts', icon: ShoppingCart, text: 'Carts' },
   { href: '/admin/wishlists', icon: Heart, text: 'Wishlists' },
   { href: '/admin/sliders', icon: ImageIcon, text: 'Sliders' },
-  { href: '/admin/settings', icon: Settings, text: 'Settings' }
+  { href: '/admin/settings', icon: Settings, text: 'Settings' },
+  {href:'admin/adminUsers',icon:Users,text:'Admin Users'}
 ];
 const AdminSideBar = () => {
   const context = useContext(ThemeProviderContext);

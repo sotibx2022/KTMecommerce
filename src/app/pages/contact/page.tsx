@@ -52,8 +52,8 @@ const ContactPage = () => {
           <h2 className="text-2xl font-bold text-primaryDark mb-8">Ways to Contact Us</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {contactMethods.map((method, index) => (
-              <div 
-                key={index} 
+              <div
+                key={index}
                 className="bg-background  p-6 shadow-helper"
               >
                 <div className="flex items-center mb-4">
@@ -64,8 +64,8 @@ const ContactPage = () => {
                 </div>
                 <p className="text-primaryLight mb-3">{method.description}</p>
                 <div className="mb-3">
-                  <a 
-                    href={method.link} 
+                  <a
+                    href={method.link}
                     className="font-medium text-primaryDark hover:text-helper transition-colors"
                   >
                     {method.details}
@@ -88,8 +88,8 @@ const ContactPage = () => {
                 </p>
                 <div className="flex items-center">
                   <Phone className="w-5 h-5 text-helper mr-2" />
-                  <a 
-                    href="tel:9864890402" 
+                  <a
+                    href="tel:9864890402"
                     className="text-lg font-bold text-primaryDark hover:text-helper transition-colors"
                   >
                     9864890402 (24/7 Available)
