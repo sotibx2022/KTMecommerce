@@ -1,9 +1,11 @@
+import { connectToDB } from "@/config/db";
 import AdminModel from "@/models/admin.model";
 import { NextRequest, NextResponse } from "next/server";
-export async function GET(req: NextRequest) {
+export async function POST(req: NextRequest) {
     try {
-        // GET requests shouldn't have a body - consider using query params instead
-        const { adminUserName } = await req.json();
+        await connectToDB();
+        const body = await req.json();
+        const adminUserName = body.adminUserName?.adminUserName;
         if (!adminUserName) {
             return NextResponse.json(
                 { message: "Admin username is required", success: false },
@@ -17,10 +19,10 @@ export async function GET(req: NextRequest) {
                 { status: 404 }
             );
         }
-        const response = NextResponse.json({
-            message: "Admin is valid",
-            success: true,
-        }, { status: 200 });
+        const response = NextResponse.json(
+            { message: "Admin is valid", success: true },
+            { status: 200 }
+        );
         response.cookies.set({
             name: "validAdmin",
             value: "true",

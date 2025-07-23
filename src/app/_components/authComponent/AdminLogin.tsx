@@ -5,8 +5,11 @@ import { Info, Package, SlidersHorizontal, FileText, UserCog, Bell, StickyNote, 
 import Divider from './Divider'
 import PrimaryButton from '../primaryButton/PrimaryButton'
 import { useMutation } from '@tanstack/react-query'
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import toast from 'react-hot-toast'
+import LoadingComponent from '../loadingComponent/LoadingComponent'
+import { APIResponseError, APIResponseSuccess } from '@/app/services/queryFunctions/users'
+import { useRouter } from 'next/navigation'
 const crudItems = [
   { label: 'Products', icon: Package },
   { label: 'Sliders', icon: SlidersHorizontal },
@@ -23,16 +26,21 @@ const reportItems = [
   { label: 'Categories', icon: Boxes },
   { label: 'Subcategories', icon: ListTree }
 ]
+interface IValidateAdminData {
+  adminUserName: string
+}
 const AdminLogin = () => {
   const [adminUserName, setAdminUserName] = useState<string>("")
-  const validateAdminMutation = useMutation({
+  const router = useRouter()
+  const validateAdminMutation = useMutation<APIResponseSuccess | APIResponseError, AxiosError, IValidateAdminData>({
     mutationFn: async (adminUserName) => {
-      const response = await axios.post('/api/admin/validateAdmin', { adminUserName });
+      const response = await axios.post('/api/admin/validateAdmin', { ...adminUserName });
       return response.data
     },
     onSuccess: (response) => {
       if (response.success) {
-        toast.success(response.message)
+        toast.success(response.message);
+        router.push('/admin')
       } else {
         toast.error(response.message)
       }
@@ -42,10 +50,11 @@ const AdminLogin = () => {
     }
   })
   const validateAdmin = () => {
-    validateAdminMutation.mutate();
+    validateAdminMutation.mutate({ adminUserName });
   }
   return (
     <div className="flex flex-col gap-2 max-w-[800px]">
+      {validateAdminMutation.isPending && <LoadingComponent />}
       <label className="text-primaryLight flex items-center">
         <Info className="text-primaryLight mr-1 inline-flex" />
         Enter User ID or contact admin.
