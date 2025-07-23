@@ -1,7 +1,9 @@
 import { getProductsByCategory, getProductsByKeyword } from "@/app/services/apiFunctions/apiFunctions";
+import { connectToDB } from "@/config/db";
 import { NextRequest, NextResponse } from "next/server";
 export async function GET(request: NextRequest) {
   try {
+    connectToDB()
     const url = new URL(request.url);
     const searchParams = new URLSearchParams(url.search);
     const keyword = searchParams.get('keyword');

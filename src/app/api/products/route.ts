@@ -1,7 +1,9 @@
+import { connectToDB } from "@/config/db";
 import { productModel } from "@/models/products.model";
 import { NextRequest, NextResponse } from "next/server";
 export async function GET(request: NextRequest) {
   try {
+    connectToDB();
     const products = await productModel.find();
     if (products && products.length > 0) {
       return NextResponse.json({

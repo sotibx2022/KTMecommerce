@@ -18,11 +18,8 @@ export async function POST(req: NextRequest) {
                 { status: 404 }
             );
         }
-        const response = NextResponse.json(
-            { message: "Admin is valid", success: true },
-            { status: 200 }
-        );
-        response.cookies.set({
+        const response =  NextResponse.json({message:"Access granted. Taking you to the Admin Dashboard...",success:true,status:200})
+         response.cookies.set({
             name: "validAdmin",
             value: "true",
             httpOnly: true,
