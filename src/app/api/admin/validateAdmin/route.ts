@@ -4,8 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
     try {
         await connectToDB();
-        const body = await req.json();
-        const adminUserName = body.adminUserName?.adminUserName;
+        const { adminUserName } = await req.json();
         if (!adminUserName) {
             return NextResponse.json(
                 { message: "Admin username is required", success: false },
