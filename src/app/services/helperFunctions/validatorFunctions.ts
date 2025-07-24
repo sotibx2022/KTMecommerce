@@ -62,6 +62,17 @@ export const validateWord = (
     }
     return true;
   };
+  export const validateString=(fieldName:string,value:string,minValue:number,maxValue:number):string|true=>{
+if(!value) return `Please provide ${fieldName}`
+const trimmedValue = value.trim();
+ if (trimmedValue.length < minValue) {
+      return `Min. ${minValue} digits required in ${fieldName}.`;
+    }
+    if (trimmedValue.length > maxValue) {
+      return `Max. ${maxValue} digits allowed in ${fieldName}.`;
+    }
+    return true
+  }
   export const validateNumber = (
     fieldName: string,
     value: string,
