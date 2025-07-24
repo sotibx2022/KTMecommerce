@@ -86,6 +86,11 @@ const CartTableSummary = ({ items }: CartTableSummaryProps) => {
                 </Td>
                 <Td className="p-3">${item.price}</Td>
                 <Td className="p-3">
+                  <span className="border border-helper py-2 px-4 inline-block">
+                    {item.quantity}
+                  </span>
+                </Td>
+                <Td className="p-3">
                   <span className='text-primaryParagraph'>
                     {item.wishersId && userDetails?._id
                       ? item.wishersId.toString() === userDetails._id.toString()
@@ -93,11 +98,6 @@ const CartTableSummary = ({ items }: CartTableSummaryProps) => {
                         : "For Others"
                       : "N/A" // Fallback if either ID is missing
                     }
-                  </span>
-                </Td>
-                <Td className="p-3">
-                  <span className="border border-helper py-2 px-4 inline-block">
-                    {item.quantity}
                   </span>
                 </Td>
               </Tr>

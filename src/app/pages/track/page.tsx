@@ -1,31 +1,52 @@
 "use client"
+import { AbsoluteComponent } from '@/app/_components/absoluteComponent/AbsoluteComponent'
+import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponent'
+import OrderDetails from '@/app/_components/orderDetails/OrderDetails'
 import PageHeader from '@/app/_components/pageHeader/PageHeader'
 import PrimaryButton from '@/app/_components/primaryButton/PrimaryButton'
+import { DisplayContext } from '@/app/context/DisplayComponents'
 import { APIResponseError, APIResponseSuccess } from '@/app/services/queryFunctions/users'
+import { IOrderDetails } from '@/app/types/orders'
 import { useMutation } from '@tanstack/react-query'
 import axios, { AxiosError } from 'axios'
 import { Info, Truck } from 'lucide-react'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import toast from 'react-hot-toast'
 interface IOrderNumber {
   orderNumber: string
 }
-const page = () => {
+const Page = () => {
   const [orderNumber, setOrderNumber] = useState("");
-  const { mutate: trackOrderMutation, isPending } = useMutation<APIResponseSuccess | APIResponseError, AxiosError, IOrderNumber>({
-    mutationFn: async () => {
+  const [orderData, setOrderData] = useState<any>(null); // store returned order
+  const { visibleComponent, setVisibleComponent } = useContext(DisplayContext)
+  const { mutate: trackOrderMutation, isPending } = useMutation<
+    APIResponseSuccess<IOrderDetails> | APIResponseError,
+    AxiosError<APIResponseError>,
+    IOrderNumber
+  >({
+    mutationFn: async ({ orderNumber }) => {
       const response = await axios.post('/api/order/trackOrder', { orderNumber });
-      return response.data
+      return response.data;
     },
     onSuccess: (response) => {
-      toast.success(response.message)
+      if (response.success) {
+        toast.success(response.message);
+        setOrderData(response.data); // save order
+        setVisibleComponent('orderDetails')
+      } else {
+        toast.error(response.message);
+        setOrderData(null)
+      }
     },
     onError: (error) => {
-      toast.error(error.message)
+      toast.error(error?.response?.data?.message || "Something went wrong");
+      setOrderData(null);
     }
-  })
+  });
+  console.log(orderData)
   return (
-    <div className="pagewrapper container max-w-[500px] flex items-center justify-center">
+    <div className="pagewrapper container  flex items-center justify-center">
+      {isPending && <LoadingComponent />}
       <div>
         <PageHeader icon={Truck} headerText='Track Your Order' />
         <section className="trackOrderInput">
@@ -33,11 +54,25 @@ const page = () => {
             <Info className="text-primaryLight mr-1 inline-flex" />
             Enter Valid order Number
           </label>
-          <input type="text" placeholder="eg.E1D89589" className="formItem mb-3" value={orderNumber} onChange={(e) => setOrderNumber(e.target.value)} />
-          <PrimaryButton searchText='Check' onClick={() => trackOrderMutation} />
+          <input
+            type="text"
+            placeholder="eg.E1D89589"
+            className="formItem mb-3"
+            value={orderNumber}
+            onChange={(e) => setOrderNumber(e.target.value)}
+          />
+          <PrimaryButton
+            searchText={isPending ? 'Checking...' : 'Check'}
+            onClick={() => trackOrderMutation({ orderNumber })}
+          />
         </section>
+        {visibleComponent === 'orderDetails' &&
+          <AbsoluteComponent>
+            <OrderDetails order={orderData} expandAble={false} />
+          </AbsoluteComponent>
+        }
       </div>
     </div>
-  )
-}
-export default page
+  );
+};
+export default Page;
