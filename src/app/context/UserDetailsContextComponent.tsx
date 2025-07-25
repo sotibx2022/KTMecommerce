@@ -27,10 +27,12 @@ interface UserDetailsProviderProps {
 const UserDetailsContextComponent: React.FC<UserDetailsProviderProps> = ({ children }) => {
   const [userDetails, setUserDetails] = useState<IUserSafeData | null>(null);
   const [userDetailsLoading, setUserDetailsLoading] = useState<boolean>(true);
-  const { data: userData, isPending } = useQuery({
-    queryKey: ['user'],
-    queryFn: getUserDetails,
-  })
+const { data: userData, isPending } = useQuery({
+  queryKey: ['user'],
+  queryFn: getUserDetails,
+  staleTime: 300000,
+  gcTime: 1800000,
+})
   useEffect(() => {
     if (userData) {
       const userSafeData = {

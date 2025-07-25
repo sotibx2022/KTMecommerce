@@ -17,7 +17,7 @@ interface ISelectStatus {
   status: TOrderStatus
   orderId: string
 }
-const orderStatuses = ['ordered', 'pending', 'confirmed', 'delivered', 'cancelled',"Paid","Unpaid"] as const
+const orderStatuses = ['ordered', 'pending', 'confirmed', 'delivered', 'cancelled', "Paid", "Unpaid"] as const
 type UpdateOrderPayload = {
   orderId: string
   statusValue: string

@@ -23,10 +23,11 @@ import AccountOptionLinks from './AccountOptionLinks';
 import axios from 'axios';
 import { APIResponseError, APIResponseSuccess } from '@/app/services/queryFunctions/users';
 import { useUserDetails } from '@/app/context/UserDetailsContextComponent';
+import { useUser } from '@/app/hooks/queryHooks/useUser';
 const LoginComponent = () => {
   const { userDetails, setUserDetails } = useUserDetails()
   const [showPassword, setShowPassword] = useState(false);
-  const { refetch: refetchUserDetails } = useQuery({ queryKey: ['user'], queryFn: getUserDetails, enabled: false })
+  const {refetch} = useUser()
   const { visibleComponent, setVisibleComponent } = useContext(DisplayContext);
   const { register, formState: { errors }, handleSubmit } = useForm<LoginData>({ mode: 'onBlur' })
   const queryClient = useQueryClient()
@@ -50,7 +51,7 @@ const LoginComponent = () => {
       if (response.success) {
         setVisibleComponent("");
         toast.success(response.message);
-        const { data: userData } = await refetchUserDetails();
+        const { data: userData } = await refetch();
         await Promise.all([
           queryClient.setQueryData(['user'], userData),
           queryClient.invalidateQueries({ queryKey: ['user'] })

@@ -13,14 +13,13 @@ const MobileHeader = () => {
   const { userDetails, userDetailsLoading } = useUserDetails();
   const [showUserOptions, setShowUserOptions] = useState(false);
   return (
-    <header className="flex lg:hidden bg-background w-full">
+    <header className="flex lg:hidden bg-background w-full py-2">
       <div className="container flex justify-between items-center">
         <div className="logoImage">
           <img src='/assets/brand/mobilelogo.png' alt="mobilelogo" width={50} />
         </div>
         <div className="flex items-center gap-4">
-          {userDetailsLoading ? <div className="flex gap-4">
-            <SkletonText />
+          {userDetailsLoading ? <div className="flex gap-4 w-[30px] h-[30px] rounded-md bg-primaryLight animate-pulse">
           </div> : userDetails ?
             <div className="registeredUser flex flex-col gap-2 px-4">
               <div className="imageArea flex gap-2">
