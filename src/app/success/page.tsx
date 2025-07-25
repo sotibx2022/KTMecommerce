@@ -2,11 +2,11 @@ import Stripe from 'stripe';
 import { config } from '@/config/configuration';
 import PaymentSuccess from './PaymentSuccess';
 import PaymentError from './PaymentError';
-interface ISearchParams{
-    searchParams:Promise<{session_id:string}>
+interface ISearchParams {
+    searchParams: Promise<{ session_id: string }>
 }
 export default async function SuccessPage({
-    searchParams:maybeSearchParams,
+    searchParams: maybeSearchParams,
 }: ISearchParams) {
     const searchParams = await maybeSearchParams;
     const stripe = new Stripe(config.stripe.stripeSecretKey);
@@ -29,9 +29,9 @@ export default async function SuccessPage({
     } catch (error) {
         return (
             <PaymentError
-  error={new Error("Your payment UnsuccessFull")} 
-  orderId="ORD-12345" 
-/>
+                error={new Error("Your payment UnsuccessFull")}
+                orderId="ORD-12345"
+            />
         );
     }
 }
