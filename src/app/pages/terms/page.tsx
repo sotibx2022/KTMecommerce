@@ -1,9 +1,15 @@
+import PageHeader from '@/app/_components/pageHeader/PageHeader';
+import { FileText } from 'lucide-react';
 import Link from 'next/link';
 export default function Page() {
   return (
     <div className="bg-[var(--background)] min-h-screen py-12 container">
       <div className=" mb-12">
-        <h1 className="text-3xl font-bold text-[var(--primaryDark)] mb-4">Terms and Conditions</h1>
+        <PageHeader
+          headerText="Terms & Conditions"
+          icon={FileText}
+          headerTagline="Understand the rules and responsibilities that guide your experience with EcommerceKTM."
+        />
         <p className="text-lg text-[var(--primary)]">Last Updated: {new Date().toLocaleDateString()}</p>
       </div>
       <div className="space-y-10">

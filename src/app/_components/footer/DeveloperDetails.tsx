@@ -1,8 +1,11 @@
 import React from 'react'
 const DeveloperDetails = () => {
   return (
-    <div>
-        <h3 className='container text-center text-background py-4'>This product is Developed by Binayaraj soti</h3>
+    <div className='container text-center py-4'>
+      <h3 className='text-background mb-3'>This product is developed by Binayaraj Soti</h3>
+      <p className='text-muted small'>
+        <strong>Note:</strong> This is a learning project. Product descriptions may not accurately match names.
+      </p>
     </div>
   )
 }

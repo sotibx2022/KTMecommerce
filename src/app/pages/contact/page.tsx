@@ -1,3 +1,4 @@
+import PageHeader from '@/app/_components/pageHeader/PageHeader';
 import { Mail, Phone, MessageSquare, MapPin, Clock, AlertTriangle } from 'lucide-react';
 const ContactPage = () => {
   const contactMethods = [
@@ -37,13 +38,12 @@ const ContactPage = () => {
   return (
     <div className="bg-background min-h-screen">
       {/* Hero Section */}
-      <div className="bg-primaryDark text-white py-16 px-4">
-        <div className="container mx-auto text-center">
-          <h1 className="text-3xl md:text-4xl font-bold mb-4">Contact Us</h1>
-          <p className="text-xl max-w-2xl mx-auto">
-            We're here to help! Choose your preferred contact method or find quick answers below.
-          </p>
-        </div>
+      <div className="container mx-auto text-center">
+        <PageHeader
+          headerText="Contact Us"
+          icon={Mail}
+          headerTagline="Here to help — reach out through your preferred method or explore quick answers below."
+        />
       </div>
       {/* Main Content */}
       <div className="container mx-auto px-4 py-12">

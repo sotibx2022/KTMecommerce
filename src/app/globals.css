@@ -60,14 +60,14 @@ option {
   @apply text-primaryDark text-lg;
 }
 .subHeading {
-  @apply text-2xl text-primaryDark font-bold my-2 capitalize relative;
+  @apply text-2xl text-primaryDark font-bold my-4 capitalize relative;
 }
 .subHeading::before {
   @apply content-[''] absolute top-[110%] left-0 w-4 h-4 rounded-full;
   background: var(--helper);
 }
 .subHeading::after {
-  @apply content-[''] absolute top-[calc(110%_+_0.25rem)] left-2 w-[100px] h-2;
+  @apply content-[''] absolute top-[calc(110%_+_0.375rem)] left-2 w-[100px] h-1;
   background: var(--helper);
 }
 .primaryButton {

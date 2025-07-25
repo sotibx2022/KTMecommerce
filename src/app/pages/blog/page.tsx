@@ -1,6 +1,7 @@
 "use client"
+import PageHeader from '@/app/_components/pageHeader/PageHeader';
 import { Badge } from '@/components/ui/badge';
-import { Calendar, Clock, User, ChevronRight, Search } from 'lucide-react';
+import { Calendar, Clock, User, ChevronRight, Search, PenSquare } from 'lucide-react';
 import { useState } from 'react';
 interface BlogPost {
   id: number;
@@ -90,14 +91,11 @@ const BlogPage = () => {
   return (
     <div className="bg-background min-h-screen">
       {/* Page Header */}
-      <div className="bg-primaryDark text-white py-16 px-4">
-        <div className="container mx-auto text-center">
-          <h1 className="text-3xl md:text-4xl font-bold mb-4">Ecommerce KTM Blog</h1>
-          <p className="text-xl max-w-2xl mx-auto">
-            Insights, trends, and tips for smarter online shopping
-          </p>
-        </div>
-      </div>
+      <PageHeader 
+  headerText="Our Blog" 
+  icon={PenSquare} 
+  headerTagline="Explore insights, stories, and updates from the world of EcommerceKTM." 
+/>
       {/* Main Content */}
       <div className="container mx-auto px-4 py-12">
         {/* Search and Filter */}

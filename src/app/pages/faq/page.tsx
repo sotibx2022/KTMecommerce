@@ -1,5 +1,6 @@
 "use client"
-import { ChevronDown, Package, CreditCard, Truck, RefreshCw, Shield } from 'lucide-react';
+import PageHeader from '@/app/_components/pageHeader/PageHeader';
+import { ChevronDown, Package, CreditCard, Truck, RefreshCw, Shield, HelpCircle } from 'lucide-react';
 import { useState } from 'react';
 const FAQPage = () => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -77,14 +78,11 @@ const FAQPage = () => {
   return (
     <div className="bg-background min-h-screen">
       {/* Page Header */}
-      <div className="bg-primaryDark text-white py-16 px-4">
-        <div className="container mx-auto text-center">
-          <h1 className="text-3xl md:text-4xl font-bold mb-4">Frequently Asked Questions</h1>
-          <p className="text-xl max-w-2xl mx-auto">
-            Find answers to common questions about shopping with Ecommerce KTM
-          </p>
-        </div>
-      </div>
+<PageHeader 
+  headerText="Frequently Asked Questions" 
+  icon={HelpCircle} 
+  headerTagline="Find quick answers to common questions about EcommerceKTM's services, policies, and more." 
+/>
       {/* Main Content */}
       <div className="container mx-auto px-4 py-12">
         {/* FAQ Categories */}

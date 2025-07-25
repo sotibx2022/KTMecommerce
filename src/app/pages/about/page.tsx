@@ -1,8 +1,9 @@
-import { Users, Globe, Award, Shield, Truck, Heart } from 'lucide-react';
+import PageHeader from '@/app/_components/pageHeader/PageHeader';
+import { Users, Globe, Award, Shield, Truck, Heart, Mail, BookOpen } from 'lucide-react';
 const AboutPage = () => {
   const stats = [
-    { value: "10,000+", label: "Happy Customers" },
-    { value: "500+", label: "Local Sellers" },
+    { value: "1,000+", label: "Happy Customers" },
+    { value: "50+", label: "Local Sellers" },
     { value: "100%", label: "Secure Payments" },
     { value: "24/7", label: "Customer Support" }
   ];
@@ -67,14 +68,11 @@ const AboutPage = () => {
   return (
     <div className="bg-background min-h-screen">
       {/* Hero Section */}
-      <div className="bg-primaryDark text-white py-20 px-4">
-        <div className="container mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">Our Story</h1>
-          <p className="text-xl max-w-3xl mx-auto">
-            Revolutionizing online shopping in Nepal with a local touch and global standards
-          </p>
-        </div>
-      </div>
+<PageHeader 
+  headerText="Our Story" 
+  icon={BookOpen} 
+  headerTagline="Revolutionizing online shopping in Nepal with a local touch and global standards." 
+/>
       {/* Main Content */}
       <div className="container mx-auto px-4 py-16">
         {/* Mission Section */}

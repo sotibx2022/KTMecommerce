@@ -1,4 +1,5 @@
-import { ChevronRight } from 'lucide-react';
+import PageHeader from '@/app/_components/pageHeader/PageHeader';
+import { ChevronRight, Star } from 'lucide-react';
 import Link from 'next/link';
 import React from 'react';
 interface JobPosition {
@@ -67,9 +68,11 @@ const CareersPage: React.FC = () => {
       {/* Why Join Us Section */}
       <section className="py-12 px-4">
         <div className="container mx-auto">
-          <h2 className="text-3xl font-bold text-primaryDark mb-8 text-center">
-            Why Work at Ecommerce KTM?
-          </h2>
+          <PageHeader
+            headerText="Why Choose EcommerceKTM?"
+            icon={Star}
+            headerTagline="Discover a thriving work environment and unmatched service excellence in the heart of the city."
+          />
           <div className="grid md:grid-cols-3 gap-6">
             <div className="bg-primaryLight p-6 rounded-lg shadow-sm border-t-4 border-helper">
               <h3 className="text-xl font-bold text-primaryDark mb-3">Impactful Work</h3>

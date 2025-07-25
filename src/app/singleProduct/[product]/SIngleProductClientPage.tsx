@@ -16,6 +16,7 @@ import { Minus, Plus } from 'lucide-react';
 import { IProductDisplay } from '@/app/types/products';
 import { APIResponseError, APIResponseSuccess } from '@/app/services/queryFunctions/users';
 import { useSearchParams } from 'next/navigation';
+import { Button } from '@/components/ui/button';
 const SingleProductPageClient = () => {
     const searchParams = useSearchParams();
     const productId = searchParams.get("id") || ""
@@ -80,32 +81,29 @@ const SingleProductPageClient = () => {
                             size={24}
                         />
                     )}
-                    <SecondaryButton
-                        text='Add Review'
-                        onClick={() => setVisibleComponent('addReview')}
-                    />
-                </div>
-                {showReviews && productIdentifier.productLoadingComplete && (
-                    <>
-                        {(isRemarksPending || isRemarksFetching) ? (
-                            <RemarksSkeleton />
-                        ) : (
-                            remarks?.success && remarks.data && (
-                                <RemarksDisplay remarks={remarks.data} />
-                            )
-                        )}
-                    </>
-                )}
-                {visibleComponent === 'addReview' && productIdentifier.productLoadingComplete && (
-                    <AddSingleProductReviews
-                        readOnly={userDetails === null}
-                        productIdentifier={productIdentifier}
-                    />
-                )}
-                {visibleComponent === 'editReview' && productIdentifier.productLoadingComplete && (
-                    <EditSingleProductReview productIdentifier={productIdentifier} />
-                )}
+                    <Button variant={'outline'} onClick={() => setVisibleComponent('addReview')}>Add Review</Button>
             </div>
+            {showReviews && productIdentifier.productLoadingComplete && (
+                <>
+                    {(isRemarksPending || isRemarksFetching) ? (
+                        <RemarksSkeleton />
+                    ) : (
+                        remarks?.success && remarks.data && (
+                            <RemarksDisplay remarks={remarks.data} />
+                        )
+                    )}
+                </>
+            )}
+            {visibleComponent === 'addReview' && productIdentifier.productLoadingComplete && (
+                <AddSingleProductReviews
+                    readOnly={userDetails === null}
+                    productIdentifier={productIdentifier}
+                />
+            )}
+            {visibleComponent === 'editReview' && productIdentifier.productLoadingComplete && (
+                <EditSingleProductReview productIdentifier={productIdentifier} />
+            )}
+        </div >
         </>
     );
 };
