@@ -9,7 +9,7 @@ const PageHeader: React.FC<IPageHeader> = ({ icon: Icon, headerText, headerTagli
     return (
         <div className="my-4 flex flex-col sm:flex-row items-center gap-4 sm:gap-6 justify-center text-center">
             {Icon && <div className="mb-4 sm:mb-8">
-                 <div className="w-16 sm:w-20 h-16 sm:h-20 rounded-xl flex items-center justify-center shadow-primaryDark">
+                <div className="w-16 sm:w-20 h-16 sm:h-20 rounded-xl flex items-center justify-center shadow-primaryDark">
                     <Icon className="w-8 sm:w-10 h-8 sm:h-10 text-primaryDark" />
                 </div>
             </div>}

@@ -60,14 +60,14 @@ option {
   @apply text-primaryDark text-lg;
 }
 .subHeading {
-  @apply text-2xl text-primaryDark font-bold mb-[6rem] capitalize relative;
+  @apply text-2xl text-primaryDark font-bold my-2 capitalize relative;
 }
 .subHeading::before {
   @apply content-[''] absolute top-[110%] left-0 w-4 h-4 rounded-full;
   background: var(--helper);
 }
 .subHeading::after {
-  @apply content-[''] absolute top-[calc(110%_+_0.25rem)] left-2 w-[30%] h-2;
+  @apply content-[''] absolute top-[calc(110%_+_0.25rem)] left-2 w-[100px] h-2;
   background: var(--helper);
 }
 .primaryButton {
@@ -102,7 +102,7 @@ option {
   @apply max-w-[90vw] mx-auto;
 }
 .link {
-  @apply text-helper underline text-lg transition-colors duration-300 cursor-pointer;
+  @apply text-helper  text-lg transition-colors duration-300 cursor-pointer;
 }
 .link:hover {
   @apply text-helper font-semibold
@@ -123,7 +123,7 @@ option {
   @apply w-full p-3 border border-helper bg-background rounded-md shadow-helper shadow-sm focus:outline-none text-primaryDark
 }
 .price-highlight {
-  @apply text-orange-500 font-bold text-lg bg-gradient-to-r from-yellow-100 to-yellow-300 p-2 rounded-md shadow-md text-center;
+  @apply text-background font-bold text-lg bg-gradient-to-r from-primaryDark to-helper p-2 rounded-md shadow-md text-center;
 }
 .selectInput {
   @apply w-full bg-primaryDark p-2 text-background rounded-lg focus:outline-none focus:bg-primaryDark focus:text-background
