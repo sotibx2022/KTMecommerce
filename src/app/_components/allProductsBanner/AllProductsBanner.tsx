@@ -3,6 +3,8 @@ import React, { useEffect, useState, useCallback } from 'react'
 import PrimaryButton from '../primaryButton/PrimaryButton'
 import BannerHeading from './BannerHeading'
 import Link from 'next/link'
+import PageHeader from '../pageHeader/PageHeader'
+import { Boxes } from 'lucide-react'
 const AllProductsBanner = () => {
   const [smallScreen, setSmallScreen] = useState(false)
   const findScreenSize = useCallback(() => {
@@ -20,8 +22,8 @@ const AllProductsBanner = () => {
     }
   }, [findScreenSize])
   return (
-    <div className='screen-max-width min-h-[90vh] flex-center flex-col'>
-      <div className="bannerHeading mb-4 flex flex-col justify-center items-center">
+    <div className='screen-max-width mt-4 flex-center flex-col'>
+      <div className="bannerHeading flex flex-col justify-center items-center">
       </div>
       <video
         autoPlay
@@ -31,9 +33,7 @@ const AllProductsBanner = () => {
         src={smallScreen ? "/assets/videos/smallHero.mp4" : "/assets/videos/hero.mp4"}
         className='max-h-[50vh] mb-4'
       />
-      <BannerHeading
-        text1="Explore Our Full Range"
-      />
+      <PageHeader headerText={'Explore Our Full Range'}/>
       <Link href='/catalog/advanceSearch?category=mobile'>
         <PrimaryButton searchText='Browse' /></Link>
     </div>
