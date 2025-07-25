@@ -14,6 +14,10 @@ const _config = {
     googleClientId:process.env.GOOGLE_CLIENT_ID!,
     googleClientSecret:process.env.GOOGLE_CLIENT_SECRET!
   },
+  stripe:{
+    stripeSecretKey:process.env.STRIPE_SECRET_KEY!,
+    stripePublishableKey:process.env.STRIPE_PUBLISHABLE_KEY!
+  },
   cookieSecret:process.env.NEXTJS_COOKIE_SECRET!,
   tokenSecret:process.env.TOKENSECRET!
 };

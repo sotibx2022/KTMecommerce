@@ -6,9 +6,15 @@ import { ApiError } from "next/dist/server/api-utils";
 export const postOrderDetails = async (
   orderDetails: IOrderDetails
 ): Promise<APIResponseSuccess | APIResponseError> => {
+  let postUrl;
+  if (orderDetails.paymentMethod === 'online') {
+    postUrl = "/api/payment/createCheckOutSession"
+  } else {
+    postUrl = '/api/order'
+  }
   try {
     const response = await axios.post(
-      '/api/order',
+      postUrl,
       orderDetails,
       {
         headers: { 'Content-Type': 'application/json' },

@@ -39,7 +39,6 @@ const PaymentMethod = () => {
       {errors.paymentMethod?.message && (
         <SubmitError message={errors.paymentMethod.message} />
       )}
-      {paymentMethod === 'online' && <PaymentCardDetails />}
     </div>
   )
 }

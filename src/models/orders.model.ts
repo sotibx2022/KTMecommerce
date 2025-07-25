@@ -38,7 +38,7 @@ const OrderSchema = new Schema<IOrderDetails>(
     }],
     status: {
       type: String,
-      enum: ["ordered", "pending", "confirmed", "delivered", "cancelled"],
+      enum: ["ordered","Paid", "Unpaid", "confirmed", "delivered", "cancelled"],
       default: "ordered"
     },
     paymentMethod: {
@@ -59,17 +59,6 @@ const OrderSchema = new Schema<IOrderDetails>(
         required: true,
       },
       phone: { type: String, required: true }
-    },
-    cardDetails: {
-      cardHolderName: String,
-      cardNumber: {
-        type: String,
-      },
-      cardExpiry: String,
-      cvvNumber: {
-        type: String,
-        select: false // Never store raw CVV in production!
-      }
     },
     orderSummary: {
       totalItems: { type: Number, required: true }, totalCost: { type: Number, required: true }, discount: { type: Number, required: true }, shippingPrice: { type: Number, required: true }, grossTotal: { type: Number, required: true }
