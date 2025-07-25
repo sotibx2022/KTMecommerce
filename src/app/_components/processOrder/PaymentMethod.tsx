@@ -1,6 +1,5 @@
 "use client"
 import { useFormContext, useWatch } from "react-hook-form"
-import PaymentCardDetails from "./PaymentCardDetails"
 import SubmitError from "../submit/SubmitError"
 import { useState } from "react"
 import { IOrderDetails } from "@/app/types/orders"
