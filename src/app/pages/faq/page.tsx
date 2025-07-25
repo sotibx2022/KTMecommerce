@@ -78,11 +78,11 @@ const FAQPage = () => {
   return (
     <div className="bg-background min-h-screen">
       {/* Page Header */}
-<PageHeader 
-  headerText="Frequently Asked Questions" 
-  icon={HelpCircle} 
-  headerTagline="Find quick answers to common questions about EcommerceKTM's services, policies, and more." 
-/>
+      <PageHeader
+        headerText="Frequently Asked Questions"
+        icon={HelpCircle}
+        headerTagline="Find quick answers to common questions about EcommerceKTM's services, policies, and more."
+      />
       {/* Main Content */}
       <div className="container mx-auto px-4 py-12">
         {/* FAQ Categories */}

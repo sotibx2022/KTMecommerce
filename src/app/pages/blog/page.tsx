@@ -91,11 +91,11 @@ const BlogPage = () => {
   return (
     <div className="bg-background min-h-screen">
       {/* Page Header */}
-      <PageHeader 
-  headerText="Our Blog" 
-  icon={PenSquare} 
-  headerTagline="Explore insights, stories, and updates from the world of EcommerceKTM." 
-/>
+      <PageHeader
+        headerText="Our Blog"
+        icon={PenSquare}
+        headerTagline="Explore insights, stories, and updates from the world of EcommerceKTM."
+      />
       {/* Main Content */}
       <div className="container mx-auto px-4 py-12">
         {/* Search and Filter */}
@@ -109,8 +109,8 @@ const BlogPage = () => {
                   key={category}
                   onClick={() => setActiveCategory(category)}
                   className={`px-4 py-2 rounded-full text-sm font-medium ${activeCategory === category
-                      ? 'bg-primaryDark text-white'
-                      : 'bg-white text-primaryDark border border-primaryLight hover:bg-primaryLight/10'
+                    ? 'bg-primaryDark text-white'
+                    : 'bg-white text-primaryDark border border-primaryLight hover:bg-primaryLight/10'
                     }`}
                 >
                   {category}

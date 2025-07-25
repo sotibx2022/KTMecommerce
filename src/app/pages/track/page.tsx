@@ -6,7 +6,7 @@ import PageHeader from '@/app/_components/pageHeader/PageHeader'
 import PrimaryButton from '@/app/_components/primaryButton/PrimaryButton'
 import SubmitError from '@/app/_components/submit/SubmitError'
 import { DisplayContext } from '@/app/context/DisplayComponents'
-import { validateString} from '@/app/services/helperFunctions/validatorFunctions'
+import { validateString } from '@/app/services/helperFunctions/validatorFunctions'
 import { APIResponseError, APIResponseSuccess } from '@/app/services/queryFunctions/users'
 import { IOrderDetails } from '@/app/types/orders'
 import { useMutation } from '@tanstack/react-query'
@@ -55,7 +55,11 @@ const Page = () => {
       <div className="pagewrapper container  flex items-center justify-center">
         {isPending && <LoadingComponent />}
         <div>
-          <PageHeader icon={Truck} headerText='Track Your Order' />
+          <PageHeader
+            icon={Truck}
+            headerText="Track Your Order"
+            headerTagline="Stay updated on your delivery status in real-time, right from dispatch to your doorstep."
+          />
           <form className="trackOrderInput" >
             <label className="text-primaryLight flex items-center">
               <Info className="text-primaryLight mr-1 inline-flex" />

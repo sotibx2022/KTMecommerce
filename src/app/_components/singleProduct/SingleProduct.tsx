@@ -15,17 +15,16 @@ import SocialMediaSharing from "../socialMedia/SocialMediaSharing";
 import { DisplayContext } from "@/app/context/DisplayComponents";
 import ProductImage from "./ProductImage";
 import LoginComponent from "../authComponent/LoginComponent";
-import { IWishListItem, IWishListItemDisplay } from "@/app/types/wishlist";
-import { addToWishList, IWishListState } from "@/app/redux/wishListSlice";
+import { IWishListItemDisplay } from "@/app/types/wishlist";
 import useAddItemToWishList from "./useAddItemToWishList";
 import ProductTitle from "../productCard/ProductTitle";
 import ProductInformations from "./ProductInformations";
-import StaggerWrapper from "../animation/StaggerWrapper";
 import { useUserDetails } from "@/app/context/UserDetailsContextComponent";
+import { IWishListState } from "@/app/redux/wishListSlice";
 const SingleProduct: React.FC<IProductDisplay> = ({ ...productDetails }) => {
   const { visibleComponent, setVisibleComponent } = useContext(DisplayContext);
   const cartItems = useSelector((state: { cart: CartState }) => state.cart.cartItems);
-  const wishListItems = useSelector((state: { wishList: IWishListState }) => state.wishList.wishListItems)
+  const wishListItems = useSelector((state: { wishList: IWishListState }) => state.wishList.wishListItems);
   const { userDetails } = useUserDetails();
   const {
     productName,
@@ -54,13 +53,13 @@ const SingleProduct: React.FC<IProductDisplay> = ({ ...productDetails }) => {
     category,
     userId,
     wishersId: userDetails?._id.toString() || ""
-  }
+  };
   const dataForCartItem: ICartItem = {
     ...baseData,
     quantity,
   };
-  const isAlreadyOnCart = cartItems && cartItems.length > 0 && cartItems.some((item: ICartItem) => item.productId === _id);
-  const isAlreadyOnWishList = wishListItems && wishListItems.length > 0 && wishListItems.some((item: IWishListItemDisplay) => item.productId === _id);
+  const isAlreadyOnCart = cartItems?.some((item: ICartItem) => item.productId === _id);
+  const isAlreadyOnWishList = wishListItems?.some((item: IWishListItemDisplay) => item.productId === _id);
   const addItemToCart = useAddItemToCart();
   const addItemsToWishList = useAddItemToWishList();
   return (
@@ -68,66 +67,58 @@ const SingleProduct: React.FC<IProductDisplay> = ({ ...productDetails }) => {
       <div className="container">
         <div className="flex-col md:flex-row flex justify-between items-center py-4 gap-4 min-h-[50vh]">
           <div className="singleProductLeft md:w-1/2 w-full">
-            <StaggerWrapper staggerDelay={0.5}>
-              <ProductTitle productName={productName} productHighlight={{
-                isNewArrivals,
-                isTrendingNow,
-                isTopSell,
-                isOfferItem
-              }} />
-            </StaggerWrapper>
-            <StaggerWrapper staggerDelay={1}>
-              <div className="overallRatingArea my-2">
-                <DisplaySingleProductRating rating={overallRating} />
-              </div>
-            </StaggerWrapper>
-            <StaggerWrapper staggerDelay={1.5}>
-              <p className="primaryParagraph">{productDescription}</p>
-            </StaggerWrapper>
-            <StaggerWrapper staggerDelay={2}>
-              <div className="productDetails flex items-center gap-4 my-2">
-                <p className="text-background bg-helper p-2 rounded-md">Brand: {brand}</p>
-                <h3
-                  className={`text-background p-2 rounded-md ${stockAvailability ? "bg-green-500" : "bg-red-500"
-                    }`}
-                >
-                  {stockAvailability ? "In Stock" : "Out of Stock"}
-                </h3>
-                <p className="price-highlight">${price}</p>
-              </div>
-            </StaggerWrapper>
-            <h2 className="text-xl font-semibold mb-4 text-primaryDark">Features</h2>
-            <StaggerWrapper staggerDelay={2.5}>
-              <ul className="primaryList">
-                {productFeatures &&
-                  productFeatures.map((feature: string, index: number) => (
-                    <li key={index} className="text-primaryDark flex items-center gap-1">
-                      <FontAwesomeIcon icon={faCaretRight} className="mr-2" />
-                      <p>{feature}</p>
-                    </li>
-                  ))}
-              </ul>
-            </StaggerWrapper>
-          </div>
-          <StaggerWrapper staggerDelay={3}>
-            <div className="md:w-1/2  h-auto">
-              <img src={image} alt={productName} className="max-w-[300px] h-auto rounded-lg" loading="lazy" />
+            <ProductTitle productName={productName} productHighlight={{
+              isNewArrivals,
+              isTrendingNow,
+              isTopSell,
+              isOfferItem
+            }} />
+            <div className="overallRatingArea my-2">
+              <DisplaySingleProductRating rating={overallRating} />
             </div>
-          </StaggerWrapper>
+            <p className="primaryParagraph">{productDescription}</p>
+            <div className="productDetails flex items-center gap-4 my-2">
+              <p className="text-background bg-helper p-2 rounded-md">Brand: {brand}</p>
+              <h3 className={`text-background p-2 rounded-md ${stockAvailability ? "bg-green-500" : "bg-red-500"}`}>
+                {stockAvailability ? "In Stock" : "Out of Stock"}
+              </h3>
+              <p className="price-highlight">${price}</p>
+            </div>
+            <h2 className="text-xl font-semibold mb-4 text-primaryDark">Features</h2>
+            <ul className="primaryList">
+              {productFeatures?.map((feature: string, index: number) => (
+                <li key={index} className="text-primaryDark flex items-center gap-1">
+                  <FontAwesomeIcon icon={faCaretRight} className="mr-2" />
+                  <p>{feature}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="md:w-1/2 h-auto">
+            <img
+              src={image}
+              alt={productName}
+              className="max-w-[300px] h-auto rounded-lg"
+              loading="lazy"
+            />
+          </div>
         </div>
-        <StaggerWrapper staggerDelay={3.5}>
-          <div className="flex flex-col gap-2">
-            <div className="productActions flex gap-4 my-4 items-center justify-center md:justify-start">
+        <div className="flex flex-col gap-2">
+          <div className="productActions flex gap-4 my-4 items-center justify-center md:justify-start">
             <PrimaryButton
               searchText="To Cart"
               onClick={() => userDetails ? addItemToCart([dataForCartItem]) : setVisibleComponent('login')}
               disabled={isAlreadyOnCart || !stockAvailability}
             />
-            <PrimaryButton searchText="To WishList"
+            <PrimaryButton
+              searchText="To WishList"
               onClick={() => userDetails ? addItemsToWishList(baseData) : setVisibleComponent('login')}
               disabled={isAlreadyOnWishList}
             />
-            <PrimaryButton searchText="To Others" onClick={() => setVisibleComponent('productImage')} />
+            <PrimaryButton
+              searchText="To Others"
+              onClick={() => setVisibleComponent('productImage')}
+            />
           </div>
           <ProductInformations
             productInformations={{
@@ -136,8 +127,7 @@ const SingleProduct: React.FC<IProductDisplay> = ({ ...productDetails }) => {
               isAlreadyOnWishList
             }}
           />
-          </div>
-        </StaggerWrapper>
+        </div>
         <Toaster />
       </div>
       {visibleComponent === 'login' && <LoginComponent />}
