@@ -33,3 +33,14 @@
 # Ecommerce Website Database Modelling
 Welcome to the database modeling section of the ecommerce website. You can click on the following links to view detailed information:  
 - [Database Modeling Details](dbmodeling.md)  
+# Payment Integration (07/25/2025)
+Implemented Stripe test payment as Nepali gateways (Khalti/eSewa/ConnectIPS) require business documents.
+Payment Flow:
+Order details sent to Stripe API
+Order saved to DB with status: "Unpaid"
+Stripe session created with orderId metadata
+User enters test card details
+On success:
+Redirects to /success page
+Retrieves orderId from Stripe metadata
+Updates order status to "Paid"
