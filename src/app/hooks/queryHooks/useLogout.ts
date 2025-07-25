@@ -22,7 +22,6 @@ export const useLogout = () => {
       try {
         setVisibleComponent('')
         setUserDetails(null);
-        localStorage.removeItem('userSafeData');
         await Promise.all([
           queryClient.setQueryData(['user'], null),
           queryClient.setQueryData(['cartItems'], null),

@@ -27,7 +27,7 @@ import { useUser } from '@/app/hooks/queryHooks/useUser';
 const LoginComponent = () => {
   const { userDetails, setUserDetails } = useUserDetails()
   const [showPassword, setShowPassword] = useState(false);
-  const {refetch} = useUser()
+  const { refetch } = useUser()
   const { visibleComponent, setVisibleComponent } = useContext(DisplayContext);
   const { register, formState: { errors }, handleSubmit } = useForm<LoginData>({ mode: 'onBlur' })
   const queryClient = useQueryClient()
