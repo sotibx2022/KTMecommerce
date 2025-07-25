@@ -2,11 +2,13 @@ import Stripe from 'stripe';
 import { config } from '@/config/configuration';
 import PaymentSuccess from './PaymentSuccess';
 import PaymentError from './PaymentError';
+interface ISearchParams{
+    searchParams:Promise<{session_id:string}>
+}
 export default async function SuccessPage({
-    searchParams,
-}: {
-    searchParams: { session_id: string }
-}) {
+    searchParams:maybeSearchParams,
+}: ISearchParams) {
+    const searchParams = await maybeSearchParams;
     const stripe = new Stripe(config.stripe.stripeSecretKey);
     try {
         if (!searchParams.session_id) {
