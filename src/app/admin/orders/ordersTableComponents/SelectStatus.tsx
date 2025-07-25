@@ -12,11 +12,12 @@ import { Save, Loader2 } from 'lucide-react'
 import React, { useState } from 'react'
 import toast from 'react-hot-toast'
 import { APIResponseError, APIResponseSuccess } from '@/app/services/queryFunctions/users'
+import { TOrderStatus } from '@/app/types/orders'
 interface ISelectStatus {
-  status: 'ordered' | 'pending' | 'confirmed' | 'delivered' | 'cancelled'
+  status: TOrderStatus
   orderId: string
 }
-const orderStatuses = ['ordered', 'pending', 'confirmed', 'delivered', 'cancelled'] as const
+const orderStatuses = ['ordered', 'pending', 'confirmed', 'delivered', 'cancelled',"Paid","Unpaid"] as const
 type UpdateOrderPayload = {
   orderId: string
   statusValue: string
