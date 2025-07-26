@@ -1,19 +1,30 @@
-import { faHeart, faLuggageCart, faSearch } from "@fortawesome/free-solid-svg-icons";
+"use client"
+import { Search, ShoppingCart, Heart } from "lucide-react";
 import IconButton from "../../iconText/IconButton";
-import IconGroup from "../../iconText/IconGroup";
-export const ActionIcons = ({ 
-  onSearch, 
-  onCart, 
+export const ActionIcons = ({
+  onSearch,
+  onCart,
   onWishlist,
-  cartCount 
-}: { 
-  onSearch: () => void, 
-  onCart: () => void, 
+  cartCount
+}: {
+  onSearch: () => void,
+  onCart: () => void,
   onWishlist: () => void,
-  cartCount: number 
+  cartCount: number
 }) => (
-  <div className="flex justify-center mt-4 gap-2">
-    <IconButton icon={faSearch} name="Search" onClick={onSearch} />
-    <IconGroup />
+  <div className="flex justify-between w-full"> 
+    <IconButton icon={<Search />} name="Search" onClick={onSearch} />
+    <IconButton
+      icon={<ShoppingCart />}
+      name="Cart"
+      onClick={onCart}
+      number={cartCount}
+    />
+    <IconButton
+      icon={<Heart />}
+      name="Wishlist"
+      onClick={onWishlist}
+      number={0} // Replace with actual wishlist count if needed
+    />
   </div>
 );

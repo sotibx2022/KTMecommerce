@@ -1,67 +1,31 @@
-import { DisplayContext } from '@/app/context/DisplayComponents';
-import { CartState, clearCartItems } from '@/app/redux/cartSlice';
-import { clearWishListItems, IWishListState } from '@/app/redux/wishListSlice';
+"use client"
 import { useRouter } from 'next/navigation';
-import React, { useContext, useEffect } from 'react'
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import IconButton from './IconButton';
-import { faHeart, faLuggageCart } from '@fortawesome/free-solid-svg-icons';
-import LoginComponent from '../authComponent/LoginComponent';
-import { useUserDetails } from '@/app/context/UserDetailsContextComponent';
+import { ShoppingCart, Heart } from 'lucide-react'; // Import Lucide icons
 const IconGroup = () => {
-const {userDetails} = useUserDetails();
-    const dispatch = useDispatch()
-    useEffect(()=>{
-        if(!userDetails){
-dispatch(clearCartItems());
-dispatch(clearWishListItems())
-        }
-    },[userDetails])
-    const {visibleComponent,setVisibleComponent} = useContext(DisplayContext)
-    const {cartItems,loading:cartItemsLoading} = useSelector((state: { cart: CartState }) => state.cart);
-      const {wishListItems,wishListLoading} = useSelector((state:{wishList:IWishListState})=>state.wishList);
-      const router = useRouter();
-      const handleProtectedRoute = (path:string) => {
-        if (!userDetails) {
-          setVisibleComponent('login');
-        } else {
-          router.push(path);
-        }
-      };
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const {cartItems,loading} = useSelector((state: { cart: any }) => state.cart);
+  const {wishListItems,wishListLoading} = useSelector((state: { wishList: any }) => state.wishList);
   return (
-    <div>
-        <div className="cartIdea flex gap-2 z-0">
-      <>
-  {cartItemsLoading ? (
-    <IconButton
-      icon={faLuggageCart}
-      name="Cart"
-      disabled
-      className='animate-pulse'
-    />
-  ) : (
-    <IconButton
-      icon={faLuggageCart}
-      name="Cart"
-      number={cartItems?.length ?? 0}
-      onClick={() => handleProtectedRoute("/dashboard/cart")}
-    />
-  )}
-</>
-        {wishListLoading?<IconButton
-          icon={faHeart}
-          name="Wishlist"
-          disabled
-          className='animate-pulse'
-        />:<IconButton
-          icon={faHeart}
-          name="Wishlist"
-          number={wishListItems.length ?? 0}
-          onClick={() => handleProtectedRoute('/dashboard/wishlist')}
-        />}
-      </div>
-      {visibleComponent === 'login' && <LoginComponent/>}
+    <div className='flex gap-2'>
+      <IconButton
+        icon={<ShoppingCart />} // Lucide icon as JSX
+        name="Cart"
+        onClick={() => router.push("/dashboard/cart")}
+        number={cartItems.length}
+        loading={loading}
+      />
+      <IconButton
+        icon={<Heart />} // Lucide icon as JSX
+        name="Wishlist"
+        onClick={() => router.push("/dashboard/wishlist")}
+        number={cartItems.length}
+        loading={wishListLoading}
+      />
     </div>
-  )
+  );
 }
-export default IconGroup
+export default IconGroup;

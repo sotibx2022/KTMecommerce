@@ -7,6 +7,7 @@ import CategoryCards from '../categoryCards/CategoryCards'
 import AllProductsBanner from '../allProductsBanner/AllProductsBanner'
 import BrandCaurosel from '../brandCaurosel/BrandCaurosel'
 import ConditionalComponents from '../conditionalVisibleComponents/ConditionalComponents'
+import MobileFooterMenu from '../navbar/MobileFooterMenu'
 const ClientPage = () => {
   return (
     <>

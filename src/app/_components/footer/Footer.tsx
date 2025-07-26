@@ -5,6 +5,7 @@ import QuickLinks from './QuickLinks';
 import DeveloperDetails from './DeveloperDetails';
 import dynamic from 'next/dynamic';
 import FooterSkeleton from './FooterSkeleton';
+import MobileFooterMenu from '../navbar/MobileFooterMenu';
 // Correct dynamic import syntax
 const Footer2 = dynamic(
   () => import('./Footer2'),
@@ -16,6 +17,7 @@ const Footer2 = dynamic(
 const Footer = () => {
   return (
     <div className='bg-primaryDark mt-4'>
+      <MobileFooterMenu/>
       <Footer2 /> {/* Include the dynamically imported Footer2 */}
       <NewsLetterSection />
       <DirectContactDetails />

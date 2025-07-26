@@ -16,40 +16,24 @@ import { Category } from "@/app/types/categories";
 import { useUserDetails } from "@/app/context/UserDetailsContextComponent";
 const ResponsiveHeader = () => {
   const cartItems = useSelector((state: { cart: CartState }) => state.cart.cartItems);
-  const router = useRouter();
   const { visibleComponent, setVisibleComponent } = useContext(DisplayContext);
   const { data: NavItems = [] } = useCategories();
   const [activeCategory, setActiveCategory] = useState<number | null>(null);
   const [activeScreen, setActiveScreen] = useState(false);
-  const { userDetails } = useUserDetails();
-  const handleProtectedRoute = (path: string) => {
-    if (!userDetails) {
-      setVisibleComponent('login');
-      setActiveScreen(true);
-    } else {
-      router.push(path);
-    }
-  };
   const toggleCategory = (index: number) => {
     setActiveCategory(prev => prev === index ? null : index);
   };
   return (
-   <div className="fixed inset-0 z-50" style={{ background: "var(--gradientwithOpacity)" }}>
+    <div className="fixed inset-0 z-50" style={{ background: "var(--gradientwithOpacity)" }}>
       <div className="absolute right-0 h-full w-full max-w-sm bg-background shadow-xl overflow-y-auto">
         <div className="sticky top-0 bg-background z-10 p-4">
           <HeaderSection onClose={() => setVisibleComponent('')} />
-          <ActionIcons
-            onSearch={() => setVisibleComponent('advanceSearch')}
-            onCart={() => handleProtectedRoute('dashboard/cart')}
-            onWishlist={() => handleProtectedRoute('dashboard/wishlist')}
-            cartCount={cartItems?.length ?? 0}
-          />
         </div>
         <div className="p-4">
           <div className="mb-6">
             <h3 className="text-lg font-semibold mb-3 text-primaryDark">Categories</h3>
             <ul className="space-y-2">
-              {NavItems.map((item:Category, index:number) => (
+              {NavItems.map((item: Category, index: number) => (
                 <CategoryItem
                   key={item.url_slug || index}
                   item={item}
@@ -64,7 +48,7 @@ const ResponsiveHeader = () => {
           </div>
         </div>
         {activeScreen && visibleComponent === 'login' && (
-            <LoginComponent />
+          <LoginComponent />
         )}
       </div>
     </div>

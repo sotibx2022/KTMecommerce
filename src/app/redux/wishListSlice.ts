@@ -7,7 +7,7 @@ export interface IWishListState {
 }
 const initialState: IWishListState = {
   wishListItems: [],
-  wishListLoading: true,
+  wishListLoading: false,
   initialized: false,
 };
 interface ISetWishlistPayload {

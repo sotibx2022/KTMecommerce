@@ -13,7 +13,8 @@ const MobileHeader = () => {
   const { userDetails, userDetailsLoading } = useUserDetails();
   const [showUserOptions, setShowUserOptions] = useState(false);
   return (
-    <header className="flex lg:hidden bg-background w-full py-2">
+    <header className="flex lg:hidden  w-full py-2  sticky  top-0 z-50"
+      style={{ background: 'var(--backgroundGradientWithHelper)' }}>
       <div className="container flex justify-between items-center">
         <div className="logoImage">
           <img src='/assets/brand/mobilelogo.png' alt="mobilelogo" width={50} />
