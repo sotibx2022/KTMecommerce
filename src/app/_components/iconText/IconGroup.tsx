@@ -11,7 +11,6 @@ const IconButton = dynamic(() => import('./IconButton'), {
   loading: () => <IconLoadingSkleton />
 });
 const IconGroup = () => {
-  const dispatch = useDispatch();
   const router = useRouter();
   const { cartItems, loading } = useSelector((state: { cart: any }) => state.cart);
   const { wishListItems, wishListLoading } = useSelector((state: { wishList: any }) => state.wishList);
@@ -28,7 +27,7 @@ const IconGroup = () => {
         icon={<Heart />} // Lucide icon as JSX
         name="Wishlist"
         onClick={() => router.push("/dashboard/wishlist")}
-        number={cartItems.length}
+        number={wishListItems.length}
         loading={wishListLoading}
       />
     </div>

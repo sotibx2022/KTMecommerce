@@ -36,12 +36,18 @@ state.initialized = true
         state.cartItems = [...state.cartItems, ...newItems];
       }
       state.loading = false;
+       if(!state.loading){
+state.initialized = true
+      }
     },
     removeFromCart: (state, action: PayloadAction<string>) => {
       state.cartItems = state.cartItems.filter(
         (item) => item.productId !== action.payload
       );
       state.loading = false;
+       if(!state.loading){
+state.initialized = true
+      }
     },
     updateCartItem: (state, action: PayloadAction<{ productId: string; quantity: number }>) => {
       const existingItemIndex = state.cartItems.findIndex(
@@ -51,11 +57,17 @@ state.initialized = true
         state.cartItems[existingItemIndex].quantity = action.payload.quantity;
       }
       state.loading = false;
+       if(!state.loading){
+state.initialized = true
+      }
     },
     // Clear the entire cart
     clearCartItems: (state) => {
       state.cartItems = [];
       state.loading = false;
+       if(!state.loading){
+state.initialized = true
+      }
     },
   },
 });

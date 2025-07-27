@@ -28,17 +28,29 @@ const wishListSlice = createSlice({
     addToWishList: (state, action: PayloadAction<IWishListItemDisplay>) => {
       state.wishListItems.push(action.payload);
       state.wishListLoading = false;
+      if (!state.wishListLoading) {
+        state.initialized = true
+      }
     },
     removeFromWishList: (state, action: PayloadAction<string>) => {
       state.wishListItems = state.wishListItems.filter(item => item.productId !== action.payload);
       state.wishListLoading = false;
+      if (!state.wishListLoading) {
+        state.initialized = true
+      }
     },
     clearWishListItems: (state) => {
       state.wishListItems = [];
       state.wishListLoading = false;
+      if (!state.wishListLoading) {
+        state.initialized = true
+      }
     },
     setWishListLoading: (state, action: PayloadAction<boolean>) => {
       state.wishListLoading = action.payload;
+      if (!state.wishListLoading) {
+        state.initialized = true
+      }
     },
   },
 });

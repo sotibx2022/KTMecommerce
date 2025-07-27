@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useEffect } from "react";
+import React, { Suspense, useContext } from "react";
 import LinkComponent from "../linkComponent/LinkComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
@@ -9,23 +9,23 @@ import NonRegisteredUsersOption from "./NonRegisteredUsersOption";
 import SkletonText from "../skeletontext/SkletonText";
 import { navigationLinks } from "@/app/data/navigationLinks";
 import { useUserDetails } from "@/app/context/UserDetailsContextComponent";
-import { clearCartItems, setCart } from "@/app/redux/cartSlice";
-import { clearWishListItems } from "@/app/redux/wishListSlice";
 import { useDispatch } from "react-redux";
+import { clearCartItems } from "@/app/redux/cartSlice";
+import { clearWishListItems } from "@/app/redux/wishListSlice";
 const DesktopHeader = () => {
   const { setVisibleComponent } = useContext(DisplayContext);
-  const { userDetails, userDetailsLoading } = useUserDetails();
+  const { userDetails } = useUserDetails(); // No loading state needed
   const dispatch = useDispatch();
-  useEffect(() => {
+  React.useEffect(() => {
     if (!userDetails) {
       dispatch(clearCartItems());
       dispatch(clearWishListItems());
     }
-  }, [userDetails])
+  }, [userDetails, dispatch]);
   return (
     <header className="hidden lg:flex bg-primaryDark w-full">
       <div className="container flex justify-between items-center">
-        <ul className="flex justify-center  gap-4">
+        <ul className="flex justify-center gap-4">
           {navigationLinks.map((link, index) => (
             <li className="text-background" key={index}>
               <LinkComponent href={link.href} text={link.text} />
@@ -33,18 +33,14 @@ const DesktopHeader = () => {
           ))}
         </ul>
         <div className="flex items-center gap-4">
-          <div className="flex items-center h-[2rem] gap-2">
-            {userDetailsLoading ? (
-              <div className="gap-2 flex">
-                <SkletonText />
-                <SkletonText />
-              </div>
-            ) : userDetails ? (
-              <RegisteredUsersOption />
-            ) : (
-              <NonRegisteredUsersOption />
-            )}
-          </div>
+          <Suspense fallback={
+            <div className="gap-2 flex">
+              <SkletonText />
+              <SkletonText />
+            </div>
+          }>
+            {userDetails ? <RegisteredUsersOption /> : <NonRegisteredUsersOption />}
+          </Suspense>
           <div className="w-[20px] h-[20px] flex items-center justify-end">
             <FontAwesomeIcon
               icon={faBars}

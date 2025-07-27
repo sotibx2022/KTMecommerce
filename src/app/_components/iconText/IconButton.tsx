@@ -8,7 +8,7 @@ interface IconButtonProps {
   onClick?: () => void;
   loading?: boolean;
 }
-const IconButton: React.FC<IconButtonProps> = ({ icon, name, number, onClick, loading=false }) => {
+const IconButton: React.FC<IconButtonProps> = ({ icon, name, number, onClick, loading = false }) => {
   return (
     <>{loading ? <IconLoadingSkleton /> : <div
       onClick={onClick}
