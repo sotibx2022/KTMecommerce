@@ -27,29 +27,27 @@ interface UserDetailsProviderProps {
 const UserDetailsContextComponent: React.FC<UserDetailsProviderProps> = ({ children }) => {
   const [userDetails, setUserDetails] = useState<IUserSafeData | null>(null);
   const [userDetailsLoading, setUserDetailsLoading] = useState<boolean>(true);
-const { data: userData, isPending } = useQuery({
-  queryKey: ['user'],
-  queryFn: getUserDetails,
-  staleTime: 300000,
-  gcTime: 1800000,
-})
-  useEffect(() => {
-    if (userData) {
-      const userSafeData = {
-        fullName: userData?.fullName || "",
-        profileImage: userData?.profileImage,
-        _id: userData?._id.toString() || "",
-        accountStatus: userData?.accountStatus,
-        passwordHistory: userData?.passwordHistory && userData.passwordHistory.length>0 ? true : false,
-      }
-      setUserDetails(userSafeData)
-    }
-    if (isPending) {
-      setUserDetailsLoading(true);
-    } else {
-      setUserDetailsLoading(false);
-    }
-  }, [userData, isPending])
+  const { data: userData, isPending } = useQuery({
+    queryKey: ['user'],
+    queryFn: getUserDetails,
+    staleTime: 300000,
+    gcTime: 1800000,
+  })
+useEffect(() => {
+  if (userData) {
+    const userSafeData = {
+      fullName: userData?.fullName || "",
+      profileImage: userData?.profileImage,
+      _id: userData?._id.toString() || "",
+      accountStatus: userData?.accountStatus,
+      passwordHistory: !!userData?.passwordHistory?.length,
+    };
+    setUserDetails(userSafeData);
+    setUserDetailsLoading(false);
+  } else {
+    setUserDetailsLoading(isPending);
+  }
+}, [userData, isPending]);
   return (
     <UserDetailsContext.Provider value={{ userDetails, setUserDetails, userDetailsLoading }}>
       {children}

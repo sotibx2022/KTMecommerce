@@ -1,3 +1,4 @@
+"use client"
 import React from 'react';
 import IconLoadingSkleton from './IconLoadingSkleton';
 interface IconButtonProps {
@@ -5,12 +6,11 @@ interface IconButtonProps {
   name: string;
   number?: number;
   onClick?: () => void;
-  loading?:boolean;
+  loading?: boolean;
 }
-const IconButton: React.FC<IconButtonProps> = ({ icon, name, number, onClick,loading }) => {
-  console.log(loading)
+const IconButton: React.FC<IconButtonProps> = ({ icon, name, number, onClick, loading=false }) => {
   return (
-    <>{loading?<IconLoadingSkleton/>:<div
+    <>{loading ? <IconLoadingSkleton /> : <div
       onClick={onClick}
       className="relative flex flex-col items-center justify-center cursor-pointer p-1 rounded-lg transition-all border border-primaryLight
       group w-[60px]"

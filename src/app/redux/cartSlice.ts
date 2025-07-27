@@ -11,7 +11,7 @@ isLoading:boolean
 }
 const initialState: CartState = {
   cartItems: [],
-  loading: false,
+  loading: true,
   initialized:false,
 };
 const cartSlice = createSlice({

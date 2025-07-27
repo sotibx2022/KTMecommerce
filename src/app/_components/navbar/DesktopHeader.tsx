@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import LinkComponent from "../linkComponent/LinkComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
@@ -9,9 +9,19 @@ import NonRegisteredUsersOption from "./NonRegisteredUsersOption";
 import SkletonText from "../skeletontext/SkletonText";
 import { navigationLinks } from "@/app/data/navigationLinks";
 import { useUserDetails } from "@/app/context/UserDetailsContextComponent";
+import { clearCartItems, setCart } from "@/app/redux/cartSlice";
+import { clearWishListItems } from "@/app/redux/wishListSlice";
+import { useDispatch } from "react-redux";
 const DesktopHeader = () => {
   const { setVisibleComponent } = useContext(DisplayContext);
-const {userDetails,userDetailsLoading} = useUserDetails();
+  const { userDetails, userDetailsLoading } = useUserDetails();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (!userDetails) {
+      dispatch(clearCartItems());
+      dispatch(clearWishListItems());
+    }
+  }, [userDetails])
   return (
     <header className="hidden lg:flex bg-primaryDark w-full">
       <div className="container flex justify-between items-center">

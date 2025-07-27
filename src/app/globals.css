@@ -1,7 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 :root {
   --primary: #876061;
   --primaryDark: #531c1d;
@@ -11,13 +10,12 @@
   --radius: 8px;
   --gradientwithOpacity: linear-gradient(90deg,
       rgba(135, 96, 97, 0.8) 0%,
-      /* rgba version of --primary with opacity */
       rgba(83, 28, 29, 0.8) 100%
-      /* rgba version of --primaryDark with opacity */
     );
-  --backgroundGradientWithHelper: linear-gradient(171deg, rgba(254, 255, 223, 1) 0%, rgba(254, 255, 223, 0.48) 78%, rgba(252, 174, 4, 1) 100%);
+--backgroundGradientWithHelper: linear-gradient(171deg,
+ rgba(254, 255, 223, 1) 78%,
+  rgba(252, 174, 4, 1) 100%);
 }
-
 html {
   background-color: var(--background);
   margin: 0;
@@ -28,17 +26,14 @@ html {
   overflow-x: hidden;
   height: 100%;
 }
-
 body {
   background-color: var(--background);
 }
-
 ol,
 ul,
 li {
   font-family: inherit;
 }
-
 button,
 input,
 textarea,
@@ -47,128 +42,99 @@ optgroup,
 option {
   font-family: inherit;
 }
-
 .slideOverlay {
   background: var(--gradientwithOpacity);
   position: absolute;
   width: 100%;
   height: 100%;
 }
-
 .selectItem {
   @apply text-lg text-primaryDark py-4 focus:bg-primaryLight cursor-pointer focus:text-background focus:outline-none pl-2
 }
-
 .primaryParagraph {
   @apply text-primaryDark text-sm;
 }
-
 .primaryHeading {
   @apply text-primaryDark sm:text-3xl md:text-5xl text-2xl;
 }
-
 .secondaryHeading {
   @apply text-primaryDark text-lg;
 }
-
 .subHeading {
   @apply text-2xl text-primaryDark font-bold my-4 capitalize relative;
 }
-
 .subHeading::before {
   @apply content-[''] absolute top-[110%] left-0 w-4 h-4 rounded-full;
   background: var(--helper);
 }
-
 .subHeading::after {
   @apply content-[''] absolute top-[calc(110%_+_0.375rem)] left-2 w-[100px] h-1;
   background: var(--helper);
 }
-
 .primaryButton {
   transition: 0.5 all;
 }
-
 .buttonText {
   background-color: var(--primaryDark);
   color: white;
   text-transform: capitalize;
   font-size: 1.5rem;
 }
-
 .primaryButton:hover .buttonText {
   transform: translateX(10px);
   transform: translateY(-10px);
 }
-
 .primaryButton:hover {
   border: 2px solid var(--primaryDark);
 }
-
 .secondaryButton {
   @apply bg-primaryLight text-primaryDark border-2 border-primaryDark px-4 py-2 rounded-md cursor-pointer transition-colors duration-300 flex justify-center items-center max-w-xs max-h-12;
 }
-
 .secondaryButton:hover {
   @apply bg-primaryDark text-primaryLight;
 }
-
 .flex-center {
   @apply flex justify-center items-center;
 }
-
 .flex-between {
   @apply flex justify-between items-center;
 }
-
 .container {
   @apply max-w-[90vw] mx-auto;
 }
-
 .link {
   @apply text-helper text-lg transition-colors duration-300 cursor-pointer;
 }
-
 .link:hover {
   @apply text-helper font-semibold
 }
-
 .errorMessage {
   @apply text-lg text-red-600;
 }
-
 .successMessage {
   @apply text-lg text-green-600;
 }
-
 .formItem input[type='text'] {
   @apply bg-background outline-none border-2 border-primaryDark rounded-lg p-2;
 }
-
 .responsiveHeaderIcon {
   @apply text-primaryDark w-[50px] h-[50px] cursor-pointer hover:scale-125 hover:rotate-12 transition-transform duration-300;
 }
-
 .formItem {
   @apply w-full p-3 border border-helper bg-background rounded-md shadow-helper shadow-sm focus:outline-none text-primaryDark
 }
-
 .price-highlight {
   @apply text-background font-bold text-lg bg-gradient-to-r from-primaryDark to-helper p-2 rounded-md shadow-md text-center;
 }
-
 .selectInput {
   @apply w-full bg-primaryDark p-2 text-background rounded-lg focus:outline-none focus:bg-primaryDark focus:text-background
 }
-
 .formLabel {
   @apply text-primaryDark
 }
-
 .social-icon {
   @apply cursor-pointer transition-colors duration-200 bg-primaryLight w-[50px] h-[50px] rounded-full
 }
-
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -205,7 +171,6 @@ option {
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
-
   .dark {
     --background: 0 0% 3.9%;
     --foreground: 0 0% 98%;
@@ -241,17 +206,14 @@ option {
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
-
 @layer base {
   * {
     @apply border-border;
   }
-
   body {
     @apply bg-background text-foreground;
   }
 }
-
 .darkTable span,
 .darkTable svg,
 .darkTable th,

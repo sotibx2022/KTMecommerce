@@ -9,7 +9,7 @@ import MobileFooterMenu from '../navbar/MobileFooterMenu';
 // Correct dynamic import syntax
 const Footer2 = dynamic(
   () => import('./Footer2'),
-  { 
+  {
     ssr: false,
     loading: () => <FooterSkeleton /> // Fixed syntax for loading component
   }
@@ -17,7 +17,7 @@ const Footer2 = dynamic(
 const Footer = () => {
   return (
     <div className='bg-primaryDark mt-4'>
-      <MobileFooterMenu/>
+      <MobileFooterMenu />
       <Footer2 /> {/* Include the dynamically imported Footer2 */}
       <NewsLetterSection />
       <DirectContactDetails />

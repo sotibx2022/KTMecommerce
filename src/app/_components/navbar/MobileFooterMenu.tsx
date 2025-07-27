@@ -1,38 +1,69 @@
 "use client"
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useRef } from 'react'
+import { throttle, debounce } from 'lodash'
+import { motion, useAnimation } from 'framer-motion'
 import { ActionIcons } from './responsiveHeader/ActionIcons'
-import { CartState } from '@/app/redux/cartSlice';
-import { DisplayContext } from '@/app/context/DisplayComponents';
-import { useSelector } from 'react-redux';
-import { useUserDetails } from '@/app/context/UserDetailsContextComponent';
-import { useRouter } from 'next/navigation';
+import { CartState } from '@/app/redux/cartSlice'
+import { DisplayContext } from '@/app/context/DisplayComponents'
+import { useSelector } from 'react-redux'
+import { useUserDetails } from '@/app/context/UserDetailsContextComponent'
+import { useRouter } from 'next/navigation'
+import { IWishListState } from '@/app/redux/wishListSlice'
 const MobileFooterMenu = () => {
-  const cartItems = useSelector((state: { cart: CartState }) => state.cart.cartItems);
-  const { userDetails } = useUserDetails();
-  const [activeScreen, setActiveScreen] = useState(false);
-  const { visibleComponent, setVisibleComponent } = useContext(DisplayContext);
-  const router = useRouter();
+  const controls = useAnimation()
+  const { userDetails } = useUserDetails()
+  const { setVisibleComponent } = useContext(DisplayContext)
+  const router = useRouter()
+  const {cartItems,loading} = useSelector((state: { cart: CartState }) => state.cart)
+  const {wishListItems,wishListLoading} = useSelector((state:{wishList:IWishListState})=>state.wishList)
+  // Animation variants
+  const footerMenuVariant = {
+    hidden: { y: 100, transition: { duration: 0.3 } },
+    visible: { y: 0, transition: { duration: 0.3 } }
+  }
+  // Protected route handler
   const handleProtectedRoute = (path: string) => {
-    if (!userDetails) {
-      setVisibleComponent('login');
-      setActiveScreen(true);
-    } else {
-      router.push(path);
+    if (!userDetails) setVisibleComponent('login')
+    else router.push(path)
+  }
+  useEffect(() => {
+    const handleScroll = () => {
+      if(typeof window === 'undefined') return;
+      const currentScrollY = window.scrollY
+      if (currentScrollY > 50) {
+        controls.start("hidden")
+      }
     }
-  };
+    // Show after scrolling stops (debounced)
+    const showFooter = debounce(() => controls.start("visible"), 500)
+    // Combined scroll handler
+    const scrollHandler = throttle(() => {
+      handleScroll()
+      showFooter()
+    }, 100)
+    window.addEventListener('scroll', scrollHandler)
+    return () => window.removeEventListener('scroll', scrollHandler)
+  }, [controls])
   return (
-    <div className="lg:hidden w-full flex justify-between  fixed bottom-0  shadow-primaryDark z-50"
-      style={{background:'var(--backgroundGradientWithHelper)'}}
+    <motion.div
+      initial="visible"
+      animate={controls}
+      variants={footerMenuVariant}
+      className="lg:hidden w-full fixed bottom-0 shadow-primaryDark z-50 rounded-tl-lg rounded-tr-lg"
+      style={{ background: 'var(--backgroundGradientWithHelper)' }}
     >
-      <div className="mobileFooterMenuItems container py-2">
+      <div className="container py-2">
         <ActionIcons
           onSearch={() => setVisibleComponent('advanceSearch')}
-          onCart={() => handleProtectedRoute('dashboard/cart')}
-          onWishlist={() => handleProtectedRoute('dashboard/wishlist')}
+          onCart={() => handleProtectedRoute('/dashboard/cart')}
+          onWishlist={() => handleProtectedRoute('/dashboard/wishlist')}
           cartCount={cartItems?.length ?? 0}
+          wishlistCount={wishListItems.length??0}
+          wishlistLoading={wishListLoading}
+          cartListLoading={loading}
         />
       </div>
-    </div>
+    </motion.div>
   )
 }
 export default MobileFooterMenu
