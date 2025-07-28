@@ -1,5 +1,5 @@
 "use client";
-import React, { Suspense, useContext } from "react";
+import React, { useContext } from "react";
 import LinkComponent from "../linkComponent/LinkComponent";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
@@ -14,7 +14,7 @@ import { clearCartItems } from "@/app/redux/cartSlice";
 import { clearWishListItems } from "@/app/redux/wishListSlice";
 const DesktopHeader = () => {
   const { setVisibleComponent } = useContext(DisplayContext);
-  const { userDetails } = useUserDetails(); // No loading state needed
+  const { userDetails, userDetailsLoading } = useUserDetails(); // Added loading state back
   const dispatch = useDispatch();
   React.useEffect(() => {
     if (!userDetails) {
@@ -33,14 +33,16 @@ const DesktopHeader = () => {
           ))}
         </ul>
         <div className="flex items-center gap-4">
-          <Suspense fallback={
+          {userDetailsLoading ? (
             <div className="gap-2 flex">
               <SkletonText />
               <SkletonText />
             </div>
-          }>
-            {userDetails ? <RegisteredUsersOption /> : <NonRegisteredUsersOption />}
-          </Suspense>
+          ) : userDetails ? (
+            <RegisteredUsersOption />
+          ) : (
+            <NonRegisteredUsersOption />
+          )}
           <div className="w-[20px] h-[20px] flex items-center justify-end">
             <FontAwesomeIcon
               icon={faBars}

@@ -3,16 +3,16 @@ import { ICartItem } from '../types/cart';
 export interface CartState {
   cartItems: ICartItem[];
   loading: boolean;
-  initialized:boolean;
+  initialized: boolean;
 }
-interface ISetCartPayload{
-  cartItems:ICartItem[],
-isLoading:boolean
+interface ISetCartPayload {
+  cartItems: ICartItem[],
+  isLoading: boolean
 }
 const initialState: CartState = {
   cartItems: [],
   loading: true,
-  initialized:false,
+  initialized: false,
 };
 const cartSlice = createSlice({
   name: 'cart',
@@ -21,8 +21,8 @@ const cartSlice = createSlice({
     setCart: (state, action: PayloadAction<ISetCartPayload>) => {
       state.cartItems = action.payload.cartItems;
       state.loading = action.payload.isLoading;
-      if(!state.loading){
-state.initialized = true
+      if (!state.loading) {
+        state.initialized = true
       }
     },
     addToCart: (state, action: PayloadAction<ICartItem[]>) => {
@@ -36,8 +36,8 @@ state.initialized = true
         state.cartItems = [...state.cartItems, ...newItems];
       }
       state.loading = false;
-       if(!state.loading){
-state.initialized = true
+      if (!state.loading) {
+        state.initialized = true
       }
     },
     removeFromCart: (state, action: PayloadAction<string>) => {
@@ -45,8 +45,8 @@ state.initialized = true
         (item) => item.productId !== action.payload
       );
       state.loading = false;
-       if(!state.loading){
-state.initialized = true
+      if (!state.loading) {
+        state.initialized = true
       }
     },
     updateCartItem: (state, action: PayloadAction<{ productId: string; quantity: number }>) => {
@@ -57,16 +57,16 @@ state.initialized = true
         state.cartItems[existingItemIndex].quantity = action.payload.quantity;
       }
       state.loading = false;
-       if(!state.loading){
-state.initialized = true
+      if (!state.loading) {
+        state.initialized = true
       }
     },
     // Clear the entire cart
     clearCartItems: (state) => {
       state.cartItems = [];
       state.loading = false;
-       if(!state.loading){
-state.initialized = true
+      if (!state.loading) {
+        state.initialized = true
       }
     },
   },

@@ -7,14 +7,14 @@
   --primaryLight: #876061;
   --helper: #fcae04;
   --background: #feffdf;
+  --backgroundLight: #d5c3a8;
   --radius: 8px;
   --gradientwithOpacity: linear-gradient(90deg,
       rgba(135, 96, 97, 0.8) 0%,
-      rgba(83, 28, 29, 0.8) 100%
-    );
---backgroundGradientWithHelper: linear-gradient(171deg,
- rgba(254, 255, 223, 1) 78%,
-  rgba(252, 174, 4, 1) 100%);
+      rgba(83, 28, 29, 0.8) 100%);
+  --backgroundGradientWithHelper: linear-gradient(171deg,
+      rgba(254, 255, 223, 1) 78%,
+      rgba(252, 174, 4, 1) 100%);
 }
 html {
   background-color: var(--background);
@@ -134,6 +134,9 @@ option {
 }
 .social-icon {
   @apply cursor-pointer transition-colors duration-200 bg-primaryLight w-[50px] h-[50px] rounded-full
+}
+.gridCards {
+  @apply grid grid-cols-1 place-items-center gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5
 }
 @layer base {
   :root {

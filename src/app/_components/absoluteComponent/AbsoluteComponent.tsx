@@ -4,6 +4,7 @@ import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { ReactNode, useContext } from "react";
 import { DisplayContext } from "@/app/context/DisplayComponents";
 import { motion } from "framer-motion";
+import CloseIcon from "./CloseIcon";
 interface AbsoluteModalProps {
   children: ReactNode;
 }
@@ -24,11 +25,7 @@ export const AbsoluteComponent = ({ children }: AbsoluteModalProps) => {
         <motion.div
           className="relative bg-background max-w-[400px] w-full p-2 md:p-6 rounded-lg shadow-lg my-4 max-h-[90vh] overflow-y-auto"
         >
-          <FontAwesomeIcon
-            icon={faTimes}
-            className="text-background bg-helper w-[30px] h-[30px] z-10 absolute top-3 right-3 cursor-pointer rounded-full p-1"
-            onClick={() => setVisibleComponent('')}
-          />
+          <CloseIcon onClick={() => setVisibleComponent('')}/>
           {children}
         </motion.div>
       </div>

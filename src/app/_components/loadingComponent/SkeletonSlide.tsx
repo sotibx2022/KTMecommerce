@@ -2,7 +2,7 @@ import React from 'react';
 import "../loadingComponent/loading.css";
 const SkeletonSlide = () => {
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 w-full">
       <div className='bg-primaryLight animate-pulse h-[250px] rounded-md'>
       </div>
       <div className="w-full">
