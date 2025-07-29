@@ -44,13 +44,13 @@ const SlidersTable = () => {
                                     <TableCell>{sliderItem.sliderTitle}</TableCell>
                                     <TableCell>
                                         <div className="actionButtons flex w-full h-full justify-between items-center">
-                                            <Link href={`/admin/editSlider/sliderIdentifier?sliderId=${sliderItem._id.toString()}`}>
+                                            <Link href={`/admin/editSlider/sliderIdentifier?sliderId=${sliderItem._id!.toString()}`}>
                                                 <button className="p-2 rounded-md bg-green-500 hover:bg-green-600 transition-colors">
                                                     <Edit size={18} className="text-green-200 cursor-pointer" />
                                                 </button>
                                             </Link>
                                             <button
-                                                onClick={() => deleteHandler(sliderItem._id.toString())}
+                                                onClick={() => deleteHandler(sliderItem._id!.toString())}
                                                 className="p-2 rounded-md bg-red-500 hover:bg-red-600 transition-colors"
                                             >
                                                 <Trash size={18} className="text-red-200" />

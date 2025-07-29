@@ -10,5 +10,5 @@ export interface ISliderItemDB{
     sliderSlogan: string,
 }
 export interface IDisplaySlideItems extends ISliderItemDB{
-_id:Types.ObjectId
+_id?:Types.ObjectId
 }
