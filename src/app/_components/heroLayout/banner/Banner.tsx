@@ -19,7 +19,7 @@ const Banner = () => {
     const sliderTitle = document.querySelectorAll('.sliderTitle')[0] as HTMLElement;
     return sliderTitle.offsetHeight;
   }
-  const slidersData = isPending ? slidesData : data.slidersData
+  const slidersData = isPending ? slidesData : data
   useEffect(() => {
     window.addEventListener('resize', findTitleHeight);
     return (() => {
