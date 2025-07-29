@@ -12,13 +12,14 @@ import LimitedOffer from "../../limitedOffer/LimitedOffer";
 import { useQuery } from "@tanstack/react-query";
 import { useSlidersData } from "@/app/hooks/queryHooks/useSlidersData";
 import { IDisplaySlideItems } from "@/app/types/sliders";
+import { slidesData } from "@/app/data/slidesData";
 const Banner = () => {
-  const { data: slidersData, isPending } = useSlidersData();
-  console.log(slidersData);
+  const { data, isPending } = useSlidersData();
   const findTitleHeight = () => {
     const sliderTitle = document.querySelectorAll('.sliderTitle')[0] as HTMLElement;
     return sliderTitle.offsetHeight;
   }
+  const slidersData = isPending ? slidesData : data.slidersData
   useEffect(() => {
     window.addEventListener('resize', findTitleHeight);
     return (() => {
