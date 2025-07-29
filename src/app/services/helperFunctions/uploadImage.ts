@@ -5,7 +5,7 @@ import cloudinary from "@/config/cloudinaryConfig";
 // Temporary directory path (adjust for serverless environments)
 const TEMP_DIR = process.env.TEMP_DIR || "/tmp"; // `/tmp` for serverless platforms
 export const uploadImage = async (
-  file: File,
+  file: File|Blob,
   folderName: string,
   fileType: string,
   fullName: string

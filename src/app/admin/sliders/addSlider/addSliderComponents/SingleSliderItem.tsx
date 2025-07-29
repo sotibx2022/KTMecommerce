@@ -1,21 +1,40 @@
 "use client"
-interface ISliderItem {
-    sliderImage?: Blob,
-    sliderTitle: string,
-    sliderSlogan: string,
-}
 import React, { useState } from 'react'
 import ImagePlaceHolder from './ImagePlaceHolder'
 import PrimaryButton from '@/app/_components/primaryButton/PrimaryButton'
 import { useForm } from 'react-hook-form'
 import { validateSentence } from '@/app/services/helperFunctions/validatorFunctions'
 import SubmitError from '@/app/_components/submit/SubmitError'
+import axios from 'axios'
+import { useMutation } from '@tanstack/react-query'
+import toast from 'react-hot-toast'
+import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponent'
+import { ISliderItem } from '@/app/types/sliders'
+import { useRouter } from 'next/navigation'
 const SingleSliderItem = () => {
+    const router = useRouter()
     const { register, formState: { errors }, handleSubmit, setError } = useForm<ISliderItem>({ mode: 'onBlur' })
     const [imageURL, setImageURL] = useState<Blob | null>(null)
     const getSliderURL = (sliderFile: Blob) => {
         setImageURL(sliderFile)
     }
+    const addSliderMutation = useMutation({
+        mutationFn: async (formData: FormData) => {
+            const response = await axios.post('/api/sliders/addSlider', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            return response.data;
+        },
+        onSuccess: (response) => {
+            toast.success(response.message);
+            router.push('/admin/sliders')
+        },
+        onError: (error: any) => {
+            toast.error(error.response?.data?.message || error.message)
+        }
+    })
     const onSubmit = async (data: ISliderItem) => {
         const formData = new FormData();
         if (!imageURL) {
@@ -23,16 +42,17 @@ const SingleSliderItem = () => {
                 type: 'manual',
                 message: "Slider Image is required."
             });
-            return; // Stop submission if no image
+            return;
         }
         formData.append('sliderImage', imageURL);
         formData.append('sliderTitle', data.sliderTitle);
         formData.append('sliderSlogan', data.sliderSlogan);
-        console.log(formData);
+        addSliderMutation.mutate(formData);
     };
     return (
         <form className="grid w-full md:grid-cols-2 gap-4"
             onSubmit={handleSubmit(onSubmit)}>
+            {addSliderMutation.isPending && <LoadingComponent />}
             <div className='flex flex-col gap-2'>
                 <ImagePlaceHolder sendUrlToParent={getSliderURL} />
                 {errors.sliderImage?.message && <SubmitError message={errors.sliderImage.message} />}
@@ -42,15 +62,15 @@ const SingleSliderItem = () => {
                     <label>Slider Title</label>
                     <input type='text' className='formItem' placeholder=''
                         {...register("sliderTitle", {
-                            validate: (value) => validateSentence('slider Title', value, 20, 50)
+                            validate: (value) => validateSentence('Slider Title', value, 20, 50)
                         })} />
                     {errors.sliderTitle?.message && <SubmitError message={errors.sliderTitle.message} />}
                 </div>
                 <div className="inputItem w-full">
-                    <label>Slider Slogen</label>
+                    <label>Slider Slogan</label>
                     <input type='text' placeholder='' className='formItem'
                         {...register('sliderSlogan', {
-                            validate: (value) => validateSentence('slider Slogan', value, 20, 50)
+                            validate: (value) => validateSentence('Slider Slogan', value, 20, 50)
                         })} />
                     {errors.sliderSlogan?.message && <SubmitError message={errors.sliderSlogan.message} />}
                 </div>
