@@ -1,9 +1,9 @@
 import React from 'react'
-import SkeletonSlide from '../_components/loadingComponent/SkeletonSlide'
+import SliderTableSkeleton from '../admin/sliders/slidersComponents/SliderTableSkeleton'
 const page = () => {
     return (
         <div>
-            <SkeletonSlide />
+            <SliderTableSkeleton />
         </div>
     )
 }

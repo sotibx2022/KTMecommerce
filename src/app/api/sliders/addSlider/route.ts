@@ -1,8 +1,10 @@
 import { uploadImage } from "@/app/services/helperFunctions/uploadImage";
+import { connectToDB } from "@/config/db";
 import { SliderModel } from "@/models/sliders.model";
 import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
   try {
+    connectToDB()
     const formData = await req.formData();
     const sliderImage = formData.get('sliderImage') as Blob | null;
     const sliderTitle = formData.get('sliderTitle') as string | null;
