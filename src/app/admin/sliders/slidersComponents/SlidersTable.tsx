@@ -1,20 +1,63 @@
 "use client"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import SliderTableSkeleton from './SliderTableSkeleton'
 import { useSlidersData } from '@/app/hooks/queryHooks/useSlidersData'
 import { IDisplaySlideItems } from '@/app/types/sliders'
 import Link from 'next/link'
 import { Edit, Trash } from 'lucide-react'
 import { useWindowSize } from 'react-use'
+import { DisplayComponents, DisplayContext } from '@/app/context/DisplayComponents'
+import DeleteConfirmation from '@/app/_components/deleteConfirmation/DeleteConfirmation'
+import { useMutation } from '@tanstack/react-query'
+import axios from 'axios'
+import { APIResponseSuccess } from '@/app/services/queryFunctions/users'
+import toast from 'react-hot-toast'
+import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponent'
 const SlidersTable = () => {
-    const {width} =useWindowSize()
+    const [sliderId, setSliderId] = useState<string | null>(null)
+    const { refetch } = useSlidersData()
+    const deleteSliderMutation = useMutation<APIResponseSuccess, Error, string>({
+        mutationFn: async (sliderId: string) => {
+            const response = await axios.post('/api/sliders/deleteSlider',
+                null,
+                {
+                    headers: {
+                        sliderId: sliderId
+                    }
+                }
+            );
+            return response.data;
+        },onMutate:()=>{
+            setVisibleComponent("")
+        },
+        onSuccess: async (response: APIResponseSuccess) => {
+            toast.success(response.message);
+            setVisibleComponent("");
+            await refetch()
+        },
+        onError: (error: Error) => {
+            toast.error(error.message);
+        }
+    });
+    const { visibleComponent, setVisibleComponent } = useContext(DisplayContext)
+    const { width } = useWindowSize()
     const { data: slidersData, isPending } = useSlidersData();
+    const getConfirmationValue = (value: boolean) => {
+        if (value && sliderId) {
+            deleteSliderMutation.mutate(sliderId)
+        }
+    }
     function deleteHandler(_id: any): void {
-        throw new Error('Function not implemented.')
+        setVisibleComponent('dilaugeBox');
+        setSliderId(_id)
     }
     return (
-        <div className={width>800?"w-full overflow-x-hidden":"overflow-x-auto"}>
+        <div className={width > 800 ? "w-full overflow-x-hidden" : "overflow-x-auto"}>
+            {deleteSliderMutation.isPending && <LoadingComponent/>}
+            {visibleComponent === 'dilaugeBox' && <DeleteConfirmation message={'Do you want to Delete this Slider Item'}
+                returnConfirmValue={getConfirmationValue}
+                loading={deleteSliderMutation.isPending} />}
             {isPending ? (
                 <SliderTableSkeleton />
             ) : (

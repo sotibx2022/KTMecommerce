@@ -12,7 +12,9 @@ import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponen
 import { ISliderItem } from '@/app/types/sliders'
 import { useRouter } from 'next/navigation'
 import { truncate } from 'lodash'
+import { useSlidersData } from '@/app/hooks/queryHooks/useSlidersData'
 const SingleSliderItem = () => {
+    const {refetch} = useSlidersData();
     const [isSubmitting, setIsSubmitting] = useState(false) // New state to control submission
     const router = useRouter()
     const {
@@ -37,9 +39,10 @@ const SingleSliderItem = () => {
             })
             return response.data
         },
-        onSuccess: (response) => {
+        onSuccess: async(response) => {
             toast.success(response.message)
             router.push('/admin/sliders')
+            await refetch()
         },
         onError: (error: any) => {
             toast.error(error.response?.data?.message || error.message)

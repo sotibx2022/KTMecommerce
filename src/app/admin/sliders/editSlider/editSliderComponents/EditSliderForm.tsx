@@ -12,10 +12,12 @@ import ImagePlaceHolder from '../../addSlider/addSliderComponents/ImagePlaceHold
 import SubmitError from '@/app/_components/submit/SubmitError'
 import { validateSentence } from '@/app/services/helperFunctions/validatorFunctions'
 import PrimaryButton from '@/app/_components/primaryButton/PrimaryButton'
+import { useSlidersData } from '@/app/hooks/queryHooks/useSlidersData'
 interface IEditSliderProps {
     sliderId: string
 }
 const EditSliderForm: React.FC<IEditSliderProps> = ({ sliderId }) => {
+    const {refetch} = useSlidersData()
     const router = useRouter()
     const {
         register,
@@ -57,9 +59,10 @@ const EditSliderForm: React.FC<IEditSliderProps> = ({ sliderId }) => {
             })
             return response.data
         },
-        onSuccess: (response) => {
+        onSuccess: async (response) => {
             toast.success(response.message)
             router.push('/admin/sliders')
+            await refetch();
         },
         onError: (error: any) => {
             toast.error(error.response?.data?.message || error.message)
