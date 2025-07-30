@@ -3,7 +3,6 @@ import fs from "fs";
 import { promises as fsPromises } from "fs";
 import cloudinary from "@/config/cloudinaryConfig";
 import { deleteCloudinaryImage } from "./uploadImageHelpers";
-// Temporary directory path (adjust for serverless environments)
 const TEMP_DIR = process.env.TEMP_DIR || "/tmp"; // `/tmp` for serverless platforms
 export const uploadImage = async (
   file: File|Blob,

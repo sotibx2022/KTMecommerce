@@ -2,7 +2,7 @@
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { VariantProps, cva } from "class-variance-authority"
-import { ChevronLeft, ChevronRight, PanelLeft } from "lucide-react"
+import { ChevronLeft, ChevronRight, PanelLeft, PanelLeftClose, PanelRightClose } from "lucide-react"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -271,9 +271,9 @@ const SidebarTrigger = React.forwardRef<
       {...props}
     >
       {state === 'expanded' ? (
-                <ChevronLeft className="h-4 w-4" />
+                <PanelLeftClose className="h-4 w-4" />
               ) : (
-                <ChevronRight className="h-4 w-4" />
+                <PanelRightClose className="h-4 w-4" />
               )}
       <span className="sr-only">Toggle Sidebar</span>
     </Button>

@@ -1,4 +1,4 @@
-export const getPublicId = (url: string):string| null => {
+export const getPublicId = (url: string): string | null => {
     const matches = url.match(/upload\/(?:v\d+\/)?(.+?)\.\w+$/);
     return matches ? matches[1] : null;
 }

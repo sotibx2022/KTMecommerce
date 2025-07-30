@@ -8,13 +8,15 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 import {
-  Package, ClipboardList, Users, Layers, Tags,
-  MessageSquare, Home, ChevronLeft, ChevronRight,
+  Package, ClipboardList, Users, Layers,
+  MessageSquare, Home,
   Mail, Briefcase, LayoutDashboard,
   ShoppingCart,
   Heart,
   Settings,
-  ImageIcon
+  ImageIcon,
+  Menu,
+  PanelRightClose
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { usePathname, useRouter } from "next/navigation"
@@ -51,6 +53,17 @@ const AdminSideBar = () => {
   } = useSidebar()
   return (
     <div className={generateClassName(theme)}>
+      {/* Mobile Trigger Button */}
+      {isMobile && (
+        <Button
+          variant="success"
+          size="icon"
+          className="md:hidden fixed top-1/2 left-1 z-50 -translate-y-1/2"
+          onClick={() => setOpenMobile(true)}
+        >
+          <PanelRightClose />
+        </Button>
+      )}
       <Sidebar
         collapsible="icon"
         className={`shadow-helper ${generateClassName(theme)}`}
@@ -66,7 +79,9 @@ const AdminSideBar = () => {
                 </span>
               )}
             </div>
-            <div><SidebarTrigger className={generateClassName(theme)} /></div>
+            <div>
+              <SidebarTrigger className={generateClassName(theme)}/>
+            </div>
           </div>
         </SidebarHeader>
         <SidebarContent className={`p-2 ${generateClassName(theme)}`}>
@@ -79,13 +94,13 @@ const AdminSideBar = () => {
                   key={href}
                   variant="nothing"
                   className={`w-full justify-start ${isActive
-                      ? `bg-primaryLight text-background`
-                      : `text-primaryDark hover:bg-primaryLight hover:text-background`
+                    ? `bg-primaryLight text-background`
+                    : `text-primaryDark hover:bg-primaryLight hover:text-background`
                     }`}
                   onClick={() => {
                     router.push(href)
-                    if (isMobile && state === 'expanded') {
-                      toggleSidebar()
+                    if (isMobile) {
+                      setOpenMobile(false) // Close sidebar on mobile after navigation
                     }
                   }}
                 >

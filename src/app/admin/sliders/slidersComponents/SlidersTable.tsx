@@ -28,7 +28,7 @@ const SlidersTable = () => {
                 }
             );
             return response.data;
-        },onMutate:()=>{
+        }, onMutate: () => {
             setVisibleComponent("")
         },
         onSuccess: async (response: APIResponseSuccess) => {
@@ -54,7 +54,7 @@ const SlidersTable = () => {
     }
     return (
         <div className={width > 800 ? "w-full overflow-x-hidden" : "overflow-x-auto"}>
-            {deleteSliderMutation.isPending && <LoadingComponent/>}
+            {deleteSliderMutation.isPending && <LoadingComponent />}
             {visibleComponent === 'dilaugeBox' && <DeleteConfirmation message={'Do you want to Delete this Slider Item'}
                 returnConfirmValue={getConfirmationValue}
                 loading={deleteSliderMutation.isPending} />}
