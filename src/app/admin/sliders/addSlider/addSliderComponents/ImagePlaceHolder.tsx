@@ -5,7 +5,7 @@ import ImageCropper from './ImageCropper'
 interface IImagePlaceHolder {
   sendUrlToParent: (sliderImage: Blob) => void;
 }
-const ImagePlaceHolder: React.FC<IImagePlaceHolder> = ({ sendUrlToParent }) => {
+const ImagePlaceHolder: React.FC<IImagePlaceHolder> = ({ sendUrlToParent}) => {
   const [file, setFile] = useState<File | null>(null)
   const [sliderItemUrl, setSliderItemUrl] = useState('')
   useEffect(() => {
@@ -20,7 +20,7 @@ const ImagePlaceHolder: React.FC<IImagePlaceHolder> = ({ sendUrlToParent }) => {
     setSliderItemUrl('')
   }
   return (
-    <div className="relative flex flex-col items-center max-w-[300px] w-full h-full min-h-[100px] bg-backgroundLight rounded-md border border-dashed border-primaryDark overflow-hidden">
+    <div className="relative flex flex-col items-center justify-center max-w-[300px]  w-full h-full min-h-[150px] bg-backgroundLight rounded-md border border-dashed border-primaryDark overflow-hidden">
       {file && sliderItemUrl ? (
         <div
           className="fixed w-screen h-[100vh] top-0 left-0 z-50"
@@ -54,7 +54,7 @@ const ImagePlaceHolder: React.FC<IImagePlaceHolder> = ({ sendUrlToParent }) => {
           </div>
         </>
       ) : (
-        <div className='h-full w-full flex justify-center items-center'>
+        <div className='h-full w-full flex justify-center items-center flex-col gap-4'>
           <label className="cursor-pointer flex flex-col items-center justify-center ">
             <ImageIcon className="w-10 h-10 text-primaryDark" />
             <p className="primaryParagraph">Browse Slider Image</p>

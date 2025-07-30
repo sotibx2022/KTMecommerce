@@ -2,18 +2,23 @@ import path from "node:path";
 import fs from "fs";
 import { promises as fsPromises } from "fs";
 import cloudinary from "@/config/cloudinaryConfig";
+import { deleteCloudinaryImage } from "./uploadImageHelpers";
 // Temporary directory path (adjust for serverless environments)
 const TEMP_DIR = process.env.TEMP_DIR || "/tmp"; // `/tmp` for serverless platforms
 export const uploadImage = async (
   file: File|Blob,
   folderName: string,
   fileType: string,
-  fullName: string
+  fullName: string,
+  publicId?:string,
 ) => {
   const fileName = `${fullName}profilePicture.${fileType.split('/')[1]}`; // Append file extension
   const tempDir = path.join(TEMP_DIR, folderName); // Use temporary directory path
   const filePath = path.join(tempDir, fileName);
   try {
+    if(publicId){
+      deleteCloudinaryImage(publicId)
+    }
     // Ensure the temporary directory exists
     if (!fs.existsSync(tempDir)) {
       await fsPromises.mkdir(tempDir, { recursive: true });

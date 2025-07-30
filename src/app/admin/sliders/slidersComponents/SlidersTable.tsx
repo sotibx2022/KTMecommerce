@@ -44,7 +44,7 @@ const SlidersTable = () => {
                                     <TableCell>{sliderItem.sliderTitle}</TableCell>
                                     <TableCell>
                                         <div className="actionButtons flex w-full h-full justify-between items-center">
-                                            <Link href={`/admin/editSlider/sliderIdentifier?sliderId=${sliderItem._id!.toString()}`}>
+                                            <Link href={`/admin/sliders/editSlider/sliderIdentifier?sliderId=${sliderItem._id!.toString()}`}>
                                                 <button className="p-2 rounded-md bg-green-500 hover:bg-green-600 transition-colors">
                                                     <Edit size={18} className="text-green-200 cursor-pointer" />
                                                 </button>

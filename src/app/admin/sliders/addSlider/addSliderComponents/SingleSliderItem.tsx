@@ -11,12 +11,22 @@ import toast from 'react-hot-toast'
 import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponent'
 import { ISliderItem } from '@/app/types/sliders'
 import { useRouter } from 'next/navigation'
+import { truncate } from 'lodash'
 const SingleSliderItem = () => {
+    const [isSubmitting, setIsSubmitting] = useState(false) // New state to control submission
     const router = useRouter()
-    const { register, formState: { errors }, handleSubmit, setError } = useForm<ISliderItem>({ mode: 'onBlur' })
+    const {
+        register,
+        formState: { errors },
+        handleSubmit,
+        setError,
+        clearErrors
+    } = useForm<ISliderItem>({ mode: 'onBlur' })
     const [imageURL, setImageURL] = useState<Blob | null>(null)
-    const getSliderURL = (sliderFile: Blob) => {
+    // Simplified - just stores the image without validation
+    const getSliderURL = (sliderFile: Blob | null) => {
         setImageURL(sliderFile)
+        clearErrors('sliderImage') // Clear any previous errors when image changes
     }
     const addSliderMutation = useMutation({
         mutationFn: async (formData: FormData) => {
@@ -24,11 +34,11 @@ const SingleSliderItem = () => {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
-            });
-            return response.data;
+            })
+            return response.data
         },
         onSuccess: (response) => {
-            toast.success(response.message);
+            toast.success(response.message)
             router.push('/admin/sliders')
         },
         onError: (error: any) => {
@@ -36,43 +46,64 @@ const SingleSliderItem = () => {
         }
     })
     const onSubmit = async (data: ISliderItem) => {
-        const formData = new FormData();
+        setIsSubmitting(true)
+        // Image validation now happens here at submission time
         if (!imageURL) {
             setError('sliderImage', {
                 type: 'manual',
                 message: "Slider Image is required."
-            });
-            return;
+            })
+            setIsSubmitting(false);
+            return
         }
-        formData.append('sliderImage', imageURL);
-        formData.append('sliderTitle', data.sliderTitle);
-        formData.append('sliderSlogan', data.sliderSlogan);
-        addSliderMutation.mutate(formData);
-    };
+        const formData = new FormData()
+        formData.append('sliderImage', imageURL)
+        formData.append('sliderTitle', data.sliderTitle)
+        formData.append('sliderSlogan', data.sliderSlogan)
+        if (isSubmitting) {
+            addSliderMutation.mutate(formData)
+        }
+    }
     return (
-        <form className="grid w-full md:grid-cols-2 gap-4"
-            onSubmit={handleSubmit(onSubmit)}>
+        <form
+            className="grid w-full md:grid-cols-2 gap-4"
+            onSubmit={handleSubmit(onSubmit)}
+        >
             {addSliderMutation.isPending && <LoadingComponent />}
             <div className='flex flex-col gap-2'>
                 <ImagePlaceHolder sendUrlToParent={getSliderURL} />
-                {errors.sliderImage?.message && <SubmitError message={errors.sliderImage.message} />}
+                {errors.sliderImage?.message && (
+                    <SubmitError message={errors.sliderImage.message} />
+                )}
             </div>
-            <div className=' flex flex-col gap-4'>
+            <div className='flex flex-col gap-4'>
                 <div className="inputItem w-full">
                     <label>Slider Title</label>
-                    <input type='text' className='formItem' placeholder=''
+                    <input
+                        type='text'
+                        className='formItem'
+                        placeholder=''
                         {...register("sliderTitle", {
                             validate: (value) => validateSentence('Slider Title', value, 20, 50)
-                        })} />
-                    {errors.sliderTitle?.message && <SubmitError message={errors.sliderTitle.message} />}
+                        })}
+                    />
+                    {errors.sliderTitle?.message && (
+                        <SubmitError message={errors.sliderTitle.message} />
+                    )}
                 </div>
                 <div className="inputItem w-full">
                     <label>Slider Slogan</label>
-                    <input type='text' placeholder='' className='formItem'
+                    <input
+                        type='text'
+                        placeholder=''
+                        className='formItem'
                         {...register('sliderSlogan', {
                             validate: (value) => validateSentence('Slider Slogan', value, 20, 50)
-                        })} />
-                    {errors.sliderSlogan?.message && <SubmitError message={errors.sliderSlogan.message} />}
+                        })}
+                    />
+                    {errors.sliderSlogan?.message && (
+                        <SubmitError message={errors.sliderSlogan.message} />
+                    )}
                 </div>
                 <PrimaryButton searchText={'Add'} />
             </div>
