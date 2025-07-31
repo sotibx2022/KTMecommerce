@@ -40,7 +40,9 @@ const AdminLogin = () => {
     onSuccess: (response) => {
       if (response.success) {
         toast.success(response.message);
-        router.push('/admin/')
+        if(typeof window !=="undefined"){
+window.location.href = '/admin';
+        }
       } else {
         toast.error(response.message)
       }
