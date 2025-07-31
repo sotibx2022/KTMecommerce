@@ -41,5 +41,7 @@ export const handleAdminRoutes = async (path: string, request: NextRequest) => {
     }
     return NextResponse.next();
   }
-  return NextResponse.redirect(new URL('/pages/validateAdmin', request.url));
+  else if(!path.includes('validateAdmin') || !validAdmin){
+return NextResponse.redirect(new URL('/pages/validateAdmin', request.url));
+  }
 };
