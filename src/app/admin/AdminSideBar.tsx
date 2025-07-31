@@ -50,35 +50,20 @@ const AdminSideBar = () => {
       setOpenMobile(false)
     }
   }
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const sidebar = document.querySelector("[data-sidebar]") as HTMLElement | null
-      const path = event.composedPath()
-      if (isMobile && openMobile && sidebar && !path.includes(sidebar)) {
-        setOpenMobile(false)
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside)
-    return () => document.removeEventListener("mousedown", handleClickOutside)
-  }, [isMobile, openMobile, setOpenMobile])
+  const sidebarThemeClass = theme === 'dark' ? 'darkSidebar' : 'lightSidebar'
+  const sidebarButtonThemeClass = theme === 'dark' ? 'darkSidebarButton' : 'lightSidebarButton'
+  const sidebarTextThemeClass = theme === 'dark' ? 'darkSidebarText' : 'lightSidebarText'
   return (
     <>
-      {/* Mobile trigger button */}
       {isMobile && !openMobile && (
         <PanelLeftClose
-          className={`size-6 md:hidden fixed left-4 z-50 top-1/2 -translate-y-1/2 cursor-pointer p-1 rounded-lg  transition-all duration-200 hover:scale-105 ${theme === 'dark'
-            ? 'text-white bg-primaryLight hover:bg-primaryDark'
-            : 'text-primaryDark bg-background hover:bg-primaryLight'
-            }`}
+          className={`mobileSidebarTrigger ${sidebarThemeClass}`}
           onClick={() => setOpenMobile(true)}
         />
       )}
       <Sidebar
         collapsible="icon"
-        className={` transition-all duration-300 border-transparent ${theme === 'dark'
-          ? ' bg-primaryDark'
-          : ' bg-background'
-          }`}
+        className={sidebarThemeClass}
         data-sidebar
         style={{
           width: isMobile ? "280px" : state === "expanded" ? "260px" : "80px",
@@ -90,42 +75,33 @@ const AdminSideBar = () => {
       >
         {isMobile && openMobile && (
           <div
-            className="fixed inset-0 bg-primaryDark backdrop-blur-sm md:hidden transition-opacity duration-300"
+            className="mobileSidebarOverlay"
             onClick={() => setOpenMobile(false)}
           />
         )}
-        <SidebarHeader className={` ${theme === 'dark'
-          ? ' bg-primaryLight'
-          : ' bg-background'
-          }`}>
-          <div className="flex items-center justify-between px-3 py-4">
-            <div className="flex items-center gap-3">
-              <SidebarTrigger className={`p-2 rounded-xl transition-all duration-200 hover:scale-105 ${theme === 'dark'
-                ? 'hover:bg-primaryDark text-background'
-                : 'hover:bg-primaryLight text-primaryDark'
-                }`}>
+        <SidebarHeader className={sidebarThemeClass}>
+          <div className="sidebarHeaderContent">
+            <div className="sidebarHeaderInner">
+              <SidebarTrigger className={sidebarButtonThemeClass}>
                 {shouldShowText ? (
-                  <PanelLeftClose className="w-6 h-6 cursor-pointer" />
+                  <PanelLeftClose className="sidebarTriggerIcon" />
                 ) : (
-                  <PanelLeftOpen className="w-6 h-6 cursor-pointer" />
+                  <PanelLeftOpen className="sidebarTriggerIcon" />
                 )}
               </SidebarTrigger>
               {shouldShowText && (
-                <div className="flex flex-col gap-1 leading-none">
-                  <span className={`font-bold text-lg ${theme === 'dark' ? 'text-background' : 'text-primaryDark'
-                    }`}>Dashboard</span>
-                  <span className={`text-sm font-medium ${theme === 'dark' ? 'text-background' : 'text-primaryDark'
-                    }`}>Admin Panel</span>
+                <div className="sidebarHeaderText">
+                  <span className={sidebarTextThemeClass}>Dashboard</span>
+                  <span className={sidebarTextThemeClass}>Admin Panel</span>
                 </div>
               )}
             </div>
           </div>
         </SidebarHeader>
-        <SidebarContent className={`py-2 ${theme === 'dark' ? 'bg-primaryDark' : 'bg-background'
-          }`}>
+        <SidebarContent className={sidebarThemeClass}>
           <SidebarGroup>
             <SidebarGroupContent>
-              <SidebarMenu className="gap-1 px-2">
+              <SidebarMenu className="sidebarMenu">
                 {sideBarItems.map((item) => {
                   const hasChildren = item.childMenus && item.childMenus.length > 0
                   const isOpen = openMenus.includes(item.href)
@@ -141,16 +117,13 @@ const AdminSideBar = () => {
                               : prev.filter((href) => href !== item.href)
                           )
                         }}
-                        className="group/collapsible"
+                        className="sidebarCollapsible"
                       >
                         <SidebarMenuItem>
                           <CollapsibleTrigger asChild>
                             <SidebarMenuButton
                               tooltip={shouldShowText ? undefined : item.text}
-                              className={`cursor-pointer h-11 rounded-xl transition-all duration-200 hover:scale-[1.02] ${theme === 'dark'
-                                ? 'hover:bg-primaryDark text-background'
-                                : 'hover:bg-primaryLight text-primaryDark'
-                                } ${isOpen ? (theme === 'dark' ? 'bg-[var(--primary)]/30' : 'bg-[var(--backgroundLight)]/70') : ''}`}
+                              className={`sidebarMenuButton ${sidebarThemeClass} ${isOpen ? 'sidebarMenuButtonActive' : ''}`}
                               onClick={(e) => {
                                 if (isMobile) {
                                   e.preventDefault()
@@ -159,21 +132,18 @@ const AdminSideBar = () => {
                                 }
                               }}
                             >
-                              <item.icon className="size-5 cursor-pointer" />
+                              <item.icon className="sidebarIcon" />
                               {shouldShowText && (
                                 <>
-                                  <span className="cursor-pointer font-medium">{item.text}</span>
+                                  <span className="sidebarMenuItemText">{item.text}</span>
                                   <div
-                                    className={`ml-auto cursor-pointer p-1 rounded-lg transition-all duration-200 hover:scale-110 ${theme === 'dark'
-                                      ? 'hover:bg-primaryDark'
-                                      : 'hover:bg-primaryLight'
-                                      }`}
+                                    className={`sidebarSubmenuToggle ${sidebarThemeClass}`}
                                     onClick={(e) => toggleSubmenu(item.href, e)}
                                   >
                                     {isOpen ? (
-                                      <Minus className="size-4 cursor-pointer" />
+                                      <Minus className="sidebarSubmenuIcon" />
                                     ) : (
-                                      <Plus className="size-4 cursor-pointer" />
+                                      <Plus className="sidebarSubmenuIcon" />
                                     )}
                                   </div>
                                 </>
@@ -181,21 +151,18 @@ const AdminSideBar = () => {
                             </SidebarMenuButton>
                           </CollapsibleTrigger>
                           {shouldShowText && (
-                            <CollapsibleContent className="transition-all duration-300">
-                              <SidebarMenuSub className="ml-4 mt-1  pl-4 space-y-1" >
+                            <CollapsibleContent className="sidebarCollapsibleContent">
+                              <SidebarMenuSub className="sidebarSubmenu">
                                 {item.childMenus?.map((childItem) => (
                                   <SidebarMenuSubItem key={childItem.href}>
                                     <SidebarMenuSubButton
                                       asChild
-                                      className={`cursor-pointer h-10 rounded-lg transition-all duration-200 hover:scale-[1.02] ${theme === 'dark'
-                                        ? 'hover:bg-primaryLight text-background'
-                                        : 'hover:bg-primaryLight text-primaryDark'
-                                        }`}
+                                      className={`sidebarSubmenuButton ${sidebarThemeClass}`}
                                       onClick={handleMenuItemClick}
                                     >
-                                      <a href={childItem.href} className="cursor-pointer flex items-center gap-3">
-                                        <childItem.icon className="size-4 cursor-pointer" />
-                                        <span className="cursor-pointer font-medium">{childItem.text}</span>
+                                      <a href={childItem.href} className="sidebarSubmenuLink">
+                                        <childItem.icon className="sidebarSubmenuIcon" />
+                                        <span className="sidebarSubmenuText">{childItem.text}</span>
                                       </a>
                                     </SidebarMenuSubButton>
                                   </SidebarMenuSubItem>
@@ -212,15 +179,12 @@ const AdminSideBar = () => {
                       <SidebarMenuButton
                         asChild
                         tooltip={shouldShowText ? undefined : item.text}
-                        className={`cursor-pointer h-11 rounded-xl transition-all duration-200 hover:scale-[1.02] ${theme === 'dark'
-                          ? 'hover:bg-backgroundLight text-background'
-                          : 'hover:bg-backgroundLight text-primaryDark'
-                          }`}
+                        className={`sidebarMenuButton ${sidebarThemeClass}`}
                         onClick={handleMenuItemClick}
                       >
-                        <a href={item.href} className="cursor-pointer flex items-center gap-3">
-                          <item.icon className="size-5 cursor-pointer" />
-                          {shouldShowText && <span className="cursor-pointer font-medium">{item.text}</span>}
+                        <a href={item.href} className="sidebarMenuLink">
+                          <item.icon className="sidebarIcon" />
+                          {shouldShowText && <span className="sidebarMenuItemText">{item.text}</span>}
                         </a>
                       </SidebarMenuButton>
                     </SidebarMenuItem>
@@ -230,26 +194,19 @@ const AdminSideBar = () => {
             </SidebarGroupContent>
           </SidebarGroup>
         </SidebarContent>
-        <SidebarFooter className={` p-2 ${theme === 'dark'
-          ? ' bg-primaryDark'
-          : ' bg-background'
-          }`}>
+        <SidebarFooter className={sidebarThemeClass}>
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton
                 tooltip={shouldShowText ? undefined : "Admin User"}
-                className={`cursor-pointer h-12 rounded-xl transition-all duration-200 hover:scale-[1.02] ${theme === 'dark'
-                  ? 'hover:bg-[var(--primary)]/40 text-background hover:text-backgroundLight'
-                  : 'hover:bg-backgroundLight text-primaryDark hover:text-primaryDark'
-                  }`}
+                className={`sidebarFooterButton ${sidebarThemeClass}`}
                 onClick={handleMenuItemClick}
               >
-                <User className="size-5 cursor-pointer" />
+                <User className="sidebarIcon" />
                 {shouldShowText && (
-                  <div className="flex flex-col items-start">
-                    <span className="cursor-pointer font-semibold text-sm">Admin User</span>
-                    <span className={`text-xs ${theme === 'dark' ? 'text-background' : 'text-primaryDark'
-                      }`}>Administrator</span>
+                  <div className="sidebarFooterText">
+                    <span className="sidebarFooterTitle">Admin User</span>
+                    <span className={sidebarTextThemeClass}>Administrator</span>
                   </div>
                 )}
               </SidebarMenuButton>
