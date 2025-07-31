@@ -10,7 +10,6 @@ import {
   ImageIcon,
   Settings,
   Plus,
-  Minus,
   List,
   UserPlus,
 } from "lucide-react"
@@ -21,8 +20,8 @@ export const sideBarItems = [
     icon: Package,
     text: "Products",
     childMenus: [
-      { href: "/admin/products/add", icon: Plus, text: "Add Product" },
-      { href: "/admin/products/list", icon: List, text: "List Products" },
+      { href: "/admin/addProduct", icon: Plus, text: "Add Product" },
+      { href: "/admin/products", icon: List, text: "List Products" },
     ],
   },
   { href: "/admin/orders", icon: ClipboardList, text: "Orders" },
@@ -32,8 +31,8 @@ export const sideBarItems = [
     icon: Layers,
     text: "Categories",
     childMenus: [
-      { href: "/admin/categories/add", icon: Plus, text: "Add Category" },
-      { href: "/admin/categories/list", icon: List, text: "List Categories" },
+      { href: "/admin/categories/addCategory", icon: Plus, text: "Add Category" },
+      { href: "/admin/categories", icon: List, text: "List Categories" },
     ],
   },
   { href: "/admin/remarks", icon: MessageSquare, text: "Remarks" },
@@ -44,8 +43,8 @@ export const sideBarItems = [
     icon: ImageIcon,
     text: "Sliders",
     childMenus: [
-      { href: "/admin/sliders/add", icon: Plus, text: "Add Slider" },
-      { href: "/admin/sliders/list", icon: List, text: "List Sliders" },
+      { href: "/admin/sliders/addSlider", icon: Plus, text: "Add Slider" },
+      { href: "/admin/sliders", icon: List, text: "List Sliders" },
     ],
   },
   { href: "/admin/settings", icon: Settings, text: "Settings" },
@@ -54,8 +53,8 @@ export const sideBarItems = [
     icon: Users,
     text: "Admin Users",
     childMenus: [
-      { href: "/admin/adminUsers/add", icon: UserPlus, text: "Add Admin User" },
-      { href: "/admin/adminUsers/list", icon: List, text: "List Admin Users" },
+      { href: "/admin/adminUsers/addAdminUser", icon: UserPlus, text: "Add Admin User" },
+      { href: "/admin/adminUsers", icon: List, text: "List Admin Users" },
     ],
   },
 ]
