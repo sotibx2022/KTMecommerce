@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import {
   handleAdminRoutes,
   handleAPIPath,
-  handleDashboardRoutes
+  handleDashboardRoutes,
 } from "./app/services/middlewareFunctions/middlewareFunctions";
 export async function middleware(request: NextRequest) {
   try {
@@ -10,13 +10,20 @@ export async function middleware(request: NextRequest) {
     const isAdminPath = path.startsWith('/admin');
     const isdashboardPath = path.startsWith('/dashboard');
     const isApiPath = path.startsWith('/api');
+    const isAdminCheckPath = path.includes('/validateAdmin');
+    const isValidateAdminPath = path === '/pages/validateAdmin';
+    const validAdminCookie = request.cookies.get('validAdmin')?.value;
+    // Block /pages/validateAdmin if validAdmin cookie is true
+    if (isValidateAdminPath && validAdminCookie === 'true') {
+      return NextResponse.redirect(new URL('/', request.url));
+    }
     if (isApiPath) {
       const apiResponse = handleAPIPath(path, request);
       if (apiResponse) {
         return apiResponse;
       }
     }
-    if (isAdminPath) {
+    if (isAdminPath || isAdminCheckPath) {
       const adminResponse = await handleAdminRoutes(path, request);
       if (adminResponse) {
         return adminResponse;
@@ -28,11 +35,19 @@ export async function middleware(request: NextRequest) {
         return dashboardResponse;
       }
     }
-    return NextResponse.next(); // default case
+    return NextResponse.next();
   } catch (error) {
     return NextResponse.next();
   }
 }
 export const config = {
-  matcher: ['/', '/pages/:path*', '/dashboard', '/dashboard/:path*', '/api/:path*', '/admin', '/admin/:path*'],
+  matcher: [
+    '/',
+    '/pages/:path*',
+    '/dashboard',
+    '/dashboard/:path*',
+    '/api/:path*',
+    '/admin',
+    '/admin/:path*',
+  ],
 };
