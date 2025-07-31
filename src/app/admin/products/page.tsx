@@ -1,20 +1,13 @@
 "use client"
-import { Badge } from "@/components/ui/badge";
 import {
   Table,
   TableBody,
-  TableCell,
-  TableRow,
 } from "@/components/ui/table";
-import { useWindowSize } from 'react-use';
-import { FaEdit, FaEye, FaTrash } from "react-icons/fa";
 import { useContext, useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
-import { Button } from "@/components/ui/button";
 import { IProductDisplay } from "@/app/types/products";
 import { APIResponseError, APIResponseSuccess } from "@/app/services/queryFunctions/users";
-import ProductSearchBar from "../components/ProductSearchBar";
 import TableTop from "../components/TableHeader";
 import { IResponseData } from "../components/products";
 import TableNavigation from "../components/TableNavigation";
@@ -24,11 +17,9 @@ import ProductFilterProvider, { ProductFilterContext } from "@/app/context/Produ
 import { TableRowSkleton } from "../components/TableRowSkleton";
 import { updatePageURL } from "@/app/services/apiFunctions/updateProductsApi";
 import { useRouter } from "next/navigation";
-import { FilterX, Plus } from "lucide-react";
 import { ProductsPageHeader } from "../components/ProductsPageHeader";
 import LoadingComponent from "@/app/_components/loadingComponent/LoadingComponent";
 import { useProductDelete } from "@/app/context/ProductDeleteContext";
-import { generateClassName } from "@/app/services/helperFunctions/generateClassNames";
 import { ThemeProvider, ThemeProviderContext } from "@/app/context/ThemeProvider";
 const page=() =>{
   const themeContext = useContext(ThemeProviderContext);
@@ -73,7 +64,7 @@ useEffect(() => {
    setFilterState((prev)=>({...prev,loading:false})) 
   }
  },[isPending])
-const { width } = useWindowSize();
+const screenWidth = useScreenWidth();
 const products = productsResponse?.success ? productsResponse.data!.products : [];
 const pagination = productsResponse?.success ? productsResponse.data!.pagination : {
   currentPage: 1,
@@ -85,7 +76,7 @@ const pagination = productsResponse?.success ? productsResponse.data!.pagination
     <div className="relative py-10">
       {deleteProductPending && <LoadingComponent/>}
       <ProductsPageHeader/>
-<div className={width > 1000 
+<div className={screenWidth > 1000 
   ? "overflow-x-hidden w-full" 
   : "overflow-x-auto max-w-[800px]"}>
   <div >
