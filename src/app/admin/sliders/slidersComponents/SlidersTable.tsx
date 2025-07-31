@@ -6,7 +6,6 @@ import { useSlidersData } from '@/app/hooks/queryHooks/useSlidersData'
 import { IDisplaySlideItems } from '@/app/types/sliders'
 import Link from 'next/link'
 import { Edit, Trash } from 'lucide-react'
-import { useWindowSize } from 'react-use'
 import { DisplayComponents, DisplayContext } from '@/app/context/DisplayComponents'
 import DeleteConfirmation from '@/app/_components/deleteConfirmation/DeleteConfirmation'
 import { useMutation } from '@tanstack/react-query'
@@ -14,6 +13,7 @@ import axios from 'axios'
 import { APIResponseSuccess } from '@/app/services/queryFunctions/users'
 import toast from 'react-hot-toast'
 import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponent'
+import { useScreenWidth } from '@/app/services/helperFunctions/findScreenWidth'
 const SlidersTable = () => {
     const [sliderId, setSliderId] = useState<string | null>(null)
     const { refetch } = useSlidersData()
@@ -41,7 +41,7 @@ const SlidersTable = () => {
         }
     });
     const { visibleComponent, setVisibleComponent } = useContext(DisplayContext)
-    const { width } = useWindowSize()
+    const screenWidth  = useScreenWidth()
     const { data: slidersData, isPending } = useSlidersData();
     const getConfirmationValue = (value: boolean) => {
         if (value && sliderId) {
@@ -53,7 +53,7 @@ const SlidersTable = () => {
         setSliderId(_id)
     }
     return (
-        <div className={width > 800 ? "w-full overflow-x-hidden" : "overflow-x-auto"}>
+        <div className={screenWidth > 800 ? "w-full overflow-x-hidden" : "overflow-x-auto"}>
             {deleteSliderMutation.isPending && <LoadingComponent />}
             {visibleComponent === 'dilaugeBox' && <DeleteConfirmation message={'Do you want to Delete this Slider Item'}
                 returnConfirmValue={getConfirmationValue}
