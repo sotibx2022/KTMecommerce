@@ -40,7 +40,7 @@ const AdminLogin = () => {
     onSuccess: (response) => {
       if (response.success) {
         toast.success(response.message);
-        router.push('/admin')
+        router.push('/admin/')
       } else {
         toast.error(response.message)
       }
