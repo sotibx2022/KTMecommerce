@@ -36,27 +36,19 @@ export const handleDashboardRoutes = async (path: string, request: NextRequest) 
 export const handleAdminRoutes = async (path: string, request: NextRequest) => {
     const validAdmin = request.cookies.get('validAdmin')?.value;
     const isValidateAdminPage = path === '/pages/validateAdmin'; // Exact match
-    console.log(`Admin Check: Path=${path}, validAdmin=${validAdmin}`);
-    // 1. If user is already on validateAdmin page, allow it (no redirect)
     if (isValidateAdminPage) {
         return NextResponse.next();
     }
-    // 2. Valid admin trying to access validateAdmin (shouldn't happen due to above check)
     if (validAdmin === 'true' && isValidateAdminPage) {
-        console.log('Admin trying to access validateAdmin - redirect to /admin');
         return NextResponse.redirect(new URL('/admin', request.url));
     }
-    // 3. Valid admin accessing other routes
     if (validAdmin === 'true') {
         return NextResponse.next();
     }
-    // 4. Invalid admin trying to access /admin routes
     if (path.startsWith('/admin')) {
-        console.log('Invalid admin - redirect to validateAdmin');
         const response = NextResponse.redirect(new URL('/pages/validateAdmin', request.url));
         response.cookies.delete('validAdmin'); // Prevent loops
         return response;
     }
-    // 5. All other cases
     return NextResponse.next();
 };
