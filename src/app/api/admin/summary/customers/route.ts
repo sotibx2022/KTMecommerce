@@ -4,9 +4,7 @@ import UserModel from "@/models/users.model";
 import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
     try {
-        // Connect to database
         await connectToDB();
-        // Execute all queries in parallel for better performance
         const [
             totalCustomers,
             registeredCustomers,
@@ -18,7 +16,6 @@ export async function GET(req: NextRequest) {
             UserModel.countDocuments({ accountStatus: 'customer' }),
             AdminModel.countDocuments()
         ]);
-        // Prepare response data
         const customerDatas = {
             totalCustomers,
             registeredCustomers,
@@ -33,9 +30,9 @@ export async function GET(req: NextRequest) {
     } catch (error: any) {
         console.error("Error in GET /api/customers/summary:", error);
         return NextResponse.json(
-            { 
+            {
                 message: error.message || "Failed to fetch customer data",
-                success: false 
+                success: false
             },
             { status: 500 }
         );

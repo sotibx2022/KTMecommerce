@@ -1,8 +1,9 @@
 'use client';
+import { useDashboardSummary } from '@/app/hooks/queryHooks/useDashboardSummary';
 import dynamic from 'next/dynamic';
 import React from 'react';
 import { Cell, Pie, PieChart } from 'recharts';
-const DisplaySingleProductRating = dynamic(()=>import('@/app/_components/singleProductReviews/DisplaySingleProductRating'),{ssr:false})
+const DisplaySingleProductRating = dynamic(() => import('@/app/_components/singleProductReviews/DisplaySingleProductRating'), { ssr: false })
 const RADIAN = Math.PI / 180;
 interface PieDataItem {
   name: string;
@@ -10,6 +11,8 @@ interface PieDataItem {
   color: string;
 }
 const RatingSummary = () => {
+  const { data: productsSummary, isPending } = useDashboardSummary('products');
+  const ratingValue = productsSummary.productsSummaryData.overallRating ?? 1
   const data: PieDataItem[] = [
     { name: 'Poor', value: 10, color: '#b7e4c7' },
     { name: 'Fair', value: 20, color: '#74c69d' },
@@ -20,10 +23,9 @@ const RatingSummary = () => {
   const cy = 200;
   const iR = 60;
   const oR = 120;
-  const value = 2.5; // Change this to test other needle positions
-  // Helper to return label text based on rating value
+  const value = ratingValue;
   const getRatingText = (value: number) => {
-    if (value <= 1.5) return { label: 'Poor rating. Needs major improvement.', color: '#b7e4c7' };
+    if (value <= 1.5) return { label: 'Poor rating. Needs major improvement.', color: '#531c1d' };
     if (value <= 2.5) return { label: 'Fair. Could be better.', color: '#74c69d' };
     if (value <= 4) return { label: 'Good. Most customers are satisfied.', color: '#40916c' };
     return { label: 'Great! Excellent feedback from users.', color: '#1b4332' };
@@ -60,10 +62,10 @@ const RatingSummary = () => {
   };
   const { label, color } = getRatingText(value);
   return (
-    <div className="shadow-primaryLight p-4 rounded-md">
-      <h2 className="text-lg font-semibold mb-2 text-[#876061]">Rating Summary</h2>
-      <div className="flex flex-col lg:flex-row items-center justify-between gap-4">
-        <PieChart width={600} height={200}>
+    <div className="shadow-primaryLight p-4 rounded-md flex items-center justify-center flex-col">
+      <h2 className="text-lg font-semibold mb-4 text-primaryDark">Rating Summary</h2>
+      <div className="flex flex-col gap-4">
+        <PieChart height={200} width={300}>
           <Pie
             dataKey="value"
             startAngle={180}
@@ -83,9 +85,9 @@ const RatingSummary = () => {
         </PieChart>
         {/* Custom legend */}
         <div className="w-full lg:w-64 text-sm flex flex-col gap-2">
-          <div className="flex flex-col"><span className='text-xl mb-1 text-[#531c1d]'>Overall Rating</span>
-          <DisplaySingleProductRating rating={value}/>
-           </div>
+          <div className="flex flex-col">
+            <DisplaySingleProductRating rating={value} />
+          </div>
           <p className="text-sm rounded-md p-2" style={{ backgroundColor: color, color: '#fff' }}>
             {label}
           </p>
