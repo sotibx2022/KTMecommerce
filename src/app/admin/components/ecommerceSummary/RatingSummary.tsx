@@ -12,7 +12,7 @@ interface PieDataItem {
 }
 const RatingSummary = () => {
   const { data: productsSummary, isPending } = useDashboardSummary('products');
-  const ratingValue = productsSummary.productsSummaryData.overallRating ?? 1
+  const ratingValue = productsSummary?.productsSummaryData?.overallRating ?? 1
   const data: PieDataItem[] = [
     { name: 'Poor', value: 10, color: '#b7e4c7' },
     { name: 'Fair', value: 20, color: '#74c69d' },
