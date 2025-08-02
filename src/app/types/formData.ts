@@ -13,7 +13,6 @@ export interface IUpdateUserData{
   phoneNumber: string;
   password: string;
   confirmPassword: string;
-  fullAddress:string;
   profileFile:File;
   profileFileOriginalName:string;
   profileFileSize:number;

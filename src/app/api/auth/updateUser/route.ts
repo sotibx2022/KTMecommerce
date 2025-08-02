@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
         address: fullAddress,
         phoneNumber,
         profileImage: profileUrl,
-        accountStatus: "customer",
+        accountStatus: "updated",
         profileFileOriginalName:fileName,
         profileFileSize:fileSize,
         profileFileType:fileType
