@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
             );
         }
         const userDetails = await UserModel.findOne({ _id: userId })
-            .select('fullName profileImage _id accountStatus passwordHistory')
+            .select('fullName email profileImage _id accountStatus passwordHistory')
             .lean();
         if (!userDetails) {
             return NextResponse.json(

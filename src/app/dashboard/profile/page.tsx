@@ -20,18 +20,17 @@ const Page = () => {
   const { visibleComponent, setVisibleComponent } = useContext(DisplayContext);
   const [isLoading, setIsLoading] = useState(false);
   const [profileFile, setProfileFile] = useState<undefined | File>(undefined)
-  const { data: userData, refetch } = useUser()
+  const { data: userData, isPending: userDataPending, refetch } = useUser()
   const { register, formState: { errors }, handleSubmit, setValue } = useForm<IUpdateUserData>({ mode: "all" })
   const mutation = useMutation({
     mutationFn: updateUserMutation,
     onSuccess: async (response: APIResponseSuccess<IUser> | APIResponseError) => {
       setIsLoading(false);
+      setVisibleComponent('')
       if ('data' in response) { // Type guard for APIResponseSuccess
-        setVisibleComponent('')
         toast.success(response.message);
         await refetch()
       } else {
-        setVisibleComponent('');
         toast.error(response.message);
       }
     },
@@ -44,13 +43,13 @@ const Page = () => {
     setVisibleComponent('loadingComponent')
     if (!profileFile) {
       setIsLoading(false);
+      setVisibleComponent('');
       toast.error("Please upload the Image first !")
     } else {
       const formData = new FormData();
       // Append all user data to FormData
       formData.append("fullName", data.fullName);
       formData.append("phoneNumber", data.phoneNumber);
-      formData.append("fullAddress", data.fullAddress);
       formData.append("email", data.email)
       // If profileFile exists, append it to the FormData object
       if (profileFile) {
@@ -67,25 +66,25 @@ const Page = () => {
     setProfileFile(file)
   }
   useEffect(() => {
-    if (userData) {
-      setValue("fullName", userData.fullName);
-      setValue("phoneNumber", userData.phoneNumber || "");
-      setValue("email", userData.email);
-      if (userData.address) {
-        setValue("fullAddress", userData.address)
-      }
-      if (userData.profileImage) {
-        setValue('profileUrl', userData.profileImage)
-      }
+    if (userDataPending) {
+      setValue("fullName", "Loading...");
+      setValue("phoneNumber", "Loading...");
+      setValue("email", "Loading...");
+      setValue('profileUrl', "Loading...");
+    } else {
+      setValue("fullName", userData?.fullName ?? "");
+      setValue("phoneNumber", userData?.phoneNumber || "");
+      setValue("email", userData?.email!);
+      setValue('profileUrl', userData?.profileImage || "");
     }
-  }, [userData])
+  }, [userData, userDataPending, setValue]);
   return (
     <>{isLoading ? <LoadingComponent /> : <form className='container my-4' onSubmit={handleSubmit(onSubmit)}>
       <div className="flex flex-col-reverse sm:flex-row gap-4 justify-between mb-4">
         <div className="sm:w-2/5 flex flex-col gap-2">
           <div>
             <label className="formLabel">Full Name</label>
-            <input type="text" className="formItem " placeholder="Mukhtar Thapa" id='fullName'
+            <input type="text" className="formItem " id='fullName'
               disabled={!userData}
               {...register("fullName", {
                 validate: (value) => validateFullName("Full Name", value, 3, 20)
@@ -95,7 +94,7 @@ const Page = () => {
           </div>
           <div>
             <label className="formLabel">Email</label>
-            <input type="text" className="formItem " placeholder="example@gmail.com" id='email' readOnly
+            <input type="text" className="formItem " id='email' readOnly
               {...register("email")} />
           </div>
           <div>
@@ -109,35 +108,13 @@ const Page = () => {
                 />
                 <span className="text-primaryDark text-sm font-medium">+977</span>
               </div>
-              <input type="text" className="border border-helper bg-background rounded-md p-3 w-full shadow-helper shadow-sm focus:outline-none text-primaryDark pl-[80px] " placeholder="+123 456 7890" id="phoneNumber"
+              <input type="text" className="border border-helper bg-background rounded-md p-3 w-full shadow-helper shadow-sm focus:outline-none text-primaryDark pl-[80px] " placeholder="eg.9804567890" id="phoneNumber"
                 disabled={!userData}
                 {...register("phoneNumber", {
                   validate: (value) => validateNumber("Phone Number", value, 10, 10)
                 })} />
             </div>
             {errors.phoneNumber?.message && <SubmitError message={errors.phoneNumber.message} />}
-          </div>
-          <div>
-            <label className="formLabel">Full Address</label>
-            <input
-              type="text"
-              className="formItem"
-              placeholder="123 Main St, City, Country"
-              id="fullAddress"
-              disabled={!userData}
-              {...register("fullAddress", {
-                required: "Full Address is Required.",
-                minLength: {
-                  value: 5,
-                  message: "Minimum 5 characters are required."
-                },
-                maxLength: {
-                  value: 30,
-                  message: "No more than 30 characters are allowed."
-                }
-              })}
-            />
-            {errors.fullAddress?.message && <SubmitError message={errors.fullAddress.message} />}
           </div>
         </div>
         <div className="sm:w-2/5">
