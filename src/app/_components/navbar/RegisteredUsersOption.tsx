@@ -52,7 +52,7 @@ const RegisteredUsersOption = () => {
           />
         ) : (
           <h1 className="text-primaryDark text-upperCase bg-background w-[30px] h-[30px] flex-center text-xl rounded-full">
-            {userDetails && userDetails.fullName[0].toUpperCase()}
+            {userDetails && (userDetails.fullName[0]||userDetails.email[0]).toUpperCase()}
           </h1>
         )}
         <p className="text-white capitalize">

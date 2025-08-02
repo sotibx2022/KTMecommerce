@@ -10,6 +10,7 @@ import React, {
 import { getUserDetails } from "../services/helperFunctions/getUserDetails";
 export interface IUserSafeData {
   fullName: string;
+  email:string;
   profileImage?: string;
   _id: string;
   accountStatus?: string;
@@ -37,6 +38,7 @@ useEffect(() => {
   if (userData) {
     const userSafeData = {
       fullName: userData?.fullName || "",
+      email:userData?.email||"",
       profileImage: userData?.profileImage,
       _id: userData?._id.toString() || "",
       accountStatus: userData?.accountStatus,

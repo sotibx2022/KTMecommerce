@@ -36,7 +36,7 @@ const MobileHeader = () => {
                     onMouseLeave={() => setShowUserOptions(false)}
                   > <h1 className="text-primaryDark uppercase bg-background w-[30px] h-[30px] flex-center text-xl rounded-full border-2 border-helper"
                   >
-                      {(userDetails.fullName)?.charAt(0).toUpperCase()}
+                      {(userDetails.fullName||userDetails.email)?.charAt(0).toUpperCase()}
                     </h1>
                     <h2 className="primaryParagraph">{userDetails && userDetails.fullName.split(" ")[0]}</h2>
                     <FontAwesomeIcon
