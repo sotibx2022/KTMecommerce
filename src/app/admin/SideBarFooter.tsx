@@ -22,14 +22,15 @@ const SideBarFooter: React.FC<ISideBarFooterProps> = ({
 }) => {
     const router = useRouter()
     const { data: adminUserData, isPending } = useAdminUser();
+    console.log(adminUserData);
     const { setAdminDetails, adminDetails, setAdminDetailsLoading, adminDetailsLoading } = useAdminDetails();
     useEffect(() => {
         setAdminDetailsLoading(isPending)
         if (adminUserData) {
             setAdminDetails({
                 adminFullName: adminUserData.adminFullName || 'N/A',
-                adminUserEmail: adminUserData.adminUserEmail || 'N/A',
-                adminRole: adminUserData.adminRole || 'user',
+                adminUserEmail: adminUserData.adminEmail || 'N/A',
+                adminRole: adminUserData.roles || 'user',
                 adminUserName: adminUserData.adminUserName || 'N/A'
             });
         }
@@ -54,47 +55,44 @@ const SideBarFooter: React.FC<ISideBarFooterProps> = ({
     }
     return (
         <div>
-            {adminDetailsLoading ? <SideBarFooterSkeleton shouldShowText={shouldShowText} />:
-            <SidebarFooter className={sidebarThemeClass}>
-                <SidebarMenu>
-                    {/* Admin Profile Button */}
-                    <SidebarMenuItem>
-                        <SidebarMenuButton
-                            tooltip={shouldShowText ? undefined : "Admin Profile"}
-                            className={`sidebarFooterButton ${sidebarThemeClass}`}
-                            onClick={onClick}
-                        >
-                            <User className="sidebarIcon" />
-                            {shouldShowText && (
-                                <div className="sidebarFooterText">
-                                    <span className="sidebarFooterTitle">
-                                        {adminDetails.adminFullName}
-                                    </span>
-                                    <span className={sidebarTextThemeClass}>
-                                        {adminDetails.adminRole}
-                                    </span>
-                                    <span className={sidebarTextThemeClass}>
-                                        {adminDetails.adminUserEmail}
-                                    </span>
-                                </div>
-                            )}
-                        </SidebarMenuButton>
-                    </SidebarMenuItem>
-                    {/* Logout Button */}
-                    <SidebarMenuItem>
-                        <SidebarMenuButton
-                            tooltip={shouldShowText ? undefined : "Logout"}
-                            className={`sidebarFooterButton ${sidebarThemeClass}`}
-                            onClick={logoutHandler}
-                        >
-                            <LogOut className="sidebarIcon" />
-                            {shouldShowText && (
-                                <span className="sidebarFooterText">Logout</span>
-                            )}
-                        </SidebarMenuButton>
-                    </SidebarMenuItem>
-                </SidebarMenu>
-            </SidebarFooter>
+            {adminDetailsLoading ? <SideBarFooterSkeleton shouldShowText={shouldShowText} /> :
+                <SidebarFooter className={sidebarThemeClass}>
+                    <SidebarMenu>
+                        {/* Admin Profile Button */}
+                        <SidebarMenuItem>
+                            <SidebarMenuButton
+                                tooltip={shouldShowText ? undefined : "Admin Profile"}
+                                className={`sidebarFooterButton ${sidebarThemeClass}`}
+                                onClick={onClick}
+                            >
+                                <div className="w-8 h-8 rounded-full  bg-primaryLight text-primaryDark text-lg font-bold flex justify-center items-center">{adminDetails.adminFullName[0]}</div>
+                                {shouldShowText && (
+                                    <div className="sidebarFooterText">
+                                        <span className="sidebarFooterTitle capitalize text-lg">
+                                            {adminDetails.adminFullName}
+                                        </span>
+                                        <span className={sidebarTextThemeClass}>
+                                            {adminDetails.adminRole}
+                                        </span>
+                                    </div>
+                                )}
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
+                        {/* Logout Button */}
+                        <SidebarMenuItem>
+                            <SidebarMenuButton
+                                tooltip={shouldShowText ? undefined : "Logout"}
+                                className={`sidebarFooterButton ${sidebarThemeClass}`}
+                                onClick={logoutHandler}
+                            >
+                                <LogOut className="sidebarIcon" />
+                                {shouldShowText && (
+                                    <span className="sidebarFooterText">Logout</span>
+                                )}
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
+                    </SidebarMenu>
+                </SidebarFooter>
             }
         </div>
     );

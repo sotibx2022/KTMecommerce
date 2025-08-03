@@ -22,7 +22,7 @@ export async function GET(req: NextRequest) {
             });
         }
         const decoded = jwt.verify(cookie, JWT_SECRET) as JwtPayload;
-        const adminUser = await AdminModel.findOne({ adminUserName: decoded.adminUserName });
+        const adminUser = await AdminModel.findOne({ adminUserName: decoded.userName });
         if (!adminUser) {
             return NextResponse.json({
                 message: "Admin not found",
@@ -36,8 +36,15 @@ export async function GET(req: NextRequest) {
             status: 200
         });
     } catch (error: any) {
+        if (error.name === 'JsonWebTokenError') {
+            return NextResponse.json({
+                message: "Invalid token",
+                success: false,
+                status: 401
+            });
+        }
         return NextResponse.json({
-            message: "Error to fetch adminDetails",
+            message: "Error fetching adminDetails",
             success: false,
             status: 500
         });

@@ -12,9 +12,9 @@ export async function middleware(request: NextRequest) {
     const isApiPath = path.startsWith('/api');
     const isAdminCheckPath = path.includes('/validateAdmin');
     const isValidateAdminPath = path === '/pages/validateAdmin';
-    const validAdminCookie = request.cookies.get('validAdmin')?.value;
+    const validAdminCookie = request.cookies.get('adminDetails')?.value;
     // Block /pages/validateAdmin if validAdmin cookie is true
-    if (isValidateAdminPath && validAdminCookie === 'true') {
+    if (isValidateAdminPath && validAdminCookie) {
       return NextResponse.redirect(new URL('/', request.url));
     }
     if (isApiPath) {

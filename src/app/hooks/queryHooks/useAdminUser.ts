@@ -5,7 +5,7 @@ export const useAdminUser = () => {
         queryKey: ['adminUser'],
         queryFn: async () => {
             const response = await axios.get('/api/admin/validateAdmin/adminUser');
-            return response.data.adminUser
+            return response.data.data
         },
         staleTime: 300000, // 5 minutes
         gcTime: 1800000,  // 30 minutes

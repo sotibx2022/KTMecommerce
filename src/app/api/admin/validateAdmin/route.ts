@@ -21,10 +21,10 @@ export async function POST(req: NextRequest) {
             );
         }
         const adminToken = jwt.sign(
-  { username: adminUserName },  // Payload must be an object
-  JWT_SECRET,
-  { expiresIn: '24h' }
-);
+            { userName: adminUserName },  // Payload must be an object
+            JWT_SECRET,
+            { expiresIn: '24h' }
+        );
         const response = NextResponse.json({ message: "Access granted. Taking you to the Admin Dashboard...", success: true, status: 200 })
         response.cookies.set({
             name: "adminDetails",
