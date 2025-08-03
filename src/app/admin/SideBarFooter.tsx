@@ -38,7 +38,7 @@ const SideBarFooter: React.FC<ISideBarFooterProps> = ({
     const logoutMutation = useMutation({
         mutationFn: async () => {
             const response = await axios.post('/api/admin/validateAdmin/logoutAdmin', null);
-            return response.data()
+            return response.data;
         }, onSuccess: (response) => {
             toast.success(response.message);
             setAdminDetails({
