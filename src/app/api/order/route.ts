@@ -49,7 +49,7 @@ export async function POST(req: NextRequest) {
       userId: userId
     });
     await newDeliveryDetails.save();
-    await UserModel.findByIdAndDelete(userId, { accountStatus: "customer" })
+    await UserModel.findByIdAndUpdate(userId, { accountStatus: "customer" })
     for (const item of items) {
       if (userId?.toString() !== item.wishersId.toString()) {
         const wisher = await UserModel.findById(item.wishersId).select('fullName email');
