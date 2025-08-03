@@ -44,3 +44,11 @@ On success:
 Redirects to /success page
 Retrieves orderId from Stripe metadata
 Updates order status to "Paid"
+
+//// how did i am handeling readOnly admin user and full access admin user roles.
+when admin login, i will set the cookies with his userName and token with expiry of 1 day.
+when admin page loads, i will get the userName from the cookies and get the userDetails.
+context created to share the user details around the components in ui.
+logout api created to remove the admin details from the cookies.
+redirected to the homepage on successful logout.
+footer skeleton created to render while loading admin details.

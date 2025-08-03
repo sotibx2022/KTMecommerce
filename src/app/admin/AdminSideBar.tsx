@@ -27,6 +27,7 @@ import { useContext, useEffect, useState } from "react"
 import { Menu, Minus, PanelLeftClose, PanelLeftOpen, Plus, LayoutDashboard, User } from "lucide-react"
 import { ThemeProviderContext } from "../context/ThemeProvider"
 import { sideBarItems } from "./components/sideBarComponents/sidebarItems"
+import SideBarFooter from "./SideBarFooter"
 const AdminSideBar = () => {
   const context = useContext(ThemeProviderContext);
   if (!context) {
@@ -194,25 +195,12 @@ const AdminSideBar = () => {
             </SidebarGroupContent>
           </SidebarGroup>
         </SidebarContent>
-        <SidebarFooter className={sidebarThemeClass}>
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton
-                tooltip={shouldShowText ? undefined : "Admin User"}
-                className={`sidebarFooterButton ${sidebarThemeClass}`}
-                onClick={handleMenuItemClick}
-              >
-                <User className="sidebarIcon" />
-                {shouldShowText && (
-                  <div className="sidebarFooterText">
-                    <span className="sidebarFooterTitle">Admin User</span>
-                    <span className={sidebarTextThemeClass}>Administrator</span>
-                  </div>
-                )}
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </SidebarMenu>
-        </SidebarFooter>
+        <SideBarFooter
+          sidebarThemeClass={sidebarThemeClass}
+          shouldShowText={shouldShowText}
+          onClick={handleMenuItemClick}
+          sidebarTextThemeClass={sidebarTextThemeClass}
+        />
       </Sidebar>
     </>
   )

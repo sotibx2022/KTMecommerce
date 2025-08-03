@@ -5,13 +5,14 @@ import QueryProvider from "./provider/queryProvider";
 import { AdvanceSearchProvider } from "./context/AdvanceSearchContext";
 import { Suspense } from "react";
 import LoadingComponent from "./_components/loadingComponent/LoadingComponent";
+import { AdminDetailsContext } from "./context/AdminDetailsContext";
 const myFont = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--myFont",
   weight: "100 900",
 });
 export const metadata: Metadata = {
-  metadataBase:new URL('https://ecommercektm.vercel.app'),
+  metadataBase: new URL('https://ecommercektm.vercel.app'),
   title: "Ecommerce KTM - One Stock Electronics Store in Kathmandu, Nepal",
   description: "Best electronics deals in Kathmandu. Fast delivery, genuine products, and competitive prices.",
   keywords: ['online shopping nepal', 'ecommerce ktm', 'buy electronics in kathmandu'],
@@ -54,10 +55,12 @@ export default function RootLayout({
       </head>
       <body className={`${myFont.variable}`}>
         <QueryProvider>
-          <Suspense fallback={<LoadingComponent/>}>
-           <AdvanceSearchProvider>
-          {children}
-          </AdvanceSearchProvider>
+          <Suspense fallback={<LoadingComponent />}>
+            <AdvanceSearchProvider>
+              <AdminDetailsContext>
+                {children}
+              </AdminDetailsContext>
+            </AdvanceSearchProvider>
           </Suspense>
         </QueryProvider>
       </body>
