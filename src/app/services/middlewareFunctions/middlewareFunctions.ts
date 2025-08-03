@@ -34,20 +34,20 @@ export const handleDashboardRoutes = async (path: string, request: NextRequest) 
     return NextResponse.next();
 };
 export const handleAdminRoutes = async (path: string, request: NextRequest) => {
-    const validAdmin = request.cookies.get('validAdmin')?.value;
+    const validAdmin = request.cookies.get('adminDetails')?.value;
     const isValidateAdminPage = path === '/pages/validateAdmin'; // Exact match
     if (isValidateAdminPage) {
         return NextResponse.next();
     }
-    if (validAdmin === 'true' && isValidateAdminPage) {
+    if (validAdmin && isValidateAdminPage) {
         return NextResponse.redirect(new URL('/admin', request.url));
     }
-    if (validAdmin === 'true') {
+    if (validAdmin) {
         return NextResponse.next();
     }
     if (path.startsWith('/admin')) {
         const response = NextResponse.redirect(new URL('/pages/validateAdmin', request.url));
-        response.cookies.delete('validAdmin'); // Prevent loops
+        response.cookies.delete('adminDetails'); // Prevent loops
         return response;
     }
     return NextResponse.next();

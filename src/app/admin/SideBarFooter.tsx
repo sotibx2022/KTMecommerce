@@ -24,6 +24,7 @@ const SideBarFooter: React.FC<ISideBarFooterProps> = ({
     const { data: adminUserData, isPending } = useAdminUser();
     const { setAdminDetails, adminDetails, setAdminDetailsLoading, adminDetailsLoading } = useAdminDetails();
     useEffect(() => {
+        setAdminDetailsLoading(isPending)
         if (adminUserData) {
             setAdminDetails({
                 adminFullName: adminUserData.adminFullName || 'N/A',
@@ -31,7 +32,6 @@ const SideBarFooter: React.FC<ISideBarFooterProps> = ({
                 adminRole: adminUserData.adminRole || 'user',
                 adminUserName: adminUserData.adminUserName || 'N/A'
             });
-            setAdminDetailsLoading(isPending)
         }
     }, [adminUserData, setAdminDetails]);
     const logoutMutation = useMutation({
@@ -50,11 +50,11 @@ const SideBarFooter: React.FC<ISideBarFooterProps> = ({
         }
     })
     function logoutHandler(): void {
-        throw new Error('Function not implemented.');
+        logoutMutation.mutate()
     }
     return (
         <div>
-            {adminDetailsLoading && <SideBarFooterSkeleton shouldShowText={shouldShowText} />}
+            {adminDetailsLoading ? <SideBarFooterSkeleton shouldShowText={shouldShowText} />:
             <SidebarFooter className={sidebarThemeClass}>
                 <SidebarMenu>
                     {/* Admin Profile Button */}
@@ -95,6 +95,7 @@ const SideBarFooter: React.FC<ISideBarFooterProps> = ({
                     </SidebarMenuItem>
                 </SidebarMenu>
             </SidebarFooter>
+            }
         </div>
     );
 };
