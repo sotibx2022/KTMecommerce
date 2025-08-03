@@ -32,7 +32,7 @@ const UserSchema: Schema = new Schema<IUser>(
     },
     accountStatus: {
       type: String,
-      enum: ["registered", "customer", "admin"],
+      enum: ["registered","updated", "customer", "admin","active","inActive"],
       default: "registered",
     },
     roles: {

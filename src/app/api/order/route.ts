@@ -49,14 +49,11 @@ export async function POST(req: NextRequest) {
       userId: userId
     });
     await newDeliveryDetails.save();
+    await UserModel.findByIdAndDelete(userId, { acountStatus: "customer" })
     for (const item of items) {
       if (userId?.toString() !== item.wishersId.toString()) {
         const wisher = await UserModel.findById(item.wishersId).select('fullName email');
         const user = await UserModel.findById(userId).select('fullName email');
-        if(user){
-user.accountStatus="customer"
-user.save();
-        }
         const newNotification = new NotificationModel({
           userId: userId,
           title: "Order Placed",

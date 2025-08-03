@@ -23,8 +23,8 @@ const RegisteredUsersOption = () => {
   const dispatch = useDispatch();
   const { data: cartItems, isPending } = useCartItems();
   const { data: wishListItems, isPending: wishListItemsPending } = useWishListItems();
-  const cartItemsArray = !isPending && cartItems?.success && cartItems.data && cartItems.data.length > 0 
-  const wishListArray = !wishListItemsPending && wishListItems?.success && wishListItems.data && wishListItems.data.length > 0 
+  const cartItemsArray = !isPending && cartItems?.success && cartItems.data && cartItems.data.length > 0
+  const wishListArray = !wishListItemsPending && wishListItems?.success && wishListItems.data && wishListItems.data.length > 0
   useEffect(() => {
     if (!userDetails) {
       dispatch(clearCartItems());
@@ -52,12 +52,12 @@ const RegisteredUsersOption = () => {
           />
         ) : (
           <h1 className="text-primaryDark text-upperCase bg-background w-[30px] h-[30px] flex-center text-xl rounded-full">
-            {userDetails && (userDetails.fullName[0]||userDetails.email[0]).toUpperCase()}
+            {userDetails && (userDetails.fullName[0] || userDetails.email[0]).toUpperCase()}
           </h1>
         )}
         <p className="text-white capitalize">
           <span className='text-helper'>Welcome</span> {
-            userDetails && userDetails.fullName.split(" ")[0]}
+            userDetails && (userDetails.fullName.split(" ")[0] || userDetails?.email.split("@")[0])}
         </p>
         <FontAwesomeIcon
           icon={showUserOptions ? faCaretUp : faCaretDown}
