@@ -30,7 +30,7 @@ const SideBarFooter: React.FC<ISideBarFooterProps> = ({
             setAdminDetails({
                 adminFullName: adminUserData.adminFullName || 'N/A',
                 adminUserEmail: adminUserData.adminEmail || 'N/A',
-                adminRole: adminUserData.role || 'user',
+                adminRole: adminUserData.roles || 'user',
                 adminUserName: adminUserData.adminUserName || 'N/A'
             });
         }

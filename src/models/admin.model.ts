@@ -13,7 +13,7 @@ const adminSchema = new Schema<IAddAdminData>({
         type: String,
         required: true
     },
-    role:{
+    roles:{
         type:String,
         enum:['readOnly','readandwrite'],
         default:'readOnly',

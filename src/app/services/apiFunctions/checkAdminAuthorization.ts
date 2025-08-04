@@ -35,7 +35,7 @@ export const checkAdminAuthorization = async (request: NextRequest): Promise<Aut
                 status: 404
             };
         }
-        if (adminUser.role === 'readOnly') {
+        if (adminUser.roles === 'readOnly') {
             return {
                 message: "ReadOnly Admin can only view data",
                 success: false,
