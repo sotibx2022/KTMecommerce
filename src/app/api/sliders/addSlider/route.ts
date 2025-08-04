@@ -5,8 +5,12 @@ import { SliderModel } from "@/models/sliders.model";
 import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
   try {
-    await checkAdminAuthorization(req);
-    connectToDB()
+    const authorizationResponse = await checkAdminAuthorization(req);
+    const { message, success, status } = authorizationResponse;
+    if (!success) {
+      return NextResponse.json({ message: message, success: success, status: status || 400 })
+    }
+    await connectToDB()
     const formData = await req.formData();
     const sliderImage = formData.get('sliderImage') as Blob | null;
     const sliderTitle = formData.get('sliderTitle') as string | null;
@@ -15,7 +19,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({
         success: false,
         message: "All fields are required",
-        status: 400  
+        status: 400
       });
     }
     const uploadResult = await uploadImage(
@@ -28,7 +32,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({
         success: false,
         message: uploadResult.message || "Image upload failed",
-        status: uploadResult.status || 500  
+        status: uploadResult.status || 500
       });
     }
     const newSlider = new SliderModel({
@@ -40,14 +44,14 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
       success: true,
       message: "Slider created successfully",
-      status: 201,  
+      status: 201,
     });
   } catch (error) {
     console.error("Error creating slider:", error);
     return NextResponse.json({
       success: false,
       message: "Internal server error",
-      status: 500 
+      status: 500
     });
   }
 }
