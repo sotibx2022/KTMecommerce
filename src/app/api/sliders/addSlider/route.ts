@@ -1,9 +1,11 @@
+import { checkAdminAuthorization } from "@/app/services/apiFunctions/checkAdminAuthorization";
 import { uploadImage } from "@/app/services/helperFunctions/uploadImage";
 import { connectToDB } from "@/config/db";
 import { SliderModel } from "@/models/sliders.model";
 import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
   try {
+    await checkAdminAuthorization(req);
     connectToDB()
     const formData = await req.formData();
     const sliderImage = formData.get('sliderImage') as Blob | null;

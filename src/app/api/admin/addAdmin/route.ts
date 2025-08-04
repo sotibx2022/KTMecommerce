@@ -1,3 +1,4 @@
+import { checkAdminAuthorization } from "@/app/services/apiFunctions/checkAdminAuthorization";
 import { IAddAdminData } from "@/app/types/admin";
 import { connectToDB } from "@/config/db";
 import AdminModel from "@/models/admin.model";
@@ -5,6 +6,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
     try {
         connectToDB()
+        await checkAdminAuthorization(req);
         const { adminFullName, adminEmail, adminUserName } = await req.json() as IAddAdminData;
         // Basic validation
         if (!adminFullName || !adminEmail || !adminUserName) {

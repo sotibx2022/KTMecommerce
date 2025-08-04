@@ -13,6 +13,12 @@ const adminSchema = new Schema<IAddAdminData>({
         type: String,
         required: true
     },
+    role:{
+        type:String,
+        enum:['readOnly','readandwrite'],
+        default:'readOnly',
+        required:true
+    }
 }, { timestamps: true })
 const AdminModel = mongoose.models.Admin || mongoose.model("Admin", adminSchema);
 export default AdminModel

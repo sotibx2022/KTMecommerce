@@ -1,3 +1,4 @@
+import { checkAdminAuthorization } from "@/app/services/apiFunctions/checkAdminAuthorization";
 import { uploadImage } from "@/app/services/helperFunctions/uploadImage";
 import { getPublicId } from "@/app/services/helperFunctions/uploadImageHelpers";
 import { connectToDB } from "@/config/db";
@@ -43,6 +44,7 @@ export async function GET(req: NextRequest) {
 }
 export async function POST(req: NextRequest) {
     try {
+        await checkAdminAuthorization(req);
         await connectToDB();
         // Extract sliderId from URL
         const url = new URL(req.url);

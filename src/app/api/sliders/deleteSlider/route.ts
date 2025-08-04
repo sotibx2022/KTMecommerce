@@ -1,9 +1,11 @@
+import { checkAdminAuthorization } from "@/app/services/apiFunctions/checkAdminAuthorization";
 import { deleteCloudinaryImage, getPublicId } from "@/app/services/helperFunctions/uploadImageHelpers";
 import { connectToDB } from "@/config/db";
 import { SliderModel } from "@/models/sliders.model";
 import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
     try {
+        await checkAdminAuthorization(req);
         await connectToDB();
         // Extract sliderId from headers
         const sliderId = req.headers.get('sliderId');

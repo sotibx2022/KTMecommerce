@@ -1,8 +1,10 @@
+import { checkAdminAuthorization } from "@/app/services/apiFunctions/checkAdminAuthorization";
 import { connectToDB } from "@/config/db";
 import { productModel } from "@/models/products.model";
 import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
   try {
+    await checkAdminAuthorization(req);
     await connectToDB();
     const { productId } = await req.json();
     if (!productId) {
