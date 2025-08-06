@@ -19,6 +19,7 @@ const _config = {
     stripePublishableKey:process.env.STRIPE_PUBLISHABLE_KEY!
   },
   cookieSecret:process.env.NEXTJS_COOKIE_SECRET!,
-  tokenSecret:process.env.TOKENSECRET!
+  tokenSecret:process.env.TOKENSECRET!,
+  groqSecretKey:process.env.GROQ_SECRET_KEY!
 };
 export const config = Object.freeze(_config);
