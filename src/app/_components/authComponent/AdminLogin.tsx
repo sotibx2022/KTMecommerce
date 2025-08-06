@@ -64,15 +64,15 @@ const AdminLogin = () => {
       <input type="text" placeholder="Enter Your UserId" className="formItem mb-3" value={adminUserName} onChange={(e) => setAdminUserName(e.target.value)} />
       <PrimaryButton searchText='Login' onClick={validateAdmin} />
       <div>
-         <div className="flex items-center gap-2 p-3 rounded-lg bg-green-50 border border-green-200 text-green-800">
-      <Info className="w-5 h-5 text-green-600" />
-      <div>
-        <span className="font-medium">Demo Account:</span>{' '}
-        <span className="font-mono bg-green-100 px-2 py-1 rounded text-green-700">
-          Demo4Ktm@2026
-        </span>
-      </div>
-    </div>
+        <div className="flex items-center gap-2 p-3 rounded-lg bg-green-50 border border-green-200 text-green-800">
+          <Info className="w-5 h-5 text-green-600" />
+          <div>
+            <span className="font-medium">Demo Account:</span>{' '}
+            <span className="font-mono bg-green-100 px-2 py-1 rounded text-green-700">
+              Demo4Ktm@2026
+            </span>
+          </div>
+        </div>
         <Divider text='Admin Capebelities' />
         <div>
           <h3 className="text-primaryDark">CRUD Operations:</h3>
