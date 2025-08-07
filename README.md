@@ -52,3 +52,13 @@ logout api created to remove the admin details from the cookies.
 redirected to the homepage on successful logout.
 footer skeleton created to render while loading admin details.
 middleware function created to check whether the admin user is authorized to handle post request or not. if not error thrown.
+//// How to implement smart search feature using langchain in my project.
+install langchain core, community and openAI.
+smartsearch.ts function created which initialize the openAI.
+the smartSearch function recive the query from user and return response.content using HumanMessage model from longchain.
+the api route for smart search receives the query and return the response using smartSearch function.
+the langchain/openAI requires quota for responses.
+the langchain/ollama requires local server.
+so that go with groq model.
+------
+now the groqLLM respond with result being based on the query data however, existing search logics has some describency which needs to be resolved.

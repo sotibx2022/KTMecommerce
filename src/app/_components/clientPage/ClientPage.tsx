@@ -12,7 +12,7 @@ const ClientPage = () => {
   return (
     <>
       <NavBar />
-      <HeroLayout />
+      {/* <HeroLayout />
       <AllProductsBanner />
       <CategoryCards
         categoryType="isNewArrival"
@@ -31,8 +31,8 @@ const ClientPage = () => {
         title="Limited Offer Items"
       />
       <BrandCaurosel />
-      <ConditionalComponents />
-      <Footer />
+      <ConditionalComponents /> */}
+      {/* <Footer /> */}
     </>
   )
 }
