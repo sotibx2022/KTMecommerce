@@ -11,7 +11,6 @@ export const useDebounce = ({
 }: UseDebounceProps) => {
   const timerRef = useRef<NodeJS.Timeout>();
   useEffect(() => {
-    // Clear previous timeout on each dependency change
     if (timerRef.current) {
       clearTimeout(timerRef.current);
     }

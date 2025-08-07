@@ -12,7 +12,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import LogoComponent from '../logoComponent/LogoComponent';
 import { useDebounce } from '@/app/hooks/generalHooks/useDebounce';
+import { AdvanceSearchProvider, SearchContext } from '@/app/context/AdvanceSearchContext';
 const SearchBar = () => {
+  const context = useContext(SearchContext)
+  if (!context) {
+    throw new Error("Advance Search Context is not defined here.")
+  }
+  const { searchValues, setSearchValues } = context;
   const pathName = usePathname()
   const [searchValue, setSearchValue] = useState("");
   const { visibleComponent, setVisibleComponent } = useContext(DisplayContext);
@@ -38,7 +44,7 @@ const SearchBar = () => {
   };
   const resetSearch = () => {
     setSearchValue("");
-    handleSearch()
+    setSearchValues({ ...searchValues, keyword: '' })
   }
   return (
     <>

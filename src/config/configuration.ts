@@ -20,6 +20,11 @@ const _config = {
   },
   cookieSecret:process.env.NEXTJS_COOKIE_SECRET!,
   tokenSecret:process.env.TOKENSECRET!,
-  groqSecretKey:process.env.GROQ_SECRET_KEY!
+  groqSecretKey:process.env.GROQ_SECRET_KEY!,
+  typesence:{
+    adminKey:process.env.TYPESENCE_ADMIN_KEY!,
+    clientKey:process.env.TYPESENCE_CLIENT_KEY!,
+    host:process.env.TYPESENCE_HOST!
+  }
 };
 export const config = Object.freeze(_config);
