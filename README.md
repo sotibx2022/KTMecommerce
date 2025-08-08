@@ -62,3 +62,13 @@ the langchain/ollama requires local server.
 so that go with groq model.
 ------
 now the groqLLM respond with result being based on the query data however, existing search logics has some describency which needs to be resolved.
+----------
+typesence used to show the search recommendation for users.
+installed typesence.
+typesence cloud registered.
+get type sence admin and client api keys and created in two different files.
+created products collection.
+all the product datas are added to the typesence collection.
+new product, creation, deletion and in update the typesence will be updated.
+on entering some thing to the typesence, we get search recommendation by typesence from api.
+rendered in ui.
