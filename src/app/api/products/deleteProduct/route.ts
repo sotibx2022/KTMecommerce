@@ -1,4 +1,5 @@
 import { checkAdminAuthorization } from "@/app/services/apiFunctions/checkAdminAuthorization";
+import { deleteProductFromTypesense } from "@/app/services/typesence/typesenceCrudFunctions";
 import { connectToDB } from "@/config/db";
 import { productModel } from "@/models/products.model";
 import { NextRequest, NextResponse } from "next/server";
@@ -20,6 +21,7 @@ export async function POST(req: NextRequest) {
     }
     const productObjectId = new Object(productId);
     const deleteResult = await productModel.deleteOne({ _id: productObjectId });
+    await deleteProductFromTypesense(productId)
     if (deleteResult.deletedCount === 0) {
       return NextResponse.json({
         success: false,

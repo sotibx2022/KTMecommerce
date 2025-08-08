@@ -2,6 +2,7 @@ import categoryText2Id from "@/app/services/apiFunctions/categoryText2Id";
 import { checkAdminAuthorization } from "@/app/services/apiFunctions/checkAdminAuthorization";
 import subCategoryText2Id from "@/app/services/apiFunctions/subCatText2Id";
 import { uploadImage } from "@/app/services/helperFunctions/uploadImage";
+import { returnTypesenceProduct, upsertProductToTypesense } from "@/app/services/typesence/typesenceCrudFunctions";
 import { connectToDB } from "@/config/db";
 import { productModel } from "@/models/products.model";
 import { NextRequest, NextResponse } from "next/server";
@@ -54,6 +55,8 @@ export async function POST(req: NextRequest) {
             image: uploadResult.profileUrl
         });
         await newProduct.save();
+        const productDataforTypesence = returnTypesenceProduct(newProduct);
+        await upsertProductToTypesense(productDataforTypesence)
         return NextResponse.json({
             message: "Product created successfully",
             success: true,

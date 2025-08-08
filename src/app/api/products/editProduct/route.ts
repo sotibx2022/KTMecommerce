@@ -1,15 +1,16 @@
 import { checkAdminAuthorization } from "@/app/services/apiFunctions/checkAdminAuthorization";
 import { uploadImage } from "@/app/services/helperFunctions/uploadImage";
+import { returnTypesenceProduct, upsertProductToTypesense } from "@/app/services/typesence/typesenceCrudFunctions";
 import { connectToDB } from "@/config/db";
 import { productModel } from "@/models/products.model";
 import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
     try {
         const authorizationResponse = await checkAdminAuthorization(req);
-    const { message, success, status } = authorizationResponse;
-    if (!success) {
-      return NextResponse.json({ message: message, success: success, status: status || 400 })
-    }
+        const { message, success, status } = authorizationResponse;
+        if (!success) {
+            return NextResponse.json({ message: message, success: success, status: status || 400 })
+        }
         await connectToDB();
         const formData = await req.formData();
         const productData = {
@@ -64,8 +65,9 @@ export async function POST(req: NextRequest) {
         existingProduct.isTrendingNow = productData.isTrendingNow;
         existingProduct.isOfferItem = productData.isOfferItem;
         existingProduct.status = productData!.status!;
-        // Save the updated product
         await existingProduct.save();
+        const productDataforTypesence = returnTypesenceProduct(existingProduct);
+        await upsertProductToTypesense(productDataforTypesence)
         return NextResponse.json({
             message: "Product updated successfully",
             success: true,
@@ -74,8 +76,8 @@ export async function POST(req: NextRequest) {
         });
     } catch (error) {
         return NextResponse.json(
-            { 
-                success: false, 
+            {
+                success: false,
                 message: error instanceof Error ? error.message : "Error processing request"
             },
             { status: 500 }
