@@ -1,6 +1,6 @@
 import { config } from '@/config/configuration';
 import Typesense from 'typesense';
-export const client = new Typesense.Client({
+export const clientTypesense = new Typesense.Client({
   nodes: [
     {
       host: config.typesence.host,

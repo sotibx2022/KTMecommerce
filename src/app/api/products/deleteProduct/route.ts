@@ -5,7 +5,7 @@ import { productModel } from "@/models/products.model";
 import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
   try {
-   const authorizationResponse = await checkAdminAuthorization(req);
+    const authorizationResponse = await checkAdminAuthorization(req);
     const { message, success, status } = authorizationResponse;
     if (!success) {
       return NextResponse.json({ message: message, success: success, status: status || 400 })
@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
     }
     return NextResponse.json({
       success: true,
-      message: "Product deleted successfully", 
+      message: "Product deleted successfully",
       status: 200
     });
   } catch (error) {
