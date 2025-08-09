@@ -34,7 +34,7 @@ const KeywordSearch = () => {
         dependencies: [searchValue, searchBarUsed],
     });
     const handleSearch = () => {
-            router.push(`/catalog/advanceSearch?highlighted=none&keyword=${searchValue}`)
+        router.push(`/catalog/advanceSearch?highlighted=none&keyword=${searchValue}`)
     }
     return (
         <div className="relative flex flex-col w-full gap-1">

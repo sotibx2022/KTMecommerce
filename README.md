@@ -72,3 +72,8 @@ all the product datas are added to the typesence collection.
 new product, creation, deletion and in update the typesence will be updated.
 on entering some thing to the typesence, we get search recommendation by typesence from api.
 rendered in ui.
+----------
+Product recommendation using AI
+1) user sends query to the api.
+2) format the query into subcategory and category using langchain.
+3) but the langchain needs to know what are the available category and subcategories in the mongoDb database? so that langchain will understand the query provided by user and format the human input to the relational category and subcategory?

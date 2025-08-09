@@ -6,7 +6,7 @@ import { motion } from "framer-motion"
 interface SecondaryButtonProps {
   text: string;
   icon?: IconDefinition;
-  onClick: () => void;
+  onClick?: () => void;
   backgroundColor?: string;
   textColor?: string;
   hoverColor?: string;

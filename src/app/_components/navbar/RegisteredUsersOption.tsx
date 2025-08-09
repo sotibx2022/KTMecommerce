@@ -15,6 +15,7 @@ import { useLogout } from '@/app/hooks/queryHooks/useLogout';
 import { useWishListItems } from '@/app/hooks/queryHooks/useWishListItems';
 import { clearWishListItems, setWishList } from '@/app/redux/wishListSlice';
 import { useUserDetails } from '@/app/context/UserDetailsContextComponent';
+import UserProfileImage from './UserProfileImage';
 const RegisteredUsersOption = () => {
   const queryClient = useQueryClient();
   const [showUserOptions, setShowUserOptions] = useState(false);
@@ -44,17 +45,7 @@ const RegisteredUsersOption = () => {
         onMouseEnter={() => setShowUserOptions(true)}
         onMouseLeave={() => setShowUserOptions(false)}
       >
-        {userDetails?.profileImage ? (
-          <img
-            src={userDetails.profileImage}
-            alt="User Profile"
-            className="w-[30px] h-[30px] rounded-full"
-          />
-        ) : (
-          <h1 className="text-primaryDark text-upperCase bg-background w-[30px] h-[30px] flex-center text-xl rounded-full">
-            {userDetails && (userDetails.fullName[0] || userDetails.email[0]).toUpperCase()}
-          </h1>
-        )}
+       <UserProfileImage/>
         <p className="text-white capitalize">
           <span className='text-helper'>Welcome</span> {
             userDetails && (userDetails.fullName.split(" ")[0] || userDetails?.email.split("@")[0])}
