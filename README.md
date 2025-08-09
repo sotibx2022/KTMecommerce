@@ -73,7 +73,18 @@ new product, creation, deletion and in update the typesence will be updated.
 on entering some thing to the typesence, we get search recommendation by typesence from api.
 rendered in ui.
 ----------
-Product recommendation using AI
+# Product recommendation using AI
 1) user sends query to the api.
 2) format the query into subcategory and category using langchain.
 3) but the langchain needs to know what are the available category and subcategories in the mongoDb database? so that langchain will understand the query provided by user and format the human input to the relational category and subcategory?
+4) available categories send to the langchain along with userInput, where the llm will return whether the category exist or uncategorized.
+# How classifyProductCategory function Works?
+1) we need to create structured  prompt, using fromTemplate.
+2) we will create a chain with prompt,llm, and output method using pipe method.
+3) now we will invoke the llm.
+4) from the result. if one of the categories exist. we will return the category
+5) otherwise we will return uncategorized.
+6) we provided example of input and output as well to the prompt.
+7) other output methods like stringOutPutParser are StringOutputParser, JsonOutputParser,StructuredOutputParser
+8) other themplates for prompt like fromTemplate are fromTemplate,fromMessages,FewShotPromptTemplate
+9) new HumanMessage  is used for chatting purpose whre logics are simple and llm need to respond with text being based to the input.
