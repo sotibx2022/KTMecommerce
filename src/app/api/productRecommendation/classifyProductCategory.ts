@@ -17,9 +17,12 @@ export const classifyProductCategory = async (
       Rules:
   1. Respond ONLY with the exact category name from the list
   2. Never invent new categories
-  3. If unsure, return "uncategorized"
+  3. If unsure, return "uncategorized".
+  4. if user request opposite meaning, update with another category within valid  {categories}
   Examples:
   Input: "Smartphone with good camera" → Output: "mobile"
+  Input: "I dont need mobile",outPut:"laptop"
+  Input: "I dont need samsung",output:"apple"
     `);
         // 2. Create the processing chain
         const chain = prompt
@@ -32,7 +35,7 @@ export const classifyProductCategory = async (
         });
         // 4. Validate the response
         const matchedCategory = categories.includes(result.trim())
-            ? result.trim()
+            ? result.trim().includes("null") ? "uncategorized" : result.trim()
             : "uncategorized";
         return {
             categoryName: matchedCategory

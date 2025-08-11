@@ -12,17 +12,18 @@ export const classifyProductPrice = async (
     // Create parser and get exact format instructions
     const parser = new JsonOutputParser<PriceClassification>();
     const formatInstructions = parser.getFormatInstructions();
-const prompt = ChatPromptTemplate.fromMessages([
-  ["system", `
+    const prompt = ChatPromptTemplate.fromMessages([
+        ["system", `
 Analyze this request for price-related intent: "{input}"
 Rules:
-1. Extract explicit numeric ranges:
+1. Strictly, Respond only with JSON. No extra words, no explanation.
+2. Extract explicit numeric ranges:
    - "under 5000" → {{ "maxPrice": 5000 }}
    - "2000 to 10000" → {{ "minPrice": 2000, "maxPrice": 10000 }}
-2. Detect sorting preference:
+   3. Detect sorting preference:
    - "cheap"/"lowest"/"budget" → {{ "priceOrder": "asc" }}
    - "expensive"/"high-end"/"premium" → {{ "priceOrder": "desc" }}
-3. Default to {{ "priceOrder": "asc" }} if no price intent found.
+4. Default to {{ "priceOrder": "asc" }} if no price intent found.
 Respond ONLY with valid JSON containing:
 - minPrice (optional, number)
 - maxPrice (optional, number)
@@ -33,7 +34,7 @@ Input: "cheapest laptops" → {{ "priceOrder": "asc" }}
 Input: "most expensive watches" → {{ "priceOrder": "desc" }}
 {format_instructions}
   `]
-]);
+    ]);
     const chain = prompt
         .pipe(llmConfig)
         .pipe(parser);
