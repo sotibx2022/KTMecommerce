@@ -23,7 +23,7 @@ const ProductRecommendation = () => {
     const context = useUserDetails();
     const { userDetails } = context;
     const { register, formState: { errors }, handleSubmit, reset } = useForm<IproductRecommendationInput>({ mode: 'onBlur' });
-    const [recommendedProduct, setRecommendedProduct] = useState<IProductDisplay | null>(null);
+    const [recommendedProduct, setRecommendedProduct] = useState<IProductDisplay | null|undefined>(undefined);
     const userQueryMutation = useMutation<APIResponseSuccess | APIResponseError, Error, IproductRecommendationInput>({
         mutationFn: async (data) => {
             const response = await axios.post('api/productRecommendation', data);
@@ -52,10 +52,10 @@ const ProductRecommendation = () => {
     if (userQueryMutation.isPending) {
         content = <RecommendedProductLoading />;
     } else {
-        if(recommendedProduct){
- content = <RecommendedProduct recommendedProduct={recommendedProduct} />;
-        }else{
-            content = <NoRecommendedProduct/>
+        if (recommendedProduct!==undefined) {
+            content = <RecommendedProduct recommendedProduct={recommendedProduct} />;
+        } else if(recommendedProduct === null) {
+            content = <NoRecommendedProduct />
         }
     }
     return (
