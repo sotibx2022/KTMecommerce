@@ -88,3 +88,12 @@ rendered in ui.
 7) other output methods like stringOutPutParser are StringOutputParser, JsonOutputParser,StructuredOutputParser
 8) other themplates for prompt like fromTemplate are fromTemplate,fromMessages,FewShotPromptTemplate
 9) new HumanMessage  is used for chatting purpose whre logics are simple and llm need to respond with text being based to the input.
+10) along with the classification of product with category, we need to categorize on the basis of price intent and product model as well.
+11) we need to handle the exceptional cases like what user gives negative input to the langchain.
+12) will comeback to implement this feature again! (Dated - 08/11/2025)
+_______________
+next : - users page in admin - to learn about aggregation in depth.
+     : - categoreis page in admin - to learn how to crud categories and subcategories
+     : - add more projects with ai support, 
+     : - the homepage needs to capable of showing more categories, vape will be removed.
+     :- back to productRecommendation feature.
