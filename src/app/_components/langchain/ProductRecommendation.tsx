@@ -26,7 +26,7 @@ const ProductRecommendation = () => {
     const [recommendedProduct, setRecommendedProduct] = useState<IProductDisplay | null|undefined>(undefined);
     const userQueryMutation = useMutation<APIResponseSuccess | APIResponseError, Error, IproductRecommendationInput>({
         mutationFn: async (data) => {
-            const response = await axios.post('api/productRecommendation', data);
+            const response = await axios.post('/api/productRecommendation', data);
             return response.data;
         },
         onSuccess: (response) => {
