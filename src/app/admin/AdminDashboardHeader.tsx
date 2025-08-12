@@ -32,7 +32,7 @@ const AdminDashboardHeader = () => {
   }
   return (
     <div className={` flex justify-between items-center px-4 ${generateClassName(theme)}`}>
-      <LogoComponent />
+      <LogoComponent theme={theme}/>
       <div className="adminHeader flex items-center gap-2">
         <Badge variant="outline">
           {pathSegment}

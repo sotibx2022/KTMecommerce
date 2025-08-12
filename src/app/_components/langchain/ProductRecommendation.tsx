@@ -4,7 +4,7 @@ import { useUserDetails } from '@/app/context/UserDetailsContextComponent';
 import ReadOnlyUserProfile from '../singleProductReviews/ReadOnlyUserProfile';
 import { useForm } from 'react-hook-form';
 import { validateSentence } from '@/app/services/helperFunctions/validatorFunctions';
-import { Send } from "lucide-react";
+import { Send, Sparkles } from "lucide-react";
 import RecommendationTrigger from './RecommendationTrigger';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
@@ -60,10 +60,7 @@ const ProductRecommendation = () => {
     }
     return (
         <AbsoluteComponent>
-            <div className='recommendationHeader my-4 flex gap-4 items-center'>
-                <RecommendationTrigger />
-               <h2 className='secondaryHeading'>AI-powered smart pick</h2>
-            </div>
+               <h2 className='subHeading'>AI-powered smart pick</h2>
             <div className="chattingArea">
                 <div className="userProfile">
                     <ReadOnlyUserProfile />
