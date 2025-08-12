@@ -62,7 +62,7 @@ const ProductRecommendation = () => {
         <AbsoluteComponent>
             <div className='recommendationHeader my-4 flex gap-4 items-center'>
                 <RecommendationTrigger />
-                <h2 className='secondaryHeading'>Smart selections powered by AI</h2>
+               <h2 className='secondaryHeading'>AI-powered smart pick</h2>
             </div>
             <div className="chattingArea">
                 <div className="userProfile">

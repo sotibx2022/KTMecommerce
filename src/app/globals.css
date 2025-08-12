@@ -158,7 +158,7 @@ option {
   @apply text-primaryDark w-[50px] h-[50px] cursor-pointer hover:scale-125 hover:rotate-12 transition-transform duration-300;
 }
 .formItem {
-  @apply w-full p-3 border border-helper bg-background rounded-md shadow-helper shadow-sm focus:outline-none text-primaryDark
+  @apply w-full p-3  bg-background rounded-md  focus:outline-none text-primaryDark border border-transparent border-b-helper
 }
 .price-highlight {
   @apply text-background font-bold text-lg bg-gradient-to-r from-primaryDark to-helper p-2 rounded-md shadow-md text-center;
