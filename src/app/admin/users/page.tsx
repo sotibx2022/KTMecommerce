@@ -28,7 +28,7 @@ const page = () => {
     params.set("createdSorting", createdSorting);
     return params;
   }, [status, createdSorting]);
-  const queryString = useMemo(() => { return params.toString() }, [params])
+  const queryString = useMemo(() => { return params.toString().toLowerCase() }, [params])
   useEffect(() => {
     router.replace(`/admin/users?${queryString}`)
   }, [router, queryString])
@@ -92,7 +92,10 @@ const page = () => {
               </TableRow>
             ))}
           </TableBody> : <TableBody>
-            <TableCell>There is no data available.</TableCell></TableBody>}
+            <TableRow>
+              <TableCell>There is no data available.</TableCell>
+            </TableRow>
+          </TableBody>}
       </Table>
     </div>
   )
