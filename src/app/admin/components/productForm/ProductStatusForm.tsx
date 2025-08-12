@@ -14,7 +14,7 @@ const ProductStatusForm: React.FC<ProductStatusFormProps> = ({ action }) => {
   }
   const status = watch('status')
   return (
-    <div className="w-64">
+    <div className="w-full">
       <Select {...register("status",{
         required:"Please Select the Status"
       })}

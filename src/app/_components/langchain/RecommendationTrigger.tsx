@@ -9,7 +9,7 @@ const RecommendationTrigger = () => {
     }
     const { setVisibleComponent } = context;
     return (
-        <div>
+        <div className='recommendationTrigger fixed top-1/2 left-0 -translate-y-1/2 z-50'>
             <button className="recommendationbtn button-pulse flex" onClick={() => setVisibleComponent('recommendation')}>
                 <Sparkles />
             </button>

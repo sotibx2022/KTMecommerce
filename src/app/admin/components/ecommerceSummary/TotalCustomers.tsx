@@ -18,7 +18,7 @@ const TotalCustomers = () => {
   if (isPending) {
     return (
       <div className="shadow-primaryDark p-4 w-full">
-        <h2 className="text-lg font-semibold mb-4 text-[#531c1d]">Total Customers</h2>
+        <h2 className="text-lg font-semibold mb-4 text-[#531c1d] text-center">Total Customers</h2>
         <Skeleton className="h-[200px]" />
       </div>
     );

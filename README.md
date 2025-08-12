@@ -92,8 +92,20 @@ rendered in ui.
 11) we need to handle the exceptional cases like what user gives negative input to the langchain.
 12) will comeback to implement this feature again! (Dated - 08/11/2025)
 _______________
-next : - users page in admin - to learn about aggregation in depth.
+# users page in admin - to learn about aggregation in depth.
+1. in the aggregation, if the provided matched stage and filter state have empty results. we will get error.
+2. so that incase they are empty, we need to fetch them using .find method. on different conditions.
+---------
+how do you update the url to fetch different data.
+- when filter data changes, we will update the params using useMemo.
+- that params will be converted to string.
+- router.replace to udpate the url in the frontend.
+- we need to provide variables to the query key so that differnt result will appear on data change.
+Remaining:
      : - categoreis page in admin - to learn how to crud categories and subcategories
      : - add more projects with ai support, 
      : - the homepage needs to capable of showing more categories, vape will be removed.
+     : - why there is product recommendation icon in the admin page as well.
+     : - do you really offer 10% discount on first order?
+     :- Admin page responsiveness.
      :- back to productRecommendation feature.

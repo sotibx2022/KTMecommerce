@@ -53,7 +53,7 @@ const OrderStatusChart = () => {
   return (
     <div className="flex justify-center items-center flex-wrap shadow-primaryLight p-2">
       <div className="min-w-[300px] h-[400px] max-w-[400px]">
-        <h2 className="text-lg font-semibold mb-4 text-primaryDark">Order Status</h2>
+        <h2 className="text-lg font-semibold mb-4 text-primaryDark text-center">Order Status</h2>
         <ResponsiveContainer width="90%" height="90%" className="">
           <PieChart className="">
             <Pie

@@ -17,8 +17,9 @@ import { Router } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponent'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import ConfettiComponent from '@/app/_components/submit/ConfettiComponent'
+import { ThemeProvider, ThemeProviderContext } from '@/app/context/ThemeProvider'
 const AddProduct = () => {
   const[showConfetti,setShowConfetti] = useState(false);
   const[productId,setProductId] = useState("");

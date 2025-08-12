@@ -63,7 +63,7 @@ const RatingSummary = () => {
   const { label, color } = getRatingText(value);
   return (
     <div className="shadow-primaryLight p-4 rounded-md flex items-center justify-center flex-col">
-      <h2 className="text-lg font-semibold mb-4 text-primaryDark">Rating Summary</h2>
+      <h2 className="text-lg font-semibold mb-4 text-primaryDark text-center">Rating Summary</h2>
       <div className="flex flex-col gap-4">
         <PieChart height={200} width={300}>
           <Pie
