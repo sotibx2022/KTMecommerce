@@ -1,5 +1,5 @@
 'use client'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useRef } from 'react'
 import TotalOrders from './ordersComponents/TotalOrders'
 import {
   Table,
@@ -25,11 +25,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import SkeletonOrdersTable from './ordersComponents/SkeletonOrdersTable'
 import NoData from '@/app/_components/noData/NoData'
-import TableNavigation from '../components/TableNavigation'
 import { ThemeProviderContext } from '@/app/context/ThemeProvider'
-import { generateClassName } from '@/app/services/helperFunctions/generateClassNames'
 import DynamicOrderData from './ordersComponents/DynamicOrderData'
+import { useScreenWidth } from '@/app/services/helperFunctions/findScreenWidth'
+import { useSidebar } from '@/components/ui/sidebar'
 const page = () => {
+  const { state: sidebarState } = useSidebar();
+  const isCollapsed = sidebarState === "collapsed";
+  const screenWidth = useScreenWidth();
   const themeContext = useContext(ThemeProviderContext);
   if (!themeContext) {
     throw new Error("Theme Context is not Defined here")
@@ -42,16 +45,33 @@ const page = () => {
     queryKey: ['allOrders'],
     queryFn: fetchAllOrders
   })
+  // ✅ Refs for table wrapper & table
+  const tableWrapperRef = useRef<HTMLDivElement>(null);
+  const tableRef = useRef<HTMLTableElement>(null);
   function handleDisplayOrderDetails(order: OrderDetailsProps) {
     setOrderDetails(order)
   }
   return (
-    <div className={`{"ml-4"}`}>
+    <div className={`{"ml-4"} tableContainer`} ref={tableWrapperRef}
+      style={{
+        maxWidth: isCollapsed ? "85vw" : "75vw",
+      }}>
       <Provider store={store}>
-        <div className='w-[90%] my-4'>
+        <div
+          className={
+            tableWrapperRef.current?.clientWidth &&
+              tableRef.current?.clientWidth &&
+              tableWrapperRef.current.clientWidth > tableRef.current.clientWidth
+              ? "overflow-x-hidden w-full "
+              : `overflow-x-auto w-full`
+          }
+        >
           <TotalOrders />
-          <div className="w-full overflow-x-auto">
-            <Table className={`${theme}==="dark"?"darkTable:"lightTable" 'my-4 w-[90%]'`}>
+          <div>
+            <Table
+              ref={tableRef}
+              className={`${theme}==="dark"?" table darkTable:"lightTable" 'my-4 w-[90%]'`}
+            >
               <TableHeader>
                 <TableRow>
                   <TableHead><DynamicOrderData text='SN' /></TableHead>

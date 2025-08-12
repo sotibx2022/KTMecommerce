@@ -26,13 +26,10 @@ setFilterState(prev => ({
     }
   };
   return (
-    <div className={`flex items-center gap-2 p-1 rounded-lg transition-all duration-300 ${isFocused ? 'ring-2 ring-primary/50 bg-white shadow-sm' : 'bg-muted/50'}`}>
+    <div className={`flex items-center gap-2 p-1 rounded-lg `}>
       <div className="relative flex-1">
-        <Search 
-          className={`absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 ${isFocused ? 'text-primary' : 'text-muted-foreground'}`} 
-        />
         <Input
-          className="pl-10 pr-8 border-0 shadow-none bg-transparent focus-visible:ring-0"
+          className="pl-4 pr-8 border-0 shadow-none bg-transparent focus-visible:ring-0"
           placeholder="Search keywords..."
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
@@ -48,7 +45,7 @@ setFilterState(prev => ({
         )}
       </div>
       <Button 
-        variant="default" 
+        variant="secondary" 
         size="sm"
         className="shrink-0"
         onClick={handleSearch}

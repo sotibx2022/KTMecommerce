@@ -11,7 +11,9 @@ export default function SideBarWrapper({ children }: { children: React.ReactNode
   return (
     <>
       <ThemeValueGetter theme={theme}>
-        {children}
+        <div >
+          {children}
+        </div>
       </ThemeValueGetter>
     </>
   );

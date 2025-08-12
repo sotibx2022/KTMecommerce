@@ -158,7 +158,7 @@ option {
   @apply text-primaryDark w-[50px] h-[50px] cursor-pointer hover:scale-125 hover:rotate-12 transition-transform duration-300;
 }
 .formItem {
-  @apply w-full p-3  bg-background rounded-md  focus:outline-none text-primaryDark border border-transparent border-b-helper
+  @apply w-full p-3 bg-background rounded-md focus:outline-none text-primaryDark border border-transparent border-b-helper
 }
 .price-highlight {
   @apply text-background font-bold text-lg bg-gradient-to-r from-primaryDark to-helper p-2 rounded-md shadow-md text-center;
@@ -182,6 +182,15 @@ option {
 .darkTable tr,
 .darkTable thead {
   color: var(--background) !important;
+}
+.darkTheme .card {
+  @apply bg-primaryDark text-background
+}
+.darkTheme .primaryHeading{
+  @apply text-background
+}
+.darkTheme .formItem{
+  @apply bg-primaryLight
 }
 /* ===== Root Theme Styles ===== */
 .darkSidebar {
@@ -213,7 +222,7 @@ option {
   @apply text-[var(--primaryDark)] bg-[var(--background)];
 }
 .mobileSidebarOverlay {
-  @apply fixed inset-0  transition-opacity duration-300;
+  @apply fixed inset-0 transition-opacity duration-300;
 }
 /* ===== Header Components ===== */
 .sidebarHeaderContent {
@@ -230,7 +239,7 @@ option {
   @apply flex flex-col gap-1 px-2;
 }
 .sidebarMenuButton {
-  @apply flex items-center h-11 rounded-xl transition-all duration-200  gap-3 w-full px-3;
+  @apply flex items-center h-11 rounded-xl transition-all duration-200 gap-3 w-full px-3;
 }
 .sidebarMenuButton:hover {
   .darkSidebar & {

@@ -32,8 +32,8 @@ const ProductImage: React.FC<ProductImageProps> = ({ action, imageUrl }) => {
         setValue('file',null)
     }
     return (
-        <div className="md:w-1/2">
-            <Card>
+        <div className="md:w-1/2 card">
+            <Card className='card'>
                 <CardHeader>
                     <CardTitle className="text-lg font-semibold">Product Image</CardTitle>
                 </CardHeader>

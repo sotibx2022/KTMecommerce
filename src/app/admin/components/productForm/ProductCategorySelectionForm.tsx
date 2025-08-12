@@ -7,26 +7,39 @@ import { useCategories } from '@/app/hooks/queryHooks/useCategory'
 import { ISubCategoryData, useSubCategory } from '@/app/hooks/queryHooks/useSubCategory'
 import { initialCategories } from '@/app/data/categoriesData'
 import { Category } from '@/app/types/categories'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import FormError from './FormError'
 const ProductCategorySelectionForm = ({ action, productDatas }: { action: 'add' | 'edit', productDatas?: any }) => {
   const { data: navItems = initialCategories, isPending: categoryLoading } = useCategories()
   const { register, setValue, watch, formState: { errors } } = useFormContext<IAddProductFormData>()
   const formValues = watch();
   const { data: subCategories, isPending: subCategoriesLoading } = useSubCategory(formValues.categoryName)
+  // ✅ Hydration-safe mount flag
+  const [isMounted, setIsMounted] = useState(false);
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       {/* Category Select */}
       <div>
         <Label htmlFor="categoryName">Category</Label>
-        <Select 
-        {...register("categoryName",{
-          required:"Category is Required"
-        })}
-        onValueChange={(value)=>setValue('categoryName',value)}
+        <Select
+          {...register("categoryName", {
+            required: "Category is Required"
+          })}
+          onValueChange={(value) => setValue('categoryName', value)}
         >
           <SelectTrigger>
-            <SelectValue placeholder={categoryLoading ? "Loading..." : formValues.categoryName?? "select Category"} />
+            <SelectValue
+              placeholder={
+                !isMounted
+                  ? "Select Category"
+                  : categoryLoading
+                    ? "Loading..."
+                    : formValues.categoryName ?? "Select Category"
+              }
+            />
           </SelectTrigger>
           <SelectContent>
             {navItems.map((item: Category) => (
@@ -36,23 +49,30 @@ const ProductCategorySelectionForm = ({ action, productDatas }: { action: 'add' 
             ))}
           </SelectContent>
         </Select>
-        <FormError name="categoryName"/>
+        <FormError name="categoryName" />
       </div>
       {/* Subcategory Select */}
       <div>
         <Label htmlFor="subCategoryName">Subcategory</Label>
         <Select
-        {...register("subCategoryName",{
-          required:"Sub Category is Required"
-        })}
-        onValueChange={(value)=>setValue('subCategoryName',value)}
+          {...register("subCategoryName", {
+            required: "Sub Category is Required"
+          })}
+          onValueChange={(value) => setValue('subCategoryName', value)}
           disabled={!formValues.categoryName || subCategoriesLoading}
         >
           <SelectTrigger>
-            <SelectValue placeholder={
-              !formValues.categoryName ? "Select category first" :
-              (subCategoriesLoading ? "Loading..." : (formValues.subCategoryName??"Select SubCategory"))
-            } />
+            <SelectValue
+              placeholder={
+                !isMounted
+                  ? "Select SubCategory"
+                  : !formValues.categoryName
+                    ? "Select category first"
+                    : subCategoriesLoading
+                      ? "Loading..."
+                      : formValues.subCategoryName ?? "Select SubCategory"
+              }
+            />
           </SelectTrigger>
           <SelectContent>
             {subCategories?.success && subCategories.data?.subcategories.map((cat: ISubCategoryData) => (
@@ -62,7 +82,7 @@ const ProductCategorySelectionForm = ({ action, productDatas }: { action: 'add' 
             ))}
           </SelectContent>
         </Select>
-        <FormError name='subCategoryName'/>
+        <FormError name='subCategoryName' />
       </div>
     </div>
   )

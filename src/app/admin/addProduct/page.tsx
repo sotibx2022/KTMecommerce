@@ -74,16 +74,16 @@ if(response.success && response.data){
       <h1 className="primaryHeading mb-6">Add New Product</h1>
       <FormProvider {...methods}>
         <form onSubmit={methods.handleSubmit(onSubmit)}>
-          <div className="flex gap-4 flex-col md:flex-row">
+          <div className="card flex gap-4 flex-col md:flex-row">
             <ProductImage action="add" />
-            <Card className="p-4 flex flex-col gap-4">
+            <Card className="p-4 flex flex-col gap-4 card">
               <ProductBasicDetailsForm action="add" />
               <ProductCategorySelectionForm action="add" />
               <ProductFeaturesForm action="add" />
               <ProductHighlightsForm action="add" />
               <ProductStatusForm action="add" />
               <CardFooter>
-                <Button type="submit">
+                <Button type="submit" variant="secondary">
                   submit
                 </Button>
               </CardFooter>

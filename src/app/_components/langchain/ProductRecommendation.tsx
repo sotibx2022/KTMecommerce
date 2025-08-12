@@ -23,7 +23,7 @@ const ProductRecommendation = () => {
     const context = useUserDetails();
     const { userDetails } = context;
     const { register, formState: { errors }, handleSubmit, reset } = useForm<IproductRecommendationInput>({ mode: 'onBlur' });
-    const [recommendedProduct, setRecommendedProduct] = useState<IProductDisplay | null|undefined>(undefined);
+    const [recommendedProduct, setRecommendedProduct] = useState<IProductDisplay | null | undefined>(undefined);
     const userQueryMutation = useMutation<APIResponseSuccess | APIResponseError, Error, IproductRecommendationInput>({
         mutationFn: async (data) => {
             const response = await axios.post('/api/productRecommendation', data);
@@ -52,15 +52,15 @@ const ProductRecommendation = () => {
     if (userQueryMutation.isPending) {
         content = <RecommendedProductLoading />;
     } else {
-        if (recommendedProduct!==undefined) {
+        if (recommendedProduct !== undefined) {
             content = <RecommendedProduct recommendedProduct={recommendedProduct} />;
-        } else if(recommendedProduct === null) {
+        } else if (recommendedProduct === null) {
             content = <NoRecommendedProduct />
         }
     }
     return (
         <AbsoluteComponent>
-               <h2 className='subHeading'>AI-powered smart pick</h2>
+            <h2 className='subHeading'>AI-powered smart pick</h2>
             <div className="chattingArea">
                 <div className="userProfile">
                     <ReadOnlyUserProfile />
