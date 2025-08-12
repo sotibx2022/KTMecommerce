@@ -11,8 +11,9 @@ interface ISortableTableHead {
   label: string;
   onClick: () => void;
   state: "normal" | "ascending" | "descending";
+  loading?:boolean;
 }
-export const ShortableTableHead = ({ label, onClick, state }: ISortableTableHead) => {
+export const ShortableTableHead = ({ label, onClick, state,loading }: ISortableTableHead) => {
   const{filterState, setFilterState} = useContext(ProductFilterContext)
   const icon = {
     normal: faArrowsUpDown,
@@ -23,7 +24,7 @@ export const ShortableTableHead = ({ label, onClick, state }: ISortableTableHead
     <TableHead onClick={onClick} className="cursor-pointer">
       <div className="flex items-center gap-2">
         <span>{label}</span>
-        {!filterState.loading && <button>
+        {!filterState.loading || !loading && (<button>
             <FontAwesomeIcon 
           icon={icon} 
           className={`
@@ -31,7 +32,7 @@ export const ShortableTableHead = ({ label, onClick, state }: ISortableTableHead
             ${state !== 'normal' ? 'text-primaryLight' : 'text-primaryDark'}
           `}
         />
-        </button>}
+        </button>)}
          </div>
     </TableHead>
   );
