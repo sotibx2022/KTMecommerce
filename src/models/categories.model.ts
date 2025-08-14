@@ -1,53 +1,53 @@
 import mongoose, { Schema, Document } from 'mongoose';
 interface ISubcategory extends Document {
-  parentCategoryName:string;
-  parentCategoryId:string;
+  parentCategoryName: string;
+  parentCategoryId: string;
   category_name: string;
   image_url: string;
   meta_title: string;
   meta_description: string;
-  createdAt: Date;  
-  updatedAt: Date;  
+  createdAt: Date;
+  updatedAt: Date;
 }
 const subcategorySchema = new Schema<ISubcategory>({
-  category_name: { 
+  category_name: {
     type: String,
-    required: true 
+    required: true
   },
-  parentCategoryId:{
-    type:String,
-    required:true
-  },
-  parentCategoryName:{
-    type:String,
-    required:true,
-  },
-  image_url: { 
+  parentCategoryId: {
     type: String,
-    required: true 
+    required: true
   },
-  meta_title: { 
+  parentCategoryName: {
     type: String,
-    required: true 
+    required: true,
   },
-  meta_description: { 
+  image_url: {
     type: String,
-    required: true 
+    required: true
   },
-  createdAt: { 
+  meta_title: {
+    type: String,
+    required: true
+  },
+  meta_description: {
+    type: String,
+    required: true
+  },
+  createdAt: {
     type: Date,
-    required:true,
-    default: Date.now 
+    required: true,
+    default: Date.now
   },
-  updatedAt: { 
+  updatedAt: {
     type: Date,
-    required:true,
-    default: Date.now 
+    required: true,
+    default: Date.now
   }
 }, { _id: true });
 // 3. Parent Category Interface
 interface ICategory extends Document {
-    image_url: string,
+  image_url: string,
   meta_title: string,
   meta_description: string,
   category_name: string,
@@ -55,26 +55,26 @@ interface ICategory extends Document {
 }
 // 4. Parent Category Schema
 const categorySchema = new Schema<ICategory>({
-  category_name: { 
+  category_name: {
     type: String,
     required: true,
-    unique: true 
+    unique: true
   },
-    image_url: { 
+  image_url: {
     type: String,
-    required: true 
+    required: true
   },
-  meta_title: { 
+  meta_title: {
     type: String,
-    required: true 
+    required: true
   },
-  meta_description: { 
+  meta_description: {
     type: String,
-    required: true 
+    required: true
   },
   subcategories: [subcategorySchema]  // Embed the subcategory schema
 }, { timestamps: true });
 // 5. Create the Model
-const Category = mongoose.models.Category || 
-                mongoose.model<ICategory>('Category', categorySchema);
+const Category = mongoose.models.Category ||
+  mongoose.model<ICategory>('Category', categorySchema);
 export default Category;

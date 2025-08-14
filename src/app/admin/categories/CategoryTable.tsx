@@ -1,27 +1,59 @@
 "use client"
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import { Category, Subcategory } from '@/app/types/categories';
 import { Table, TableHeader, TableBody, TableCell, TableRow, TableHead } from '@/components/ui/table';
 import { Edit, Trash } from 'lucide-react';
 import Link from 'next/link';
 import CategoryTableLoading from './CategoryTableLoading';
 import { getAllCategories } from '@/app/services/queryFunctions/categoreis';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import AddItemButton from './AddItemButton';
+import DeleteConfirmation from '@/app/_components/deleteConfirmation/DeleteConfirmation';
+import { DisplayContext } from '@/app/context/DisplayComponents';
+import toast from 'react-hot-toast';
+import axios from 'axios';
+import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponent';
 const CategoryTable = () => {
-    const { data: navItems, isPending, isError } = useQuery({
+    const formData = new FormData();
+    const [categoryId, setCategoryId] = useState<string | null>(null)
+    const { visibleComponent, setVisibleComponent } = useContext(DisplayContext)
+    const { data: navItems, isPending, isError, refetch } = useQuery({
         queryKey: ['allCategories'],
         queryFn: getAllCategories
     })
-    
-    function deleteHandler(arg0: any): void {
-        throw new Error('Function not implemented.');
+    const deleteCategoryMutation = useMutation({
+        mutationFn: async (categoryId: string) => {
+            const response = await axios.post(`/api/categories/delete/category/${categoryId}`);
+            return response.data;
+        },
+        onMutate: () => {
+            setVisibleComponent('loadingComponent')
+        },
+        onSuccess: (response) => {
+            toast.success(response.message)
+            refetch();
+            setVisibleComponent('')
+        },
+        onError: (error) => {
+            toast.error(error.message)
+            setVisibleComponent('')
+        }
+    })
+    function deleteHandler(categoryId: string): void {
+        setVisibleComponent('dilaugeBox');
+        setCategoryId(categoryId)
+    }
+    const getConfirmationValue = (value: Boolean) => {
+        if (value && categoryId) {
+            formData.append('requestType', "delete")
+            deleteCategoryMutation.mutate(categoryId)
+        }
     }
     return (
         <div>
             <div className="categoryTableHeader flex justify-between items-center">
                 <h2 className='subHeading'>Category Lists</h2>
-                <AddItemButton item={'Category'} href={'/admin/categories/addCategory'}/>
+                <AddItemButton item={'Category'} href={'/admin/categories/addCategory'} />
             </div>
             <Table>
                 <TableHeader>
@@ -73,6 +105,10 @@ const CategoryTable = () => {
                     </TableBody>
                 }
             </Table>
+            {visibleComponent === 'dilaugeBox' && <DeleteConfirmation message={'Do you want to Delete this Category? The Products inside this category will remain undeleted.'}
+                returnConfirmValue={getConfirmationValue}
+                loading={deleteCategoryMutation.isPending} />}
+            {visibleComponent === 'loadingComponent' && <LoadingComponent />}
         </div>
     )
 }

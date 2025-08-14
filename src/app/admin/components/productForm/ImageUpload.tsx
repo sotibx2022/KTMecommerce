@@ -1,4 +1,5 @@
 "use client";
+import Divider from '@/app/_components/authComponent/Divider';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -26,13 +27,12 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ action, imageUrl, text, uploa
     setFile(null);
     setUploadedImage("");
   };
-  // Default text to "Product" if none provided
   const displayText = text || "Product";
   return (
-    <div className="md:w-1/2 card">
+    <div className="card">
       <Card className='card'>
         <CardHeader>
-          <CardTitle className="text-lg font-semibold">{displayText} Image</CardTitle>
+          <CardTitle className="text-md font-semibold">{displayText} Image</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex w-full">
@@ -41,9 +41,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ action, imageUrl, text, uploa
             >
               {action === 'edit' && imageUrl && (
                 <div className="mb-4 space-y-2">
-                  <Label className="text-sm font-medium text-primaryDark">
-                    Current {displayText} Image
-                  </Label>
+                  <Divider text={'Uploaded  Image'}/>
                   <img
                     src={imageUrl}
                     alt={`${displayText} from database`}
@@ -55,7 +53,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ action, imageUrl, text, uploa
               {uploadedImage ? (
                 <div className="mb-4 space-y-2 relative">
                   <Label className="text-sm font-medium text-primaryDark flex justify-between items-center">
-                    New Upload Preview
+                    <Divider text={'New  Upload Preview'}/>
                     <FontAwesomeIcon
                       icon={faTimes}
                       onClick={handleRemoveImageUpload}
@@ -70,8 +68,8 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ action, imageUrl, text, uploa
                 </div>
               ) : (
                 <div className="space-y-1">
-                  <Label className="text-muted-foreground">Upload {displayText} Image</Label>
-                  <p className="text-xs text-muted-foreground">PNG, JPG, JPEG up to 5MB</p>
+                  <Divider text={'New  Image'}/>
+                  <p className="text-primaryLight text-sm italic">PNG, JPG, JPEG up to 5MB</p>
                 </div>
               )}
               <Input
