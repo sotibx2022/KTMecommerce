@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(request: NextRequest) {
   try {
     await connectToDB();
-    const category = await CategoryModel.find().select("_id,category_name subcategories")
+    const category = await CategoryModel.find();
     if (!category) {
       return NextResponse.json({ message: "No categories found" });
     }
