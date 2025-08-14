@@ -2,13 +2,15 @@
 export interface Subcategory {
   _id?: string; // MongoDB ObjectId as a string
   category_name: string;
-  url_slug: string;
-  status: "active" | "inactive";
+  url_slug?: string;
+  status?: "active" | "inactive";
   image_url: string;
   meta_description?: string;
   meta_keywords?: string;
-  created_at: Date;
-  updated_at: Date;
+  created_at?: Date;
+  updated_at?: Date;
+  parentCategoryName?: string;
+    parentCategoryId?: string;
 }
 // Category Interface
 export interface Category {

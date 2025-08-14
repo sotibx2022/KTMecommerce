@@ -61,7 +61,7 @@ option {
   @apply text-primaryDark text-lg;
 }
 .subHeading {
-  @apply text-2xl text-primaryDark font-bold my-4 capitalize relative;
+  @apply text-2xl text-primaryDark font-bold my-4 mb-4 capitalize relative;
 }
 .subHeading::before {
   @apply content-[''] absolute top-[110%] left-0 w-4 h-4 rounded-full;
@@ -152,13 +152,13 @@ option {
   @apply text-lg text-green-600;
 }
 .formItem input[type='text'] {
-  @apply bg-background outline-none border-2 border-primaryDark rounded-lg p-2;
+  @apply bg-[var(--backgroundLight)] outline-none border-2 border-primaryDark rounded-lg p-2;
 }
 .responsiveHeaderIcon {
   @apply text-primaryDark w-[50px] h-[50px] cursor-pointer hover:scale-125 hover:rotate-12 transition-transform duration-300;
 }
 .formItem {
-  @apply w-full p-3 bg-background rounded-md focus:outline-none text-primaryDark border border-transparent border-b-helper
+  @apply w-full p-3 bg-[var(--backgroundLight)] rounded-md focus:outline-none text-primaryDark border border-transparent border-b-helper
 }
 .price-highlight {
   @apply text-background font-bold text-lg bg-gradient-to-r from-primaryDark to-helper p-2 rounded-md shadow-md text-center;
@@ -191,6 +191,9 @@ option {
 }
 .darkTheme .formItem{
   @apply bg-primaryLight
+}
+.darkTheme .formLabel{
+  @apply text-background
 }
 /* ===== Root Theme Styles ===== */
 .darkSidebar {
@@ -310,6 +313,9 @@ option {
 }
 .sidebarFooterTitle {
   @apply font-semibold text-sm;
+}
+.dark .card .formLabel{
+@apply text-background
 }
 /* ===== Interactive States ===== */
 .sidebarMenuButton:hover,

@@ -3,7 +3,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useFormContext } from 'react-hook-form'
 import { IAddProductFormData } from '../products'
 import SubmitError from '@/app/_components/submit/SubmitError'
-import FormError from './FormError'
 interface ProductStatusFormProps {
   action: 'edit' | 'add'
 }
@@ -35,7 +34,6 @@ const ProductStatusForm: React.FC<ProductStatusFormProps> = ({ action }) => {
           </SelectItem>
         </SelectContent>
       </Select>
-      <FormError name="status"/>
     </div>
   )
 }

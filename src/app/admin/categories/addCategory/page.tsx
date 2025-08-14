@@ -1,9 +1,12 @@
-import UnderDevelopment from '@/app/_components/UnderDevelopment/UnderDevelopment'
+"use client"
 import React from 'react'
+import AddCategoryTemplate from './AddCategoryTemplate'
 const page = () => {
   return (
     <div>
-      <UnderDevelopment/>
+      <form>
+        <AddCategoryTemplate/>
+      </form>
     </div>
   )
 }

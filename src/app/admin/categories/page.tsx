@@ -1,15 +1,39 @@
 "use client";
-import React, { useState } from 'react';
-import CategoryTable from './CategoryTable';
-import SubCategoryTable from './SubCategoryTable';
+import React, { useState } from "react";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import CategoryTable from "./CategoryTable";
+import SubCategoryTable from "./SubCategoryTable";
 const Page = () => {
-  const [showCategoryTable, setShowCategoryTable] = useState(true);
+  const [tabValue, setTabValue] = useState("categories");
   return (
-    <div>
-      <span onClick={() => setShowCategoryTable(true)}>Categories</span>
-      <span onClick={() => setShowCategoryTable(false)}>Subcategories</span>
-      {showCategoryTable ? <CategoryTable /> : <SubCategoryTable />}
-    </div>
+    <Tabs
+      value={tabValue}
+      onValueChange={setTabValue}
+      className="w-full"
+    >
+      {/* Tab Header */}
+      <TabsList className="flex w-fit gap-2 bg-[--backgroundLight] rounded-md p-1">
+        <TabsTrigger
+          value="categories"
+          className="px-4 py-2 rounded-md data-[state=active]:bg-[--primary] data-[state=active]:text-[--background] data-[state=inactive]:text-[--primaryDark] transition-colors"
+        >
+          Categories
+        </TabsTrigger>
+        <TabsTrigger
+          value="subcategories"
+          className="px-4 py-2 rounded-md data-[state=active]:bg-[--primary] data-[state=active]:text-[--background] data-[state=inactive]:text-[--primaryDark] transition-colors"
+        >
+          Subcategories
+        </TabsTrigger>
+      </TabsList>
+      {/* Tab Content */}
+      <TabsContent value="categories">
+        <CategoryTable />
+      </TabsContent>
+      <TabsContent value="subcategories">
+        <SubCategoryTable />
+      </TabsContent>
+    </Tabs>
   );
 };
 export default Page;

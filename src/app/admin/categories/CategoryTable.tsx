@@ -7,6 +7,7 @@ import Link from 'next/link';
 import CategoryTableLoading from './CategoryTableLoading';
 import { getAllCategories } from '@/app/services/queryFunctions/categoreis';
 import { useQuery } from '@tanstack/react-query';
+import AddItemButton from './AddItemButton';
 const CategoryTable = () => {
     const { data: navItems, isPending, isError } = useQuery({
         queryKey: ['allCategories'],
@@ -18,6 +19,10 @@ const CategoryTable = () => {
     }
     return (
         <div>
+            <div className="categoryTableHeader flex justify-between items-center">
+                <h2 className='subHeading'>Category Lists</h2>
+                <AddItemButton item={'Category'} href={'/admin/categories/addCategory'}/>
+            </div>
             <Table>
                 <TableHeader>
                     <TableRow>

@@ -8,7 +8,6 @@ import { ISubCategoryData, useSubCategory } from '@/app/hooks/queryHooks/useSubC
 import { initialCategories } from '@/app/data/categoriesData'
 import { Category } from '@/app/types/categories'
 import { useEffect, useState } from 'react'
-import FormError from './FormError'
 const ProductCategorySelectionForm = ({ action, productDatas }: { action: 'add' | 'edit', productDatas?: any }) => {
   const { data: navItems = initialCategories, isPending: categoryLoading } = useCategories()
   const { register, setValue, watch, formState: { errors } } = useFormContext<IAddProductFormData>()
@@ -23,7 +22,7 @@ const ProductCategorySelectionForm = ({ action, productDatas }: { action: 'add' 
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
       {/* Category Select */}
       <div>
-        <Label htmlFor="categoryName">Category</Label>
+         <label className='formLabel'>Category</label>
         <Select
           {...register("categoryName", {
             required: "Category is Required"
@@ -49,11 +48,10 @@ const ProductCategorySelectionForm = ({ action, productDatas }: { action: 'add' 
             ))}
           </SelectContent>
         </Select>
-        <FormError name="categoryName" />
       </div>
       {/* Subcategory Select */}
       <div>
-        <Label htmlFor="subCategoryName">Subcategory</Label>
+         <label className='formLabel'>Sub Category</label>
         <Select
           {...register("subCategoryName", {
             required: "Sub Category is Required"
@@ -82,7 +80,6 @@ const ProductCategorySelectionForm = ({ action, productDatas }: { action: 'add' 
             ))}
           </SelectContent>
         </Select>
-        <FormError name='subCategoryName' />
       </div>
     </div>
   )

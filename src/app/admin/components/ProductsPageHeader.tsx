@@ -7,6 +7,7 @@ import { useContext } from 'react'
 import Link from 'next/link'
 import TotalProducts from './ecommerceSummary/TotalProducts'
 import { DisplayContext } from '@/app/context/DisplayComponents'
+import AddItemButton from '../categories/AddItemButton'
 export const ProductsPageHeader = () => {
   const {setFilterState} = useContext(ProductFilterContext)
   const{visibleComponent,setVisibleComponent} = useContext(DisplayContext)
@@ -17,15 +18,7 @@ export const ProductsPageHeader = () => {
         <ProductSearchBar />
       </div>
       <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
-       <Link href='/admin/addProduct'> <Button 
-          variant="success" 
-          size="default"
-          className="gap-2"
-          aria-label="Add product"
-        >
-          <Plus className="h-4 w-4" />
-          <span className="hidden sm:inline">Add Product</span>
-        </Button></Link>
+       <AddItemButton item={''} href='/admin/addProduct'/>
         <Button 
           variant="failure" 
           size="default"

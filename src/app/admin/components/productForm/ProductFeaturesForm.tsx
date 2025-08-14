@@ -20,7 +20,7 @@ const ProductFeaturesForm: React.FC<ProductFeaturesProps> = ({ action }) => {
   useEffect(()=>{},[formValues.productFeatures])
   return (
     <div>
-      <Label>Features</Label>
+       <label className='formLabel'>Features</label>
       <div className="space-y-2 mt-2">
         {features.length > 0 ? (
           features.map((_, index) => (

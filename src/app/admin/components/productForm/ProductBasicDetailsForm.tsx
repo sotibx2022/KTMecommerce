@@ -8,7 +8,6 @@ import SubmitError from '@/app/_components/submit/SubmitError'
 import { validateSentence, validateWord, validateNumber } from '@/app/services/helperFunctions/validatorFunctions'
 import { IProductDisplay } from '@/app/types/products'
 import { useEffect } from 'react'
-import FormError from './FormError'
 interface ProductBasicDetailsFormProps {
   productDatas?: IProductDisplay
   action: "edit" | "add"
@@ -19,7 +18,7 @@ const ProductBasicDetailsForm: React.FC<ProductBasicDetailsFormProps> = ({ actio
     <div className="space-y-4">
       {/* Product Name */}
       <div>
-        <Label htmlFor="productName">Product Name</Label>
+        <label className='formLabel'>Product Name</label>
         <Input
           id="productName"
           placeholder="Enter product name"
@@ -27,11 +26,10 @@ const ProductBasicDetailsForm: React.FC<ProductBasicDetailsFormProps> = ({ actio
             validate: (value) => validateSentence("ProductName", value, 10, 100)
           })}
         />
-       <FormError name="productName"/>
       </div>
       {/* Description */}
       <div>
-        <Label htmlFor="productDescription">Description</Label>
+         <label className='formLabel'>Product Description</label>
         <Textarea
           id="productDescription"
           placeholder="Enter product description"
@@ -40,13 +38,12 @@ const ProductBasicDetailsForm: React.FC<ProductBasicDetailsFormProps> = ({ actio
             validate: (value) => validateSentence("Product Description", value, 100, 500)
           })}
         />
-        <FormError name="productDescription"/>
       </div>
       {/* Three-column section */}
       <section className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {/* Price */}
         <div>
-          <Label htmlFor="price">Price ($)</Label>
+           <label className='formLabel'>Price $</label>
           <Input
             id="price"
             type="number"
@@ -56,11 +53,10 @@ const ProductBasicDetailsForm: React.FC<ProductBasicDetailsFormProps> = ({ actio
               validate: (value) => validateNumber("Price", value, 1, 4)
             })}
           />
-          <FormError name='price'/>
         </div>
         {/* Variant */}
         <div>
-          <Label htmlFor="variant">Variant</Label>
+          <label className='formLabel'>Variant</label>
           <Input
             id="variant"
             placeholder="Color, Size, etc."
@@ -68,11 +64,10 @@ const ProductBasicDetailsForm: React.FC<ProductBasicDetailsFormProps> = ({ actio
               validate: (value) => validateSentence("Variant", value, 3, 20)
             })}
           />
-          <FormError name='variant'/>
         </div>
         {/* Stock Quantity */}
         <div>
-          <Label htmlFor="stockQuantity">Stock</Label>
+           <label className='formLabel'>Stock</label>
           <Input
             id="stockQuantity"
             type="number"
@@ -81,7 +76,6 @@ const ProductBasicDetailsForm: React.FC<ProductBasicDetailsFormProps> = ({ actio
               validate: (value) => validateNumber("Remaining Stock", value, 1, 3)
             })}
           />
-          <FormError name='remainingStock'/>
         </div>
       </section>
     </div>

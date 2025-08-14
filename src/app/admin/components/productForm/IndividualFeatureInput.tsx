@@ -7,7 +7,6 @@ import { IAddProductFormData } from '../products';
 import SubmitError from '@/app/_components/submit/SubmitError';
 import { validateSentence } from '@/app/services/helperFunctions/validatorFunctions';
 import React, { useState } from 'react';
-import FormError from './FormError';
 interface IndividualFeatureInputProps {
   index: number;
   onRemove?: (index: number) => void;
@@ -50,7 +49,6 @@ const IndividualFeatureInput: React.FC<IndividualFeatureInputProps> = ({
             <Trash2 className="w-4 h-4" />
           </Button>
         </div>
-       <FormError name={`productFeatures.${index}`}/>
       </div>
     </div>
   );

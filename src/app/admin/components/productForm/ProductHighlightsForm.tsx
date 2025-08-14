@@ -8,7 +8,7 @@ interface ProductHighlightsFormProps {
   action: "edit" | "add"
 }
 const ProductHighlightsForm: React.FC<ProductHighlightsFormProps> = ({ action }) => {
-  const { register, watch, setValue,formState:{errors,touchedFields,isSubmitted} } = useFormContext<IAddProductFormData>()
+  const { register, watch, setValue, formState:{errors,touchedFields,isSubmitted} } = useFormContext<IAddProductFormData>()
   const formValues = watch()
   const handleCheckboxChange = (fieldName: keyof IAddProductFormData) => {
     const currentValue = watch(fieldName)
@@ -16,7 +16,7 @@ const ProductHighlightsForm: React.FC<ProductHighlightsFormProps> = ({ action })
   }
   return (
     <div className="space-y-4">
-      <Label>Product Tags</Label>
+       <label className='formLabel'>Product Tags</label>
       <div className="flex flex-wrap items-center gap-4">
         {/* New Arrival */}
         <div className="flex items-center space-x-2">
@@ -25,7 +25,7 @@ const ProductHighlightsForm: React.FC<ProductHighlightsFormProps> = ({ action })
             checked={watch('isNewArrivals') || false}
             onCheckedChange={() => handleCheckboxChange('isNewArrivals')}
           />
-          <Label htmlFor="isNewArrivals">New Arrival</Label>
+          <label htmlFor="isNewArrivals" className='formLabel'>New Arrivals</label>
         </div>
         {/* Top Seller */}
         <div className="flex items-center space-x-2">
@@ -34,7 +34,7 @@ const ProductHighlightsForm: React.FC<ProductHighlightsFormProps> = ({ action })
             checked={watch('isTopSell') || false}
             onCheckedChange={() => handleCheckboxChange('isTopSell')}
           />
-          <Label htmlFor="isTopSell">Top Seller</Label>
+          <label htmlFor="isTopSell" className='formLabel'>Top Seller</label>
         </div>
         {/* Trending */}
         <div className="flex items-center space-x-2">
@@ -43,7 +43,7 @@ const ProductHighlightsForm: React.FC<ProductHighlightsFormProps> = ({ action })
             checked={watch('isTrendingNow') || false}
             onCheckedChange={() => handleCheckboxChange('isTrendingNow')}
           />
-          <Label htmlFor="isTrendingNow">Trending</Label>
+          <label htmlFor="isTrendingNow" className='formLabel'>Trending</label>
         </div>
         {/* On Offer */}
         <div className="flex items-center space-x-2">
@@ -52,7 +52,7 @@ const ProductHighlightsForm: React.FC<ProductHighlightsFormProps> = ({ action })
             checked={watch('isOfferItem') || false}
             onCheckedChange={() => handleCheckboxChange('isOfferItem')}
           />
-          <Label htmlFor="isOfferItem">On Offer</Label>
+          <label htmlFor="isOfferItem" className='formLabel'>On Offer</label>
         </div>
         {/* Regular */}
         <div className="flex items-center space-x-2">
@@ -61,12 +61,12 @@ const ProductHighlightsForm: React.FC<ProductHighlightsFormProps> = ({ action })
             checked={watch('isRegular') || false}
             onCheckedChange={() => handleCheckboxChange('isRegular')}
           />
-          <Label htmlFor="isRegular">Regular</Label>
+          <label htmlFor="isRegular" className='formLabel'>Regular</label>
         </div>
       </div>
-      {!watch('isNewArrivals') && !watch('isTrendingNow')&& !watch('isTopSell')&&
+      {!watch('isNewArrivals') && !watch('isTrendingNow') && !watch('isTopSell') &&
        !watch('isOfferItem') && !watch('isRegular') && isSubmitted &&
-        <SubmitError message='AtLeast One Highlight Item need to be selected'/> }
+        <SubmitError message='At least one highlight item needs to be selected'/> }
     </div>
   )
 }
