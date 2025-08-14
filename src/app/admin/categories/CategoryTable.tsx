@@ -13,7 +13,7 @@ const CategoryTable = () => {
         queryKey: ['allCategories'],
         queryFn: getAllCategories
     })
-    console.log(navItems);
+    
     function deleteHandler(arg0: any): void {
         throw new Error('Function not implemented.');
     }

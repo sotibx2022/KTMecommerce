@@ -10,7 +10,7 @@ const buttonVariants = cva(
         default:
           "border-transparent bg-primaryDark text-background  hover:bg-primaryLight",
         secondary:
-          "border-transparent bg-primaryLight text-primaryDark  hover:bg-background",
+          "border-transparent bg-primaryLight text-primaryDark  hover:bg-backgroundLight",
         destructive:
           "border-transparent bg-destructive text-destructive-foreground shadow hover:bg-destructive/80",
         helper:

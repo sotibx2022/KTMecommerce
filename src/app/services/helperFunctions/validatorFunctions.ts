@@ -12,9 +12,6 @@ export const validateFullName = (
   if (trimmedValue.length > maxValue) {
     return `Max. ${maxValue} characters allowed in ${fieldName}.`;
   }
-  // Allows letters and spaces between names
-  // Also ensures there's at least one space (for first and last name)
-  // and doesn't allow leading/trailing spaces or multiple consecutive spaces
   const regex = /^[a-zA-Z]+(?: [a-zA-Z]+)+$/;
   if (!regex.test(trimmedValue)) {
     return `${fieldName} Only words with first and last name`;
@@ -41,6 +38,23 @@ export const validateWord = (
   }
   return true;
 };
+export const validateSingleWord = (
+  fieldName: string,
+  value: string
+): string | true => {
+  if (!value) return `Please provide a value for ${fieldName}.`;
+  const trimmedValue = value.trim();
+  // Check if it's a single word (no spaces)
+  if (trimmedValue.includes(" ")) {
+    return `${fieldName} should be a single word without spaces.`;
+  }
+  // Check if it contains only letters (a-zA-Z)
+  const regex = /^[a-zA-Z]+$/;
+  if (!regex.test(trimmedValue)) {
+    return `${fieldName} should only contain letters (no numbers or special characters).`;
+  }
+  return true;
+};
 export const validateSentence = (
   fieldName: string,
   value: string,
@@ -55,7 +69,6 @@ export const validateSentence = (
   if (trimmedValue.length > maxValue) {
     return `Max. ${maxValue} characters allowed in ${fieldName}.`;
   }
-  // Allows letters, numbers, spaces, and common address symbols (.,-/)
   const regex = /^[a-zA-Z0-9\s.,-/]+$/;
   if (!regex.test(trimmedValue)) {
     return `${fieldName} contains invalid characters.`;

@@ -13,7 +13,7 @@ interface ProductBasicDetailsFormProps {
   action: "edit" | "add"
 }
 const ProductBasicDetailsForm: React.FC<ProductBasicDetailsFormProps> = ({ action, productDatas }) => {
-  const { register, formState: { errors, touchedFields,isSubmitted }, watch } = useFormContext<IAddProductFormData>()
+  const { register, formState: { errors, touchedFields, isSubmitted }, watch } = useFormContext<IAddProductFormData>()
   return (
     <div className="space-y-4">
       {/* Product Name */}
@@ -29,7 +29,7 @@ const ProductBasicDetailsForm: React.FC<ProductBasicDetailsFormProps> = ({ actio
       </div>
       {/* Description */}
       <div>
-         <label className='formLabel'>Product Description</label>
+        <label className='formLabel'>Product Description</label>
         <Textarea
           id="productDescription"
           placeholder="Enter product description"
@@ -43,7 +43,7 @@ const ProductBasicDetailsForm: React.FC<ProductBasicDetailsFormProps> = ({ actio
       <section className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {/* Price */}
         <div>
-           <label className='formLabel'>Price $</label>
+          <label className='formLabel'>Price $</label>
           <Input
             id="price"
             type="number"
@@ -67,7 +67,7 @@ const ProductBasicDetailsForm: React.FC<ProductBasicDetailsFormProps> = ({ actio
         </div>
         {/* Stock Quantity */}
         <div>
-           <label className='formLabel'>Stock</label>
+          <label className='formLabel'>Stock</label>
           <Input
             id="stockQuantity"
             type="number"
