@@ -19,15 +19,15 @@ const CategoryTableLoading = () => {
                     </TableCell>
                     {/* Subcategories Badges */}
                     <TableCell>
-  <div className="flex gap-2 flex-wrap">
-    {Array.from({ length: 3 }).map((_, subIndex) => (
-      <div
-        key={subIndex}
-        className="h-6 w-16 bg-[--backgroundLight] rounded-full animate-pulse"
-      ></div>
-    ))}
-  </div>
-</TableCell>
+                        <div className="flex gap-2 flex-wrap">
+                            {Array.from({ length: 3 }).map((_, subIndex) => (
+                                <div
+                                    key={subIndex}
+                                    className="h-6 w-16 bg-[--backgroundLight] rounded-full animate-pulse"
+                                ></div>
+                            ))}
+                        </div>
+                    </TableCell>
                     {/* Actions */}
                     <TableCell>
                         <div className="flex w-full justify-between items-center">
