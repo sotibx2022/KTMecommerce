@@ -45,7 +45,6 @@ const CategoryTable = () => {
     }
     const getConfirmationValue = (value: Boolean) => {
         if (value && categoryId) {
-            formData.append('requestType', "delete")
             deleteCategoryMutation.mutate(categoryId)
         }
     }
@@ -108,7 +107,6 @@ const CategoryTable = () => {
             {visibleComponent === 'dilaugeBox' && <DeleteConfirmation message={'Do you want to Delete this Category? The Products inside this category will remain undeleted.'}
                 returnConfirmValue={getConfirmationValue}
                 loading={deleteCategoryMutation.isPending} />}
-            {visibleComponent === 'loadingComponent' && <LoadingComponent />}
         </div>
     )
 }

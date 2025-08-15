@@ -101,6 +101,14 @@ how do you update the url to fetch different data.
 - that params will be converted to string.
 - router.replace to udpate the url in the frontend.
 - we need to provide variables to the query key so that differnt result will appear on data change.
+------------------
+How can we delete one of the subcategory which is the object of category?
+1) find the main category.
+2) find the index of subcategory which you want to delete.
+3) if the index is -1 means, the subcategory is not found.
+4) if index is one means we can splice that subcategory from the array of subcategries.
+5) save the parent category.
+6) optionally we can use $pull method of mongoDB to delete specific subcatgory. which is atomic operation, can be done in single line, without fetching data reduces network resources.
 Remaining:
      : - categoreis page in admin - to learn how to crud categories and subcategories
      : - add more projects with ai support, 

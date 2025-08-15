@@ -6,7 +6,7 @@ interface IAddCategoryData {
     parentCategory: string,
     parentCategoryId: string,
 }
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ImageUpload from '../../components/productForm/ImageUpload'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
@@ -19,7 +19,21 @@ import { Category } from '@/app/types/categories'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { getAllCategories } from '@/app/services/queryFunctions/categoreis';
 import axios from 'axios'
-const AddSubCategoryTemplate = () => {
+import { useRouter } from 'next/navigation'
+interface IAddSubCategoryProps{
+    categoryId?:string;
+}
+const AddSubCategoryTemplate:React.FC<IAddSubCategoryProps> = ({categoryId}) => {
+    const router = useRouter()
+    const { data: categoryDetails, isPending:subCategoryDataPending } = useQuery({
+        queryFn: async () => {
+          const response = await axios.get(`/api/categories/singleSubCategory/${categoryId}`);
+          return response.data;
+        },
+        queryKey: ['categoryDetail'],
+        enabled: !!categoryId
+      })
+      const subcategoryData = categoryDetails?.data;
     const addSubCategoryMutation = useMutation({
         mutationFn: async (formData: FormData) => {
             const response = await axios.post('/api/categories/addSubCategory', formData, {
@@ -36,6 +50,14 @@ const AddSubCategoryTemplate = () => {
             toast.error("not completed")
         }
     })
+    useEffect(() => {
+        if (categoryId) {
+          setValue("metaDescription", subCategoryDataPending ? "Loading" : subcategoryData ? subcategoryData?.meta_description : "There is not data")
+          setValue("metaTitle", subCategoryDataPending ? "Loading" : subcategoryData?.meta_title)
+          setValue("subCategoryName", subCategoryDataPending ? "Loading" : subcategoryData?.category_name)
+          setValue("parentCategory",subCategoryDataPending ? "Loading" : subcategoryData?.category_name)
+        }
+      }, [categoryId, subCategoryDataPending])
     const { data: navItems, isPending, isError } = useQuery({
         queryKey: ['allCategories'],
         queryFn: getAllCategories

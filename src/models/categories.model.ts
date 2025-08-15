@@ -1,5 +1,6 @@
 import mongoose, { Schema, Document } from 'mongoose';
-interface ISubcategory extends Document {
+export interface ISubcategory extends Document {
+  categoryId: string;
   parentCategoryName: string;
   parentCategoryId: string;
   category_name: string;
@@ -46,7 +47,7 @@ const subcategorySchema = new Schema<ISubcategory>({
   }
 }, { _id: true });
 // 3. Parent Category Interface
-interface ICategory extends Document {
+export interface ICategory extends Document {
   image_url: string,
   meta_title: string,
   meta_description: string,
