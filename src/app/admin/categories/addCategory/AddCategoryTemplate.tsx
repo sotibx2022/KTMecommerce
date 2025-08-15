@@ -61,10 +61,12 @@ const AddCategoryTemplate: React.FC<AddCategoryTemplateProps> = ({ categoryId })
   }
   const onSubmit = (data: IAddCategoryData) => {
     const formData = new FormData();
-    if (!file) {
+    if (!file && !categoryId) {
       toast.error("Please Upload Category Image")
     } else {
-      formData.append('file', file);
+      if (file) {
+        formData.append('file', file);
+      }
       formData.append('categoryName', data.categoryName);
       formData.append('metaTitle', data.metaTitle);
       formData.append('metaDescription', data.metaDescription)
@@ -83,7 +85,7 @@ const AddCategoryTemplate: React.FC<AddCategoryTemplateProps> = ({ categoryId })
           <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {/* Category Image Upload */}
             <div className="categoryImageUpload">
-              <ImageUpload action={'edit'} uploadImage={getUploadedImage} text="Category"
+              <ImageUpload action={categoryId ? "edit" : "add"} uploadImage={getUploadedImage} text="Category"
                 imageUrl={isPending ? "https://media.tenor.com/JwPW0tw69vAAAAAj/cargando-loading.gif" : categoryData?.image_url} />
             </div>
             {/* Category Form */}

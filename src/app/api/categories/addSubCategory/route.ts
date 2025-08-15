@@ -1,10 +1,12 @@
 import { findCategoryObjfromCategoryText } from "@/app/services/apiFunctions/categoryText2CategoryObj";
 import { checkAdminAuthorization } from "@/app/services/apiFunctions/checkAdminAuthorization";
 import { uploadImage } from "@/app/services/helperFunctions/uploadImage";
+import { connectToDB } from "@/config/db";
 import Category from "@/models/categories.model";
 import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
   try {
+    connectToDB();
     const authorizationResponse = await checkAdminAuthorization(req);
     const { message, success: authorizationCheckSuccess, status } = authorizationResponse;
     if (!authorizationCheckSuccess) {
@@ -37,16 +39,20 @@ export async function POST(req: NextRequest) {
         { status: 500 }
       );
     }
-    const categoryId = await findCategoryObjfromCategoryText(parentCategory);
-    const newSubCategory = new Category({
-      parentCategory: parentCategory,
-      parentCategoryId: categoryId.toString(),
+    const parentCategoryObj = await findCategoryObjfromCategoryText(parentCategory);
+    const existingMainCategory = await Category.findOne({ _id: parentCategoryObj._id });
+    if (!existingMainCategory) {
+      return NextResponse.json({ message: "There is no Category Exist", success: true, status: 404 })
+    }
+    existingMainCategory.subcategories.push({
+      parentCategoryName: parentCategory,
+      parentCategoryId: parentCategoryObj._id.toString(),
       category_name: subCategoryName,
       image_url: profileUrl,
       meta_title: metaTitle,
       meta_description: metaDescription,
-    });
-    const savedCategory = await newSubCategory.save();
+    })
+    const savedCategory = await existingMainCategory.save();
     if (!savedCategory) {
       throw new Error("Failed to save category");
     }
@@ -59,7 +65,6 @@ export async function POST(req: NextRequest) {
       { status: 201 }
     );
   } catch (error) {
-    console.error("Category creation error:", error);
     return NextResponse.json(
       {
         message: error instanceof Error ? error.message : "Internal server error",

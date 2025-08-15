@@ -1,5 +1,6 @@
 import mongoose, { Schema, Document } from 'mongoose';
 export interface ISubcategory extends Document {
+  _id:Object;
   categoryId: string;
   parentCategoryName: string;
   parentCategoryId: string;
@@ -73,7 +74,7 @@ const categorySchema = new Schema<ICategory>({
     type: String,
     required: true
   },
-  subcategories: [subcategorySchema]  // Embed the subcategory schema
+  subcategories: [subcategorySchema] 
 }, { timestamps: true });
 // 5. Create the Model
 const Category = mongoose.models.Category ||

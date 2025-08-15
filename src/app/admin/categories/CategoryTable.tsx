@@ -50,8 +50,8 @@ const CategoryTable = () => {
     }
     return (
         <div>
-            <div className="categoryTableHeader flex justify-between items-center">
-                <h2 className='subHeading'>Category Lists</h2>
+            <div className="categoryTableHeader flex justify-between items-center my-4">
+                <h2 className='secondaryHeading'>Category Lists</h2>
                 <AddItemButton item={'Category'} href={'/admin/categories/addCategory'} />
             </div>
             <Table>

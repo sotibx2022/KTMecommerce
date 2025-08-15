@@ -46,14 +46,15 @@ const SubCategoryTable = () => {
         }
     }
     function deleteHandler(navItem: ISubcategory): void {
+        setVisibleComponent('dilaugeBox');
         setCategoryId(navItem.categoryId);
         setParentCategoryId(navItem.parentCategoryId);
     }
     return (
         <div>
-            <div className="categoryTableHeader flex justify-between items-center">
+            <div className="categoryTableHeader flex justify-between items-center my-4">
                 <h2 className='secondaryHeading'>Sub-Category Lists</h2>
-                <AddItemButton item={'Sub-Category'} href={'/admin/addSubCategory'} />
+                <AddItemButton item={'Sub-Category'} href={'/admin/categories/addSubCategory'} />
             </div>
             <Table>
                 <TableHeader>
@@ -82,7 +83,7 @@ const SubCategoryTable = () => {
                                     {navItem.parentCategoryName}
                                 </TableCell>
                                 <TableCell>
-                                    <div className="actionButtons flex w-full h-full justify-between items-center gap-2">
+                                    <div className="actionButtons flex w-full h-full justify-center items-center gap-2">
                                         <Link href={`/admin/categories/editSubCategory/categoryIdentifier?categoryId=${navItem._id!.toString()}`}>
                                             <button className="p-2 rounded-md bg-green-500 hover:bg-green-600 transition-colors">
                                                 <Edit size={18} className="text-green-200 cursor-pointer" />
