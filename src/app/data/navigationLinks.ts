@@ -8,5 +8,6 @@ export const navigationLinks = [
   { href: "/pages/faq", text: "FAQs" },                    
   { href: "/pages/blog", text: "Blog" },
   {href:"/admin",text:"Admin"},
-  {href:'/pages/track',text:"Track"}                 
+  {href:'/pages/track',text:"Track"},
+  {href:'/pages/categories',text:"Categories"}                
 ];

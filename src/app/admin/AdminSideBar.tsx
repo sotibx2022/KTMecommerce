@@ -22,7 +22,6 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible"
-import { Button } from "@/components/ui/button"
 import { useContext, useEffect, useState } from "react"
 import { Menu, Minus, PanelLeftClose, PanelLeftOpen, Plus, LayoutDashboard, User } from "lucide-react"
 import { ThemeProviderContext } from "../context/ThemeProvider"

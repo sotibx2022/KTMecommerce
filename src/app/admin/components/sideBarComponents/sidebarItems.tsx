@@ -32,6 +32,7 @@ export const sideBarItems = [
     text: "Categories",
     childMenus: [
       { href: "/admin/categories/addCategory", icon: Plus, text: "Add Category" },
+      { href: "/admin/categories/addSubCategory", icon: Plus, text: "Add Sub-Category" },
       { href: "/admin/categories", icon: List, text: "List Categories" },
     ],
   },
