@@ -16,7 +16,7 @@ import SubmitError from '@/app/_components/submit/SubmitError'
 import toast from 'react-hot-toast'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Category } from '@/app/types/categories'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { getAllCategories } from '@/app/services/queryFunctions/categoreis';
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
@@ -25,6 +25,7 @@ interface IAddSubCategoryProps {
     categoryId?: string;
 }
 const AddSubCategoryTemplate: React.FC<IAddSubCategoryProps> = ({ categoryId }) => {
+    const queryClient = useQueryClient()
     const router = useRouter()
     const upateSubCategoryAPIURl = categoryId ? `/api/categories/singleSubCategory/${categoryId}` : `/api/categories/addSubCategory`
     const { data: categoryDetails, isPending: subCategoryDataPending } = useQuery({
@@ -49,6 +50,8 @@ const AddSubCategoryTemplate: React.FC<IAddSubCategoryProps> = ({ categoryId }) 
         onSuccess: (response) => {
             toast.success(response.message)
             router.push('/admin/categories')
+            queryClient.invalidateQueries({ queryKey: ['categories'] })
+            queryClient.invalidateQueries({queryKey:['initialCategories']})
         },
         onError: (error) => {
             toast.error(error.message)

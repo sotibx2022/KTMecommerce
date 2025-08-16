@@ -1,4 +1,4 @@
-import { initialCategories } from "@/app/data/categoriesData";
+import { useInitialCategories } from "@/app/data/categoriesData";
 import { APIResponseError, APIResponseSuccess } from "@/app/services/queryFunctions/users";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -11,6 +11,8 @@ export interface ISubCategoryDatas {
   subcategories: ISubCategoryData[];
 }
 export const useSubCategory = (categoryValue?: string) => {
+  const {data:navItems,isPending} = useInitialCategories();
+  const initialCategories = navItems?.data??[];
   const categoryExists = useMemo(() => {
     if (!categoryValue) return false; // early exit if undefined/null
     return initialCategories.some(

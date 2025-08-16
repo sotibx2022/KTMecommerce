@@ -12,7 +12,7 @@ import { useForm } from 'react-hook-form'
 import { validateFullName, validateSentence, validateSingleWord, validateWord } from '@/app/services/helperFunctions/validatorFunctions'
 import SubmitError from '@/app/_components/submit/SubmitError'
 import toast from 'react-hot-toast'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponent'
 import { useRouter } from 'next/navigation'
@@ -21,6 +21,7 @@ interface AddCategoryTemplateProps {
 }
 const AddCategoryTemplate: React.FC<AddCategoryTemplateProps> = ({ categoryId }) => {
   const router = useRouter()
+  const queryClient = useQueryClient();
   const { data: categoryDetails, isPending } = useQuery({
     queryFn: async () => {
       const response = await axios.get(`/api/categories/singleCategory/${categoryId}`);
@@ -40,6 +41,7 @@ const AddCategoryTemplate: React.FC<AddCategoryTemplateProps> = ({ categoryId })
       return response.data;
     },
     onSuccess: (response) => {
+      queryClient.invalidateQueries({queryKey:['categories']})
       toast.success(response.message)
       router.push('/admin/categories')
     },

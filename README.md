@@ -110,7 +110,13 @@ How can we delete one of the subcategory which is the object of category?
 5) save the parent category.
 6) optionally we can use $pull method of mongoDB to delete specific subcatgory. which is atomic operation, can be done in single line, without fetching data reduces network resources.
 Remaining:
-     : - categoreis page in admin - to learn how to crud categories and subcategories
+   : - the actaul category and subcategory lists.
+   :- need to be udpated on front end as well.
+   :- while updating the category, lets update the navFile datas as well locally.
+   :- delete vape category and vape products.
+   :- remove slider related to vape
+   :- the list need to show updated result.
+   ------------------
      : - add more projects with ai support, 
      : - the homepage needs to capable of showing more categories, vape will be removed.
      : - why there is product recommendation icon in the admin page as well.

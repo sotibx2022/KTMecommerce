@@ -2,38 +2,29 @@
 import React, { useState } from 'react';
 import LinkComponent from '../linkComponent/LinkComponent';
 import { useCategories } from '@/app/hooks/queryHooks/useCategory';
-import { initialCategories } from '@/app/data/categoriesData';
 import DropDownList from './DropDownList';
 import { Category } from '@/app/types/categories';
+import { useInitialCategories } from '@/app/data/categoriesData';
 const SecondaryHeader = () => {
-  const { data: navItems = initialCategories, isPending, isError } = useCategories();
+  const { data: navigationItems, isPending, isError } = useInitialCategories();
   const [activeCategory, setActiveCategory] = useState<number | null>(null);
-  // Use either fetched data or initial categories
-  const displayItems = isPending || isError ? initialCategories : navItems;
-  // Swap last two items
-  const swappedNavItems = [...displayItems];
-  if (swappedNavItems.length > 1) {
-    const lastIndex = swappedNavItems.length - 1;
-    const secondLastIndex = lastIndex - 1;
-    [swappedNavItems[lastIndex], swappedNavItems[secondLastIndex]] = 
-      [swappedNavItems[secondLastIndex], swappedNavItems[lastIndex]];
-  }
+  const navItems = navigationItems ? navigationItems.data : []
   return (
     <div className="border-2 border-t-primaryDark border-b-primaryDark">
       <ul className="flex-between container ">
-        {swappedNavItems.map((item: Category, index: number) => (
+        {navItems && navItems.map((item: Category, index: number) => (
           <li className='secondaryHeading uppercase font-bold text-primaryDark relative py-2'
             key={item.url_slug || index}
             onMouseEnter={() => setActiveCategory(index)}
             onMouseLeave={() => setActiveCategory(null)}
           >
-            <LinkComponent 
-              href={`/catalog/advanceSearch?category=${item.url_slug || item.category_name}`} 
-              text={item.category_name} 
+            <LinkComponent
+              href={`/catalog/advanceSearch?category=${item.url_slug || item.category_name}`}
+              text={item.category_name}
             />
             {item.subcategories?.length > 0 && activeCategory === index && (
-              <DropDownList 
-                subCategory={item.subcategories} category={item.category_name}              />
+              <DropDownList
+                subCategory={item.subcategories} category={item.category_name} />
             )}
           </li>
         ))}

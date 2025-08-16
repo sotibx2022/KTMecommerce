@@ -6,21 +6,20 @@ import { Edit, Trash } from 'lucide-react';
 import Link from 'next/link';
 import CategoryTableLoading from './CategoryTableLoading';
 import { getAllCategories } from '@/app/services/queryFunctions/categoreis';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { QueryClient, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import AddItemButton from './AddItemButton';
 import DeleteConfirmation from '@/app/_components/deleteConfirmation/DeleteConfirmation';
 import { DisplayContext } from '@/app/context/DisplayComponents';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponent';
+import { useCategories } from '@/app/hooks/queryHooks/useCategory';
 const CategoryTable = () => {
     const formData = new FormData();
+    const queryClient = useQueryClient();
     const [categoryId, setCategoryId] = useState<string | null>(null)
     const { visibleComponent, setVisibleComponent } = useContext(DisplayContext)
-    const { data: navItems, isPending, isError, refetch } = useQuery({
-        queryKey: ['allCategories'],
-        queryFn: getAllCategories
-    })
+    const {data:navItems,isPending,isError} = useCategories()
     const deleteCategoryMutation = useMutation({
         mutationFn: async (categoryId: string) => {
             const response = await axios.post(`/api/categories/delete/category/${categoryId}`);
@@ -31,8 +30,9 @@ const CategoryTable = () => {
         },
         onSuccess: (response) => {
             toast.success(response.message)
-            refetch();
-            setVisibleComponent('')
+            setVisibleComponent('');
+            queryClient.invalidateQueries({queryKey:['categories']})
+            queryClient.invalidateQueries({queryKey:['initialCategories']})
         },
         onError: (error) => {
             toast.error(error.message)

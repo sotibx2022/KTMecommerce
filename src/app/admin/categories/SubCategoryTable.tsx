@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Table, TableHeader, TableBody, TableCell, TableRow, TableHead } from '@/components/ui/table';
 import { Edit, SquareMousePointer, Trash } from 'lucide-react';
 import Link from 'next/link';
@@ -17,13 +17,14 @@ const SubCategoryTable = () => {
     const { visibleComponent, setVisibleComponent } = useContext(DisplayContext);
     const [categoryId, setCategoryId] = useState("");
     const [parentCategoryId, setParentCategoryId] = useState("");
+    const queryClient = useQueryClient()
     // Corrected useMemo syntax
     const queryUrl = useMemo(() => {
         return categoryValue === "Parent Category"
             ? '/api/categories/subcategories'
             : `/api/categories/subcategories?parentCategory=${categoryValue}`;
     }, [categoryValue]);
-    const { data: subcategories = [], isPending, refetch } = useQuery({
+    const { data: subcategories = [], isPending } = useQuery({
         queryKey: ['allSubcategories', queryUrl],
         queryFn: async () => {
             try {
@@ -44,8 +45,10 @@ const SubCategoryTable = () => {
         onMutate: () => setVisibleComponent('loadingComponent'),
         onSuccess: (response) => {
             toast.success(response.message);
-            refetch();
             setVisibleComponent('');
+            queryClient.invalidateQueries({ queryKey: ['categories'] });
+            queryClient.invalidateQueries({ queryKey: ['allSubcategories'] })
+            queryClient.invalidateQueries({queryKey:['initialCategories']})
         },
         onError: (error: any) => {
             toast.error(error.message);
