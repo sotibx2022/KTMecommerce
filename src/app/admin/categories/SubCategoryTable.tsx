@@ -48,7 +48,7 @@ const SubCategoryTable = () => {
             setVisibleComponent('');
             queryClient.invalidateQueries({ queryKey: ['categories'] });
             queryClient.invalidateQueries({ queryKey: ['allSubcategories'] })
-            queryClient.invalidateQueries({queryKey:['initialCategories']})
+            queryClient.invalidateQueries({ queryKey: ['initialCategories'] })
         },
         onError: (error: any) => {
             toast.error(error.message);

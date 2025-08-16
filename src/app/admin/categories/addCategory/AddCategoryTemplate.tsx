@@ -42,6 +42,7 @@ const AddCategoryTemplate: React.FC<AddCategoryTemplateProps> = ({ categoryId })
     },
     onSuccess: (response) => {
       queryClient.invalidateQueries({queryKey:['categories']})
+      queryClient.invalidateQueries({queryKey:['initialCategories']})
       toast.success(response.message)
       router.push('/admin/categories')
     },
