@@ -30,7 +30,7 @@ const SubCategoryTable = () => {
             try {
                 const response = await axios.get(queryUrl);
                 // Make sure you return an array even if the response is empty
-                return response.data?.filterCategory || [];
+                return response.data?.subcategories || [];
             } catch (error) {
                 console.error("Failed to fetch subcategories:", error);
                 return []; // fallback value so query never returns undefined

@@ -5,12 +5,14 @@ import { useCategories } from '@/app/hooks/queryHooks/useCategory';
 import DropDownList from './DropDownList';
 import { Category } from '@/app/types/categories';
 import { useInitialCategories } from '@/app/data/categoriesData';
+import LoadingComponent from '../loadingComponent/LoadingComponent';
 const SecondaryHeader = () => {
   const { data: navigationItems, isPending, isError } = useInitialCategories();
   const [activeCategory, setActiveCategory] = useState<number | null>(null);
   const navItems = navigationItems ? navigationItems.data : []
   return (
     <div className="border-2 border-t-primaryDark border-b-primaryDark">
+      {isPending && <LoadingComponent/>}
       <ul className="flex-between container ">
         {navItems && navItems.map((item: Category, index: number) => (
           <li className='secondaryHeading uppercase font-bold text-primaryDark relative py-2'
