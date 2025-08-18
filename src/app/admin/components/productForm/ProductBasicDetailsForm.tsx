@@ -8,14 +8,37 @@ import SubmitError from '@/app/_components/submit/SubmitError'
 import { validateSentence, validateWord, validateNumber } from '@/app/services/helperFunctions/validatorFunctions'
 import { IProductDisplay } from '@/app/types/products'
 import { useEffect } from 'react'
+import { useMutation } from '@tanstack/react-query'
+import axios from 'axios'
+import { Button } from '@/components/ui/button'
+import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponent'
 interface ProductBasicDetailsFormProps {
   productDatas?: IProductDisplay
   action: "edit" | "add"
 }
 const ProductBasicDetailsForm: React.FC<ProductBasicDetailsFormProps> = ({ action, productDatas }) => {
-  const { register, formState: { errors, touchedFields, isSubmitted }, watch } = useFormContext<IAddProductFormData>()
+  const { register, formState: { errors, touchedFields, isSubmitted }, watch, setValue } = useFormContext<IAddProductFormData>();
+  const productTitle = watch('productName')
+  const productDetailsGeneratorMutation = useMutation({
+    mutationFn: async () => {
+      const response = await axios.post('/api/products/productDetailsGenerator', { productTitle });
+      return response.data;
+    },
+    onSuccess: (response) => {
+      console.log(response.data);
+      setValue('productDescription', response.data.productDetails.productDescription,{ shouldValidate: true });
+      setValue('productFeatures', response.data.productDetails.productFeatures,{ shouldValidate: true });
+      setValue('price', response.data.productDetails.price,{ shouldValidate: true })
+    }, onError: (error) => {
+      console.log(error.message)
+    }
+  })
+  const generateProductDetails = async () => {
+    productDetailsGeneratorMutation.mutate()
+  }
   return (
     <div className="space-y-4">
+      {productDetailsGeneratorMutation.isPending && <LoadingComponent />}
       {/* Product Name */}
       <div>
         <label className='formLabel'>Product Name</label>
@@ -26,6 +49,8 @@ const ProductBasicDetailsForm: React.FC<ProductBasicDetailsFormProps> = ({ actio
             validate: (value) => validateSentence("ProductName", value, 10, 100)
           })}
         />
+        {errors.productName?.message && <SubmitError message={errors.productName.message}/>}
+        <Button variant='secondary' onClick={generateProductDetails}>Generate Product Details using AI</Button>
       </div>
       {/* Description */}
       <div>
@@ -38,6 +63,7 @@ const ProductBasicDetailsForm: React.FC<ProductBasicDetailsFormProps> = ({ actio
             validate: (value) => validateSentence("Product Description", value, 100, 500)
           })}
         />
+        {errors.productDescription?.message && <SubmitError message={errors.productDescription.message}/>}
       </div>
       {/* Three-column section */}
       <section className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -53,6 +79,7 @@ const ProductBasicDetailsForm: React.FC<ProductBasicDetailsFormProps> = ({ actio
               validate: (value) => validateNumber("Price", value, 1, 4)
             })}
           />
+          {errors.price?.message && <SubmitError message={errors.price.message}/>}
         </div>
         {/* Variant */}
         <div>
@@ -64,6 +91,7 @@ const ProductBasicDetailsForm: React.FC<ProductBasicDetailsFormProps> = ({ actio
               validate: (value) => validateSentence("Variant", value, 3, 20)
             })}
           />
+          {errors.variant?.message && <SubmitError message={errors.variant.message}/>}
         </div>
         {/* Stock Quantity */}
         <div>
@@ -76,6 +104,7 @@ const ProductBasicDetailsForm: React.FC<ProductBasicDetailsFormProps> = ({ actio
               validate: (value) => validateNumber("Remaining Stock", value, 1, 3)
             })}
           />
+          {errors.remainingStock?.message && <SubmitError message={errors.remainingStock.message}/>}
         </div>
       </section>
     </div>

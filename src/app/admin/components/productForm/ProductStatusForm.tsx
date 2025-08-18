@@ -34,6 +34,7 @@ const ProductStatusForm: React.FC<ProductStatusFormProps> = ({ action }) => {
           </SelectItem>
         </SelectContent>
       </Select>
+      {errors.status?.message && <SubmitError message={errors.status?.message}/>}
     </div>
   )
 }

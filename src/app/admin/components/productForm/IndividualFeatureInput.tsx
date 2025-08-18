@@ -11,11 +11,11 @@ interface IndividualFeatureInputProps {
   index: number;
   onRemove?: (index: number) => void;
 }
-const IndividualFeatureInput: React.FC<IndividualFeatureInputProps> = ({ 
+const IndividualFeatureInput: React.FC<IndividualFeatureInputProps> = ({
   index,
   onRemove,
 }) => {
-  const { register, watch, setValue,formState:{errors,touchedFields} } = useFormContext<IAddProductFormData>();
+  const { register, watch, setValue, formState: { errors, touchedFields } } = useFormContext<IAddProductFormData>();
   const formValues = watch();
   const features = formValues.productFeatures || [];
   const featureValue = features[index] || '';
@@ -35,8 +35,8 @@ const IndividualFeatureInput: React.FC<IndividualFeatureInputProps> = ({
           <Input
             placeholder={`Feature ${index + 1}`}
             className="flex-1"
-            {...register(`productFeatures.${index}`,{
-              validate:(value)=>validateSentence("Feature Item",value,20,80)
+            {...register(`productFeatures.${index}`, {
+              validate: (value) => validateSentence("Feature Item", value, 20, 80)
             })}
           />
           <Button
@@ -49,6 +49,9 @@ const IndividualFeatureInput: React.FC<IndividualFeatureInputProps> = ({
             <Trash2 className="w-4 h-4" />
           </Button>
         </div>
+         {errors.productFeatures?.[index]?.message && (
+              <SubmitError message={errors.productFeatures[index]?.message} />
+            )}
       </div>
     </div>
   );

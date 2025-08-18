@@ -69,10 +69,6 @@ export const validateSentence = (
   if (trimmedValue.length > maxValue) {
     return `Max. ${maxValue} characters allowed in ${fieldName}.`;
   }
-  const regex = /^[a-zA-Z0-9\s.,-/]+$/;
-  if (!regex.test(trimmedValue)) {
-    return `${fieldName} contains invalid characters.`;
-  }
   return true;
 };
 export const validateString = (fieldName: string, value: string, minValue: number, maxValue: number): string | true => {

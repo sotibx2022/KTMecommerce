@@ -47,6 +47,7 @@ const ProductCategorySelectionForm = ({ action, productDatas }: { action: 'add' 
             ))}
           </SelectContent>
         </Select>
+        {errors.categoryName?.message && <SubmitError message={errors.categoryName.message} />}
       </div>
       {/* Subcategory Select */}
       <div>
@@ -79,6 +80,7 @@ const ProductCategorySelectionForm = ({ action, productDatas }: { action: 'add' 
             ))}
           </SelectContent>
         </Select>
+        {errors.subCategoryName?.message && <SubmitError message={errors.subCategoryName.message} />}
       </div>
     </div>
   )

@@ -111,9 +111,8 @@ How can we delete one of the subcategory which is the object of category?
 6) optionally we can use $pull method of mongoDB to delete specific subcatgory. which is atomic operation, can be done in single line, without fetching data reduces network resources.
 Remaining:
    ------------------
+   :- while entering product title, all product details will be generated automatically.
      : - add more projects with ai support, 
-     : - the homepage needs to capable of showing more categories, vape will be removed.
-     : - why there is product recommendation icon in the admin page as well.
      : - do you really offer 10% discount on first order?
      :- Admin page responsiveness.
      :- back to productRecommendation feature.
