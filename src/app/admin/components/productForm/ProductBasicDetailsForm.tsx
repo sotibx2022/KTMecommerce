@@ -26,9 +26,9 @@ const ProductBasicDetailsForm: React.FC<ProductBasicDetailsFormProps> = ({ actio
     },
     onSuccess: (response) => {
       console.log(response.data);
-      setValue('productDescription', response.data.productDetails.productDescription,{ shouldValidate: true });
-      setValue('productFeatures', response.data.productDetails.productFeatures,{ shouldValidate: true });
-      setValue('price', response.data.productDetails.price,{ shouldValidate: true })
+      setValue('productDescription', response.data.productDetails.productDescription, { shouldValidate: true });
+      setValue('productFeatures', response.data.productDetails.productFeatures, { shouldValidate: true });
+      setValue('price', response.data.productDetails.price, { shouldValidate: true })
     }, onError: (error) => {
       console.log(error.message)
     }
@@ -49,7 +49,7 @@ const ProductBasicDetailsForm: React.FC<ProductBasicDetailsFormProps> = ({ actio
             validate: (value) => validateSentence("ProductName", value, 10, 100)
           })}
         />
-        {errors.productName?.message && <SubmitError message={errors.productName.message}/>}
+        {errors.productName?.message && <SubmitError message={errors.productName.message} />}
         <Button variant='secondary' onClick={generateProductDetails}>Generate Product Details using AI</Button>
       </div>
       {/* Description */}
@@ -63,7 +63,7 @@ const ProductBasicDetailsForm: React.FC<ProductBasicDetailsFormProps> = ({ actio
             validate: (value) => validateSentence("Product Description", value, 100, 500)
           })}
         />
-        {errors.productDescription?.message && <SubmitError message={errors.productDescription.message}/>}
+        {errors.productDescription?.message && <SubmitError message={errors.productDescription.message} />}
       </div>
       {/* Three-column section */}
       <section className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -79,7 +79,7 @@ const ProductBasicDetailsForm: React.FC<ProductBasicDetailsFormProps> = ({ actio
               validate: (value) => validateNumber("Price", value, 1, 4)
             })}
           />
-          {errors.price?.message && <SubmitError message={errors.price.message}/>}
+          {errors.price?.message && <SubmitError message={errors.price.message} />}
         </div>
         {/* Variant */}
         <div>
@@ -91,7 +91,7 @@ const ProductBasicDetailsForm: React.FC<ProductBasicDetailsFormProps> = ({ actio
               validate: (value) => validateSentence("Variant", value, 3, 20)
             })}
           />
-          {errors.variant?.message && <SubmitError message={errors.variant.message}/>}
+          {errors.variant?.message && <SubmitError message={errors.variant.message} />}
         </div>
         {/* Stock Quantity */}
         <div>
@@ -104,7 +104,7 @@ const ProductBasicDetailsForm: React.FC<ProductBasicDetailsFormProps> = ({ actio
               validate: (value) => validateNumber("Remaining Stock", value, 1, 3)
             })}
           />
-          {errors.remainingStock?.message && <SubmitError message={errors.remainingStock.message}/>}
+          {errors.remainingStock?.message && <SubmitError message={errors.remainingStock.message} />}
         </div>
       </section>
     </div>

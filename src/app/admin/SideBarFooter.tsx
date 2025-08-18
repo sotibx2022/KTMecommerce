@@ -22,7 +22,6 @@ const SideBarFooter: React.FC<ISideBarFooterProps> = ({
 }) => {
     const router = useRouter()
     const { data: adminUserData, isPending } = useAdminUser();
-    console.log(adminUserData);
     const { setAdminDetails, adminDetails, setAdminDetailsLoading, adminDetailsLoading } = useAdminDetails();
     useEffect(() => {
         setAdminDetailsLoading(isPending)

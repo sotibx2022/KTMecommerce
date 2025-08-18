@@ -13,7 +13,6 @@ const ProductCategorySelectionForm = ({ action, productDatas }: { action: 'add' 
   const { data: subCategories, isPending: subCategoriesLoading } = useSubCategory(formValues.categoryName)
   // ✅ Hydration-safe mount flag
   const [isMounted, setIsMounted] = useState(false);
-  const navItems = initialCategories?.data ? initialCategories.data : []
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -40,7 +39,7 @@ const ProductCategorySelectionForm = ({ action, productDatas }: { action: 'add' 
             />
           </SelectTrigger>
           <SelectContent>
-            {navItems.map((item: { category_name: string }, index: number) => (
+            {initialCategories && initialCategories.map((item: { category_name: string }, index: number) => (
               <SelectItem value={item.category_name} key={index}>
                 {item.category_name}
               </SelectItem>
