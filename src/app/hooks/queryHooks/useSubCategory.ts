@@ -11,15 +11,6 @@ export interface ISubCategoryDatas {
   subcategories: ISubCategoryData[];
 }
 export const useSubCategory = (categoryValue?: string) => {
-  const {data:navItems,isPending} = useInitialCategories();
-  const initialCategories = navItems?.data??[];
-  const categoryExists = useMemo(() => {
-    if (!categoryValue) return false; // early exit if undefined/null
-    return initialCategories.some(
-      (category) =>
-        category.category_name.toLowerCase() === categoryValue.toLowerCase()
-    );
-  }, [categoryValue]);
   const fetchSubCategories = async (): Promise<
     APIResponseSuccess<ISubCategoryDatas> | APIResponseError
   > => {
@@ -29,6 +20,6 @@ export const useSubCategory = (categoryValue?: string) => {
   return useQuery({
     queryKey: ['subCategory', categoryValue],
     queryFn: fetchSubCategories,
-    enabled: !!categoryValue && categoryExists,
+    enabled: !!categoryValue,
   });
 };
