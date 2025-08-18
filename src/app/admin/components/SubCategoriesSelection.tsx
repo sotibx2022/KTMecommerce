@@ -6,7 +6,6 @@ import { useContext } from 'react';
 const SubCategoriesSelection = () => {
   const { filterState, setFilterState } = useContext(ProductFilterContext);
   const { data: subCategories, isPending: subCategoriesPending } = useSubCategory(filterState.categoryText)
-  console.log(subCategories);
   const onSelectionOfSubCategory = (subCategoryValue: string) => {
     setFilterState((prev) => ({ ...prev, subCategoryText: subCategoryValue }))
   }

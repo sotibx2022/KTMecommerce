@@ -25,7 +25,7 @@ const ProductCategorySelectionForm = ({ action, productDatas }: { action: 'add' 
           {...register("categoryName", {
             required: "Category is Required"
           })}
-          onValueChange={(value) => setValue('categoryName', value)}
+          onValueChange={(value) => setValue('categoryName', value, { shouldValidate: true })}
         >
           <SelectTrigger>
             <SelectValue
@@ -55,7 +55,7 @@ const ProductCategorySelectionForm = ({ action, productDatas }: { action: 'add' 
           {...register("subCategoryName", {
             required: "Sub Category is Required"
           })}
-          onValueChange={(value) => setValue('subCategoryName', value)}
+          onValueChange={(value) => setValue('subCategoryName', value, { shouldValidate: true })}
           disabled={!formValues.categoryName || subCategoriesLoading}
         >
           <SelectTrigger>

@@ -9,7 +9,7 @@ interface ProductStatusFormProps {
 const ProductStatusForm: React.FC<ProductStatusFormProps> = ({ action }) => {
   const { setValue, watch,register,formState:{errors,touchedFields} } = useFormContext<IAddProductFormData>()
   const handleValueChange = (value: "active" | "inActive") => {
-    setValue("status", value)
+    setValue("status", value,{shouldValidate:true})
   }
   const status = watch('status')
   return (
