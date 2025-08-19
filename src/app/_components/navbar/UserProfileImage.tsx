@@ -9,7 +9,7 @@ const UserProfileImage = () => {
             <img
                 src={userDetails.profileImage}
                 alt="User Profile"
-                className="w-[30px] h-[30px] rounded-full"
+                className="w-[30px] h-[30px] rounded-full object-cover"
             />
         ) : (
             <h1 className="text-primaryDark text-upperCase bg-background w-[30px] h-[30px] flex-center text-xl rounded-full">

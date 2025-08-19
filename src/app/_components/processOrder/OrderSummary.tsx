@@ -7,7 +7,8 @@ interface OrderSummaryProps {
   items?: IOrderItem[]; // Make items prop optional
 }
 const OrderSummary = ({ items }: OrderSummaryProps) => {
-  const cartItems = useSelector((state: { cart: CartState }) => state.cart.cartItems)
+  const cartItems = useSelector((state: { cart: CartState }) => state.cart.cartItems);
+  
   const dataToRender = items || cartItems;
   const {grossTotal}  = calculateTotals(cartItems);
   return (

@@ -131,7 +131,7 @@ const FAQPage = () => {
             Didn't find what you were looking for?
           </p>
           <a
-            href="/contact"
+            href="/pages/contact"
             className="inline-block bg-helper text-primaryDark font-bold py-3 px-8 rounded-lg hover:bg-yellow-500 transition-colors"
           >
             Contact Our Support Team

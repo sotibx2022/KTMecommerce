@@ -11,11 +11,11 @@ import { useRouter } from 'next/navigation'
 import { IWishListState } from '@/app/redux/wishListSlice'
 const MobileFooterMenu = () => {
   const controls = useAnimation()
-  const { userDetails } = useUserDetails()
+  const { userDetails, userDetailsLoading } = useUserDetails()
   const { setVisibleComponent } = useContext(DisplayContext)
   const router = useRouter()
-  const {cartItems,loading} = useSelector((state: { cart: CartState }) => state.cart)
-  const {wishListItems,wishListLoading} = useSelector((state:{wishList:IWishListState})=>state.wishList)
+  const { cartItems, loading } = useSelector((state: { cart: CartState }) => state.cart)
+  const { wishListItems, wishListLoading } = useSelector((state: { wishList: IWishListState }) => state.wishList)
   // Animation variants
   const footerMenuVariant = {
     hidden: { y: 100, transition: { duration: 0.3 } },
@@ -28,7 +28,7 @@ const MobileFooterMenu = () => {
   }
   useEffect(() => {
     const handleScroll = () => {
-      if(typeof window === 'undefined') return;
+      if (typeof window === 'undefined') return;
       const currentScrollY = window.scrollY
       if (currentScrollY > 50) {
         controls.start("hidden")
@@ -57,10 +57,10 @@ const MobileFooterMenu = () => {
           onSearch={() => setVisibleComponent('advanceSearch')}
           onCart={() => handleProtectedRoute('/dashboard/cart')}
           onWishlist={() => handleProtectedRoute('/dashboard/wishlist')}
-          cartCount={cartItems?.length ?? 0}
-          wishlistCount={wishListItems.length??0}
-          wishlistLoading={wishListLoading}
-          cartListLoading={loading}
+          cartCount={userDetails ? (cartItems?.length ?? 0) : 0}
+          wishlistCount={userDetails ? (wishListItems.length ?? 0) : 0}
+          wishlistLoading={userDetails ? wishListLoading : userDetailsLoading}
+          cartListLoading={userDetails ? loading : userDetailsLoading}
         />
       </div>
     </motion.div>

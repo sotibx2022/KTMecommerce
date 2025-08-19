@@ -17,6 +17,7 @@ const Page = () => {
   const isEmpty = !isLoading && cartItems.length === 0;
   return (
     <div className="container">
+      <h2 className="secondaryHeading">Cart</h2>
       {isLoading ? (
         <CartSkeleton />
       ) : isEmpty ? (

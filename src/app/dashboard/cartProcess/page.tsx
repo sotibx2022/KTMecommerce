@@ -106,7 +106,10 @@ const page = () => {
       <div className="container mx-auto px-4 py-8">
         <div className="grid md:grid-cols-3 gap-8">
           <div className="md:col-span-2">
-            <h2 className='subHeading'>CheckOut</h2>
+            <h2 className="secondaryHeading">CheckOut</h2>
+            <div className="md:col-span-1">
+              {cartLoading ? <SkeletonSlide /> : <OrderSummary />}
+            </div>
             <FormProvider {...method}>
               <form className="space-y-6" onSubmit={method.handleSubmit(onSubmit)}>
                 <ShippingInformation />
@@ -116,9 +119,6 @@ const page = () => {
                 <PrimaryButton searchText="Confirm" />
               </form>
             </FormProvider>
-          </div>
-          <div className="md:col-span-1">
-            {cartLoading ? <SkeletonSlide /> : <OrderSummary />}
           </div>
         </div>
       </div>

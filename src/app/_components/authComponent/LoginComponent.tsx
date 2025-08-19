@@ -78,7 +78,7 @@ const LoginComponent = () => {
           <div className="max-w-[400px] p-6 rounded-lg shadow-lg relative">
             <form className="flex flex-col gap-2" onSubmit={handleSubmit(onSubmit)}>
               {/* Close Icon */}
-              <h2 className="subHeading mb-4">Login</h2>
+              <h2 className="secondaryHeading mb-4">Login</h2>
               <div>
                 <div className="flex items-center mb-1">
                   <FontAwesomeIcon icon={faEnvelope} className='text-primaryDark mr-2' />
@@ -126,7 +126,7 @@ const LoginComponent = () => {
               </div>
               <PrimaryButton searchText='Login' />
             </form>
-            <Divider text="or Conitnue with social Media" />
+            <Divider text="or Conitnue with Google" />
             <SocialMediaAuth />
             <Divider text="Account Access Options" />
             <AccountOptionLinks visibleItem={'register'} visibleText={'Account Not Created Yet?'} />

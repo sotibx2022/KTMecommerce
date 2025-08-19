@@ -76,7 +76,7 @@ resetPasswordMutation.mutate(data);
         <AbsoluteComponent>
           <div className="bg-background max-w-[400px] p-6 rounded-lg shadow-lg relative">
             <div className="resetresetPasswordComponentWrapper">
-              <h2 className="subHeading mb-4">Reset Password</h2>
+              <h2 className="secondaryHeading mb-4">Reset Password</h2>
              <FormProvider {...formMethod}>
                <form className="flex flex-col gap-4" onSubmit={formMethod.handleSubmit(onSubmit)}>
                 {!checkResetEmail && <CheckEmail />}

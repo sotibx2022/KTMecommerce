@@ -36,7 +36,7 @@ const DeleteUser = () => {
                 <div
                     className="p-6 rounded-lg max-w-md w-full"
                 >
-                    <h3 className="text-lg text-primaryDark" >
+                    <h3 className="secondaryHeading" >
                         Confirm Account Deletion
                     </h3>
                     <p className="primaryParagraph" >

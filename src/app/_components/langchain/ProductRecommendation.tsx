@@ -60,7 +60,7 @@ const ProductRecommendation = () => {
     }
     return (
         <AbsoluteComponent>
-            <h2 className='subHeading'>AI-powered smart pick</h2>
+            <h2 className='secondaryHeading'>AI-powered smart pick</h2>
             <div className="chattingArea">
                 <div className="userProfile">
                     <ReadOnlyUserProfile />

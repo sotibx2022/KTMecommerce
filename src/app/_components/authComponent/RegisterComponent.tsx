@@ -70,7 +70,7 @@ const onSubmit = async (data: RegisterData) => {
 <AuthProvider>
   <div className="max-w-[400px] p-6 rounded-lg shadow-lg relative">
       <form className='flex flex-col gap-4' onSubmit={handleSubmit(onSubmit)}>
-        <h2 className="subHeading mb-4">Register</h2>
+        <h2 className="secondaryHeading mb-4">Register</h2>
         <div>
           <div className="flex items-center mb-1">
             <FontAwesomeIcon icon={faEnvelope} className='text-primaryDark mr-2' />
@@ -148,7 +148,7 @@ const onSubmit = async (data: RegisterData) => {
         </div>
       <PrimaryButton searchText='Register' />
       </form>
-      <Divider text={'orLogin With Social Accounts.'}/>
+      <Divider text={'orLogin With Google.'}/>
       <SocialMediaAuth/>
       <Divider text={'Account Access Options'}/>
       <AccountOptionLinks visibleItem={'login'} visibleText={'Already Registered?'}/>

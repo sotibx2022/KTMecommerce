@@ -9,13 +9,13 @@ interface APIResponse {
 }
 export const getUserDetails = async (): Promise<IUser | null> => {
     try {
-        const response = await axios.get<APIResponse>(`/api/userId`); 
+        const response = await axios.get<APIResponse>(`${config.websiteUrl}/api/userId`);
         if (response.data.success) {
-            return response.data.userDetails || null; 
+            return response.data.userDetails || null;
         }
-        return null; 
+        return null;
     } catch (error) {
         console.error("Error during API call:", error);
-        return null; 
+        return null;
     }
 };

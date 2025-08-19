@@ -50,7 +50,7 @@ useEffect(() => {
   }, [searchValues, visibleComponent, setVisibleComponent]);
   return (
     <AbsoluteComponent>
-      <h2 className='subHeading'>Advance Filter</h2>
+      <h2 className='secondaryHeading'>Advance Filter</h2>
     <div className='flex-col container w-full flex justify-between my-2 gap-4  items-center shadow-primaryLight p-4'>
       <KeywordSearch/>
        <CategorySelection />

@@ -6,7 +6,7 @@ import DeleteUserAccount from './DashboardSettingComponents/DeleteUserAccount';
 const SettingsPage = () => {
   return (
     <div className="max-w-[500px]">
-      <h1 className="subHeading">Account Settings</h1>
+      <h2 className="secondaryHeading">Account Settings</h2>
       <Tabs defaultValue="delivery" className="w-full">
         <TabsList className="grid w-full max-w-[300px] grid-cols-3">
           <TabsTrigger value="delivery">Delivery</TabsTrigger>

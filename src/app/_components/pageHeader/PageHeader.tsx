@@ -18,7 +18,7 @@ const PageHeader: React.FC<IPageHeader> = ({ icon: Icon, headerText, headerTagli
                     {headerText}
                 </span>
                 {headerTagline && (
-                    <p className="mt-2 text-base sm:text-lg text-muted-foreground">
+                    <p className="mt-2 text-base sm:text-lg text-primaryLight">
                         {headerTagline}
                     </p>
                 )}

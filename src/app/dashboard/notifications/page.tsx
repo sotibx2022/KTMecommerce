@@ -119,7 +119,7 @@ const readNotifications = notifications?.filter(n => n.read) ?? [];
         <div className="flex items-center justify-between w-full flex-col md:flex-row">
           <div className="flex items-center ">
             <Bell className="h-6 w-6 text-helper mr-2" />
-            <h1 className="text-2xl font-bold text-primaryDark">Notifications</h1>
+            <h2 className="secondaryHeading">Notifications</h2>
           </div>
           <div className="notificationToggleArea flex gap-1">
             <div

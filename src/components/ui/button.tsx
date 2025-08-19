@@ -6,23 +6,23 @@ const buttonVariants = cva(
   "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
-    variant: {
+      variant: {
         default:
           "border-transparent bg-primaryDark text-background  hover:bg-primaryLight",
         secondary:
           "border-transparent bg-primaryLight text-primaryDark  hover:bg-backgroundLight",
         destructive:
-          "border-transparent bg-destructive text-destructive-foreground shadow hover:bg-destructive/80",
+          "border-transparent bg-red-200 text-red-500  hover:bg-red-300",
         helper:
           "border-transparent bg-helper text-primaryDark shadow hover:bg-primaryLight",
         success:
           "border-transparent bg-green-100 text-green-600 shadow hover:bg-green-200",
         failure: // New variant
           "border-transparent bg-red-100 text-red-600  hover:bg-red-200",
-           outline:
-      "border-2 border-primaryDark bg-background text-primaryDark hover:bg-primaryLight",
-      nothing:
-      " text-primaryDark hover:bg-primaryLight",
+        outline:
+          "border-2 border-primaryDark bg-background text-primaryDark hover:bg-primaryLight",
+        nothing:
+          " text-primaryDark hover:bg-primaryLight",
       },
       size: {
         default: "h-9 px-4 py-2",
@@ -39,7 +39,7 @@ const buttonVariants = cva(
 )
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
+  VariantProps<typeof buttonVariants> {
   asChild?: boolean
 }
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(

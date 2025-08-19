@@ -60,7 +60,7 @@ const Page = () => {
             headerText="Track Your Order"
             headerTagline="Stay updated on your delivery status in real-time, right from dispatch to your doorstep."
           />
-          <form className="trackOrderInput" >
+          <form className="trackOrderInput max-w-[500px]" >
             <label className="text-primaryLight flex items-center">
               <Info className="text-primaryLight mr-1 inline-flex" />
               Enter Valid order Number

@@ -38,7 +38,7 @@ const MobileHeader = () => {
                   >
                       {(userDetails.fullName||userDetails.email)?.charAt(0).toUpperCase()}
                     </h1>
-                    <h2 className="primaryParagraph">{userDetails && userDetails.fullName.split(" ")[0]}</h2>
+                    <h2 className="primaryParagraph">Account</h2>
                     <FontAwesomeIcon
                       icon={showUserOptions ? faCaretUp : faCaretDown}
                     />

@@ -18,7 +18,7 @@ export const AbsoluteComponent = ({ children }: AbsoluteModalProps) => {
       transition={{ 
         duration: 0.5 
       }}
-      className="fixed inset-0 overflow-y-auto z-50"
+      className="fixed inset-0 overflow-y-auto z-50 min-h-[100vh]"
       style={{ background: "var(--gradientwithOpacity)" }}
     >
       <div className="flex min-h-full items-center justify-center p-2 md:p-4">

@@ -9,7 +9,7 @@ const PaymentMethod = () => {
   return (
     <div className="bg-background p-6 rounded-lg shadow-helper">
       <h2 className="text-xl font-semibold mb-4 text-primaryDark">Payment Method</h2>
-      <div className="optionsContainer flex gap-8 my-6">
+      <div className="optionsContainer flex-col sm:flex-row gap-8 my-6">
         <label className="flex items-center cursor-pointer gap-4">
           <input
             type="radio"

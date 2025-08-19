@@ -14,10 +14,11 @@ import LoginComponent from "../../authComponent/LoginComponent";
 import { CartState } from "@/app/redux/cartSlice";
 import { Category } from "@/app/types/categories";
 import { useUserDetails } from "@/app/context/UserDetailsContextComponent";
+import { useInitialCategories } from "@/app/data/categoriesData";
 const ResponsiveHeader = () => {
   const cartItems = useSelector((state: { cart: CartState }) => state.cart.cartItems);
   const { visibleComponent, setVisibleComponent } = useContext(DisplayContext);
-  const { data: NavItems = [] } = useCategories();
+  const { data: navItems } = useInitialCategories();
   const [activeCategory, setActiveCategory] = useState<number | null>(null);
   const [activeScreen, setActiveScreen] = useState(false);
   const toggleCategory = (index: number) => {
@@ -33,7 +34,7 @@ const ResponsiveHeader = () => {
           <div className="mb-6">
             <h3 className="text-lg font-semibold mb-3 text-primaryDark">Categories</h3>
             <ul className="space-y-2">
-              {NavItems.map((item: Category, index: number) => (
+              {navItems?.data && navItems.data?.map((item: Category, index: number) => (
                 <CategoryItem
                   key={item.url_slug || index}
                   item={item}

@@ -81,6 +81,7 @@ const Page = () => {
   return (
     <>{isLoading ? <LoadingComponent /> : <form className='container my-4' onSubmit={handleSubmit(onSubmit)}>
       <div className="flex flex-col-reverse sm:flex-row gap-4 justify-between mb-4">
+        <h2 className="secondaryHeading">Profile</h2>
         <div className="sm:w-2/5 flex flex-col gap-2">
           <div>
             <label className="formLabel">Full Name</label>

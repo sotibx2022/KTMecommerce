@@ -16,5 +16,4 @@ export const userOptions = [
   { title: "Reviews", href: "/dashboard/reviews", icon: faStar },
   { title: "Notifications", href: "/dashboard/notifications", icon: faBell },
   { title: "Settings", href: "/dashboard/settings", icon: faGear },
-  { title: "Logout", href: "", icon: faRightFromBracket }, // ✅ Added
 ];

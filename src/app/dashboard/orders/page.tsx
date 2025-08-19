@@ -21,7 +21,7 @@ const Page = () => {
   }
   return (
     <div className="min-h-screen bg-background md:p-8 w-full">
-      <h1 className="subHeading">Orders</h1>
+      <h2 className="secondaryHeading">Orders</h2>
       {Array.isArray(orders) && orders.length > 0 ? (
         orders.map((order: OrderDetailsProps, index: number) => (
           <div className="singleOrder mb-6" key={order._id}>

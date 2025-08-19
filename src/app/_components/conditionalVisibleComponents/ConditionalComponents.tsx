@@ -12,9 +12,7 @@ import TotalProducts from '@/app/admin/components/ecommerceSummary/TotalProducts
 import DeleteUser from '@/app/dashboard/settings/DashboardSettingComponents/DeleteUser'
 import PublicWishlist from '@/app/dashboard/wishlist/PublicWishlist'
 import AdminLogin from '../authComponent/AdminLogin'
-import DeleteConfirmation from '../deleteConfirmation/DeleteConfirmation'
 import ProductRecommendation from '../langchain/ProductRecommendation'
-import RecommendationTrigger from '../langchain/RecommendationTrigger'
 const ConditionalComponents = () => {
   const { visibleComponent, setVisibleComponent } = useContext(DisplayContext)
   return (

@@ -1,7 +1,12 @@
 import React from 'react';
 import NoRecommendedProduct from './NoRecommendedProduct';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import LinkComponent from '../linkComponent/LinkComponent';
+import { ArrowRight } from 'lucide-react';
 interface RecommendedProductProps {
     recommendedProduct: {
+        _id: Object;
         productName?: string;
         image?: string;
         brand?: string;
@@ -12,16 +17,17 @@ interface RecommendedProductProps {
 }
 const RecommendedProduct: React.FC<RecommendedProductProps> = ({ recommendedProduct }) => {
     if (!recommendedProduct) {
-        return <NoRecommendedProduct/>
+        return <NoRecommendedProduct />
     }
     return (
         <div
             className="productDisplayArea max-w-md mx-auto p-2 rounded-[var(--radius)] shadow-md bg-[var(--background)]"
         >
             {/* Product Name */}
-            <h2 className="text-2xl font-semibold mb-2 text-[var(--primaryDark)]">
-                {recommendedProduct.productName}
-            </h2>
+            <Link href={`/singleProduct/productIdentifier?id=${recommendedProduct._id.toString()}`}>
+                <h2 className="text-2xl font-semibold mb-2 text-[var(--primaryDark)]">
+                    {recommendedProduct.productName}
+                </h2></Link>
             {/* Product Image */}
             {recommendedProduct.image && (
                 <img
@@ -51,6 +57,12 @@ const RecommendedProduct: React.FC<RecommendedProductProps> = ({ recommendedProd
                     </p>
                 )}
             </div>
+            <Link href={`/singleProduct/productIdentifier?id=${recommendedProduct._id.toString()}`} className='my-4'>
+  <Button className="flex items-center gap-2">
+    View Product Details
+    <ArrowRight size={16} />
+  </Button>
+</Link>
         </div>
     );
 };

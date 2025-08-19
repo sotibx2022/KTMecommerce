@@ -6,17 +6,17 @@ import { FaGift, FaPercent } from "react-icons/fa";
 import { useUserDetails } from "@/app/context/UserDetailsContextComponent";
 import Link from "next/link";
 const Timer: React.FC = () => {
-    const {userDetails} = useUserDetails();
+  const { userDetails } = useUserDetails();
   const [days, setDays] = useState<number>(0);
   const [hours, setHours] = useState<number>(0);
   const [minutes, setMinutes] = useState<number>(0);
   const [seconds, setSeconds] = useState<number>(0);
-const {setVisibleComponent} = useContext(DisplayContext);
-const[showRegister,setShowRegister] = useState(false);
-const handleRegister=() =>{
-setShowRegister(true);
-setVisibleComponent('register');
-}
+  const { setVisibleComponent } = useContext(DisplayContext);
+  const [showRegister, setShowRegister] = useState(false);
+  const handleRegister = () => {
+    setShowRegister(true);
+    setVisibleComponent('register');
+  }
   const targetTime: Date = new Date("12/1/2025");
   useEffect(() => {
     const interval = setInterval(() => {
@@ -42,56 +42,56 @@ setVisibleComponent('register');
     return () => clearInterval(interval);
   }, [targetTime]);
   return (
-  <div className="max-w-md mx-auto p-3 rounded-lg shadow-md">
-  {/* Header with icon - made more compact */}
-  <div className="flex items-center gap-2 mb-3">
-    <div className="flex items-center justify-center bg-helper p-2 rounded-full">
-      <FaGift className="text-white text-lg" />
+    <div className="max-w-md mx-auto p-3 rounded-lg shadow-md">
+      {/* Header with icon - made more compact */}
+      <div className="flex items-center gap-2 mb-3">
+        <div className="flex items-center justify-center bg-helper p-2 rounded-full">
+          <FaGift className="text-white text-lg" />
+        </div>
+        <h1 className="text-xl md:text-xl font-bold text-background">Orders above $2000: 10% off!</h1>
+      </div>
+      {/* Timer section - more compact */}
+      <div className="mb-4">
+        <p className="text-helper text-sm mb-2">Offer expires in:</p>
+        <div className="grid grid-cols-4 gap-2">
+          {/* Days */}
+          <div className="flex flex-col items-center bg-primaryLight p-2 rounded-md">
+            <span className="text-xl md:text-2xl font-bold text-primaryDark">{days}</span>
+            <span className="text-xs text-background">Days</span>
+          </div>
+          {/* Hours */}
+          <div className="flex flex-col items-center bg-primaryLight p-2 rounded-md">
+            <span className="text-xl md:text-2xl font-bold text-primaryDark">{hours}</span>
+            <span className="text-xs text-background">Hours</span>
+          </div>
+          {/* Minutes */}
+          <div className="flex flex-col items-center bg-primaryLight p-2 rounded-md">
+            <span className="text-xl md:text-2xl font-bold text-primaryDark">{minutes}</span>
+            <span className="text-xs text-background">Minutes</span>
+          </div>
+          {/* Seconds */}
+          <div className="flex flex-col items-center bg-primaryLight p-2 rounded-md">
+            <span className="text-xl md:text-2xl font-bold text-helper">{seconds}</span>
+            <span className="text-xs text-background">Seconds</span>
+          </div>
+        </div>
+      </div>
+      {/* Button section - more compact */}
+      <div className="flex justify-center">
+        {userDetails ? (
+          <Link href="/pages/isOfferItem" className="w-full">
+            <PrimaryButton
+              searchText="View Offers"
+            />
+          </Link>
+        ) : (
+          <PrimaryButton
+            onClick={handleRegister}
+            searchText="Register Now"
+          />
+        )}
+      </div>
     </div>
-    <h1 className="text-xl md:text-xl font-bold text-background">First order: 10% off!</h1>
-  </div>
-  {/* Timer section - more compact */}
-  <div className="mb-4">
-    <p className="text-helper text-sm mb-2">Offer expires in:</p>
-    <div className="grid grid-cols-4 gap-2">
-      {/* Days */}
-      <div className="flex flex-col items-center bg-primaryLight p-2 rounded-md">
-        <span className="text-xl md:text-2xl font-bold text-primaryDark">{days}</span>
-        <span className="text-xs text-background">Days</span>
-      </div>
-      {/* Hours */}
-      <div className="flex flex-col items-center bg-primaryLight p-2 rounded-md">
-        <span className="text-xl md:text-2xl font-bold text-primaryDark">{hours}</span>
-        <span className="text-xs text-background">Hours</span>
-      </div>
-      {/* Minutes */}
-      <div className="flex flex-col items-center bg-primaryLight p-2 rounded-md">
-        <span className="text-xl md:text-2xl font-bold text-primaryDark">{minutes}</span>
-        <span className="text-xs text-background">Minutes</span>
-      </div>
-      {/* Seconds */}
-      <div className="flex flex-col items-center bg-primaryLight p-2 rounded-md">
-        <span className="text-xl md:text-2xl font-bold text-helper">{seconds}</span>
-        <span className="text-xs text-background">Seconds</span>
-      </div>
-    </div>
-  </div>
-  {/* Button section - more compact */}
-  <div className="flex justify-center">
-    {userDetails ? (
-      <Link href="/pages/isOfferItem" className="w-full">
-        <PrimaryButton 
-          searchText="View Offers"
-        />
-      </Link>
-    ) : (
-      <PrimaryButton 
-        onClick={handleRegister}
-        searchText="Register Now"
-      />
-    )}
-  </div>
-</div>
   );
 };
 export default Timer;

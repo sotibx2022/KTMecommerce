@@ -14,18 +14,22 @@ const Footer2 = () => {
         <div className="container border-t border-primaryLight">
             <ul className="categories flex flex-wrap justify-between gap-4 mt-4">
                 {navItems && navItems.length > 0 && navItems.map((item: Category, index: number) => (
-                    <li key={item.url_slug || index} className="flex flex-col">
-                        <div className="categoryHeader flex justify-between items-center text-xl text-primaryDark">
-                            <Link className='text-white'
-                                href={`/catalog/advanceSearch?category=${item.category_name}`}>
+                    <li key={item.url_slug || index} className="flex flex-col p-4 w-full sm:w-auto bg-primaryGradient">
+                        <div className="categoryHeader flex justify-between items-center text-xl">
+                            <Link
+                                className='text-white'
+                                href={`/catalog/advanceSearch?category=${item.category_name}`}
+                            >
                                 {item.category_name}
                             </Link>
                         </div>
-                        <ul className="flex flex-col gap-2 pt-1">
+                        <ul className="flex flex-wrap gap-2 mt-2 ">
                             {item.subcategories?.map((subItem: Subcategory, subIndex: number) => (
-                                <li key={subItem.url_slug || subIndex} className="text-md">
-                                    <Link className='text-white'
-                                        href={`/catalog/advanceSearch?category=${item.category_name}&subcategory=${subItem.category_name}`}>
+                                <li key={subItem.url_slug || subIndex} className="text-md px-2 rounded-sm bg-primaryLight hover:bg-helper">
+                                    <Link
+                                        className='text-white'
+                                        href={`/catalog/advanceSearch?category=${item.category_name}&subcategory=${subItem.category_name}`}
+                                    >
                                         {subItem.category_name}
                                     </Link>
                                 </li>

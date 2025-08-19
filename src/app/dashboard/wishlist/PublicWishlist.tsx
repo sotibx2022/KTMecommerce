@@ -30,8 +30,8 @@ const PublicWishlist = () => {
     <>
     <AbsoluteComponent>
       <div>
-        <h2 className="subHeading">
-          <Gift className="w-10 h-10" />
+        <h2 className="secondaryHeading flex justify-center gap-2">
+          <Gift className="w-8 h-8" />
           Share Your Wishlist
         </h2>
         <div className="mb-4">

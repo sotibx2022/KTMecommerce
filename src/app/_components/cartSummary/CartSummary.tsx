@@ -5,12 +5,11 @@ import { faSquareCheck } from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from 'react-redux';
 import { CartState } from '@/app/redux/cartSlice';
 import { useRouter } from 'next/navigation';
-import { config } from '@/config/configuration';
 import { calculateTotals } from '@/app/services/helperFunctions/cartFunctions';
 import { IOrderItem } from '@/app/types/orders';
 interface ICartSummary {
-  order?: boolean
-  items?: IOrderItem[]
+    order?: boolean
+    items?: IOrderItem[]
 }
 const CartSummary: React.FC<ICartSummary> = ({ order, items }) => {
     const { cartItems, loading: cartLoading } = useSelector((state: { cart: CartState }) => state.cart);
@@ -20,14 +19,14 @@ const CartSummary: React.FC<ICartSummary> = ({ order, items }) => {
         router.push(`/dashboard/cartProcess`)
     }
     // Calculate totals or return loading state
-    const { totalItems, totalCost, discount, shippingPrice, grossTotal } = cartLoading && !items 
-        ? { 
-            totalItems: 0, 
-            totalCost: 0, 
-            discount: 0, 
-            shippingPrice: 0, 
-            grossTotal: 0 
-          }
+    const { totalItems, totalCost, discount, shippingPrice, grossTotal } = cartLoading && !items
+        ? {
+            totalItems: 0,
+            totalCost: 0,
+            discount: 0,
+            shippingPrice: 0,
+            grossTotal: 0
+        }
         : calculateTotals(datatoRender);
     // Helper function to display values with loading state
     const displayValue = (value: number, isCurrency = false) => {
@@ -39,7 +38,7 @@ const CartSummary: React.FC<ICartSummary> = ({ order, items }) => {
             {datatoRender === cartItems && <h2 className="subHeading">Cart Summary</h2>}
             <div className="summaryLine flex justify-between items-center border-b-2 border-dotted border-helper">
                 <span className="cartSummaryTitle secondaryHeading">
-                    <FontAwesomeIcon icon={faSquareCheck} className="mr-2"/>Total Items
+                    <FontAwesomeIcon icon={faSquareCheck} className="mr-2" />Total Items
                 </span>
                 <span className="cartSummaryData secondaryHeading">
                     {displayValue(totalItems)}
@@ -47,7 +46,7 @@ const CartSummary: React.FC<ICartSummary> = ({ order, items }) => {
             </div>
             <div className="summaryLine flex justify-between items-center border-b-2 border-dotted border-helper">
                 <span className="cartSummaryTitle secondaryHeading">
-                    <FontAwesomeIcon icon={faSquareCheck} className="mr-2"/>Total Cost
+                    <FontAwesomeIcon icon={faSquareCheck} className="mr-2" />Total Cost
                 </span>
                 <span className="cartSummaryData secondaryHeading">
                     {displayValue(totalCost, true)}
@@ -56,7 +55,7 @@ const CartSummary: React.FC<ICartSummary> = ({ order, items }) => {
             <div className="summaryLine flex justify-between items-center border-b-2 border-dotted border-helper">
                 <div className="cartSummaryTitle">
                     <p className="secondaryHeading">
-                        <FontAwesomeIcon icon={faSquareCheck} className="mr-2"/>Discount
+                        <FontAwesomeIcon icon={faSquareCheck} className="mr-2" />Discount
                     </p>
                     {datatoRender === cartItems && !cartLoading && (
                         <span className="primaryParagraph italic text-green-500">10% off above $200</span>
@@ -69,8 +68,8 @@ const CartSummary: React.FC<ICartSummary> = ({ order, items }) => {
             <div className="summaryLine flex justify-between items-center border-b-2 border-dotted border-helper">
                 <div className="cartSummaryTitle">
                     <p className="secondaryHeading">
-                        <FontAwesomeIcon icon={faSquareCheck} className="mr-2"/>Shipping Price
-                    </p> 
+                        <FontAwesomeIcon icon={faSquareCheck} className="mr-2" />Shipping Price
+                    </p>
                     {datatoRender === cartItems && !cartLoading && (
                         <span className="primaryParagraph italic text-green-500">Free shipping over $1000</span>
                     )}
@@ -85,7 +84,7 @@ const CartSummary: React.FC<ICartSummary> = ({ order, items }) => {
                     {displayValue(grossTotal, true)}
                 </span>
             </div>
-            {order && !cartLoading && <PrimaryButton searchText="Order" onClick={handleOrderProducts}/>}
+            {order && !cartLoading && <PrimaryButton searchText="Order" onClick={handleOrderProducts} />}
         </div>
     )
 }

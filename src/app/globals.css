@@ -161,7 +161,7 @@ option {
   @apply w-full p-3 bg-[var(--backgroundLight)] rounded-md focus:outline-none text-primaryDark border border-transparent border-b-helper
 }
 .price-highlight {
-  @apply text-background font-bold text-lg bg-gradient-to-r from-primaryDark to-helper p-2 rounded-md shadow-md text-center;
+  @apply text-background font-bold text-lg bg-gradient-to-r from-backgroundLight to-primaryLight p-2 rounded-md shadow-md text-center;
 }
 .selectInput {
   @apply w-full bg-primaryDark p-2 text-background rounded-lg focus:outline-none focus:bg-primaryDark focus:text-background
@@ -186,13 +186,13 @@ option {
 .darkTheme .card {
   @apply bg-primaryDark text-background
 }
-.darkTheme .primaryHeading{
+.darkTheme .primaryHeading {
   @apply text-background
 }
-.darkTheme .formItem{
+.darkTheme .formItem {
   @apply bg-primaryLight
 }
-.darkTheme .formLabel{
+.darkTheme .formLabel {
   @apply text-background
 }
 /* ===== Root Theme Styles ===== */
@@ -314,8 +314,8 @@ option {
 .sidebarFooterTitle {
   @apply font-semibold text-sm;
 }
-.dark .card .formLabel{
-@apply text-background
+.dark .card .formLabel {
+  @apply text-background
 }
 /* ===== Interactive States ===== */
 .sidebarMenuButton:hover,
