@@ -49,7 +49,7 @@ const MobileHeader = () => {
                   </h1>
                 )}
                 {/* Account label + caret */}
-                <h2 className="primaryParagraph">Account</h2>
+                <h2 className="primaryParagraph">My Dashboard</h2>
                 <FontAwesomeIcon
                   icon={showUserOptions ? faCaretUp : faCaretDown}
                 />
