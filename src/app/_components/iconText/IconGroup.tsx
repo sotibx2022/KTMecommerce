@@ -6,11 +6,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ShoppingCart, Heart } from 'lucide-react'; // Import Lucide icons
 import dynamic from 'next/dynamic';
 import IconLoadingSkleton from './IconLoadingSkleton';
+import { useUserDetails } from '@/app/context/UserDetailsContextComponent';
 const IconButton = dynamic(() => import('./IconButton'), {
   ssr: false,
   loading: () => <IconLoadingSkleton />
 });
 const IconGroup = () => {
+  const { userDetails, userDetailsLoading } = useUserDetails();
   const router = useRouter();
   const { cartItems, loading } = useSelector((state: { cart: any }) => state.cart);
   const { wishListItems, wishListLoading } = useSelector((state: { wishList: any }) => state.wishList);
@@ -20,15 +22,15 @@ const IconGroup = () => {
         icon={<ShoppingCart />} // Lucide icon as JSX
         name="Cart"
         onClick={() => router.push("/dashboard/cart")}
-        number={cartItems.length}
-        loading={loading}
+        number={userDetails ? cartItems.length : 0}
+        loading={userDetailsLoading ? userDetailsLoading : loading}
       />
       <IconButton
         icon={<Heart />} // Lucide icon as JSX
         name="Wishlist"
         onClick={() => router.push("/dashboard/wishlist")}
-        number={wishListItems.length}
-        loading={wishListLoading}
+        number={userDetails ? wishListItems.length : 0}
+        loading={userDetailsLoading ? userDetailsLoading : wishListLoading}
       />
     </div>
   );

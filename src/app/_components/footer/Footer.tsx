@@ -18,7 +18,7 @@ const Footer = () => {
   return (
     <div className='bg-primaryDark mt-4'>
       <MobileFooterMenu />
-      <Footer2 /> {/* Include the dynamically imported Footer2 */}
+      <Footer2 />
       <NewsLetterSection />
       <DirectContactDetails />
       <QuickLinks />

@@ -1,22 +1,22 @@
 "use client";
 import React from 'react';
 import Link from 'next/link';
-import {Category, Subcategory} from '../../types/categories';
+import { Category, Subcategory } from '../../types/categories';
 import FooterSkeleton from './FooterSkeleton';
 import { useInitialCategories } from '@/app/data/categoriesData';
 const Footer2 = () => {
     const { data: navigationItems, isPending, isError } = useInitialCategories();
     const navItems = navigationItems ? navigationItems.data : []
-    if(isPending){
-      return <FooterSkeleton/>
+    if (isPending) {
+        return <FooterSkeleton />
     }
     return (
         <div className="container border-t border-primaryLight">
             <ul className="categories flex flex-wrap justify-between gap-4 mt-4">
-                {navItems && navItems.length>0 && navItems.map((item: Category, index: number) => (
+                {navItems && navItems.length > 0 && navItems.map((item: Category, index: number) => (
                     <li key={item.url_slug || index} className="flex flex-col">
                         <div className="categoryHeader flex justify-between items-center text-xl text-primaryDark">
-                            <Link className='text-white' 
+                            <Link className='text-white'
                                 href={`/catalog/advanceSearch?category=${item.category_name}`}>
                                 {item.category_name}
                             </Link>
