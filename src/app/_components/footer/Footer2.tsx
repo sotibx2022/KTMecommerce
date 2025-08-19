@@ -2,10 +2,11 @@
 import React from 'react';
 import Link from 'next/link';
 import {Category, Subcategory} from '../../types/categories';
-import { useCategories } from '@/app/hooks/queryHooks/useCategory';
 import FooterSkeleton from './FooterSkeleton';
+import { useInitialCategories } from '@/app/data/categoriesData';
 const Footer2 = () => {
-    const { data: navItems,isPending } = useCategories();
+    const { data: navigationItems, isPending, isError } = useInitialCategories();
+    const navItems = navigationItems ? navigationItems.data : []
     if(isPending){
       return <FooterSkeleton/>
     }
