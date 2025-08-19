@@ -15,6 +15,7 @@ import { useDebounce } from '@/app/hooks/generalHooks/useDebounce';
 import { AdvanceSearchProvider, SearchContext } from '@/app/context/AdvanceSearchContext';
 import axios from 'axios';
 import SearchResults from './SearchResults';
+import { useUserDetails } from '@/app/context/UserDetailsContextComponent';
 const SearchBar = () => {
   const context = useContext(SearchContext)
   if (!context) {

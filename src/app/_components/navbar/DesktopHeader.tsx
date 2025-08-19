@@ -14,7 +14,7 @@ import { clearCartItems } from "@/app/redux/cartSlice";
 import { clearWishListItems } from "@/app/redux/wishListSlice";
 const DesktopHeader = () => {
   const { setVisibleComponent } = useContext(DisplayContext);
-  const { userDetails, userDetailsLoading } = useUserDetails(); // Added loading state back
+  const { userDetails, userDetailsLoading } = useUserDetails();
   const dispatch = useDispatch();
   React.useEffect(() => {
     if (!userDetails) {
