@@ -109,7 +109,7 @@ How can we delete one of the subcategory which is the object of category?
 4) if index is one means we can splice that subcategory from the array of subcategries.
 5) save the parent category.
 6) optionally we can use $pull method of mongoDB to delete specific subcatgory. which is atomic operation, can be done in single line, without fetching data reduces network resources.
-REMAINING ON CLIENT SIDE
+REMAINING ON CLIENT SIDE:-
 funcational issues - 
 15. there is no pagination in catelog page.
 16. the brand sliders need to be from DB.
@@ -123,8 +123,6 @@ funcational issues -
 34. categories and subcategories for mobile is not appearing anywhere.
 36. when share button from footer clicked, my website need to be shared.
 39. to others and share icons doesnot work.
-rosponsiveness issues - 
-38. order Items in order page need to be corrected.
 41. there is an issue while adding mobile items in the wishlist.
 Large functions:- 
 1. Currency function.
