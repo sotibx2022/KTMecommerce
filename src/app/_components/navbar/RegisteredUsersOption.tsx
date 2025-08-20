@@ -4,35 +4,39 @@ import SecondaryButton from '../secondaryButton/SecondaryButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faCaretUp, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import UserOptions from './UserOptions';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { clearCartItems, setCart } from '@/app/redux/cartSlice';
 import { useDispatch } from 'react-redux';
-import { fetchCartFromDatabase } from '@/app/services/apiFunctions/cartItems';
+import { clearCartItems, setCart } from '@/app/redux/cartSlice';
 import { useCartItems } from '@/app/hooks/queryHooks/useCartItems';
-import toast from 'react-hot-toast';
-import { truncateCharacters, truncateText } from '@/app/services/helperFunctions/functions';
-import { useLogout } from '@/app/hooks/queryHooks/useLogout';
 import { useWishListItems } from '@/app/hooks/queryHooks/useWishListItems';
 import { clearWishListItems, setWishList } from '@/app/redux/wishListSlice';
 import { useUserDetails } from '@/app/context/UserDetailsContextComponent';
 import UserProfileImage from './UserProfileImage';
+import { useLogout } from '@/app/hooks/queryHooks/useLogout';
 const RegisteredUsersOption = () => {
-  const queryClient = useQueryClient();
   const [showUserOptions, setShowUserOptions] = useState(false);
-  const { userDetails, setUserDetails } = useUserDetails();
-  const logout = useLogout()
+  const { userDetails } = useUserDetails();
+  const logout = useLogout();
   const dispatch = useDispatch();
   const { data: cartItems, isPending } = useCartItems();
   const { data: wishListItems, isPending: wishListItemsPending } = useWishListItems();
-  const cartItemsArray = !isPending && cartItems?.success && cartItems.data && cartItems.data.length > 0
-  const wishListArray = !wishListItemsPending && wishListItems?.success && wishListItems.data && wishListItems.data.length > 0
+  const cartItemsArray = !isPending && cartItems?.success && cartItems.data && cartItems.data.length > 0;
+  const wishListArray = !wishListItemsPending && wishListItems?.success && wishListItems.data && wishListItems.data.length > 0;
   useEffect(() => {
+    console.log("---- RegisteredUsersOption useEffect ----");
+    console.log("userDetails:", userDetails);
+    console.log("cartItems:", cartItems);
+    console.log("cartItemsArray:", cartItemsArray);
+    console.log("isPending:", isPending);
     if (!userDetails) {
+      console.log("User is not logged in, clearing cart and wishlist");
       dispatch(clearCartItems());
       dispatch(clearWishListItems());
     }
     if (cartItemsArray && cartItems.data) {
+      console.log("Dispatching setCart with data:", cartItems.data, "isLoading:", isPending);
       dispatch(setCart({ cartItems: cartItems.data, isLoading: isPending }));
+    } else {
+      console.log("CartItems not ready or empty, skipping setCart dispatch for now");
     }
     if (wishListArray && wishListItems.data) {
       dispatch(setWishList({ wishListItems: wishListItems.data, wishListLoading: wishListItemsPending }));
@@ -45,10 +49,11 @@ const RegisteredUsersOption = () => {
         onMouseEnter={() => setShowUserOptions(true)}
         onMouseLeave={() => setShowUserOptions(false)}
       >
-       <UserProfileImage/>
+        <UserProfileImage />
         <p className="text-white capitalize">
           <span className='text-helper'>Welcome</span> {
-            userDetails && (userDetails.fullName.split(" ")[0] || userDetails?.email.split("@")[0])}
+            userDetails && (userDetails.fullName.split(" ")[0] || userDetails?.email.split("@")[0])
+          }
         </p>
         <FontAwesomeIcon
           icon={showUserOptions ? faCaretUp : faCaretDown}

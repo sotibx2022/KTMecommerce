@@ -6,11 +6,11 @@ export interface CartState {
   initialized: boolean;
 }
 interface ISetCartPayload {
-  cartItems: ICartItem[],
-  isLoading: boolean
+  cartItems: ICartItem[];
+  isLoading: boolean;
 }
 const initialState: CartState = {
-  cartItems: [],
+  cartItems: [],       // changed from undefined to empty array
   loading: true,
   initialized: false,
 };
@@ -22,7 +22,7 @@ const cartSlice = createSlice({
       state.cartItems = action.payload.cartItems;
       state.loading = action.payload.isLoading;
       if (!state.loading) {
-        state.initialized = true
+        state.initialized = true;
       }
     },
     addToCart: (state, action: PayloadAction<ICartItem[]>) => {
@@ -37,7 +37,7 @@ const cartSlice = createSlice({
       }
       state.loading = false;
       if (!state.loading) {
-        state.initialized = true
+        state.initialized = true;
       }
     },
     removeFromCart: (state, action: PayloadAction<string>) => {
@@ -46,7 +46,7 @@ const cartSlice = createSlice({
       );
       state.loading = false;
       if (!state.loading) {
-        state.initialized = true
+        state.initialized = true;
       }
     },
     updateCartItem: (state, action: PayloadAction<{ productId: string; quantity: number }>) => {
@@ -58,15 +58,14 @@ const cartSlice = createSlice({
       }
       state.loading = false;
       if (!state.loading) {
-        state.initialized = true
+        state.initialized = true;
       }
     },
-    // Clear the entire cart
     clearCartItems: (state) => {
       state.cartItems = [];
       state.loading = false;
       if (!state.loading) {
-        state.initialized = true
+        state.initialized = true;
       }
     },
   },

@@ -1,9 +1,9 @@
 "use client";
 import React from "react";
+import { useSelector } from "react-redux";
 import { CartState } from "@/app/redux/cartSlice";
 import CartSummary from "@/app/_components/cartSummary/CartSummary";
 import CartTable from "@/app/_components/cartTable/CartTable";
-import { useSelector } from "react-redux";
 import CartSkeleton from "@/app/_components/skeletontext/CartSkleton";
 import NoData from "@/app/_components/noData/NoData";
 import { ShoppingCart } from "lucide-react";
@@ -13,7 +13,14 @@ const Page = () => {
     (state: { cart: CartState }) => state.cart
   );
   const { userDetailsLoading } = useUserDetails();
+  // Compute loading state
   const isLoading = cartLoading || userDetailsLoading || !initialized;
+  console.log({
+  cartLoading: { value: cartLoading, type: typeof cartLoading },
+  userDetailsLoading: { value: userDetailsLoading, type: typeof userDetailsLoading },
+  initialized: { value: initialized, type: typeof initialized }
+});
+  // Compute empty state safely
   const isEmpty = !isLoading && cartItems.length === 0;
   return (
     <div className="container">

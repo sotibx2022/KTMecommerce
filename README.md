@@ -111,18 +111,12 @@ How can we delete one of the subcategory which is the object of category?
 6) optionally we can use $pull method of mongoDB to delete specific subcatgory. which is atomic operation, can be done in single line, without fetching data reduces network resources.
 REMAINING ON CLIENT SIDE:-
 funcational issues - 
-16. the brand sliders need to be from DB.
-19. no items to item in cart.
-20. no items to item in wishlist.
 21. share button at wishlist not working.
-30. when i logout at one page. another page belongs to dashboard need to be logout immediately.
 31. while typing. need to show typing state to the input fields.
-32. there are not products for new arrial items in store.
-34. categories and subcategories for mobile is not appearing anywhere.
 36. when share button from footer clicked, my website need to be shared.
 39. to others and share icons doesnot work.
-41. there is an issue while adding mobile items in the wishlist.
 Large functions:- 
+------------
 1. Currency function.
 2. CV generator with AI to apply for jobs.
 3. select list for state/provience.
@@ -134,4 +128,5 @@ Animation issues:-
 3. project first landing needs to be without opacity so that loading categories will not showp-up
 5. minimalistic design for catgory page and animation.
 6. animation while hovering to the footer categories.
+7. recently viewed products.
 ADMIN SIDE
