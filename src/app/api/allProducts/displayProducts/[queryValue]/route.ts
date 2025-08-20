@@ -49,7 +49,7 @@ export async function GET(req: NextRequest) {
         }
         // Boolean flags
         if (isNewArrival !== undefined) {
-            matchStage.isNewArrival = isNewArrival === 'true';
+            matchStage.isNewArrivals = isNewArrival === 'true';
         }
         if (isTrendingNow !== undefined) {
             matchStage.isTrendingNow = isTrendingNow === 'true';
