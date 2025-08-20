@@ -121,9 +121,9 @@ export async function GET(req: NextRequest) {
             success: true,
             data: {
                 pagination: {
-                    currentPage: result?.metadata?.page || 1,
-                    pageSize: result?.metadata?.limit || 10,
-                    totalProducts: result?.metadata?.total || 0,
+                    currentPage: result?.metadata?.[0]?.page || 1,
+                    pageSize: result?.metadata?.[0]?.limit || 10,
+                    totalProducts: result?.metadata?.[0]?.total || 0,
                     totalPages: Math.ceil(
                         (result?.metadata?.total || 0) /
                         (result?.metadata?.limit || 10)
