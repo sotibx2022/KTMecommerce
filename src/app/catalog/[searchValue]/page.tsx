@@ -130,8 +130,8 @@ const page = () => {
                       <button
                         key={index}
                         className={`flex h-10 w-10 items-center justify-center rounded-md border ${pagination.currentPage === index + 1
-                            ? "bg-primaryDark text-background"
-                            : "hover:bg-primaryLight"
+                          ? "bg-primaryDark text-background"
+                          : "hover:bg-primaryLight"
                           }`}
                         onClick={() => setSearchValues((prev) => ({ ...prev, pageNumber: index + 1 }))}
                       >

@@ -11,7 +11,7 @@ const Page = () => {
       <Tabs
         value={tabValue}
         onValueChange={setTabValue}
-        className="w-full"
+        className="w-full mb-4"
       >
         {/* Tab Header */}
         <TabsList className="flex w-fit gap-2 bg-[--backgroundLight] rounded-md p-1">

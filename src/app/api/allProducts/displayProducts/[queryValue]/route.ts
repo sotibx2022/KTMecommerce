@@ -125,8 +125,8 @@ export async function GET(req: NextRequest) {
                     pageSize: result?.metadata?.[0]?.limit || 10,
                     totalProducts: result?.metadata?.[0]?.total || 0,
                     totalPages: Math.ceil(
-                        (result?.metadata?.total || 0) /
-                        (result?.metadata?.limit || 10)
+                        (result?.metadata?.[0]?.total || 0) /
+                        (result?.metadata?.[0]?.limit || 10)
                     )
                 },
                 products: result?.data || []
