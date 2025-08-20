@@ -111,7 +111,6 @@ How can we delete one of the subcategory which is the object of category?
 6) optionally we can use $pull method of mongoDB to delete specific subcatgory. which is atomic operation, can be done in single line, without fetching data reduces network resources.
 REMAINING ON CLIENT SIDE:-
 funcational issues - 
-15. there is no pagination in catelog page.
 16. the brand sliders need to be from DB.
 19. no items to item in cart.
 20. no items to item in wishlist.

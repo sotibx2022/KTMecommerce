@@ -33,12 +33,11 @@ export async function GET(req: NextRequest) {
     ]);
     return NextResponse.json({
       message: "Brand Details found successfully",
-      data: brandsArray,
+      brandsArray: brandsArray,
       success: true,
       status: 200,
     });
   } catch (error) {
-    console.error("Error fetching brand details:", error);
     return NextResponse.json(
       { message: "Internal Server Error", success: false, status: 500 },
       { status: 500 }
