@@ -7,9 +7,9 @@ interface LinkComponentProps {
   href: string;
   text: string;
   className?: string;
-  onClick?:()=>void;
+  onClick?: () => void;
 }
-const LinkComponent: React.FC<LinkComponentProps> = ({ href, text, className,onClick }) => {
+const LinkComponent: React.FC<LinkComponentProps> = ({ href, text, className, onClick }) => {
   const nav1Ref = useRef<HTMLSpanElement>(null);
   const nav2Ref = useRef<HTMLSpanElement>(null);
   const container = useRef<HTMLDivElement>(null);
