@@ -116,7 +116,6 @@ funcational issues -
 19. no items to item in cart.
 20. no items to item in wishlist.
 21. share button at wishlist not working.
-24. unread notifications need to show in the menu.
 30. when i logout at one page. another page belongs to dashboard need to be logout immediately.
 31. while typing. need to show typing state to the input fields.
 32. there are not products for new arrial items in store.

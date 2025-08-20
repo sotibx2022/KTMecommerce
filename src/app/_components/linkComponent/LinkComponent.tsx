@@ -7,8 +7,9 @@ interface LinkComponentProps {
   href: string;
   text: string;
   className?: string;
+  onClick?:()=>void;
 }
-const LinkComponent: React.FC<LinkComponentProps> = ({ href, text, className }) => {
+const LinkComponent: React.FC<LinkComponentProps> = ({ href, text, className,onClick }) => {
   const nav1Ref = useRef<HTMLSpanElement>(null);
   const nav2Ref = useRef<HTMLSpanElement>(null);
   const container = useRef<HTMLDivElement>(null);
@@ -43,7 +44,7 @@ const LinkComponent: React.FC<LinkComponentProps> = ({ href, text, className }) 
   }, { scope: container }); // Scope the animations to the container
   return (
     <div ref={container} className={className}>
-      <Link href={href}>
+      <Link href={href} onClick={onClick}>
         <div className="flex flex-col h-[1.5rem] overflow-hidden">
           <span ref={nav1Ref} className="cursor-pointer">
             {text}
