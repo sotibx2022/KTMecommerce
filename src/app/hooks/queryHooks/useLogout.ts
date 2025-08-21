@@ -30,9 +30,6 @@ export const useLogout = () => {
         ]);
         toast.success(response.message);
         router.push('/');
-        if (typeof window !== "undefined") {
-          localStorage.setItem('logout', Date.now().toString())
-        }
       } catch (error) {
         console.error("Logout cleanup error:", error);
         toast.error("Logged out, but some cleanup failed");

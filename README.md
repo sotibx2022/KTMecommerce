@@ -109,24 +109,29 @@ How can we delete one of the subcategory which is the object of category?
 4) if index is one means we can splice that subcategory from the array of subcategries.
 5) save the parent category.
 6) optionally we can use $pull method of mongoDB to delete specific subcatgory. which is atomic operation, can be done in single line, without fetching data reduces network resources.
+How to login and logout other active tabs when one tab changes.
+1) the traditional way is, set login and logout in the localstorage.
+2) other pages will listen this event and perfrom the operation.
+3) when login success number === logout success number means, we can perform logout or viceverca.
+4) but the problems are, if tab closed immediately after closoing the tab, also localhost memory will be dirty so that best way to to use redux + broadCast channel API to handle the issue.
 REMAINING ON CLIENT SIDE:-
 funcational issues - 
 21. share button at wishlist not working.
-31. while typing. need to show typing state to the input fields.
-36. when share button from footer clicked, my website need to be shared.
 39. to others and share icons doesnot work.
 Large functions:- 
 ------------
-1. Currency function.
-2. CV generator with AI to apply for jobs.
-3. select list for state/provience.
-4. suggestions from city.
-5. review classification with AI.
-6. careers CRUD.
-7. save details in cookies and send personalized products.
+1. while typing. need to show typing state to the input fields.
+2. simple Redux + BroadcastChannel
+3. Currency function.
+4. CV generator with AI to apply for jobs.
+5. select list for state/provience.
+6. suggestions from city.
+7. review classification with AI.
+8. careers CRUD.
+9. save details in cookies and send personalized products.
+10. recently viewed products to debug cart and wishlist listing issues.
 Animation issues:-
 3. project first landing needs to be without opacity so that loading categories will not showp-up
 5. minimalistic design for catgory page and animation.
 6. animation while hovering to the footer categories.
-7. recently viewed products.
 ADMIN SIDE

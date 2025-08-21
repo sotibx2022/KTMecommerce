@@ -19,9 +19,11 @@ const MobileHeader = () => {
     >
       <div className="container flex justify-between items-center">
         {/* Logo */}
+        <Link href='/'>
         <div className="logoImage">
           <img src="/assets/brand/mobilelogo.png" alt="mobilelogo" width={50} />
         </div>
+        </Link>
         {/* Right side */}
         <div className="flex items-center gap-4">
           {/* User details */}

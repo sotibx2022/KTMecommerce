@@ -10,25 +10,6 @@ import { DisplayContext } from "@/app/context/DisplayComponents";
 import { useLogout } from "@/app/hooks/queryHooks/useLogout";
 const MainPrimaryHeader: React.FC = () => {
   const { visibleComponent } = useContext(DisplayContext);
-  const logout = useLogout()
-  useEffect(() => {
-    const handleEvent = (event: StorageEvent) => {
-      if (event.key === 'logout') {
-        logout.mutate();
-        if(typeof window !== "undefined"){
-          localStorage.removeItem('logout')
-        }
-      }
-    };
-    if (typeof window !== "undefined") {
-      window.addEventListener('storage', handleEvent);
-    }
-    return () => {
-      if (typeof window !== "undefined") {
-        window.removeEventListener('storage', handleEvent);
-      }
-    };
-  }, []); // empty array: run once on mount
   return (
     <>
       <DesktopHeader />
