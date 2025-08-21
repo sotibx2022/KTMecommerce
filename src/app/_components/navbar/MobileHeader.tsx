@@ -8,6 +8,7 @@ import NonRegisteredUsersOption from "./NonRegisteredUsersOption";
 import { useUserDetails } from "@/app/context/UserDetailsContextComponent";
 import UserOptions from "./UserOptions";
 import { User } from "lucide-react";
+import Link from "next/link";
 const MobileHeader = () => {
   const { setVisibleComponent } = useContext(DisplayContext);
   const { userDetails, userDetailsLoading } = useUserDetails();
