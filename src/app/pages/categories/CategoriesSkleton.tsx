@@ -1,33 +1,31 @@
-const CategoriesSkeleton = ({ categoriesCount = 3, subcategoriesCount = 2 }) => {
+const CategoriesSkeleton = ({ categoriesCount = 3, subcategoriesCount = 6 }) => {
     return (
-        <div>
+        <div className="space-y-12 mt-8">
             {Array.from({ length: categoriesCount }).map((_, categoryIndex) => (
-                <div key={categoryIndex} className="mb-4">
+                <div key={categoryIndex} className="mb-12">
                     {/* Category Heading Skeleton */}
-                    <div
-                        className="h-8 w-1/3 rounded bg-[var(--helper)] animate-pulse mb-2"
-                    ></div>
-                    {/* Category Description Skeleton */}
-                    <div
-                        className="h-6 w-2/3 rounded bg-[var(--backgroundLight)] animate-pulse mb-4"
-                    ></div>
-                    <ul className="flex flex-col gap-4">
+                    <div className="mb-6 border-b border-backgroundLight pb-4">
+                        <div className="h-8 w-1/3 rounded bg-backgroundLight animate-pulse mb-2"></div>
+                        <div className="h-6 w-2/3 rounded bg-backgroundLight animate-pulse"></div>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {Array.from({ length: subcategoriesCount }).map((_, subIndex) => (
-                            <li
+                            <div
                                 key={subIndex}
-                                className="flex justify-between items-center  gap-4 p-4 shadow-helper rounded"
+                                className="bg-background rounded-lg overflow-hidden shadow-primaryLight p-5"
                             >
-                                <div className="flex flex-col gap-2">
+                                <div className="flex flex-col gap-2 mb-4">
                                     {/* Subcategory Heading Skeleton */}
-                                    <div className="h-6 w-1/2 rounded bg-primaryLight animate-pulse"></div>
+                                    <div className="h-6 w-3/5 rounded bg-backgroundLight animate-pulse"></div>
                                     {/* Subcategory Description Skeleton */}
-                                    <div className="h-4 w-3/4 rounded bg-primaryLight animate-pulse"></div>
+                                    <div className="h-4 w-full rounded bg-backgroundLight animate-pulse"></div>
+                                    <div className="h-4 w-4/5 rounded bg-backgroundLight animate-pulse"></div>
                                 </div>
                                 {/* Image Skeleton */}
-                                <div className="h-[100px] w-[100px] rounded bg-[var(--primaryLight)] animate-pulse"></div>
-                            </li>
+                                <div className="h-48 w-full rounded-md bg-backgroundLight animate-pulse"></div>
+                            </div>
                         ))}
-                    </ul>
+                    </div>
                 </div>
             ))}
         </div>
