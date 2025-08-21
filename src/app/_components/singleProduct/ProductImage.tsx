@@ -12,31 +12,32 @@ const ProductImage: React.FC<IProductDisplay> = ({ ...cartItemDetails }) => {
     useEffect(() => {
         setClientSide(true)
     }, [])
-    const handleShare = (mediaName: string) => {
-        const pageUrl = `/${config.websiteUrl}/singleProduct/productIdentifier?id=${cartItemDetails._id.toString}`;
-        let shareUrl = "";
-        switch (mediaName) {
-            case "facebook":
-                shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${pageUrl}`;
-                break;
-            case "twitter":
-                shareUrl = `https://twitter.com/intent/tweet?url=${pageUrl}`;
-                break;
-            case "whatsapp":
-                shareUrl = `https://api.whatsapp.com/send?text=${pageUrl}`;
-                break;
-            case "linkedin":
-                shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${pageUrl}`;
-                break;
-            case "instagram":
-                alert("Sharing to the Instagram is not implemented.");
-                return;
-            default:
-                alert("Unsupported platform");
-                return;
-        }
-        window.open(shareUrl, "_blank", "noopener,noreferrer");
-    };
+   const handleShare = (mediaName: string) => {
+    const pageUrl = `${config.websiteUrl}/singleProduct/productIdentifier?id=${cartItemDetails._id.toString()}`;
+    const encodedUrl = encodeURIComponent(pageUrl); // Important for safe sharing URLs
+    let shareUrl = "";
+    switch (mediaName) {
+        case "facebook":
+            shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`;
+            break;
+        case "twitter":
+            shareUrl = `https://twitter.com/intent/tweet?url=${encodedUrl}`;
+            break;
+        case "whatsapp":
+            shareUrl = `https://api.whatsapp.com/send?text=${encodedUrl}`;
+            break;
+        case "linkedin":
+            shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`;
+            break;
+        case "instagram":
+            alert("Sharing to Instagram is not implemented.");
+            return;
+        default:
+            alert("Unsupported platform");
+            return;
+    }
+    window.open(shareUrl, "_blank", "noopener,noreferrer");
+};
     const downloadImage = async (name: string) => {
         if (!clientSide) return;
         if (typeof document !== "undefined") {
