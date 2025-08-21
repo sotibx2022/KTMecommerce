@@ -13,7 +13,7 @@ const ProductImage: React.FC<IProductDisplay> = ({ ...cartItemDetails }) => {
         setClientSide(true)
     }, [])
     const handleShare = (mediaName: string) => {
-        const pageUrl = encodeURIComponent(`/${config.websiteUrl}/singleProduct/productIdentifier?id=${cartItemDetails._id.toString}`);
+        const pageUrl = `/${config.websiteUrl}/singleProduct/productIdentifier?id=${cartItemDetails._id.toString}`;
         let shareUrl = "";
         switch (mediaName) {
             case "facebook":
