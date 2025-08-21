@@ -30,9 +30,9 @@ const Page = () => {
           {categories && categories.map((category: ICategory, categoryIndex: number) => {
             return (
               <section key={categoryIndex} className='mb-12'>
-                <div className="mb-6 border-b border-gray-100 pb-4">
-                  <h1 className='text-2xl font-semibold text-gray-800'>{category.category_name}</h1>
-                  <p className='text-gray-600 mt-2'>{category.meta_description}</p>
+                <div className="mb-6 border-b border-backgroundLight pb-4">
+                  <h1 className='text-2xl font-semibold text-primaryDark'>{category.category_name}</h1>
+                  <p className='text-primaryDark mt-2'>{category.meta_description}</p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {category.subcategories.map((subCat: ISubcategory, subcategoryIndex: number) => {
@@ -41,13 +41,13 @@ const Page = () => {
                     return (
                       <div 
                         key={subcategoryIndex}
-                        className="bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300"
+                        className="bg-backgroundLight rounded-lg border border-primaryLight overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300"
                         onMouseEnter={() => handleCategoryHover(categoryIndex, subcategoryIndex)}
                         onMouseLeave={handleCategoryLeave}
                       >
                         <div className="p-5">
-                          <h2 className='text-lg font-medium text-gray-800 mb-2'>{subCat.category_name}</h2>
-                          <p className='text-gray-600 text-sm'>{subCat.meta_description}</p>
+                          <h2 className='text-lg font-medium text-primaryDark mb-2'>{subCat.category_name}</h2>
+                          <p className='text-primaryDark text-sm'>{subCat.meta_description}</p>
                         </div>
                         {isActive && subCat.image_url && (
                           <div className="px-5 pb-5">

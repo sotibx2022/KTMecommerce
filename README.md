@@ -120,7 +120,6 @@ Large functions:-
 1. while typing. need to show typing state to the input fields. - 1 day
 2. simple Redux + BroadcastChannel - 1 day
 3. Currency function.- 1 day
-5. select list for state/provience/suggestions from city.- 1 day
-10. recently viewed products to debug cart and wishlist listing issues.- 1 day
-3. landing page loading animation, category page - 1 day
+4. select list for state/provience/suggestions from city.- 1 day
+5. recently viewed products to debug cart and wishlist listing issues.- 1 day
 ADMIN SIDE
