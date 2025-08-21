@@ -25,7 +25,7 @@ const ResponsiveHeader = () => {
     setActiveCategory(prev => prev === index ? null : index);
   };
   return (
-    <div className="fixed inset-0 z-50" style={{ background: "var(--gradientwithOpacity)" }}>
+    <div className="fixed inset-0 z-50 min-h-[100vh]" style={{ background: "var(--gradientwithOpacity)" }}>
       <div className="absolute right-0 h-full w-full max-w-sm bg-background shadow-xl overflow-y-auto">
         <div className="sticky top-0 bg-background z-10 p-4">
           <HeaderSection onClose={() => setVisibleComponent('')} />
