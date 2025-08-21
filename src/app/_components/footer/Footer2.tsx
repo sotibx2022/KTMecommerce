@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Category, Subcategory } from '../../types/categories';
 import FooterSkeleton from './FooterSkeleton';
 import { useInitialCategories } from '@/app/data/categoriesData';
+import LinkComponent from '../linkComponent/LinkComponent';
 const Footer2 = () => {
     const { data: navigationItems, isPending, isError } = useInitialCategories();
     const navItems = navigationItems ? navigationItems.data : []
@@ -15,13 +16,8 @@ const Footer2 = () => {
             <ul className="categories flex flex-wrap justify-between gap-4 mt-4">
                 {navItems && navItems.length > 0 && navItems.map((item: Category, index: number) => (
                     <li key={item.url_slug || index} className="flex flex-col p-4 w-full sm:w-auto bg-primaryGradient">
-                        <div className="categoryHeader flex justify-between items-center text-xl">
-                            <Link
-                                className='text-white'
-                                href={`/catalog/advanceSearch?category=${item.category_name}`}
-                            >
-                                {item.category_name}
-                            </Link>
+                        <div className="text-white text-lg border-b border-b-primaryLight mb-2 pb-2">
+                            <LinkComponent href={`/catalog/advanceSearch?category=${item.category_name}`} text={item.category_name} />
                         </div>
                         <ul className="flex flex-wrap gap-2 mt-2 ">
                             {item.subcategories?.map((subItem: Subcategory, subIndex: number) => (

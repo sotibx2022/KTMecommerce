@@ -11,7 +11,7 @@ import MobileFooterMenu from '../navbar/MobileFooterMenu'
 const ClientPage = () => {
   return (
     <>
-      <NavBar />
+      {/* <NavBar />
       <HeroLayout />
       <AllProductsBanner />
       <CategoryCards
@@ -31,7 +31,7 @@ const ClientPage = () => {
         title="Limited Offer Items"
       />
       <BrandCaurosel />
-      <ConditionalComponents />
+      <ConditionalComponents /> */}
       <Footer />
     </>
   )
