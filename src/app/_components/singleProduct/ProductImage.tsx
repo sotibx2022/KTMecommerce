@@ -4,15 +4,39 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretRight, faDownload } from "@fortawesome/free-solid-svg-icons";
 import { toPng } from 'html-to-image';
 import { faFacebookSquare, faInstagram, faTwitterSquare, faWhatsappSquare } from "@fortawesome/free-brands-svg-icons";
-import dynamic from "next/dynamic";
 import { IProductDisplay } from "@/app/types/products";
 import { AbsoluteComponent } from "../absoluteComponent/AbsoluteComponent";
+import { config } from "@/config/configuration";
 const ProductImage: React.FC<IProductDisplay> = ({ ...cartItemDetails }) => {
     const [clientSide, setClientSide] = useState<boolean>(false);
     useEffect(() => {
         setClientSide(true)
     }, [])
-    const handleShare = (mediaName: string) => { }
+    const handleShare = (mediaName: string) => {
+        const pageUrl = encodeURIComponent(`/${config.websiteUrl}/singleProduct/productIdentifier?id=${cartItemDetails._id.toString}`);
+        let shareUrl = "";
+        switch (mediaName) {
+            case "facebook":
+                shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${pageUrl}`;
+                break;
+            case "twitter":
+                shareUrl = `https://twitter.com/intent/tweet?url=${pageUrl}`;
+                break;
+            case "whatsapp":
+                shareUrl = `https://api.whatsapp.com/send?text=${pageUrl}`;
+                break;
+            case "linkedin":
+                shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${pageUrl}`;
+                break;
+            case "instagram":
+                alert("Sharing to the Instagram is not implemented.");
+                return;
+            default:
+                alert("Unsupported platform");
+                return;
+        }
+        window.open(shareUrl, "_blank", "noopener,noreferrer");
+    };
     const downloadImage = async (name: string) => {
         if (!clientSide) return;
         if (typeof document !== "undefined") {
