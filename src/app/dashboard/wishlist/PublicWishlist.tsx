@@ -18,15 +18,13 @@ const PublicWishlist = () => {
     },
   });
   const fullLink = isPending ? '' : `${pageUrl}=${publicWishlistToken?.data}`;
+  const whatsappShareLink = encodeURIComponent(`https://api.whatsapp.com/send?text=${fullLink}`)
   const copyToClipboard = () => {
     if (!fullLink) return;
     navigator.clipboard.writeText(fullLink);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
-  const shareWishlist = () => {
-    throw new Error('Function not implemented.');
-  }
   return (
     <>
       <AbsoluteComponent>
@@ -54,9 +52,8 @@ const PublicWishlist = () => {
                 >
                   {copied ? '✓' : <Copy className="w-4 h-4" />}
                 </Button>
-                <Link href={`https://api.whatsapp.com/send?text=Public Wish List!+${fullLink}`} target="_blank">
+                <Link href={whatsappShareLink} target="_blank">
                   <Button
-                    onClick={shareWishlist}
                     disabled={isPending}
                     variant={'success'}
                   >
