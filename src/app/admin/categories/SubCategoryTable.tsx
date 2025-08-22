@@ -11,7 +11,7 @@ import { DisplayContext } from '@/app/context/DisplayComponents';
 import toast from 'react-hot-toast';
 import DeleteConfirmation from '@/app/_components/deleteConfirmation/DeleteConfirmation';
 import PatentCategoriesSelect from './PatentCategoriesSelect';
-const SubCategoryTable = () => {
+const SubCategoryTable:React.FC<{theme:string}> = ({theme}) => {
     const [categoryValue, setCategoryValue] = useState<string>("Parent Category");
     const [showDropDown, setShowDropDown] = useState(false);
     const { visibleComponent, setVisibleComponent } = useContext(DisplayContext);
@@ -73,7 +73,7 @@ const SubCategoryTable = () => {
                 <h2 className='secondaryHeading'>Sub-Category Lists</h2>
                 <AddItemButton item={'Sub-Category'} href={'/admin/categories/addSubCategory'} />
             </div>
-            <Table>
+            <Table className={`${theme}==="dark"?" table darkTable:"lightTable"`}>
                 <TableHeader>
                     <TableRow>
                         <TableHead>SN</TableHead>

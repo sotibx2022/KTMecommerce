@@ -14,7 +14,7 @@ import toast from 'react-hot-toast';
 import axios from 'axios';
 import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponent';
 import { useCategories } from '@/app/hooks/queryHooks/useCategory';
-const CategoryTable = () => {
+const CategoryTable:React.FC<{theme:string}> = ({theme}) => {
     const formData = new FormData();
     const queryClient = useQueryClient();
     const [categoryId, setCategoryId] = useState<string | null>(null)
@@ -54,7 +54,7 @@ const CategoryTable = () => {
                 <h2 className='secondaryHeading'>Category Lists</h2>
                 <AddItemButton item={'Category'} href={'/admin/categories/addCategory'} />
             </div>
-            <Table>
+            <Table className={`${theme}==="dark"?" table darkTable:"lightTable"`}>
                 <TableHeader>
                     <TableRow>
                         <TableHead>SN</TableHead>

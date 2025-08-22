@@ -21,10 +21,10 @@ import { useRouter, useSearchParams } from "next/navigation"
 import { ThemeProviderContext } from "@/app/context/ThemeProvider"
 const page = () => {
   const themeContext = useContext(ThemeProviderContext);
-    if(!themeContext){
-      throw new Error ("Context is not available here")
-    }
-    const{theme} = themeContext;
+  if (!themeContext) {
+    throw new Error("Context is not available here")
+  }
+  const { theme } = themeContext;
   const [status, setStatus] = useState("Status")
   const [createdSorting, setCreatedSorting] = useState<"ascending" | "descending" | "normal">("normal")
   const router = useRouter();
@@ -49,7 +49,7 @@ const page = () => {
   let arrayofStatus: string[] = ["registered", "updated", "customer"]
   return (
     <div>
-      <Table className={`${theme==='dark'? "darkTable":"lightTable"}`}>
+      <Table className={`${theme === 'dark' ? "darkTable" : "lightTable"}`}>
         <TableHeader>
           <TableRow>
             <TableHead>Profile</TableHead>
@@ -84,6 +84,7 @@ const page = () => {
                       width={40}
                       height={40}
                       style={{ borderRadius: "50%" }}
+                      className="object-cover"
                     />
                   ) : (
                     <h1 className="text-primaryDark uppercase bg-background w-[40px] h-[40px] flex-center text-xl rounded-full border-2 border-helper">
