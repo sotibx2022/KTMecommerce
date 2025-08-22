@@ -80,27 +80,28 @@ const LoginComponent = () => {
               {/* Close Icon */}
               <h2 className="secondaryHeading mb-4">Login</h2>
               <FormInput
-  id="loginEmail"
-  label="Email"
-  type="email"
-  placeholder="john@example.com"
-  required
-  icon={Mail} // example Lucide icon
-  register={register}
-  rules={{ validate: (value: string) => validateEmail("Email", value) }}
-  errors={errors}
-/>
-<FormInput
-  id="loginPassword"
-  label="Password"
-  type="password"
-  placeholder="••••••••"
-  required
-  icon={UserLock}
-  register={register}
-  rules={{ validate: (value: string) => validatePassword("Password", value, 8) }}
-  errors={errors}
-/>
+                id="loginEmail"
+                label="Email"
+                type="email"
+                placeholder="john@example.com"
+                required
+                icon={Mail} // example Lucide icon
+                register={register}
+                rules={{ validate: (value: string) => validateEmail("Email", value) }}
+                errors={errors}
+              />
+              <FormInput
+                id="loginPassword"
+                label="Password"
+                type="password"
+                placeholder="••••••••"
+                required
+                icon={UserLock}
+                register={register}
+                rules={{ validate: (value: string) => validatePassword("Password", value, 8) }}
+                errors={errors}
+                passwordToogle={true}
+              />
               <PrimaryButton searchText='Login' />
             </form>
             <Divider text="or Conitnue with Google" />
