@@ -19,7 +19,7 @@ const IconGroup = () => {
   const router = useRouter();
   const { cartItems, loading } = useSelector((state: { cart: any }) => state.cart);
   const { wishListItems, wishListLoading } = useSelector((state: { wishList: any }) => state.wishList);
-   const handleProtectedRoute = (path: string) => {
+  const handleProtectedRoute = (path: string) => {
     if (!userDetails) setVisibleComponent('login')
     else router.push(path)
   }

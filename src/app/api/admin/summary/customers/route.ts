@@ -5,22 +5,23 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
     try {
         await connectToDB();
-        const [
-            totalCustomers,
-            registeredCustomers,
-            activeCustomers,
-            adminUsers
-        ] = await Promise.all([
-            UserModel.countDocuments(),
-            UserModel.countDocuments({ accountStatus: 'registered' }),
-            UserModel.countDocuments({ accountStatus: 'customer' }),
-            AdminModel.countDocuments()
-        ]);
+        const results = await UserModel.aggregate([
+            {
+                $group: {
+                    _id: '$accountStatus',
+                    count: { $sum: 1 }
+                }
+            }
+        ])
+        const customerObject: Record<string, number> = {}
+        results.forEach((result) => {
+            customerObject[result._id] = result.count
+        })
         const customerDatas = {
-            totalCustomers,
-            registeredCustomers,
-            activeCustomers,
-            adminUsers
+            totalCustomers: Object.values(customerObject).reduce((a, b) => a + b, 0),
+            registeredCustomers: customerObject["registered"] || 0,
+            activeCustomers: customerObject["customer"] || 0,
+            updatedCustomers: customerObject["updated"] || 0,
         };
         return NextResponse.json({
             message: "Customer data retrieved successfully",

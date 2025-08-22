@@ -34,27 +34,27 @@ const TotalCustomers = () => {
   }
   const { 
     registeredCustomers = 1, 
-    activeCustomers = 1, 
-    adminUsers = 1,
-    totalCustomers = 0
+    updatedCustomers = 1, 
+    activeCustomers = 1,
+    totalCustomers = 3
   } = customersSummary.customerDatas || {};
   const data = [
     { 
       name: "Registered", 
       count: registeredCustomers, 
-      total: totalCustomers + adminUsers,
+      total: totalCustomers,
       color: "#876061" 
     },
     { 
       name: "Active", 
       count: activeCustomers===0?1:activeCustomers, 
-      total: totalCustomers + adminUsers,
+      total: totalCustomers,
       color: "#5c8a72" 
     },
     { 
-      name: "Admin", 
-      count: adminUsers, 
-      total: totalCustomers + adminUsers,
+      name: "Updated", 
+      count: updatedCustomers, 
+      total: totalCustomers,
       color: "#5c6b8a" 
     },
   ];
