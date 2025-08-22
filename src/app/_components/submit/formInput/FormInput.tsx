@@ -1,6 +1,6 @@
 "use client"
 import { Eye, EyeOff, LucideIcon } from "lucide-react";
-import React, { useReducer, useState } from "react";
+import React, { useState } from "react";
 import SubmitError from "../SubmitError"; 
 import { useDebounce } from "@/app/hooks/generalHooks/useDebounce";
 interface IFormInputProps { 
@@ -15,26 +15,7 @@ interface IFormInputProps {
   errors?: Record<string, any>; 
   passwordToogle?: boolean; 
 } 
-interface State { 
-  cssValue: string; 
-} 
-interface Action { 
-  type: "error" | "success" | "validating" | "initial"; 
-} 
-const initialState: State = { cssValue: "border-b border-primaryDark" }; 
-const reducer = (state: State, action: Action): State => { 
-  switch (action.type) {
-    case "error":
-      return { cssValue: "border-b border-red-500" };
-    case "success":
-      return { cssValue: "border-b border-green-500" };
-    case "validating":
-      return { cssValue: "border-b border-helper animate-pulse" };
-    case "initial":
-    default:
-      return { cssValue: "border-b border-primaryDark" };
-  }
-};
+type Status = "initial" | "validating" | "error" | "success";
 const FormInput: React.FC<IFormInputProps> = ({
   icon: Icon,
   label,
@@ -47,20 +28,33 @@ const FormInput: React.FC<IFormInputProps> = ({
   errors,
   passwordToogle
 }) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
   const [showPassword, setShowPassword] = useState(false);
   const [inputValue, setInputValue] = useState("");
+  const [status, setStatus] = useState<Status>("initial");
   useDebounce({
     callback: () => {
       if (errors?.[id]?.message) {
-        dispatch({ type: "error" });
+        setStatus("error");
       } else {
-        dispatch({ type: "success" });
+        setStatus("success");
       }
     },
     delay: 500,
     dependencies: [inputValue, errors?.[id]?.message]
   });
+  const getBorderClass = () => {
+    switch (status) {
+      case "error":
+        return "border-b border-red-500";
+      case "success":
+        return "border-b border-green-500";
+      case "validating":
+        return "border-b border-helper animate-pulse";
+      case "initial":
+      default:
+        return "border-b border-primaryDark";
+    }
+  };
   return (
     <div>
       <div className="flex items-center mb-1">
@@ -74,12 +68,13 @@ const FormInput: React.FC<IFormInputProps> = ({
           id={id}
           type={passwordToogle ? (showPassword ? "text" : "password") : type}
           placeholder={placeholder}
-          className={`formItem w-full ${state.cssValue}`}
+          className={`formItem w-full ${getBorderClass()}`}
           {...register(id, {
             ...rules,
             onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-              dispatch({ type: "validating" });
+              setStatus("validating");
               setInputValue(e.target.value);
+              rules?.onChange?.(e);
             }
           })}
         />
@@ -92,7 +87,10 @@ const FormInput: React.FC<IFormInputProps> = ({
           </div>
         )}
       </div>
-      {errors?.[id]?.message && <SubmitError message={errors[id].message} />}
+      {status === "validating" && <span>Validating</span>}
+      {status !== "validating" && errors?.[id]?.message && (
+        <SubmitError message={errors[id].message} />
+      )}
     </div>
   );
 };
