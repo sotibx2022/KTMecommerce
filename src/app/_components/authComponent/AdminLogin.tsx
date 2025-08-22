@@ -80,7 +80,7 @@ const AdminLogin = () => {
     <div className="flex flex-col gap-2 max-w-[800px]">
       {validateAdminMutation.isPending && <LoadingComponent />}
       {/* ✅ Using FormInput with react-hook-form */}
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
         <FormInput
           icon={Info}
           label="Enter User ID or contact admin."

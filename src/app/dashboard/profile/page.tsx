@@ -82,8 +82,8 @@ const Page = () => {
   }, [userData, userDataPending, setValue]);
   return (
     <>{isLoading ? <LoadingComponent /> : <form className='container my-4' onSubmit={handleSubmit(onSubmit)}>
+      <h2 className="secondaryHeading">Profile</h2>
       <div className="flex flex-col-reverse sm:flex-row gap-4 justify-between mb-4">
-        <h2 className="secondaryHeading">Profile</h2>
         <div className="sm:w-2/5 flex flex-col gap-2">
           <FormInput
             id="fullName"
@@ -93,7 +93,7 @@ const Page = () => {
             required
             icon={UserPen}
             register={register}
-            rules={{ validate: (value: string) => validateFullName("Full Name", value, 1, 1) }}
+            rules={{ validate: (value: string) => validateFullName("Full Name", value, 5, 20) }}
             error={errors?.fullName?.message}
           />
           <FormInput
@@ -115,7 +115,7 @@ const Page = () => {
                 />
                 <span className="text-primaryDark text-sm font-medium">+977</span>
               </div>
-              <input type="text" className="border border-helper bg-background rounded-md p-3 w-full shadow-helper shadow-sm focus:outline-none text-primaryDark pl-[80px] " placeholder="eg.9804567890" id="phoneNumber"
+              <input type="text" className="border-b-2 border-primaryLight bg-backgroundLight rounded-md p-3 w-full shadow-helper shadow-sm focus:outline-none text-primaryDark pl-[80px] " placeholder="eg.9804567890" id="phoneNumber"
                 disabled={!userData}
                 {...register("phoneNumber", {
                   validate: (value) => validateNumber("Phone Number", value, 10, 10)
