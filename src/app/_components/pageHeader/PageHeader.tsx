@@ -14,7 +14,7 @@ const PageHeader: React.FC<IPageHeader> = ({ icon: Icon, headerText, headerTagli
                 </div>
             </div>}
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-foreground leading-tight mb-2 sm:mb-6">
-                <span className="block bg-gradient-to-r from-primaryDark to-helper bg-clip-text text-transparent">
+                <span className="block bg-gradient-to-r from-primaryDark to-helper bg-clip-text text-transparent pb-4">
                     {headerText}
                 </span>
                 {headerTagline && (
