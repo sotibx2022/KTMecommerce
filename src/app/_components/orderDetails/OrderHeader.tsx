@@ -20,7 +20,7 @@ export const OrderHeader = ({
   <div className="mb-4 md:mb-6 w-full">
     <div className="flex justify-between items-center mb-2">
       <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-primaryDark">
-        Order # {_id?.slice(8).toUpperCase()}
+        Order # {_id?.toString().slice(-8).toUpperCase()}
       </h2>
       {expandable && (
         <FontAwesomeIcon

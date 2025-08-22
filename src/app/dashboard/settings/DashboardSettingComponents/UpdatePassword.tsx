@@ -26,7 +26,9 @@ import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponen
 import GoogleAccountInfo from './GoogleAccountInfo';
 import { trusted } from 'mongoose';
 import { useUserDetails } from '@/app/context/UserDetailsContextComponent';
+import { useRouter } from 'next/navigation';
 const UpdatePassword = () => {
+    const router = useRouter()
     const [showGoogleAccountInfo, setShowGoogleAccountInfo] = useState(false);
     const { userDetails } = useUserDetails();
     const formMethod = useForm<UpdatePasswordData>({
@@ -56,6 +58,7 @@ const UpdatePassword = () => {
         onSuccess: (response) => {
             if (response.success) {
                 toast.success(response.message);
+                router.push('/dashboard/profile')
             } else {
                 toast.error(response.message);
             }

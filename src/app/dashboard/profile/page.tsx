@@ -115,7 +115,7 @@ const Page = () => {
                 />
                 <span className="text-primaryDark text-sm font-medium">+977</span>
               </div>
-              <input type="text" className="border-b-2 border-primaryLight bg-backgroundLight rounded-md p-3 w-full shadow-helper shadow-sm focus:outline-none text-primaryDark pl-[80px] " placeholder="eg.9804567890" id="phoneNumber"
+              <input type="text" className="border-b-2 border-primaryLight bg-backgroundLight rounded-md p-3 w-full  focus:outline-none text-primaryDark pl-[80px] " placeholder="eg.9804567890" id="phoneNumber"
                 disabled={!userData}
                 {...register("phoneNumber", {
                   validate: (value) => validateNumber("Phone Number", value, 10, 10)
