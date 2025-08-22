@@ -2,7 +2,7 @@
 import { Eye, EyeOff, LucideIcon } from "lucide-react";
 import React, { useState } from "react";
 import SubmitError from "../SubmitError";
-import { Button } from "react-day-picker";
+import { Button } from "@/components/ui/button";
 interface IFormInputProps {
     icon: LucideIcon;
     label: string;
@@ -39,7 +39,7 @@ const FormInput: React.FC<IFormInputProps> = ({
             <div className="actualInput relative">
                 <input
                     id={id}
-                    type={passwordToogle ? showPassword ? 'text' : 'password' : type}
+                    type={passwordToogle ? (showPassword ? 'text' : 'password') : type}
                     placeholder={placeholder}
                     className="formItem w-full"
                     {...register(id, rules)}
@@ -51,7 +51,6 @@ const FormInput: React.FC<IFormInputProps> = ({
                     </Button>
                 )}
             </div>
-            {/* Dynamically check error for this field */}
             {errors?.[id]?.message && <SubmitError message={errors[id].message} />}
         </div>
     );
