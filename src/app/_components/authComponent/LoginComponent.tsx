@@ -87,7 +87,7 @@ const LoginComponent = () => {
                 icon={Mail} // example Lucide icon
                 register={register}
                 rules={{ validate: (value: string) => validateEmail("Email", value) }}
-                errors={errors}
+                error={errors?.loginEmail?.message}
               />
               <FormInput
                 id="loginPassword"
@@ -98,7 +98,7 @@ const LoginComponent = () => {
                 icon={UserLock}
                 register={register}
                 rules={{ validate: (value: string) => validatePassword("Password", value, 8) }}
-                errors={errors}
+                error={errors?.loginPassword?.message}
                 passwordToogle={true}
               />
               <PrimaryButton searchText='Login' />

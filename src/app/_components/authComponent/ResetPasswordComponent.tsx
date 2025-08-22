@@ -107,7 +107,7 @@ const ResetPasswordComponent = () => {
                         validate: (value: string) =>
                           validateEmail("Email", value),
                       }}
-                      errors={formMethod.formState.errors}
+                      error={formMethod.formState.errors?.resetEmail?.message}
                     />
                   )}
                   {checkResetEmail && (
@@ -124,7 +124,7 @@ const ResetPasswordComponent = () => {
                           validate: (value: string) =>
                             validatePassword("Password", value, 8),
                         }}
-                        errors={formMethod.formState.errors}
+                        error={formMethod.formState.errors?.newresetPassword?.message}
                         passwordToogle={true} // 
                       />
                       <FormInput
@@ -143,7 +143,7 @@ const ResetPasswordComponent = () => {
                               value
                             ),
                         }}
-                        errors={formMethod.formState.errors}
+                        error={formMethod.formState.errors.confirmNewresetPassword?.message}
                         passwordToogle={true} // ✅ password toggle handled in FormInput
                       />
                       <PrimaryButton searchText="Reset" />

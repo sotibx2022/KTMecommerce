@@ -75,7 +75,7 @@ const RegisterComponent = () => {
                 icon={Mail}
                 register={register}
                 rules={{ validate: (value: string) => validateEmail("Email", value) }}
-                errors={errors}
+                error={errors?.email?.message}
               />
               {/* ✅ Password */}
               <FormInput
@@ -87,7 +87,7 @@ const RegisterComponent = () => {
                 icon={Lock}
                 register={register}
                 rules={{ validate: (value: string) => validatePassword("Password", value, 8) }}
-                errors={errors}
+                error={errors?.password?.message}
                 passwordToogle={true}
               />
               {/* ✅ Confirm Password */}
@@ -103,7 +103,7 @@ const RegisterComponent = () => {
                   validate: (value: string) =>
                     validateConfirmPassword("Confirm Password", getValues("password"), value)
                 }}
-                errors={errors}
+                error={errors?.confirmPassword?.message}
                 passwordToogle={true}
               />
               <PrimaryButton searchText='Register' />
