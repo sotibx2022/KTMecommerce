@@ -15,6 +15,7 @@ import { useRouter } from 'next/navigation'
 import { truncate } from 'lodash'
 import { useSlidersData } from '@/app/hooks/queryHooks/useSlidersData'
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 const SingleSliderItem = () => {
     const { refetch } = useSlidersData();
     const [isSubmitting, setIsSubmitting] = useState(false) // New state to control submission
@@ -89,8 +90,9 @@ const SingleSliderItem = () => {
                         {/* Slider Title */}
                         <div className="flex flex-col gap-2">
                             <label className="text-sm font-medium">Slider Title</label>
-                            <input
+                            <Input
                                 type="text"
+                                placeholder="eg.Best Ecommerce Solution "
                                 className="formItem"
                                 {...register("sliderTitle", {
                                     validate: (value) =>
@@ -104,8 +106,9 @@ const SingleSliderItem = () => {
                         {/* Slider Slogan */}
                         <div className="flex flex-col gap-2">
                             <label className="text-sm font-medium">Slider Slogan</label>
-                            <input
+                            <Input
                                 type="text"
+                                placeholder="eg. Enjoy the Shopping"
                                 className="formItem"
                                 {...register("sliderSlogan", {
                                     validate: (value) =>

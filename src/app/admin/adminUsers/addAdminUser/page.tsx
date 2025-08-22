@@ -12,6 +12,7 @@ import { APIResponseError, APIResponseSuccess } from '@/app/services/queryFuncti
 import toast from 'react-hot-toast'
 import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponent'
 import { ThemeProviderContext } from '@/app/context/ThemeProvider'
+import { Input } from '@/components/ui/input'
 const Page = () => {
   const themeContext = useContext(ThemeProviderContext);
   if (!themeContext) {
@@ -50,7 +51,7 @@ const Page = () => {
       <h2 className={`${theme === 'dark' ? 'text-background' : 'text-primaryDark'} text-xl`}>Add Admin</h2>
       <div className="">
         <label className="formLabel">Admin Email</label>
-        <input type='text' placeholder='Enter Email of admin user' className='formItem'
+        <Input type='text' placeholder='Enter Email of admin user' className='formItem'
           {...register("adminEmail", {
             validate: (value) => validateEmail("Admin Email", value)
           })} />
@@ -58,7 +59,7 @@ const Page = () => {
       </div>
       <div className="">
         <label className="formLabel">Admin Full Name</label>
-        <input type='text' placeholder='Enter FullName of Admin user' className='formItem'
+        <Input type='text' placeholder='Enter FullName of Admin user' className='formItem'
           {...register("adminFullName",
             { validate: (value) => validateFullName("Admin Full Name", value, 5, 20) }
           )} />
@@ -66,7 +67,7 @@ const Page = () => {
       </div>
       <div className="">
         <label className="formLabel">Admin User Name</label>
-        <input type='text' placeholder='Enter User Name for Admin' className='formItem'
+        <Input type='text' placeholder='Enter User Name for Admin' className='formItem'
           {...register("adminUserName", {
             validate: (value: string) => {
               const regex = new RegExp(userNameRegexValue)

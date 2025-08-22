@@ -115,10 +115,10 @@ How to login and logout other active tabs when one tab changes.
 3) when login success number === logout success number means, we can perform logout or viceverca.
 4) but the problems are, if tab closed immediately after closoing the tab, also localhost memory will be dirty so that best way to to use redux + broadCast channel API to handle the issue.
 ADMIN SIDE:-
-1. I WANT TO SHORT THE ORDERS BY ITS STATUS AND CREATED DATE JUST TO LEARN THE MONGOdb AGGREGATION.
-2. I WANT TO CREATE REUSEABLE TABLE NAVIGATION FOR ORDERS TABLE.
-3. remarks list, where admin will approve neutral remarks.
-4. profile image of users at admin users are not good.full name needs min width.
-ADMIN RESPONSIVEBESS:
-1. In the products page table navigation. we need to use only few numbers for navigation not all.
-2.products inventory summary needs to be flex-col
+1. I WANT TO SHORT THE ORDERS BY ITS STATUS AND CREATED DATE JUST TO LEARN THE MONGOdb AGGREGATION.- 30 min
+2. I WANT TO CREATE REUSEABLE TABLE NAVIGATION FOR ORDERS TABLE. - 30 min
+4. profile image of users at admin users are not good.full name needs min width. - 5 minute
+1. In the products page table navigation. we need to use only few numbers for navigation not all. - 5 minute
+2. products inventory summary needs to be flex-col. - 5 minute
+3.  at the slider. the slider subheading is visible at the right, it comes and goes back to the screen right side.- 30 minute.
+4. i need maximum 3 words for slider title and slider tagline without special character,

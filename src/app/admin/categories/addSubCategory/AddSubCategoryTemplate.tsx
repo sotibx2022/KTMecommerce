@@ -21,6 +21,8 @@ import { getAllCategories } from '@/app/services/queryFunctions/categoreis';
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponent'
+import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
 interface IAddSubCategoryProps {
     categoryId?: string;
 }
@@ -51,7 +53,7 @@ const AddSubCategoryTemplate: React.FC<IAddSubCategoryProps> = ({ categoryId }) 
             toast.success(response.message)
             router.push('/admin/categories')
             queryClient.invalidateQueries({ queryKey: ['categories'] })
-            queryClient.invalidateQueries({queryKey:['initialCategories']})
+            queryClient.invalidateQueries({ queryKey: ['initialCategories'] })
         },
         onError: (error) => {
             toast.error(error.message)
@@ -135,7 +137,7 @@ const AddSubCategoryTemplate: React.FC<IAddSubCategoryProps> = ({ categoryId }) 
                             </div>
                             <div className="categoryNameInputArea">
                                 <label className="formLabel">Sub Category Name</label>
-                                <input
+                                <Input
                                     type="text"
                                     placeholder="e.g., Mobile"
                                     className="formItem"
@@ -147,7 +149,7 @@ const AddSubCategoryTemplate: React.FC<IAddSubCategoryProps> = ({ categoryId }) 
                             </div>
                             <div className="categoryNameInputArea">
                                 <label className="formLabel">Meta Title</label>
-                                <input
+                                <Input
                                     type="text"
                                     placeholder="e.g., Buy Mobile Phones Online – Best Deals"
                                     className="formItem"
@@ -159,7 +161,7 @@ const AddSubCategoryTemplate: React.FC<IAddSubCategoryProps> = ({ categoryId }) 
                             </div>
                             <div className="categoryNameInputArea">
                                 <label className="formLabel">Meta Description</label>
-                                <textarea
+                                <Textarea
                                     placeholder="e.g., Shop the latest mobile phones online with best prices, offers, and free shipping."
                                     className="formItem"
                                     {...register("metaDescription", {

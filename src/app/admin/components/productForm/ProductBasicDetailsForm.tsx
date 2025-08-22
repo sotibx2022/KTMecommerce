@@ -50,7 +50,7 @@ const ProductBasicDetailsForm: React.FC<ProductBasicDetailsFormProps> = ({ actio
           })}
         />
         {errors.productName?.message && <SubmitError message={errors.productName.message} />}
-        <Button variant='secondary' onClick={generateProductDetails}>Generate Product Details using AI</Button>
+        <Button variant='secondary' onClick={generateProductDetails}>Product Details <span className='text-red bg-helper p-2 rounded-full animate-bounce'>AI</span></Button>
       </div>
       {/* Description */}
       <div>

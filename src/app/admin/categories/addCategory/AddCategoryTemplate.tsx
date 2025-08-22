@@ -16,6 +16,8 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponent'
 import { useRouter } from 'next/navigation'
+import { Input } from '@/components/ui/input'
+import { Textarea } from '@/components/ui/textarea'
 interface AddCategoryTemplateProps {
   categoryId?: string
 }
@@ -95,7 +97,7 @@ const AddCategoryTemplate: React.FC<AddCategoryTemplateProps> = ({ categoryId })
             <div className="categoryForm">
               <div className="categoryNameInputArea">
                 <label className="formLabel">Category Name</label>
-                <input
+                <Input
                   type="text"
                   placeholder="e.g., Mobile"
                   className="formItem"
@@ -107,7 +109,7 @@ const AddCategoryTemplate: React.FC<AddCategoryTemplateProps> = ({ categoryId })
               </div>
               <div className="categoryNameInputArea">
                 <label className="formLabel">Meta Title</label>
-                <input
+                <Input
                   type="text"
                   placeholder="e.g., Buy Mobile Phones Online – Best Deals"
                   className="formItem"
@@ -119,7 +121,7 @@ const AddCategoryTemplate: React.FC<AddCategoryTemplateProps> = ({ categoryId })
               </div>
               <div className="categoryNameInputArea">
                 <label className="formLabel">Meta Description</label>
-                <textarea
+                <Textarea
                   placeholder="e.g., Shop the latest mobile phones online with best prices, offers, and free shipping."
                   className="formItem"
                   {...register("metaDescription", {
