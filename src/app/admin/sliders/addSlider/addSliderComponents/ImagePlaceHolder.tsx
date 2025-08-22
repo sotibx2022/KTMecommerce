@@ -20,11 +20,11 @@ const ImagePlaceHolder: React.FC<IImagePlaceHolder> = ({ sendUrlToParent}) => {
     setSliderItemUrl('')
   }
   return (
-    <div className="relative flex flex-col items-center justify-center max-w-[300px]  w-full h-full min-h-[150px] bg-backgroundLight rounded-md border border-dashed border-primaryDark overflow-hidden">
+    <div className="relative flex flex-col items-center justify-center max-w-[300px]  w-full h-full min-h-[150px] bg-primaryLight rounded-md border border-dashed border-primaryDark overflow-hidden">
       {file && sliderItemUrl ? (
         <div
           className="fixed w-screen h-[100vh] top-0 left-0 z-50"
-          // style={{ background: 'var(--gradientwithOpacity)' }}
+          style={{ background: 'var(--gradientwithOpacity)' }}
         >
           <ImageCropper
             image={sliderItemUrl}

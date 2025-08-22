@@ -1,7 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 :root {
   --primary: #876061;
   --primaryDark: #531c1d;
@@ -17,7 +16,6 @@
       rgba(254, 255, 223, 1) 78%,
       rgba(252, 174, 4, 1) 100%);
 }
-
 html {
   background-color: var(--background);
   margin: 0;
@@ -28,17 +26,14 @@ html {
   overflow-x: hidden;
   height: 100%;
 }
-
 body {
   background-color: var(--background);
 }
-
 ol,
 ul,
 li {
   font-family: inherit;
 }
-
 button,
 input,
 textarea,
@@ -47,48 +42,38 @@ optgroup,
 option {
   font-family: inherit;
 }
-
 .slideOverlay {
   background: var(--gradientwithOpacity);
   position: absolute;
   width: 100%;
   height: 100%;
 }
-
 .selectItem {
   @apply text-lg text-primaryDark py-4 focus:bg-primaryLight cursor-pointer focus:text-background focus:outline-none pl-2
 }
-
 .primaryParagraph {
   @apply text-primaryDark text-sm;
 }
-
 .primaryHeading {
   @apply text-primaryDark sm:text-3xl md:text-5xl text-2xl;
 }
-
 .secondaryHeading {
   @apply text-primaryDark text-lg;
 }
-
 .subHeading {
   @apply text-2xl text-primaryDark font-bold my-4 mb-4 capitalize relative;
 }
-
 .subHeading::before {
   @apply content-[''] absolute top-[110%] left-0 w-4 h-4 rounded-full;
   background: var(--helper);
 }
-
 .subHeading::after {
   @apply content-[''] absolute top-[calc(110%_+_0.375rem)] left-2 w-[100px] h-1;
   background: var(--helper);
 }
-
 .primaryButton {
   transition: 0.5 all;
 }
-
 .recommendationbtn {
   position: relative;
   font-size: 1.1rem;
@@ -97,14 +82,12 @@ option {
   cursor: pointer;
   transition: all 0.4s ease;
 }
-
 .button-pulse {
   background: var(--helper);
   border: 2px solid var(--helper);
   box-shadow: 0 0 10px var(--primaryLight);
   overflow: visible;
 }
-
 .button-pulse::before,
 .button-pulse::after {
   content: "";
@@ -115,107 +98,86 @@ option {
   animation: pulseOut 2s ease-out infinite;
   opacity: 0;
 }
-
 .button-pulse::after {
   animation-delay: 1s;
 }
-
 @keyframes pulseOut {
   0% {
     transform: scale(1);
     opacity: 1;
   }
-
   100% {
     transform: scale(1.5);
     opacity: 0;
   }
 }
-
 .buttonText {
   background-color: var(--primaryDark);
   color: white;
   text-transform: capitalize;
   font-size: 1.5rem;
 }
-
 .primaryButton:hover .buttonText {
   transform: translateX(10px);
   transform: translateY(-10px);
 }
-
 .primaryButton:hover {
   border: 2px solid var(--primaryDark);
 }
-
 .secondaryButton {
   @apply bg-primaryLight text-primaryDark border-2 border-primaryDark px-4 py-2 rounded-md cursor-pointer transition-colors duration-300 flex justify-center items-center max-w-xs max-h-12;
 }
-
 .secondaryButton:hover {
   @apply bg-primaryDark text-primaryLight;
 }
-
 .flex-center {
   @apply flex justify-center items-center;
 }
-
 .flex-between {
   @apply flex justify-between items-center;
 }
-
 .container {
   @apply max-w-[90vw] mx-auto;
 }
-
 .link {
   @apply text-helper text-lg transition-colors duration-300 cursor-pointer;
 }
-
 .link:hover {
   @apply text-helper font-semibold
 }
-
 .errorMessage {
   @apply text-lg text-red-600;
 }
-
 .successMessage {
   @apply text-lg text-green-600;
 }
-
 .formItem input[type='text'] {
   @apply bg-[var(--backgroundLight)] outline-none rounded-lg p-2;
 }
-
 .responsiveHeaderIcon {
   @apply text-primaryDark w-[50px] h-[50px] cursor-pointer hover:scale-125 hover:rotate-12 transition-transform duration-300;
 }
-
 .formItem {
   @apply w-full p-3 bg-[var(--backgroundLight)] rounded-md focus:outline-none text-primaryDark
 }
-
 .price-highlight {
   @apply text-background font-bold text-lg bg-gradient-to-r from-backgroundLight to-primaryLight p-2 rounded-md shadow-md text-center;
 }
-
 .selectInput {
   @apply w-full bg-primaryDark p-2 text-background rounded-lg focus:outline-none focus:bg-primaryDark focus:text-background
 }
-
 .formLabel {
   @apply text-primaryDark
 }
-
 .social-icon {
   @apply cursor-pointer transition-colors duration-200 bg-primaryLight w-[50px] h-[50px] rounded-full
 }
-
 .gridCards {
   @apply grid grid-cols-1 place-items-center gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5
 }
-
+.lightTable th{
+color:var(--primaryDark) !important
+}
 .darkTable span,
 .darkTable svg,
 .darkTable th,
@@ -224,182 +186,140 @@ option {
 .darkTable thead {
   color: var(--background) !important;
 }
-
 .darkTheme .card {
   @apply bg-primaryDark text-background
 }
-
 .darkTheme .primaryHeading {
   @apply text-background
 }
-
 .darkTheme .formItem {
   @apply bg-primaryLight
 }
-
 .darkTheme .formLabel {
   @apply text-background
 }
-
 /* ===== Root Theme Styles ===== */
 .darkSidebar {
   @apply bg-[var(--primaryDark)] text-[var(--background)] border-[var(--primary)];
 }
-
 .lightSidebar {
   @apply bg-[var(--background)] text-[var(--primaryDark)] border-[var(--backgroundLight)];
 }
-
 .darkSidebarButton {
   @apply bg-[var(--primary)] text-[var(--background)];
 }
-
 .lightSidebarButton {
   @apply bg-[var(--background)] text-[var(--primaryDark)];
 }
-
 .darkSidebarText {
   @apply text-[var(--background)];
 }
-
 .lightSidebarText {
   @apply text-[var(--primaryDark)];
 }
-
 /* ===== Mobile Components ===== */
 .mobileSidebarTrigger {
   @apply fixed w-8 h-8 left-4 z-50 top-1/2 -translate-y-1/2 cursor-pointer p-1 rounded-lg transition-all duration-200 hover:scale-105;
 }
-
 .mobileSidebarTrigger.darkSidebar {
   @apply text-[var(--background)] bg-[var(--primary)];
 }
-
 .mobileSidebarTrigger.lightSidebar {
   @apply text-[var(--primaryDark)] bg-[var(--background)];
 }
-
 .mobileSidebarOverlay {
   @apply fixed inset-0 transition-opacity duration-300;
 }
-
 /* ===== Header Components ===== */
 .sidebarHeaderContent {
   @apply flex items-center justify-between px-3 py-4;
 }
-
 .sidebarHeaderInner {
   @apply flex items-center gap-3;
 }
-
 .sidebarHeaderText {
   @apply flex flex-col gap-1 leading-none;
 }
-
 /* ===== Menu Components ===== */
 .sidebarMenu {
   @apply flex flex-col gap-1 px-2;
 }
-
 .sidebarMenuButton {
   @apply flex items-center h-11 rounded-xl transition-all duration-200 gap-3 w-full px-3;
 }
-
 .sidebarMenuButton:hover {
   .darkSidebar & {
     @apply bg-[var(--primary)];
   }
-
   .lightSidebar & {
     @apply bg-[var(--backgroundLight)];
   }
 }
-
 .sidebarMenuButtonActive {
   .darkSidebar & {
     background-color: color-mix(in srgb, var(--primary) 80%, transparent 20%);
   }
-
   .lightSidebar & {
     background-color: color-mix(in srgb, var(--backgroundLight) 70%, transparent 30%);
   }
 }
-
 .sidebarMenuItemText {
   @apply font-medium whitespace-nowrap;
 }
-
 .sidebarMenuLink {
   @apply flex items-center gap-3 w-full h-full cursor-pointer;
 }
-
 /* ===== Collapsible Components ===== */
 .sidebarCollapsible {
   @apply relative;
 }
-
 .sidebarCollapsibleContent {
   @apply transition-all duration-300 overflow-hidden;
 }
-
 .sidebarSubmenu {
   @apply ml-4 mt-1 pl-4 space-y-1;
 }
-
 .sidebarSubmenuButton {
   @apply flex h-10 rounded-lg transition-all duration-200 w-full;
 }
-
 .sidebarSubmenuLink {
   @apply flex items-center gap-3 w-full h-full px-3 cursor-pointer;
 }
-
 .sidebarSubmenuText {
   @apply font-medium text-sm;
 }
-
 .sidebarSubmenuToggle {
   @apply ml-auto p-1 rounded-lg transition-all duration-200 hover:scale-110 cursor-pointer flex items-center justify-center;
 }
-
 .sidebarSubmenuToggle.darkSidebar {
   @apply bg-[var(--primary)];
 }
-
 .sidebarSubmenuToggle.lightSidebar {
   @apply bg-[var(--background)];
 }
-
 /* ===== Icon Components ===== */
 .sidebarIcon {
   @apply w-5 h-5 flex-shrink-0;
 }
-
 .sidebarTriggerIcon {
   @apply w-6 h-6 cursor-pointer;
 }
-
 .sidebarSubmenuIcon {
   @apply w-4 h-4 cursor-pointer;
 }
-
 /* ===== Footer Components ===== */
 .sidebarFooterButton {
   @apply flex items-center h-12 rounded-xl transition-all duration-200 hover:scale-[1.02] gap-3 w-full px-3;
 }
-
 .sidebarFooterText {
   @apply flex flex-col items-start;
 }
-
 .sidebarFooterTitle {
   @apply font-semibold text-sm;
 }
-
 .dark .card .formLabel {
   @apply text-background
 }
-
 /* ===== Interactive States ===== */
 .sidebarMenuButton:hover,
 .sidebarSubmenuButton:hover,
@@ -407,7 +327,6 @@ option {
   .darkSidebar & {
     @apply bg-[var(--primary)];
   }
-
   .lightSidebar & {
     @apply bg-[var(--backgroundLight)];
   }
