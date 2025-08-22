@@ -117,4 +117,8 @@ How to login and logout other active tabs when one tab changes.
 ADMIN SIDE:-
 1. I WANT TO SHORT THE ORDERS BY ITS STATUS AND CREATED DATE JUST TO LEARN THE MONGOdb AGGREGATION.
 2. I WANT TO CREATE REUSEABLE TABLE NAVIGATION FOR ORDERS TABLE.
-3.
+3. remarks list, where admin will approve neutral remarks.
+4. profile image of users at admin users are not good.full name needs min width.
+ADMIN RESPONSIVEBESS:
+1. In the products page table navigation. we need to use only few numbers for navigation not all.
+2.products inventory summary needs to be flex-col

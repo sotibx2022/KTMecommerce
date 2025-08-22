@@ -8,12 +8,14 @@ interface IFormInputProps {
     label: string;
     required?: boolean;
     type: string;
-    placeholder: string;
+    placeholder?: string;
     id: string;
     register: any;
     rules?: any;
     error?: string;
     passwordToogle?: boolean;
+    disabled?:boolean;
+    readonly?:boolean;
 }
 const FormInput: React.FC<IFormInputProps> = ({
     icon: Icon,
@@ -25,7 +27,8 @@ const FormInput: React.FC<IFormInputProps> = ({
     id,
     rules,
     error,
-    passwordToogle
+    passwordToogle,
+    disabled,readonly
 }) => {
     const [showPassword, setShowPassword] = useState(false);
     const [inputValue, setInputValue] = useState("");
@@ -66,6 +69,8 @@ const FormInput: React.FC<IFormInputProps> = ({
                     id={id}
                     type={passwordToogle ? (showPassword ? "text" : "password") : type}
                     placeholder={placeholder}
+                    disabled={disabled}
+                    readOnly={readonly}
                     className={`formItem w-full ${generateInputClassNames()}`}
                     {...rest}
                     onChange={(e) => {

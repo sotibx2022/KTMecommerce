@@ -10,11 +10,11 @@ import { format } from 'date-fns'
 import { Trash2 } from 'lucide-react'
 import React, { useContext } from 'react'
 const Page = () => {
-      const themeContext = useContext(ThemeProviderContext);
-      if(!themeContext){
-        throw new Error ("Context is not available here")
-      }
-      const{theme} = themeContext;
+  const themeContext = useContext(ThemeProviderContext);
+  if (!themeContext) {
+    throw new Error("Context is not available here")
+  }
+  const { theme } = themeContext;
   const { data: allAdmins, isPending } = useQuery<APIResponseSuccess<IDisplayAdminData[]> | APIResponseError>({
     queryFn: async () => {
       const response = await axios.get('/api/admin/addAdmin');
@@ -27,8 +27,8 @@ const Page = () => {
   return (
     <div className='overflow-x-auto w-full shadow-primaryLight p-4'>
       {isPending && <LoadingComponent />}
-      <h2 className='subHeading'>Admins</h2>
-      <Table className={`${theme==='dark'? "darkTable":"lightTable"}`}>
+      <h2 className={`${theme === 'dark' ? 'text-background' : 'text-primaryDark'} text-xl`}>Admins</h2>
+      <Table className={`${theme === 'dark' ? "darkTable" : "lightTable"}`}>
         <TableCaption>
           List of Admin Users
         </TableCaption>

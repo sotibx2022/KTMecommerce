@@ -16,6 +16,8 @@ import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponen
 import { DisplayContext } from '@/app/context/DisplayComponents';
 import { getUserDetails } from '@/app/services/helperFunctions/getUserDetails';
 import { useUser } from '@/app/hooks/queryHooks/useUser';
+import FormInput from '@/app/_components/submit/formInput/FormInput';
+import { Mail, UserPen } from 'lucide-react';
 const Page = () => {
   const { visibleComponent, setVisibleComponent } = useContext(DisplayContext);
   const [isLoading, setIsLoading] = useState(false);
@@ -83,21 +85,25 @@ const Page = () => {
       <div className="flex flex-col-reverse sm:flex-row gap-4 justify-between mb-4">
         <h2 className="secondaryHeading">Profile</h2>
         <div className="sm:w-2/5 flex flex-col gap-2">
-          <div>
-            <label className="formLabel">Full Name</label>
-            <input type="text" className="formItem " id='fullName'
-              disabled={!userData}
-              {...register("fullName", {
-                validate: (value) => validateFullName("Full Name", value, 3, 20)
-              })}
-            />
-            {errors.fullName?.message && <SubmitError message={errors?.fullName?.message} />}
-          </div>
-          <div>
-            <label className="formLabel">Email</label>
-            <input type="text" className="formItem " id='email' readOnly
-              {...register("email")} />
-          </div>
+          <FormInput
+            id="fullName"
+            label="Full Name"
+            type="text"
+            placeholder="eg. John Abyat Rai"
+            required
+            icon={UserPen}
+            register={register}
+            rules={{ validate: (value: string) => validateFullName("Full Name", value, 1, 1) }}
+            error={errors?.fullName?.message}
+          />
+          <FormInput
+            icon={Mail}
+            label="Email"
+            type="email"
+            id="email"
+            register={register}
+            disabled
+          />
           <div>
             <label className="formLabel">Phone Number</label>
             <div className="phoneNumberItem relative">

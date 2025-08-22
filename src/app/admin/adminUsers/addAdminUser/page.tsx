@@ -47,7 +47,7 @@ const Page = () => {
   return (
     <form className='flex flex-col md:flex flex-wrap shadow-primaryLight p-4 gap-4' onSubmit={handleSubmit(onSubmit)}>
       {addAdminMutate.isPending && <LoadingComponent />}
-      <h2 className={`${theme === 'dark' ? 'text-background' : 'text-primaryDark'} secondaryHeading`}>Add Admin</h2>
+      <h2 className={`${theme === 'dark' ? 'text-background' : 'text-primaryDark'} text-xl`}>Add Admin</h2>
       <div className="">
         <label className="formLabel">Admin Email</label>
         <input type='text' placeholder='Enter Email of admin user' className='formItem'

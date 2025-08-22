@@ -4,6 +4,7 @@ import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponen
 import OrderDetails from '@/app/_components/orderDetails/OrderDetails'
 import PageHeader from '@/app/_components/pageHeader/PageHeader'
 import PrimaryButton from '@/app/_components/primaryButton/PrimaryButton'
+import FormInput from '@/app/_components/submit/formInput/FormInput'
 import SubmitError from '@/app/_components/submit/SubmitError'
 import { DisplayContext } from '@/app/context/DisplayComponents'
 import { validateString } from '@/app/services/helperFunctions/validatorFunctions'
@@ -61,19 +62,19 @@ const Page = () => {
             headerTagline="Stay updated on your delivery status in real-time, right from dispatch to your doorstep."
           />
           <form className="trackOrderInput max-w-[500px]" >
-            <label className="text-primaryLight flex items-center">
-              <Info className="text-primaryLight mr-1 inline-flex" />
-              Enter Valid order Number
-            </label>
-            <input
+            <FormInput
+              icon={Info}
+              label="Enter Valid Order Number"
+              id="orderNumber"
               type="text"
-              placeholder="eg.E1D89589"
-              className="formItem mb-3"
-              {...register("orderNumber", {
-                validate: (value: string) => validateString("OrderNumber", value, 8, 8)
-              })}
+              placeholder="eg. E1D89589"
+              register={register}
+              rules={{
+                validate: (value: string) => validateString("Order Number", value, 8, 8),
+              }}
+              error={errors.orderNumber?.message}
+              required
             />
-            {errors.orderNumber?.message && <SubmitError message={errors.orderNumber.message} />}
             <PrimaryButton
               searchText={isPending ? 'Checking...' : 'Check'}
               onClick={() => trackOrderMutation({ orderNumber })}
