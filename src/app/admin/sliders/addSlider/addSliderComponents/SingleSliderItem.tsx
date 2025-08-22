@@ -16,7 +16,7 @@ import { truncate } from 'lodash'
 import { useSlidersData } from '@/app/hooks/queryHooks/useSlidersData'
 import { Button } from "@/components/ui/button";
 const SingleSliderItem = () => {
-    const {refetch} = useSlidersData();
+    const { refetch } = useSlidersData();
     const [isSubmitting, setIsSubmitting] = useState(false) // New state to control submission
     const router = useRouter()
     const {
@@ -41,7 +41,7 @@ const SingleSliderItem = () => {
             })
             return response.data
         },
-        onSuccess: async(response) => {
+        onSuccess: async (response) => {
             toast.success(response.message)
             router.push('/admin/sliders')
             await refetch()
@@ -70,59 +70,59 @@ const SingleSliderItem = () => {
         }
     }
     return (
-        <Card className="card">
-      <form onSubmit={handleSubmit(onSubmit)}>
-        {addSliderMutation.isPending && <LoadingComponent />}
-        <CardHeader>
-          <CardTitle>Add Slider</CardTitle>
-        </CardHeader>
-        <CardContent className="grid gap-6 md:grid-cols-2">
-          {/* Image upload */}
-          <div className="flex flex-col gap-2">
-            <ImagePlaceHolder sendUrlToParent={getSliderURL} />
-            {errors.sliderImage?.message && (
-              <SubmitError message={errors.sliderImage.message} />
-            )}
-          </div>
-          {/* Inputs */}
-          <div className="flex flex-col gap-6">
-            {/* Slider Title */}
-            <div className="flex flex-col gap-2">
-              <label className="text-sm font-medium">Slider Title</label>
-              <input
-                type="text"
-                className="formItem"
-                {...register("sliderTitle", {
-                  validate: (value) =>
-                    validateSentence("Slider Title", value, 20, 50),
-                })}
-              />
-              {errors.sliderTitle?.message && (
-                <SubmitError message={errors.sliderTitle.message} />
-              )}
-            </div>
-            {/* Slider Slogan */}
-            <div className="flex flex-col gap-2">
-              <label className="text-sm font-medium">Slider Slogan</label>
-              <input
-                type="text"
-                className="formItem"
-                {...register("sliderSlogan", {
-                  validate: (value) =>
-                    validateSentence("Slider Slogan", value, 20, 50),
-                })}
-              />
-              {errors.sliderSlogan?.message && (
-                <SubmitError message={errors.sliderSlogan.message} />
-              )}
-            </div>
-          </div>
-        </CardContent>
-        <CardFooter className="flex justify-end">
-          <Button type="submit" variant="secondary">Add</Button>
-        </CardFooter>
-      </form>
-    </Card>
+        <Card className="card w-full">
+            <form onSubmit={handleSubmit(onSubmit)}>
+                {addSliderMutation.isPending && <LoadingComponent />}
+                <CardHeader>
+                    <CardTitle>Add Slider</CardTitle>
+                </CardHeader>
+                <CardContent className="grid gap-6 md:grid-cols-2">
+                    {/* Image upload */}
+                    <div className="flex flex-col gap-2">
+                        <ImagePlaceHolder sendUrlToParent={getSliderURL} />
+                        {errors.sliderImage?.message && (
+                            <SubmitError message={errors.sliderImage.message} />
+                        )}
+                    </div>
+                    {/* Inputs */}
+                    <div className="flex flex-col gap-6">
+                        {/* Slider Title */}
+                        <div className="flex flex-col gap-2">
+                            <label className="text-sm font-medium">Slider Title</label>
+                            <input
+                                type="text"
+                                className="formItem"
+                                {...register("sliderTitle", {
+                                    validate: (value) =>
+                                        validateSentence("Slider Title", value, 20, 50),
+                                })}
+                            />
+                            {errors.sliderTitle?.message && (
+                                <SubmitError message={errors.sliderTitle.message} />
+                            )}
+                        </div>
+                        {/* Slider Slogan */}
+                        <div className="flex flex-col gap-2">
+                            <label className="text-sm font-medium">Slider Slogan</label>
+                            <input
+                                type="text"
+                                className="formItem"
+                                {...register("sliderSlogan", {
+                                    validate: (value) =>
+                                        validateSentence("Slider Slogan", value, 20, 50),
+                                })}
+                            />
+                            {errors.sliderSlogan?.message && (
+                                <SubmitError message={errors.sliderSlogan.message} />
+                            )}
+                        </div>
+                    </div>
+                </CardContent>
+                <CardFooter className="flex justify-end">
+                    <Button type="submit" variant="secondary">Add</Button>
+                </CardFooter>
+            </form>
+        </Card>
     )
 }
 export default SingleSliderItem

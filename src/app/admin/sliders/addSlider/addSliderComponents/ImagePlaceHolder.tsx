@@ -24,7 +24,7 @@ const ImagePlaceHolder: React.FC<IImagePlaceHolder> = ({ sendUrlToParent}) => {
       {file && sliderItemUrl ? (
         <div
           className="fixed w-screen h-[100vh] top-0 left-0 z-50"
-          style={{ background: 'var(--gradientwithOpacity)' }}
+          // style={{ background: 'var(--gradientwithOpacity)' }}
         >
           <ImageCropper
             image={sliderItemUrl}
