@@ -54,8 +54,8 @@ export const sideBarItems = [
     icon: Users,
     text: "Admin Users",
     childMenus: [
-      { href: "/admin/adminUsers/addAdminUser", icon: UserPlus, text: "Add Admin User" },
-      { href: "/admin/adminUsers", icon: List, text: "List Admin Users" },
+      { href: "/admin/adminUsers/addAdminUser", icon: UserPlus, text: "Add Admin" },
+      { href: "/admin/adminUsers", icon: List, text: "List Admins" },
     ],
   },
 ]

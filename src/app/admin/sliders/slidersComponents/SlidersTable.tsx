@@ -84,7 +84,7 @@ const SlidersTable = () => {
                     <SliderTableSkeleton />
                 ) : (
                     <div className="">
-                        <Table className={`${theme==='dark'? "darkTable":"lightTable"}`}>
+                        <Table className={`${theme === 'dark' ? "darkTable" : "lightTable"}`}>
                             <TableHeader>
                                 <TableRow>
                                     <TableHead className="min-w-[50px]">SN</TableHead>
