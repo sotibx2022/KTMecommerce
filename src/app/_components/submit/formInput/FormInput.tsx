@@ -42,11 +42,11 @@ const FormInput: React.FC<IFormInputProps> = ({
         dependencies: [inputValue],
     });
     const generateInputClassNames = () => {
-        if (error) {
+        if (error && showError) {
             return "bg-red-500 border-b-2 border-red-500";
         } else if (!showError) {
-            return "bg-helper border-b-2 border-helper bg-animatepulse";
-        } else if (inputValue !== "" && !error) {
+            return "bg-helper border-b-2 border-helper animatepulse";
+        } else if (inputValue !== "" && !error && showError) {
             return "bg-green-500 border-b-2 border-green-500";
         } else {
             return "bg-backgroundLight border-b-2 border-primaryLight";
