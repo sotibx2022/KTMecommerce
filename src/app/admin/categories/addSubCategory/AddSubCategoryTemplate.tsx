@@ -100,7 +100,7 @@ const AddSubCategoryTemplate: React.FC<IAddSubCategoryProps> = ({ categoryId }) 
                 onSubmit={handleSubmit(onSubmit)}>
                 <Card className='card'>
                     <CardHeader>
-                        <CardTitle>Add Category</CardTitle>
+                        <CardTitle>Add Sub-Category</CardTitle>
                     </CardHeader>
                     <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         {/* Category Image Upload */}

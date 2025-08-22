@@ -7,11 +7,11 @@ import { DisplayContext } from "@/app/context/DisplayComponents";
 import { ThemeProviderContext } from "@/app/context/ThemeProvider";
 const Page = () => {
   const [tabValue, setTabValue] = useState("categories");
-   const themeContext = useContext(ThemeProviderContext);
-    if (!themeContext) {
-      throw new Error("Theme Context is not Defined here")
-    }
-    const { theme } = themeContext
+  const themeContext = useContext(ThemeProviderContext);
+  if (!themeContext) {
+    throw new Error("Theme Context is not Defined here")
+  }
+  const { theme } = themeContext
   return (
     <>
       <Tabs
@@ -36,10 +36,10 @@ const Page = () => {
         </TabsList>
         {/* Tab Content */}
         <TabsContent value="categories">
-          <CategoryTable theme={theme}/>
+          <CategoryTable theme={theme} />
         </TabsContent>
         <TabsContent value="subcategories">
-          <SubCategoryTable  theme={theme}/>
+          <SubCategoryTable theme={theme} />
         </TabsContent>
       </Tabs>
     </>

@@ -73,7 +73,7 @@ const SubCategoryTable:React.FC<{theme:string}> = ({theme}) => {
                 <h2 className='secondaryHeading'>Sub-Category Lists</h2>
                 <AddItemButton item={'Sub-Category'} href={'/admin/categories/addSubCategory'} />
             </div>
-            <Table className={`${theme}==="dark"?" table darkTable:"lightTable"`}>
+            <Table className={`${theme==='dark'? "darkTable":"lightTable"}`}>
                 <TableHeader>
                     <TableRow>
                         <TableHead>SN</TableHead>

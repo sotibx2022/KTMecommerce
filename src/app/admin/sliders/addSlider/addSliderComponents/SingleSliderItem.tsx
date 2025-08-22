@@ -1,4 +1,5 @@
 "use client"
+import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
 import React, { useState } from 'react'
 import ImagePlaceHolder from './ImagePlaceHolder'
 import PrimaryButton from '@/app/_components/primaryButton/PrimaryButton'
@@ -13,6 +14,7 @@ import { ISliderItem } from '@/app/types/sliders'
 import { useRouter } from 'next/navigation'
 import { truncate } from 'lodash'
 import { useSlidersData } from '@/app/hooks/queryHooks/useSlidersData'
+import { Button } from "@/components/ui/button";
 const SingleSliderItem = () => {
     const {refetch} = useSlidersData();
     const [isSubmitting, setIsSubmitting] = useState(false) // New state to control submission
@@ -68,49 +70,59 @@ const SingleSliderItem = () => {
         }
     }
     return (
-        <form
-            className="grid w-full md:grid-cols-2 gap-4"
-            onSubmit={handleSubmit(onSubmit)}
-        >
-            {addSliderMutation.isPending && <LoadingComponent />}
-            <div className='flex flex-col gap-2'>
-                <ImagePlaceHolder sendUrlToParent={getSliderURL} />
-                {errors.sliderImage?.message && (
-                    <SubmitError message={errors.sliderImage.message} />
-                )}
+        <Card className="card">
+      <form onSubmit={handleSubmit(onSubmit)}>
+        {addSliderMutation.isPending && <LoadingComponent />}
+        <CardHeader>
+          <CardTitle>Add Slider</CardTitle>
+        </CardHeader>
+        <CardContent className="grid gap-6 md:grid-cols-2">
+          {/* Image upload */}
+          <div className="flex flex-col gap-2">
+            <ImagePlaceHolder sendUrlToParent={getSliderURL} />
+            {errors.sliderImage?.message && (
+              <SubmitError message={errors.sliderImage.message} />
+            )}
+          </div>
+          {/* Inputs */}
+          <div className="flex flex-col gap-6">
+            {/* Slider Title */}
+            <div className="flex flex-col gap-2">
+              <label className="text-sm font-medium">Slider Title</label>
+              <input
+                type="text"
+                className="formItem"
+                {...register("sliderTitle", {
+                  validate: (value) =>
+                    validateSentence("Slider Title", value, 20, 50),
+                })}
+              />
+              {errors.sliderTitle?.message && (
+                <SubmitError message={errors.sliderTitle.message} />
+              )}
             </div>
-            <div className='flex flex-col gap-4'>
-                <div className="inputItem w-full">
-                    <label>Slider Title</label>
-                    <input
-                        type='text'
-                        className='formItem'
-                        placeholder=''
-                        {...register("sliderTitle", {
-                            validate: (value) => validateSentence('Slider Title', value, 20, 50)
-                        })}
-                    />
-                    {errors.sliderTitle?.message && (
-                        <SubmitError message={errors.sliderTitle.message} />
-                    )}
-                </div>
-                <div className="inputItem w-full">
-                    <label>Slider Slogan</label>
-                    <input
-                        type='text'
-                        placeholder=''
-                        className='formItem'
-                        {...register('sliderSlogan', {
-                            validate: (value) => validateSentence('Slider Slogan', value, 20, 50)
-                        })}
-                    />
-                    {errors.sliderSlogan?.message && (
-                        <SubmitError message={errors.sliderSlogan.message} />
-                    )}
-                </div>
-                <PrimaryButton searchText={'Add'} />
+            {/* Slider Slogan */}
+            <div className="flex flex-col gap-2">
+              <label className="text-sm font-medium">Slider Slogan</label>
+              <input
+                type="text"
+                className="formItem"
+                {...register("sliderSlogan", {
+                  validate: (value) =>
+                    validateSentence("Slider Slogan", value, 20, 50),
+                })}
+              />
+              {errors.sliderSlogan?.message && (
+                <SubmitError message={errors.sliderSlogan.message} />
+              )}
             </div>
-        </form>
+          </div>
+        </CardContent>
+        <CardFooter className="flex justify-end">
+          <Button type="submit" variant="secondary">Add</Button>
+        </CardFooter>
+      </form>
+    </Card>
     )
 }
 export default SingleSliderItem
