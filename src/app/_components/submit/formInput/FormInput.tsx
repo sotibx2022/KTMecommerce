@@ -74,7 +74,7 @@ const FormInput: React.FC<IFormInputProps> = ({
           id={id}
           type={passwordToogle ? (showPassword ? "text" : "password") : type}
           placeholder={placeholder}
-          className={`formItem w-full ${state.cssValue}`}
+          className={`w-full ${state.cssValue}`}
           {...register(id, {
             ...rules,
             onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
