@@ -74,7 +74,7 @@ const FormInput: React.FC<IFormInputProps> = ({
           id={id}
           type={passwordToogle ? (showPassword ? "text" : "password") : type}
           placeholder={placeholder}
-          className={`w-full ${state.cssValue}`}
+          className={`formItem w-full ${state.cssValue}`}
           {...register(id, {
             ...rules,
             onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -86,7 +86,7 @@ const FormInput: React.FC<IFormInputProps> = ({
         {passwordToogle && (
           <div
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute cursor-pointer right-[5px] top-1/2 -translate-y-1/2 text-primaryDark duration-300 hover:bg-helper"
+            className="absolute cursor-pointer right-[5px] top-1/2 -translate-y-1/2 text-primaryDark duration-300 hover:text-helper"
           >
             {showPassword ? <EyeOff /> : <Eye />}
           </div>

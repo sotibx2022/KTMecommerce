@@ -152,13 +152,13 @@ option {
   @apply text-lg text-green-600;
 }
 .formItem input[type='text'] {
-  @apply bg-[var(--backgroundLight)] outline-none border-2 border-primaryDark rounded-lg p-2;
+  @apply bg-[var(--backgroundLight)] outline-none  rounded-lg p-2;
 }
 .responsiveHeaderIcon {
   @apply text-primaryDark w-[50px] h-[50px] cursor-pointer hover:scale-125 hover:rotate-12 transition-transform duration-300;
 }
 .formItem {
-  @apply w-full p-3 bg-[var(--backgroundLight)] rounded-md focus:outline-none text-primaryDark border border-transparent border-b-helper
+  @apply w-full p-3 bg-[var(--backgroundLight)] rounded-md focus:outline-none text-primaryDark 
 }
 .price-highlight {
   @apply text-background font-bold text-lg bg-gradient-to-r from-backgroundLight to-primaryLight p-2 rounded-md shadow-md text-center;
