@@ -5,7 +5,6 @@ import { DisplayContext } from '@/app/context/DisplayComponents';
 import { useForm } from 'react-hook-form';
 import { LoginData } from '@/app/types/formData';
 import { validateEmail, validatePassword } from '@/app/services/helperFunctions/validatorFunctions';
-import SubmitError from '../submit/SubmitError';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import { AbsoluteComponent } from '../absoluteComponent/AbsoluteComponent';

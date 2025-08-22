@@ -1,20 +1,21 @@
-"use client"
+"use client";
 import { Eye, EyeOff, LucideIcon } from "lucide-react";
 import React, { useState } from "react";
-import SubmitError from "../SubmitError"; 
-import { useDebounce } from "@/app/hooks/generalHooks/useDebounce";
-interface IFormInputProps { 
-  icon: LucideIcon; 
-  label: string; 
-  required?: boolean; 
-  type: string; 
-  placeholder: string; 
-  id: string; 
-  register: any; 
-  rules?: any; 
-  errors?: Record<string, any>; 
-  passwordToogle?: boolean; 
-} 
+import { useFormContext, useController } from "react-hook-form";
+import SubmitError from "../SubmitError";
+interface IFormInputProps {
+  icon: LucideIcon;
+  label: string;
+  required?: boolean;
+  type: string;
+  placeholder: string;
+  id?: string; // for backward compatibility
+  name?: string; // for RHF controller
+  register?: any;
+  rules?: any;
+  errors?: Record<string, any>;
+  passwordToogle?: boolean;
+}
 type Status = "initial" | "validating" | "error" | "success";
 const FormInput: React.FC<IFormInputProps> = ({
   icon: Icon,
@@ -22,34 +23,40 @@ const FormInput: React.FC<IFormInputProps> = ({
   required,
   type,
   placeholder,
-  register,
   id,
+  name,
+  register,
   rules,
   errors,
-  passwordToogle
+  passwordToogle,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [inputValue, setInputValue] = useState("");
-  const [status, setStatus] = useState<Status>("initial");
-  useDebounce({
-    callback: () => {
-      if (errors?.[id]?.message) {
-        setStatus("error");
-      } else {
-        setStatus("success");
-      }
-    },
-    delay: 500,
-    dependencies: [inputValue, errors?.[id]?.message]
+  // Use RHF context if register is not provided
+  const methods = useFormContext();
+  const controllerName = name || id || "";
+  const { field, fieldState } = useController({
+    name: controllerName,
+    rules,
+    defaultValue: "",
+    control: methods?.control,
   });
+  const errorMessage = errors?.[id || name || ""]?.message || fieldState?.error?.message;
+  const isValidating = methods?.formState.isValidating;
+  const getStatus = (): Status => {
+    if (isValidating) return "validating";
+    if (errorMessage) return "error";
+    if (inputValue || field.value) return "success";
+    return "initial";
+  };
   const getBorderClass = () => {
-    switch (status) {
+    switch (getStatus()) {
       case "error":
         return "border-b border-red-500";
       case "success":
         return "border-b border-green-500";
       case "validating":
-        return "border-b border-helper animate-pulse";
+        return "border-b-2 border-helper animate-pulse";
       case "initial":
       default:
         return "border-b border-primaryDark";
@@ -59,24 +66,21 @@ const FormInput: React.FC<IFormInputProps> = ({
     <div>
       <div className="flex items-center mb-1">
         <Icon className="text-primaryDark mr-2" />
-        <label htmlFor={id} className="primaryParagraph">
+        <label htmlFor={id || name} className="primaryParagraph">
           {label} {required && <span className="text-red-500">*</span>}
         </label>
       </div>
       <div className="actualInput relative">
         <input
-          id={id}
+          id={id || name}
+          {...(register ? register(id, rules) : field)}
           type={passwordToogle ? (showPassword ? "text" : "password") : type}
           placeholder={placeholder}
           className={`formItem w-full ${getBorderClass()}`}
-          {...register(id, {
-            ...rules,
-            onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
-              setStatus("validating");
-              setInputValue(e.target.value);
-              rules?.onChange?.(e);
-            }
-          })}
+          onChange={(e) => {
+            field.onChange(e);
+            setInputValue(e.target.value);
+          }}
         />
         {passwordToogle && (
           <div
@@ -87,10 +91,8 @@ const FormInput: React.FC<IFormInputProps> = ({
           </div>
         )}
       </div>
-      {status === "validating" && <span>Validating</span>}
-      {status !== "validating" && errors?.[id]?.message && (
-        <SubmitError message={errors[id].message} />
-      )}
+      {getStatus() === "validating" && <span>Validating</span>}
+      {getStatus() === "error" && errorMessage && <SubmitError message={errorMessage} />}
     </div>
   );
 };
