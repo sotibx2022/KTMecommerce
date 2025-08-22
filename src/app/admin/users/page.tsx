@@ -8,7 +8,7 @@ const initialSearchParams = {
   status: "status"
 }
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useContext, useEffect, useMemo, useState } from 'react'
 import { useQuery } from "@tanstack/react-query"
 import axios from "axios"
 import UserTableSkeleton from "./UserTableSkleton"
@@ -18,7 +18,13 @@ import { Select, SelectValue, SelectContent, SelectItem, SelectTrigger } from "@
 import { ChevronDown } from "lucide-react"
 import { ShortableTableHead } from "../components/ShortableTableHead"
 import { useRouter, useSearchParams } from "next/navigation"
+import { ThemeProviderContext } from "@/app/context/ThemeProvider"
 const page = () => {
+  const themeContext = useContext(ThemeProviderContext);
+    if(!themeContext){
+      throw new Error ("Context is not available here")
+    }
+    const{theme} = themeContext;
   const [status, setStatus] = useState("Status")
   const [createdSorting, setCreatedSorting] = useState<"ascending" | "descending" | "normal">("normal")
   const router = useRouter();
@@ -43,7 +49,7 @@ const page = () => {
   let arrayofStatus: string[] = ["registered", "updated", "customer"]
   return (
     <div>
-      <Table>
+      <Table className={`${theme==='dark'? "darkTable":"lightTable"}`}>
         <TableHeader>
           <TableRow>
             <TableHead>Profile</TableHead>

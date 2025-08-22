@@ -114,8 +114,7 @@ How to login and logout other active tabs when one tab changes.
 2) other pages will listen this event and perfrom the operation.
 3) when login success number === logout success number means, we can perform logout or viceverca.
 4) but the problems are, if tab closed immediately after closoing the tab, also localhost memory will be dirty so that best way to to use redux + broadCast channel API to handle the issue.
-REMAINING ON CLIENT SIDE:-
-Large functions:- 
-------------
-5. recently viewed products to debug cart and wishlist listing issues.- 1 day
-ADMIN SIDE
+ADMIN SIDE:-
+1. I WANT TO SHORT THE ORDERS BY ITS STATUS AND CREATED DATE JUST TO LEARN THE MONGOdb AGGREGATION.
+2. I WANT TO CREATE REUSEABLE TABLE NAVIGATION FOR ORDERS TABLE.
+3.

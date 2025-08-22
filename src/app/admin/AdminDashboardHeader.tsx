@@ -30,7 +30,7 @@ const AdminDashboardHeader = () => {
     setIsChecked(newValue)
     setTheme(newValue ? "dark" : "light");
     if(typeof window !== 'undefined'){
-      localStorage.setItem('adminTheme',theme)
+      localStorage.setItem('adminTheme',theme ==="dark"?"light":"dark")
     }
   }
   return (

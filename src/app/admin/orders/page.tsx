@@ -54,7 +54,7 @@ const page = () => {
   return (
     <div className={`{"ml-4"} tableContainer`} ref={tableWrapperRef}
       style={{
-        maxWidth: isCollapsed ? "85vw" : "75vw",
+        maxWidth: isCollapsed ? "85vw" : "70vw",
       }}>
       <Provider store={store}>
         <div
@@ -76,7 +76,7 @@ const page = () => {
                 <TableRow>
                   <TableHead><DynamicOrderData text='SN' /></TableHead>
                   <TableHead><DynamicOrderData text='Order#' /></TableHead>
-                  <TableHead><DynamicOrderData text='User Email' /></TableHead>
+                  <TableHead><DynamicOrderData text='Recipient Email' /></TableHead>
                   <TableHead><DynamicOrderData text='Status' /></TableHead>
                   <TableHead><DynamicOrderData text='Total Items' /></TableHead>
                   <TableHead><DynamicOrderData text='Total Cost' /></TableHead>
@@ -97,7 +97,7 @@ const page = () => {
                             <DynamicOrderData text={order._id!.slice(-8).toUpperCase()} />
                           </h2>
                         </TableCell>
-                        <TableCell className="min-w-[50px]"><DynamicOrderData text={order.userId} /></TableCell>
+                        <TableCell className="min-w-[50px]"><DynamicOrderData text={order.shippingPerson.email} /></TableCell>
                         <TableCell className="min-w-[150px]">
                           <SelectStatus status={order.status} orderId={order._id!} />
                         </TableCell>

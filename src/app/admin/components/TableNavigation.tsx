@@ -15,9 +15,9 @@ const TableNavigation:React.FC<ITableNavigation> = ({pagination}) => {
       {Array.from({ length: pagination.totalPages }).map((_, index) => (
         <button
           key={index}
-          className={`flex h-10 w-10 items-center justify-center rounded-md border ${
+          className={`flex h-10 w-10 items-center justify-center rounded-md border text-primaryLight ${
             pagination.currentPage === index + 1
-              ? "bg-primaryDark text-background"
+              ? "bg-primaryLight text-background"
               : "hover:bg-primaryLight"
           }`}
           onClick={() => handlePageChange(index + 1)}
