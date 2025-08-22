@@ -1,7 +1,5 @@
 "use client"
 import PrimaryButton from '@/app/_components/primaryButton/PrimaryButton';
-import { faCaretRight, faEnvelope, faEye, faEyeSlash, faLock } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useContext, useState } from 'react';
 import { DisplayContext } from '@/app/context/DisplayComponents';
 import { useForm } from 'react-hook-form';
@@ -24,6 +22,8 @@ import axios from 'axios';
 import { APIResponseError, APIResponseSuccess } from '@/app/services/queryFunctions/users';
 import { useUserDetails } from '@/app/context/UserDetailsContextComponent';
 import { useUser } from '@/app/hooks/queryHooks/useUser';
+import FormInput from '../submit/formInput/FormInput';
+import { Mail, UserLock } from 'lucide-react';
 const LoginComponent = () => {
   const { userDetails, setUserDetails } = useUserDetails()
   const [showPassword, setShowPassword] = useState(false);
@@ -79,51 +79,28 @@ const LoginComponent = () => {
             <form className="flex flex-col gap-2" onSubmit={handleSubmit(onSubmit)}>
               {/* Close Icon */}
               <h2 className="secondaryHeading mb-4">Login</h2>
-              <div>
-                <div className="flex items-center mb-1">
-                  <FontAwesomeIcon icon={faEnvelope} className='text-primaryDark mr-2' />
-                  <label htmlFor="email" className='primaryParagraph'>
-                    Email <span className="text-red-500">*</span>
-                  </label>
-                </div>
-                <input
-                  type="email"
-                  placeholder="john@example.com"
-                  className="formItem w-full"
-                  {...register("loginEmail", {
-                    validate: (value) => validateEmail("Email", value)
-                  })}
-                />
-                {errors.loginEmail?.message && <SubmitError message={errors.loginEmail.message} />}
-              </div>
-              <div>
-                <div className="flex items-center mb-1">
-                  <FontAwesomeIcon icon={faLock} className='text-primaryDark mr-2' />
-                  <label htmlFor="password" className='primaryParagraph'>
-                    Password <span className="text-red-500">*</span>
-                  </label>
-                </div>
-                <div className="passwordArea relative">
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    placeholder="••••••••"
-                    className="formItem w-full"
-                    autoComplete='off'
-                    {...register("loginPassword", {
-                      validate: (value) => validatePassword("Password", value, 8)
-                    })}
-                  />
-                  <button
-                    type="button"
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-primaryDark hover:text-primary transition-colors"
-                    onClick={() => setShowPassword(!showPassword)}
-                    aria-label={showPassword ? "Hide password" : "Show password"}
-                  >
-                    <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
-                  </button>
-                </div>
-                {errors.loginPassword?.message && <SubmitError message={errors.loginPassword.message} />}
-              </div>
+              <FormInput
+  id="loginEmail"
+  label="Email"
+  type="email"
+  placeholder="john@example.com"
+  required
+  icon={Mail} // example Lucide icon
+  register={register}
+  rules={{ validate: (value: string) => validateEmail("Email", value) }}
+  errors={errors}
+/>
+<FormInput
+  id="loginPassword"
+  label="Password"
+  type="password"
+  placeholder="••••••••"
+  required
+  icon={UserLock}
+  register={register}
+  rules={{ validate: (value: string) => validatePassword("Password", value, 8) }}
+  errors={errors}
+/>
               <PrimaryButton searchText='Login' />
             </form>
             <Divider text="or Conitnue with Google" />
