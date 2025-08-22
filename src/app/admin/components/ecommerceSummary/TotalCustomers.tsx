@@ -60,7 +60,7 @@ const TotalCustomers = () => {
   ];
   return (
     <div className="shadow-primaryDark w-full">
-      <h2 className="text-lg font-semibold mb-4 text-[#531c1d] pl-4">Total Customers</h2>
+      <h2 className="text-lg font-semibold mb-4 text-[#531c1d] pl-4 py-4">Total Customers {totalCustomers}</h2>
       <ResponsiveContainer width="100%" height={200}>
         <BarChart
           data={data}

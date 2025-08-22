@@ -28,11 +28,14 @@ const AdminDashboardHeader = () => {
   function handleThemeChange(event: React.ChangeEvent<HTMLInputElement>): void {
     const newValue = !isChecked
     setIsChecked(newValue)
-    setTheme(newValue ? "dark" : "light")
+    setTheme(newValue ? "dark" : "light");
+    if(typeof window !== 'undefined'){
+      localStorage.setItem('adminTheme',theme)
+    }
   }
   return (
     <div className={` flex justify-between items-center px-4 ${generateClassName(theme)}`}>
-      <LogoComponent theme={theme}/>
+      <LogoComponent theme={theme} />
       <div className="adminHeader flex items-center gap-2">
         <Badge variant="outline">
           {pathSegment}
@@ -44,16 +47,22 @@ const AdminDashboardHeader = () => {
             onChange={handleThemeChange}
             hidden
           />
-          <div className="relative flex w-16 h-8 bg-white rounded-md items-center justify-between px-1">
+          <div
+            className="relative flex w-16 h-8 rounded-md items-center justify-between px-1
+               bg-white shadow-inner border border-gray-200"
+          >
+            {/* sliding highlight */}
             <motion.div
-              className="absolute top-0 left-0 w-1/2 h-full bg-helper rounded-md z-0"
-              initial={{ left: theme === "dark" ? '50%' : '0%' }}
+              className="absolute top-0 left-0 w-1/2 h-full bg-helper rounded-md z-0 shadow-md"
+              initial={{ left: theme === "dark" ? "50%" : "0%" }}
               animate={controls}
-              transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
             />
+            {/* sun icon */}
             <div className="text-primaryLight h-5 w-5 z-10">
               <Sun />
             </div>
+            {/* moon icon */}
             <div className="text-primaryLight h-5 w-5 z-10">
               <Moon />
             </div>
