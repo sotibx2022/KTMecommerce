@@ -47,7 +47,7 @@ const RegisterComponent = () => {
       setVisibleComponent('');
     }
   });
-  const { register, formState: { errors }, getValues, handleSubmit } = useForm<RegisterData>({ mode: 'onBlur' });
+  const { register, formState: { errors }, getValues, handleSubmit } = useForm<RegisterData>({ mode: 'onChange' });
   const onSubmit = async (data: RegisterData) => {
     setVisibleComponent('loadingComponent');
     try {

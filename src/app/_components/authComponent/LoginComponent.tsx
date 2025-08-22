@@ -29,7 +29,7 @@ const LoginComponent = () => {
   const [showPassword, setShowPassword] = useState(false);
   const { refetch } = useUser()
   const { visibleComponent, setVisibleComponent } = useContext(DisplayContext);
-  const { register, formState: { errors }, handleSubmit } = useForm<LoginData>({ mode: 'onBlur' })
+  const { register, formState: { errors }, handleSubmit } = useForm<LoginData>({ mode: 'onChange' })
   const queryClient = useQueryClient()
   const loginMutation = useMutation<APIResponseSuccess | APIResponseError, Error, LoginData>({
     mutationFn: async (data: LoginData) => {

@@ -26,7 +26,7 @@ import { validateConfirmPassword, validateEmail, validatePassword } from "@/app/
 import FormInput from "../submit/formInput/FormInput";
 const ResetPasswordComponent = () => {
   const formMethod = useForm<ResetresetPasswordData>({
-    mode: "onBlur",
+    mode: "onChange",
     defaultValues: {
       resetEmail: "",
       newresetPassword: "",
