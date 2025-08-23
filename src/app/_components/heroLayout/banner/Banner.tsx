@@ -24,7 +24,7 @@ const Banner = () => {
     const height = findTitleHeight();
     gsap.set(".title1", { y: 0 });
     gsap.set(".title2", { y: `${height}px` });
-    gsap.set('.subTitle', { x: '100%' });
+    gsap.set('.subTitle', { x: 0 });
   }, [findTitleHeight]);
   // Smooth slide animation using GSAP timeline
   const handleSlideChange = () => {

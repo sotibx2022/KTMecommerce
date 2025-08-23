@@ -6,13 +6,13 @@ import { useDashboardSummary } from "@/app/hooks/queryHooks/useDashboardSummary"
 const TotalProducts: React.FC = () => {
   const { data: productsSummary, isPending } = useDashboardSummary('products');
   const {
-    activeProducts=0,
-    inactiveProducts=0,
-    lowStockProducts=0,
-    outOfStockProducts=0,
-    newThisMonthProducts=0,
-    overallRating=0,
-    totalReviews=0
+    activeProducts = 0,
+    inactiveProducts = 0,
+    lowStockProducts = 0,
+    outOfStockProducts = 0,
+    newThisMonthProducts = 0,
+    overallRating = 0,
+    totalReviews = 0
   } = productsSummary?.productsSummaryData || {}
   return (
     <AbsoluteComponent>
@@ -21,7 +21,7 @@ const TotalProducts: React.FC = () => {
           <Package className="w-5 h-5" />
           Product Inventory Summary
         </h2>
-        <div className="grid grid-cols-2 gap-4 text-sm text-primaryDark">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2  text-sm text-primaryDark">
           <div className="flex items-center justify-between">
             <span>Total Products</span>
             <span className="font-bold text-primaryDark">{isPending ? "Loading..." : activeProducts + inactiveProducts}</span>

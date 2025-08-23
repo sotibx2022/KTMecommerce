@@ -89,7 +89,7 @@ const SingleSliderItem = () => {
                     <div className="flex flex-col gap-6">
                         {/* Slider Title */}
                         <div className="flex flex-col gap-2">
-                            <label className="text-sm font-medium">Slider Title</label>
+                            <label className="formLabel">Slider Title</label>
                             <Input
                                 type="text"
                                 placeholder="eg.Best Ecommerce Solution "
@@ -105,7 +105,7 @@ const SingleSliderItem = () => {
                         </div>
                         {/* Slider Slogan */}
                         <div className="flex flex-col gap-2">
-                            <label className="text-sm font-medium">Slider Slogan</label>
+                            <label className="formLabel">Slider Slogan</label>
                             <Input
                                 type="text"
                                 placeholder="eg. Enjoy the Shopping"
