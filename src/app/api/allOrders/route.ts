@@ -12,6 +12,7 @@ export async function GET(req: NextRequest) {
     const pageSize = 10;
     // Build filter conditionally
     const filter = queryString ? { status: queryString } : {};
+    const totalOrders = await OrderModel.countDocuments(filter)
     const results = await OrderModel.find(filter).limit(10).skip(pageNumber * 10);
     if (!results || results.length === 0) {
       return NextResponse.json(
@@ -27,7 +28,7 @@ export async function GET(req: NextRequest) {
       pagination: {
         currentPage: pageNumber,
         pageSize: pageSize,
-        totalOrders: results.length,
+        totalOrders: totalOrders,
         totalPages: Math.ceil(results.length / pageSize)
       }
     });
