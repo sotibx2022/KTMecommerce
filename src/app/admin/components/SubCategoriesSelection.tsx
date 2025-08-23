@@ -11,7 +11,7 @@ const SubCategoriesSelection = () => {
   }
   const subCategoryLoading = subCategoriesPending && filterState.categoryText !== "Category";
   return (
-    <div className="absolute top-[30px] left-0">
+    <div className="absolute top-[30px] left-0 selectAbleTableHead">
       {subCategoryLoading ? (
         <ul className="p-2 bg-inherit shadow-primaryLight">
           {Array.from({ length: 4 }).map((_, index) => (
@@ -20,12 +20,6 @@ const SubCategoriesSelection = () => {
         </ul>
       ) : (
         <ul className="py-1">
-          <li
-            className="w-full text-left p-4 hover:bg-backgroundLight cursor-pointer"
-            onClick={() => onSelectionOfSubCategory("Item")}
-          >
-            Item
-          </li>
           {subCategories?.success && subCategories.data?.subcategories.map((item, index) => (
             <li
               className="w-full text-left p-4 hover:bg-backgroundLight cursor-pointer"
