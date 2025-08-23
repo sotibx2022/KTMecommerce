@@ -92,8 +92,8 @@ const page = () => {
           </Table>
         </div>
       </div>
-      <Navigation pagination={pagination} selectedPageNumber={function (pageNumber: number): void {
-        setFilterState((prev) => ({ ...prev, pageNumber: pageNumber }))
+      <Navigation pagination={pagination} selectedPageNumber={(pageNumber: number)=> {
+        setFilterState((prev) => ({ ...prev, page: pageNumber }))
       }} />
     </div>
   );

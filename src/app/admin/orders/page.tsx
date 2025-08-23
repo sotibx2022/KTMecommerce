@@ -30,7 +30,8 @@ import DynamicOrderData from './ordersComponents/DynamicOrderData'
 import { useScreenWidth } from '@/app/services/helperFunctions/findScreenWidth'
 import { useSidebar } from '@/components/ui/sidebar'
 import FilterbyOrderStatus from './ordersTableComponents/FilterbyOrderStatus'
-const page = () => {
+import Navigation from '../components/Navigation'
+const Page = () => {
   const [statusValue, setStatusValue] = useState('')
   const { state: sidebarState } = useSidebar();
   const isCollapsed = sidebarState === "collapsed";
@@ -42,11 +43,12 @@ const page = () => {
   const { theme } = themeContext
   const { visibleComponent, setVisibleComponent } = useContext(DisplayContext);
   const [orderDetails, setOrderDetails] = useState<null | OrderDetailsProps>(null)
+  const [pageNumber, setPageNumber] = useState(1)
   const router = useRouter()
   const queryString = useMemo(() => {
-    return `/api/allOrders?orderStatus=${statusValue}`
-  }, [statusValue])
-  const { data: orders, isPending } = useQuery({
+    return `/api/allOrders?orderStatus=${statusValue}&pageNumber=${pageNumber}`
+  }, [statusValue, pageNumber])
+  const { data: orderResult, isPending } = useQuery({
     queryKey: ['allOrders', queryString],
     queryFn: () => fetchAllOrders(queryString)
   })
@@ -55,8 +57,11 @@ const page = () => {
   function handleDisplayOrderDetails(order: OrderDetailsProps) {
     setOrderDetails(order)
   }
+  const successResult = orderResult?.success;
+  const orders = successResult && orderResult.data;
+  const pagination = successResult && orderResult.pagination
   return (
-    <div className={`{"ml-4"} tableContainer`} ref={tableWrapperRef}
+    <div className={`ml-4 tableContainer`} ref={tableWrapperRef}
       style={{
         maxWidth: isCollapsed ? "85vw" : "70vw",
       }}>
@@ -74,7 +79,7 @@ const page = () => {
           <div>
             <Table
               ref={tableRef}
-              className={`${theme}==="dark"?" table darkTable:"lightTable" 'my-4 w-[90%]'`}
+              className={`${theme === "dark" ? "table darkTable" : "lightTable"} my-4 w-[90%]`}
             >
               <TableHeader>
                 <TableRow>
@@ -84,7 +89,8 @@ const page = () => {
                   <TableHead>
                     <FilterbyOrderStatus selectedStatusValue={function (value: string): void {
                       setStatusValue(value)
-                    }} /> </TableHead>
+                    }} />
+                  </TableHead>
                   <TableHead><DynamicOrderData text='Total Items' /></TableHead>
                   <TableHead><DynamicOrderData text='Total Cost' /></TableHead>
                   <TableHead><DynamicOrderData text='Created At' /></TableHead>
@@ -94,53 +100,43 @@ const page = () => {
               <TableBody>
                 {isPending ? (
                   <SkeletonOrdersTable />
-                ) : orders && orders.success && orders.data ? (
-                  orders.data.length > 0 ? (
-                    orders.data.map((order: IOrderDetails, index: number) => (
-                      <TableRow key={index}>
-                        <TableCell className="min-w-[50px]"><DynamicOrderData text={(index + 1).toString()} /></TableCell>
-                        <TableCell className="min-w-[120px]">
-                          <h2 className="text-lg sm:text-xl md:text-2xl font-bold">
-                            <DynamicOrderData text={order._id!.slice(-8).toUpperCase()} />
-                          </h2>
-                        </TableCell>
-                        <TableCell className="min-w-[50px]"><DynamicOrderData text={order.shippingPerson.email} /></TableCell>
-                        <TableCell className="min-w-[150px]">
-                          <SelectStatus status={order.status} orderId={order._id!} />
-                        </TableCell>
-                        <TableCell className="min-w-[100px]"><DynamicOrderData text={order.orderSummary.totalItems.toString()} /></TableCell>
-                        <TableCell className="min-w-[100px]"><DynamicOrderData text={order.orderSummary.grossTotal.toString()} /></TableCell>
-                        <TableCell className="min-w-[150px]"><DynamicOrderData text={DateFormator(order.createdAt!)} /></TableCell>
-                        <TableCell className="min-w-[100px]">
-                          <Button onClick={() => handleDisplayOrderDetails(order)}>View</Button>
-                        </TableCell>
-                      </TableRow>
-                    ))
-                  ) : (
-                    <TableRow>
-                      <TableCell colSpan={9} className="h-24 text-center">
-                        <NoData icon={<ShoppingCart />} notFoundMessage="There are no Orders Created Yet" />
+                ) : orders && orders.length > 0 ? (
+                  orders.map((order: IOrderDetails, index: number) => (
+                    <TableRow key={index}>
+                      <TableCell className="min-w-[50px]"><DynamicOrderData text={(index + 1).toString()} /></TableCell>
+                      <TableCell className="min-w-[120px]">
+                        <h2 className="text-lg sm:text-xl md:text-2xl font-bold">
+                          <DynamicOrderData text={order._id!.slice(-8).toUpperCase()} />
+                        </h2>
+                      </TableCell>
+                      <TableCell className="min-w-[50px]"><DynamicOrderData text={order.shippingPerson.email} /></TableCell>
+                      <TableCell className="min-w-[150px]">
+                        <SelectStatus status={order.status} orderId={order._id!} />
+                      </TableCell>
+                      <TableCell className="min-w-[100px]"><DynamicOrderData text={order.orderSummary.totalItems.toString()} /></TableCell>
+                      <TableCell className="min-w-[100px]"><DynamicOrderData text={order.orderSummary.grossTotal.toString()} /></TableCell>
+                      <TableCell className="min-w-[150px]"><DynamicOrderData text={DateFormator(order.createdAt!)} /></TableCell>
+                      <TableCell className="min-w-[100px]">
+                        <Button onClick={() => handleDisplayOrderDetails(order)}>View</Button>
                       </TableCell>
                     </TableRow>
-                  )
-                ) : null}
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={9} className="h-24 text-center">
+                      <NoData icon={<ShoppingCart />} notFoundMessage="There are no Orders Created Yet" />
+                    </TableCell>
+                  </TableRow>
+                )}
               </TableBody>
             </Table>
+            <Navigation pagination={pagination} selectedPageNumber={(pageNumber: number) => {
+              setPageNumber(pageNumber)
+            }} />
           </div>
         </div>
-        {orderDetails && <div className='absolute top-0 left-0 w-full h-auto z-40 flex justify-center items-center'
-          style={{ background: "var(--gradientwithOpacity)" }}>
-          <div className="OrderDetailsWrapper max-w-[500px] relative mt-4 overflow-y-auto">
-            <FontAwesomeIcon
-              icon={faTimes}
-              className="text-background bg-helper w-[30px] h-[30px] z-50 absolute top-3 right-3 cursor-pointer rounded-full p-1"
-              onClick={() => setOrderDetails(null)}
-            />
-            <OrderDetails order={orderDetails} expandAble={false} />
-          </div>
-        </div>}
       </Provider>
     </div>
   )
 }
-export default page
+export default Page

@@ -1,3 +1,4 @@
+import TotalOrders from "@/app/admin/orders/ordersComponents/TotalOrders";
 import { connectToDB } from "@/config/db";
 import OrderModel from "@/models/orders.model";
 import { NextRequest, NextResponse } from "next/server";
@@ -6,9 +7,12 @@ export async function GET(req: NextRequest) {
     await connectToDB();
     const url = new URL(req.url);
     const queryString = url.searchParams.get("orderStatus");
+    const page = url.searchParams.get('pageNumber');
+    const pageNumber = page ? parseInt(page) : 1;
+    const pageSize = 10;
     // Build filter conditionally
     const filter = queryString ? { status: queryString } : {};
-    const results = await OrderModel.find(filter);
+    const results = await OrderModel.find(filter).limit(10).skip(pageNumber * 10);
     if (!results || results.length === 0) {
       return NextResponse.json(
         { message: "No orders found" },
@@ -20,6 +24,12 @@ export async function GET(req: NextRequest) {
       success: true,
       status: 200,
       data: results,
+      pagination: {
+        currentPage: pageNumber,
+        pageSize: pageSize,
+        totalOrders: results.length,
+        totalPages: Math.ceil(results.length / pageSize)
+      }
     });
   } catch (error) {
     console.error("Error fetching orders:", error);
