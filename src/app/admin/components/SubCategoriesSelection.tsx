@@ -13,22 +13,22 @@ const SubCategoriesSelection = () => {
   return (
     <div className="absolute top-[30px] left-0">
       {subCategoryLoading ? (
-        <ul className="bg-background rounded-md shadow-primaryDark p-2 flex flex-col gap-2">
+        <ul className="p-2">
           {Array.from({ length: 4 }).map((_, index) => (
-            <SkletonText key={index} />
+            <span key={index} className='bg-primaryLight animate-pulse' ></span>
           ))}
         </ul>
       ) : (
-        <ul className="bg-background rounded-md shadow-primaryDark py-1">
+        <ul className="py-1">
           <li
-            className="w-full text-left p-4 hover:bg-primaryLight hover:text-background cursor-pointer"
+            className="w-full text-left p-4 hover:bg-backgroundLight cursor-pointer"
             onClick={() => onSelectionOfSubCategory("Item")}
           >
             Item
           </li>
           {subCategories?.success && subCategories.data?.subcategories.map((item, index) => (
             <li
-              className="w-full text-left p-4 hover:bg-primaryLight hover:text-background cursor-pointer"
+              className="w-full text-left p-4 hover:bg-backgroundLight cursor-pointer"
               key={index}
               onClick={() => onSelectionOfSubCategory(item.category_name)}
             >

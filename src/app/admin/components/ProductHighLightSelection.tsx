@@ -12,7 +12,7 @@ const highlightOptions = [
 const ProductHighLightSelection = () => {
   const { setFilterState } = useContext(ProductFilterContext);
   return (
-    <div className="flex flex-wrap gap-4">
+    <div className="flex flex-wrap gap-4 absolute top-0 left-0 w-full h-full">
       {highlightOptions.map((option) => (
         <div key={option.id} className="flex items-center space-x-2">
           <Checkbox

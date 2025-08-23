@@ -115,7 +115,6 @@ How to login and logout other active tabs when one tab changes.
 3) when login success number === logout success number means, we can perform logout or viceverca.
 4) but the problems are, if tab closed immediately after closoing the tab, also localhost memory will be dirty so that best way to to use redux + broadCast channel API to handle the issue.
 ADMIN SIDE:-
-4. profile image of users at admin users are not good.full name needs min width. - 5 minute
 5. i want to Edit one subcategory but the form filled with someother subcategory,and  need actual images of categories and subcategories- 2 hours same to the edit slider as well?
 6.selectable tableHead in darkmode, highlights of products table.
 -------------------
