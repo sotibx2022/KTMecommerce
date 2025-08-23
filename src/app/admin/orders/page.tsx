@@ -81,7 +81,7 @@ const page = () => {
                   <TableHead><DynamicOrderData text='SN' /></TableHead>
                   <TableHead><DynamicOrderData text='Order#' /></TableHead>
                   <TableHead><DynamicOrderData text='Recipient Email' /></TableHead>
-                  <TableHead><DynamicOrderData text='Status' />
+                  <TableHead>
                     <FilterbyOrderStatus selectedStatusValue={function (value: string): void {
                       setStatusValue(value)
                     }} /> </TableHead>

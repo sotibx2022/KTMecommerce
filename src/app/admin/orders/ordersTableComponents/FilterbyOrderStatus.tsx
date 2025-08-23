@@ -7,17 +7,17 @@ import {
     SelectTrigger,
     SelectItem,
 } from '@/components/ui/select'
-interface IFilterByOrderStatusProps{
-    selectedStatusValue:(value:string)=>void;
+interface IFilterByOrderStatusProps {
+    selectedStatusValue: (value: string) => void;
 }
-const FilterbyOrderStatus:React.FC<IFilterByOrderStatusProps> = ({selectedStatusValue}) => {
+const FilterbyOrderStatus: React.FC<IFilterByOrderStatusProps> = ({ selectedStatusValue }) => {
     const [statusValue, setStatusValue] = useState('Select Status')
     const orderStatuses = ['ordered', 'pending', 'confirmed', 'delivered', 'cancelled', "Paid", "Unpaid"] as const
-    useEffect(()=>{
-        if(statusValue !== 'Select Status'){
-         selectedStatusValue(statusValue)   
+    useEffect(() => {
+        if (statusValue !== 'Select Status') {
+            selectedStatusValue(statusValue)
         }
-    },[statusValue])
+    }, [statusValue])
     return (
         <Select
             value={statusValue}
@@ -26,6 +26,7 @@ const FilterbyOrderStatus:React.FC<IFilterByOrderStatusProps> = ({selectedStatus
                 <SelectValue placeholder="Select status" />
             </SelectTrigger>
             <SelectContent>
+                <SelectItem value='Select status'>Select</SelectItem>
                 {orderStatuses.map((s) => (
                     <SelectItem key={s} value={s}>
                         {s.charAt(0).toUpperCase() + s.slice(1)}

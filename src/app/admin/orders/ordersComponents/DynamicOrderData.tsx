@@ -2,7 +2,7 @@
 import { ThemeProviderContext } from '@/app/context/ThemeProvider'
 import React, { useContext } from 'react'
 interface TextToRender {
-    text: string,
+    text?: string,
 }
 const DynamicOrderData: React.FC<TextToRender> = ({ text }) => {
     const themeContext = useContext(ThemeProviderContext);
