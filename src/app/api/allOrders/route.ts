@@ -3,15 +3,24 @@ import OrderModel from "@/models/orders.model";
 import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
   try {
-    await connectToDB(); // Await DB connection if it's async
-    const orders = await OrderModel.find();
-    if (!orders || orders.length === 0) {
+    await connectToDB();
+    const url = new URL(req.url);
+    const queryString = url.searchParams.get("orderStatus");
+    // Build filter conditionally
+    const filter = queryString ? { status: queryString } : {};
+    const results = await OrderModel.find(filter);
+    if (!results || results.length === 0) {
       return NextResponse.json(
         { message: "No orders found" },
         { status: 404 }
       );
     }
-    return NextResponse.json({message:"Orders Found successfully",success:true,status:200, data:orders});
+    return NextResponse.json({
+      message: "Orders found successfully",
+      success: true,
+      status: 200,
+      data: results,
+    });
   } catch (error) {
     console.error("Error fetching orders:", error);
     return NextResponse.json(

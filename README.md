@@ -121,4 +121,16 @@ ADMIN SIDE:-
 1. In the products page table navigation. we need to use only few numbers for navigation not all. - 5 minute
 2. products inventory summary needs to be flex-col. - 5 minute
 3.  at the slider. the slider subheading is visible at the right, it comes and goes back to the screen right side.- 30 minute.
-4. i need maximum 3 words for slider title and slider tagline without special character,
+4. i need maximum 3 words for slider title and slider tagline without special character - 10 minutes.
+5. i want to Edit one subcategory but the form filled with someother subcategory,and  need actual images of categories and subcategories- 2 hours.
+6. height of dashboard sidebar header and dashboard sidebar footer need to be smaller.
+-------------------
+sentiment analysis of reviews using AI.
+list remarks on admin/remarks, approve & reject the remarks.
+Recently visited products.
+Browser communication
+Ecommerce KTM Development documentation.
+- all libraries
+-lesson learned
+- how to manage interfaces.
+---------

@@ -12,6 +12,7 @@ import { useMutation } from '@tanstack/react-query'
 import axios from 'axios'
 import { Button } from '@/components/ui/button'
 import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponent'
+import { Sparkles } from 'lucide-react'
 interface ProductBasicDetailsFormProps {
   productDatas?: IProductDisplay
   action: "edit" | "add"
@@ -50,7 +51,7 @@ const ProductBasicDetailsForm: React.FC<ProductBasicDetailsFormProps> = ({ actio
           })}
         />
         {errors.productName?.message && <SubmitError message={errors.productName.message} />}
-        <Button variant='secondary' onClick={generateProductDetails}>Product Details <span className='text-red bg-helper p-2 rounded-full animate-bounce'>AI</span></Button>
+        <Button variant='secondary' onClick={generateProductDetails}>AI Product Details <Sparkles className='text-helper animate-ping' /></Button>
       </div>
       {/* Description */}
       <div>

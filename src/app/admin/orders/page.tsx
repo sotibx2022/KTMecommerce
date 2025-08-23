@@ -1,5 +1,5 @@
 'use client'
-import React, { useContext, useState, useRef } from 'react'
+import React, { useContext, useState, useRef, useEffect, useMemo } from 'react'
 import TotalOrders from './ordersComponents/TotalOrders'
 import {
   Table,
@@ -29,7 +29,9 @@ import { ThemeProviderContext } from '@/app/context/ThemeProvider'
 import DynamicOrderData from './ordersComponents/DynamicOrderData'
 import { useScreenWidth } from '@/app/services/helperFunctions/findScreenWidth'
 import { useSidebar } from '@/components/ui/sidebar'
+import FilterbyOrderStatus from './ordersTableComponents/FilterbyOrderStatus'
 const page = () => {
+  const [statusValue, setStatusValue] = useState('')
   const { state: sidebarState } = useSidebar();
   const isCollapsed = sidebarState === "collapsed";
   const screenWidth = useScreenWidth();
@@ -41,11 +43,13 @@ const page = () => {
   const { visibleComponent, setVisibleComponent } = useContext(DisplayContext);
   const [orderDetails, setOrderDetails] = useState<null | OrderDetailsProps>(null)
   const router = useRouter()
+  const queryString = useMemo(() => {
+    return `/api/allOrders?orderStatus=${statusValue}`
+  }, [statusValue])
   const { data: orders, isPending } = useQuery({
-    queryKey: ['allOrders'],
-    queryFn: fetchAllOrders
+    queryKey: ['allOrders', queryString],
+    queryFn: () => fetchAllOrders(queryString)
   })
-  // ✅ Refs for table wrapper & table
   const tableWrapperRef = useRef<HTMLDivElement>(null);
   const tableRef = useRef<HTMLTableElement>(null);
   function handleDisplayOrderDetails(order: OrderDetailsProps) {
@@ -77,7 +81,10 @@ const page = () => {
                   <TableHead><DynamicOrderData text='SN' /></TableHead>
                   <TableHead><DynamicOrderData text='Order#' /></TableHead>
                   <TableHead><DynamicOrderData text='Recipient Email' /></TableHead>
-                  <TableHead><DynamicOrderData text='Status' /></TableHead>
+                  <TableHead><DynamicOrderData text='Status' />
+                    <FilterbyOrderStatus selectedStatusValue={function (value: string): void {
+                      setStatusValue(value)
+                    }} /> </TableHead>
                   <TableHead><DynamicOrderData text='Total Items' /></TableHead>
                   <TableHead><DynamicOrderData text='Total Cost' /></TableHead>
                   <TableHead><DynamicOrderData text='Created At' /></TableHead>

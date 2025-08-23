@@ -1,0 +1,38 @@
+"use client"
+import React, { useEffect, useState } from 'react'
+import {
+    Select,
+    SelectValue,
+    SelectContent,
+    SelectTrigger,
+    SelectItem,
+} from '@/components/ui/select'
+interface IFilterByOrderStatusProps{
+    selectedStatusValue:(value:string)=>void;
+}
+const FilterbyOrderStatus:React.FC<IFilterByOrderStatusProps> = ({selectedStatusValue}) => {
+    const [statusValue, setStatusValue] = useState('Select Status')
+    const orderStatuses = ['ordered', 'pending', 'confirmed', 'delivered', 'cancelled', "Paid", "Unpaid"] as const
+    useEffect(()=>{
+        if(statusValue !== 'Select Status'){
+         selectedStatusValue(statusValue)   
+        }
+    },[statusValue])
+    return (
+        <Select
+            value={statusValue}
+            onValueChange={(val) => setStatusValue(val)}>
+            <SelectTrigger className="w-[150px]">
+                <SelectValue placeholder="Select status" />
+            </SelectTrigger>
+            <SelectContent>
+                {orderStatuses.map((s) => (
+                    <SelectItem key={s} value={s}>
+                        {s.charAt(0).toUpperCase() + s.slice(1)}
+                    </SelectItem>
+                ))}
+            </SelectContent>
+        </Select>
+    )
+}
+export default FilterbyOrderStatus

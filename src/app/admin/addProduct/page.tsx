@@ -21,6 +21,11 @@ import ConfettiComponent from '@/app/_components/submit/ConfettiComponent'
 import { ThemeProvider, ThemeProviderContext } from '@/app/context/ThemeProvider'
 import ImageUpload from '../components/productForm/ImageUpload'
 const AddProduct = () => {
+  const themeContext = useContext(ThemeProviderContext);
+    if(!themeContext){
+      throw new Error ("Context is not available here")
+    }
+    const{theme} = themeContext;
   const [file, setFile] = useState<File | null>(null)
   const [showConfetti, setShowConfetti] = useState(false);
   const [productId, setProductId] = useState("");
@@ -75,7 +80,7 @@ const AddProduct = () => {
     <>
       <div className="container mx-auto px-4 py-8">
         {createProductMutation.isPending && <LoadingComponent />}
-        <h1 className="primaryHeading mb-6">Add New Product</h1>
+        <h1 className={`${theme === 'dark' ? 'text-background' : 'text-primaryDark'} text-xl`}>Add New Product</h1>
         <FormProvider {...methods}>
           <form onSubmit={methods.handleSubmit(onSubmit)}>
             <div className="card flex gap-4 flex-col md:flex-row">
