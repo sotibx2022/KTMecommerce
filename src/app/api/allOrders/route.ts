@@ -8,12 +8,12 @@ export async function GET(req: NextRequest) {
     const url = new URL(req.url);
     const queryString = url.searchParams.get("orderStatus");
     const page = url.searchParams.get('pageNumber');
-    const pageNumber = page ? parseInt(page) : 0;
+    const pageNumber = page ? parseInt(page) : 1;
     const pageSize = 10;
     // Build filter conditionally
     const filter = queryString ? { status: queryString } : {};
     const totalOrders = await OrderModel.countDocuments(filter)
-    const results = await OrderModel.find(filter).limit(10).skip(pageNumber * 10);
+    const results = await OrderModel.find(filter).limit(10).skip((pageNumber - 1) * pageSize);
     if (!results || results.length === 0) {
       return NextResponse.json(
         { message: "No orders found" },
@@ -29,7 +29,7 @@ export async function GET(req: NextRequest) {
         currentPage: pageNumber,
         pageSize: pageSize,
         totalOrders: totalOrders,
-        totalPages: Math.ceil(totalOrders/ pageSize)
+        totalPages: Math.ceil(totalOrders / pageSize)
       }
     });
   } catch (error) {
