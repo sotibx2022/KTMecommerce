@@ -1,42 +1,43 @@
 import React, { useContext } from 'react';
-import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/ui/select';
 import { ProductFilterContext } from '@/app/context/ProductFilterContext';
+const highlightOptions = [
+  { id: 'isNewArrival', label: 'New Arrival' },
+  { id: 'isTrendingNow', label: 'Trending' },
+  { id: 'isTopSell', label: 'Top Sell' },
+  { id: 'isOfferItem', label: 'Offer Item' },
+  { id: 'isRegular', label: 'Regular' },
+];
 const ProductHighLightSelection = () => {
   const context = useContext(ProductFilterContext);
   if (!context) {
     throw new Error('ProductHighLightSelection must be used within a ProductFilterContext Provider');
   }
   const { filterState, setFilterState } = context;
+  const confirmHighlightSelection = (highlightValue: string) => {
+    setFilterState((prev) => ({
+      ...prev,
+      highlights: highlightValue,
+    }));
+  };
   return (
-    <div className="w-full absolute top-[30px] left-0 selectAbleTableHead">
-      <Select
-        onValueChange={(
-          value:
-            | "isNewArrival"
-            | "isTrendingNow"
-            | "isTopSell"
-            | "isOfferItem"
-            | "isRegular"
-            | "Select"
-        ) =>
-          setFilterState((prev) => ({
-            ...prev,
-            highlights: value,
-          }))
-        }
-      >
-        <SelectTrigger>
-          <Select>{filterState.highlights || "Select"}</Select>
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="isNewArrival">New Arrival</SelectItem>
-          <SelectItem value="isOfferItem">Offer Item</SelectItem>
-          <SelectItem value="isTrendingNow">Trending</SelectItem>
-          <SelectItem value="isTopSell">Top Sell</SelectItem>
-          <SelectItem value="isRegular">Regular</SelectItem>
-          <SelectItem value="Select">Normal</SelectItem>
-        </SelectContent>
-      </Select>
+    <div className="absolute top-[30px] left-0 w-full selectAbleTableHead">
+      <ul className="py-1 bg-inherit shadow-primaryLight">
+        <li
+          className="w-full text-left p-4 hover:bg-backgroundLight cursor-pointer"
+          onClick={() => confirmHighlightSelection('Select')}
+        >
+          Normal
+        </li>
+        {highlightOptions.map((option) => (
+          <li
+            key={option.id}
+            className="w-full text-left p-4 hover:bg-backgroundLight cursor-pointer"
+            onClick={() => confirmHighlightSelection(option.id)}
+          >
+            {option.label}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
