@@ -114,10 +114,10 @@ How to login and logout other active tabs when one tab changes.
 2) other pages will listen this event and perfrom the operation.
 3) when login success number === logout success number means, we can perform logout or viceverca.
 4) but the problems are, if tab closed immediately after closoing the tab, also localhost memory will be dirty so that best way to to use redux + broadCast channel API to handle the issue.
-ADMIN SIDE:-
-5. i want to Edit one subcategory but the form filled with someother subcategory,and  need actual images of categories and subcategories- 2 hours same to the edit slider as well?
-6.selectable tableHead in darkmode, highlights of products table.
 -------------------
+ADMIN SIDE:-
+-------------------
+i want to Edit one subcategory but the form filled with someother subcategory,and  need actual images of categories and subcategories- 2 hours same to the edit slider as well?
 Typesence in search bar need to show more results.
 need to navigate in direct products page.
 Image zooming effect is requried.

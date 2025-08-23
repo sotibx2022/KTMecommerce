@@ -1,26 +1,42 @@
-import { Checkbox } from '@/components/ui/checkbox';
-import { Label } from '@/components/ui/label';
+import React, { useContext } from 'react';
+import { Select, SelectContent, SelectItem, SelectTrigger } from '@/components/ui/select';
 import { ProductFilterContext } from '@/app/context/ProductFilterContext';
-import { useContext } from 'react';
-const highlightOptions = [
-  { id: 'isNew', label: 'New' },
-  { id: 'isTrending', label: 'Trending' },
-  { id: 'isTop', label: 'Top' },
-  { id: 'isOffer', label: 'Offer' },
-  { id: 'isRegular', label: 'Regular' },
-];
 const ProductHighLightSelection = () => {
-  const { setFilterState } = useContext(ProductFilterContext);
+  const context = useContext(ProductFilterContext);
+  if (!context) {
+    throw new Error('ProductHighLightSelection must be used within a ProductFilterContext Provider');
+  }
+  const { filterState, setFilterState } = context;
   return (
-    <div className="flex flex-wrap gap-4 absolute top-0 left-0 w-full  selectAbleTableHead shadow-primaryLight">
-      {highlightOptions.map((option) => (
-        <div key={option.id} className="flex items-center space-x-2">
-          <Checkbox
-            id={option.id}
-          />
-          <Label htmlFor={option.id}>{option.label}</Label>
-        </div>
-      ))}
+    <div className="w-full absolute top-[30px] left-0 selectAbleTableHead">
+      <Select
+        onValueChange={(
+          value:
+            | "isNewArrival"
+            | "isTrendingNow"
+            | "isTopSell"
+            | "isOfferItem"
+            | "isRegular"
+            | "Select"
+        ) =>
+          setFilterState((prev) => ({
+            ...prev,
+            highlights: value,
+          }))
+        }
+      >
+        <SelectTrigger>
+          <Select>{filterState.highlights || "Select"}</Select>
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="isNewArrival">New Arrival</SelectItem>
+          <SelectItem value="isOfferItem">Offer Item</SelectItem>
+          <SelectItem value="isTrendingNow">Trending</SelectItem>
+          <SelectItem value="isTopSell">Top Sell</SelectItem>
+          <SelectItem value="isRegular">Regular</SelectItem>
+          <SelectItem value="Select">Normal</SelectItem>
+        </SelectContent>
+      </Select>
     </div>
   );
 };
