@@ -130,9 +130,9 @@ const Page = () => {
                 )}
               </TableBody>
             </Table>
-            <Navigation pagination={pagination} selectedPageNumber={(pageNumber: number) => {
+            {pagination && <Navigation pagination={pagination} selectedPageNumber={(pageNumber: number) => {
               setPageNumber(pageNumber)
-            }} />
+            }} />}
           </div>
         </div>
         {orderDetails && <div className='absolute top-0 left-0 w-full h-auto z-40 flex justify-center items-center'
