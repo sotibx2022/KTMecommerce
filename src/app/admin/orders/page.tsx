@@ -100,33 +100,38 @@ const Page = () => {
               <TableBody>
                 {isPending ? (
                   <SkeletonOrdersTable />
-                ) : orders && orders.length > 0 ? (
+                ) : (
+                  orders &&
                   orders.map((order: IOrderDetails, index: number) => (
                     <TableRow key={index}>
-                      <TableCell className="min-w-[50px]"><DynamicOrderData text={(index + 1).toString()} /></TableCell>
+                      <TableCell className="min-w-[50px]">
+                        <DynamicOrderData text={(index + 1).toString()} />
+                      </TableCell>
                       <TableCell className="min-w-[120px]">
                         <h2 className="text-lg sm:text-xl md:text-2xl font-bold">
                           <DynamicOrderData text={order._id!.slice(-8).toUpperCase()} />
                         </h2>
                       </TableCell>
-                      <TableCell className="min-w-[50px]"><DynamicOrderData text={order.shippingPerson.email} /></TableCell>
+                      <TableCell className="min-w-[50px]">
+                        <DynamicOrderData text={order.shippingPerson.email} />
+                      </TableCell>
                       <TableCell className="min-w-[150px]">
                         <SelectStatus status={order.status} orderId={order._id!} />
                       </TableCell>
-                      <TableCell className="min-w-[100px]"><DynamicOrderData text={order.orderSummary.totalItems.toString()} /></TableCell>
-                      <TableCell className="min-w-[100px]"><DynamicOrderData text={order.orderSummary.grossTotal.toString()} /></TableCell>
-                      <TableCell className="min-w-[150px]"><DynamicOrderData text={DateFormator(order.createdAt!)} /></TableCell>
+                      <TableCell className="min-w-[100px]">
+                        <DynamicOrderData text={order.orderSummary.totalItems.toString()} />
+                      </TableCell>
+                      <TableCell className="min-w-[100px]">
+                        <DynamicOrderData text={order.orderSummary.grossTotal.toString()} />
+                      </TableCell>
+                      <TableCell className="min-w-[150px]">
+                        <DynamicOrderData text={DateFormator(order.createdAt!)} />
+                      </TableCell>
                       <TableCell className="min-w-[100px]">
                         <Button onClick={() => handleDisplayOrderDetails(order)}>View</Button>
                       </TableCell>
                     </TableRow>
                   ))
-                ) : (
-                  <TableRow>
-                    <TableCell colSpan={9} className="h-24 text-center">
-                      <NoData icon={<ShoppingCart />} notFoundMessage="There are no Orders Created Yet" />
-                    </TableCell>
-                  </TableRow>
                 )}
               </TableBody>
             </Table>
