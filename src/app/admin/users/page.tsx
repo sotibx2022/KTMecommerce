@@ -78,14 +78,13 @@ const page = () => {
               <TableRow key={index}>
                 <TableCell>
                   {user.profileImage ? (
-                    <img
-                      src={user.profileImage}
-                      alt={user.fullName}
-                      width={40}
-                      height={40}
-                      style={{ borderRadius: "50%" }}
-                      className="object-cover"
-                    />
+                    <div className="w-10 h-10 rounded-full overflow-hidden">
+                      <img
+                        src={user.profileImage}
+                        alt={user.fullName}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
                   ) : (
                     <h1 className="text-primaryDark uppercase bg-background w-[40px] h-[40px] flex-center text-xl rounded-full border-2 border-helper">
                       {user.email?.charAt(0).toUpperCase()}
