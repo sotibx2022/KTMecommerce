@@ -23,7 +23,7 @@ const FilterbyOrderStatus: React.FC<IFilterByOrderStatusProps> = ({ selectedStat
             value={statusValue}
             onValueChange={(val) => setStatusValue(val)}
         >
-            <SelectTrigger className="w-[150px]">
+            <SelectTrigger className="w-[150px] text-primaryDark">
                 <SelectValue placeholder="Select status" />
             </SelectTrigger>
             <SelectContent>

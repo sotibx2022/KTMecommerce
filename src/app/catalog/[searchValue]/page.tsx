@@ -8,7 +8,6 @@ import { IResponseData } from '@/app/admin/components/products'
 import { useQuery } from '@tanstack/react-query'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { updateUrl } from './updateUrl'
-import TableNavigation from '@/app/admin/components/TableNavigation'
 import { IProductDisplay } from '@/app/types/products'
 import ProductCard from '@/app/_components/productCard/ProductCard'
 import VerticalProductCard from '@/app/_components/productCard/VertivalProductCard'
@@ -19,6 +18,7 @@ import SkeletonSlide from '@/app/_components/loadingComponent/SkeletonSlide'
 import NoData from '@/app/_components/noData/NoData'
 import { PackageX } from 'lucide-react'
 import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponent'
+import Navigation from '@/app/admin/components/Navigation'
 const page = () => {
   const router = useRouter()
   const context = useContext(SearchContext);
@@ -125,20 +125,9 @@ const page = () => {
                   </div>
                 )}
                 <div className="paginationArea">
-                  <div className="container justify-center my-2 flex items-center gap-2">
-                    {Array.from({ length: pagination.totalPages }).map((_, index) => (
-                      <button
-                        key={index}
-                        className={`flex h-10 w-10 items-center justify-center rounded-md border ${pagination.currentPage === index + 1
-                          ? "bg-primaryDark text-background"
-                          : "hover:bg-primaryLight"
-                          }`}
-                        onClick={() => setSearchValues((prev) => ({ ...prev, pageNumber: index + 1 }))}
-                      >
-                        {index + 1}
-                      </button>
-                    ))}
-                  </div>
+                  <Navigation pagination={pagination} selectedPageNumber={(pageNumber: number) => {
+                    setSearchValues((prev) => ({ ...prev, pageNumber: pageNumber }))
+                  }} />
                 </div>
               </div>
             </div>
