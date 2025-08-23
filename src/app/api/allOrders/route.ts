@@ -8,7 +8,7 @@ export async function GET(req: NextRequest) {
     const url = new URL(req.url);
     const queryString = url.searchParams.get("orderStatus");
     const page = url.searchParams.get('pageNumber');
-    const pageNumber = page ? parseInt(page) : 1;
+    const pageNumber = page ? parseInt(page) : 0;
     const pageSize = 10;
     // Build filter conditionally
     const filter = queryString ? { status: queryString } : {};
