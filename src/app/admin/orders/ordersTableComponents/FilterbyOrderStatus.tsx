@@ -11,22 +11,22 @@ interface IFilterByOrderStatusProps {
     selectedStatusValue: (value: string) => void;
 }
 const FilterbyOrderStatus: React.FC<IFilterByOrderStatusProps> = ({ selectedStatusValue }) => {
-    const [statusValue, setStatusValue] = useState('Select Status')
+    const [statusValue, setStatusValue] = useState("")
     const orderStatuses = ['ordered', 'pending', 'confirmed', 'delivered', 'cancelled', "Paid", "Unpaid"] as const
     useEffect(() => {
-        if (statusValue !== 'Select Status') {
+        if (statusValue) {
             selectedStatusValue(statusValue)
         }
     }, [statusValue])
     return (
         <Select
             value={statusValue}
-            onValueChange={(val) => setStatusValue(val)}>
+            onValueChange={(val) => setStatusValue(val)}
+        >
             <SelectTrigger className="w-[150px]">
                 <SelectValue placeholder="Select status" />
             </SelectTrigger>
             <SelectContent>
-                <SelectItem value='Select status'>Select</SelectItem>
                 {orderStatuses.map((s) => (
                     <SelectItem key={s} value={s}>
                         {s.charAt(0).toUpperCase() + s.slice(1)}
