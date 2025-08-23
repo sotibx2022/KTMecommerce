@@ -13,7 +13,7 @@ const CategoriesSelection = () => {
   }
   const navItems = initialCategories?.data ? initialCategories.data : []
   return (
-    <div className="absolute top-[30px] left-0">
+    <div className="absolute top-[30px] left-0 selectAbleTableHead">
       <ul
         className="py-1 bg-inherit shadow-primaryLight"
       >

@@ -175,8 +175,8 @@ option {
 .gridCards {
   @apply grid grid-cols-1 place-items-center gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5
 }
-.lightTable th{
-color:var(--primaryDark) !important
+.lightTable th {
+  color: var(--primaryDark) !important
 }
 .darkTable span,
 .darkTable svg,
@@ -262,6 +262,9 @@ color:var(--primaryDark) !important
   .lightSidebar & {
     background-color: color-mix(in srgb, var(--backgroundLight) 70%, transparent 30%);
   }
+}
+.selectAbleTableHead {
+  @apply bg-primaryLight text-primaryDark
 }
 .sidebarMenuItemText {
   @apply font-medium whitespace-nowrap;
