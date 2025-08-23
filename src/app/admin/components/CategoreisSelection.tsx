@@ -15,10 +15,10 @@ const CategoriesSelection = () => {
   return (
     <div className="absolute top-[30px] left-0">
       <ul
-        className=" bg-white rounded-md shadow-primaryDark py-1 border"
+        className=" bg-primaryLight rounded-md shadow-primaryDark py-1 border"
       >
         <li
-          className="w-full text-left p-4 hover:bg-primaryLight hover:text-white cursor-pointer"
+          className="w-full text-left p-4 hover:bg-backgroundLight cursor-pointer"
           onClick={(() => confirmCategorySelection("Category"))}
         >
           Category
@@ -26,7 +26,7 @@ const CategoriesSelection = () => {
         {navItems.map((item: Category, index: number) => (
           <li
             key={index}
-            className="w-full text-left p-4 hover:bg-primaryLight hover:text-white cursor-pointer"
+            className="w-full text-left p-4 hover:bg-backgroundLight  cursor-pointer"
             onClick={(() => confirmCategorySelection(item.category_name))}
           >
             {item.category_name}

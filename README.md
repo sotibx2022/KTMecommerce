@@ -116,9 +116,6 @@ How to login and logout other active tabs when one tab changes.
 4) but the problems are, if tab closed immediately after closoing the tab, also localhost memory will be dirty so that best way to to use redux + broadCast channel API to handle the issue.
 ADMIN SIDE:-
 4. profile image of users at admin users are not good.full name needs min width. - 5 minute
-1. In the products page table navigation. we need to use only few numbers for navigation not all. - 5 minute
-2. products inventory summary needs to be flex-col. - 5 minute
-3.  at the slider. the slider subheading is visible at the right, it comes and goes back to the screen right side.- 30 minute.
 5. i want to Edit one subcategory but the form filled with someother subcategory,and  need actual images of categories and subcategories- 2 hours same to the edit slider as well?
 6.selectable tableHead in darkmode, highlights of products table.
 -------------------
