@@ -29,7 +29,7 @@ export async function GET(req: NextRequest) {
         currentPage: pageNumber,
         pageSize: pageSize,
         totalOrders: totalOrders,
-        totalPages: Math.ceil(results.length / pageSize)
+        totalPages: Math.ceil(totalOrders/ pageSize)
       }
     });
   } catch (error) {
