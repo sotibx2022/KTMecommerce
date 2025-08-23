@@ -4,6 +4,7 @@ import { IUser } from "@/app/types/user";
 import axios from "axios";
 // Interfaces for API Response
 export interface APIResponseSuccess<T=any> {
+  pagination: any;
   message: string; // A descriptive success message
   status: number;  // HTTP status code (e.g., 200, 201)
   success: true;   // Indicates the operation was successful;

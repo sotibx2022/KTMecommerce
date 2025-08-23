@@ -18,11 +18,8 @@ import SelectStatus from './ordersTableComponents/SelectStatus'
 import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
 import { DisplayContext } from '@/app/context/DisplayComponents'
-import OrderDetails from '@/app/_components/orderDetails/OrderDetails'
 import { Provider } from 'react-redux'
 import store from '@/app/redux/store'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import SkeletonOrdersTable from './ordersComponents/SkeletonOrdersTable'
 import NoData from '@/app/_components/noData/NoData'
 import { ThemeProviderContext } from '@/app/context/ThemeProvider'
@@ -31,6 +28,9 @@ import { useScreenWidth } from '@/app/services/helperFunctions/findScreenWidth'
 import { useSidebar } from '@/components/ui/sidebar'
 import FilterbyOrderStatus from './ordersTableComponents/FilterbyOrderStatus'
 import Navigation from '../components/Navigation'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTimes } from '@fortawesome/free-solid-svg-icons'
+import OrderDetails from '@/app/_components/orderDetails/OrderDetails'
 const Page = () => {
   const [statusValue, setStatusValue] = useState('')
   const { state: sidebarState } = useSidebar();
@@ -135,6 +135,17 @@ const Page = () => {
             }} />
           </div>
         </div>
+        {orderDetails && <div className='absolute top-0 left-0 w-full h-auto z-40 flex justify-center items-center'
+          style={{ background: "var(--gradientwithOpacity)" }}>
+          <div className="OrderDetailsWrapper max-w-[500px] relative mt-4 overflow-y-auto">
+            <FontAwesomeIcon
+              icon={faTimes}
+              className="text-background bg-helper w-[30px] h-[30px] z-50 absolute top-3 right-3 cursor-pointer rounded-full p-1"
+              onClick={() => setOrderDetails(null)}
+            />
+            <OrderDetails order={orderDetails} expandAble={false} />
+          </div>
+        </div>}
       </Provider>
     </div>
   )

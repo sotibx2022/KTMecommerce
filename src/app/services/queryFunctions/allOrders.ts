@@ -1,9 +1,12 @@
 import axios, { AxiosError } from "axios"
 import { APIResponseError, APIResponseSuccess } from "./users";
 import { IOrderDetails } from "@/app/types/orders";
-interface OrdersResult{
-    data:IOrderDetails[],
-    pagination:{
+import { JSX } from "react";
+interface OrdersResult {
+    map(arg0: (order: IOrderDetails, index: number) => JSX.Element): import("react").ReactNode;
+    length: number;
+    data: IOrderDetails[],
+    pagination: {
         currentPage: number,
         pageSize: number,
         totalOrders: number,
