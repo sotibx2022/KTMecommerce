@@ -11,7 +11,7 @@ setFilterState((prev)=>({
   }
   return (
       <div className="absolute top-[30px] left-0">
-        <ul className="bg-white rounded-md shadow-primaryDark py-1 border">
+        <ul className="bg-inherit p-2 shadow-primaryLight">
           <li className="text-left p-4 hover:bg-primaryLight hover:text-white cursor-pointer"
           onClick={()=>onStockChange("Yes")}>
             Yes

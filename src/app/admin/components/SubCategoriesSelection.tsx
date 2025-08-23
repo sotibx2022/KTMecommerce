@@ -13,7 +13,7 @@ const SubCategoriesSelection = () => {
   return (
     <div className="absolute top-[30px] left-0">
       {subCategoryLoading ? (
-        <ul className="p-2">
+        <ul className="p-2 bg-inherit shadow-primaryLight">
           {Array.from({ length: 4 }).map((_, index) => (
             <span key={index} className='bg-primaryLight animate-pulse' ></span>
           ))}

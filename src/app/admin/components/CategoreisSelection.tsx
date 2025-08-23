@@ -15,7 +15,7 @@ const CategoriesSelection = () => {
   return (
     <div className="absolute top-[30px] left-0">
       <ul
-        className="py-1"
+        className="py-1 bg-inherit shadow-primaryLight"
       >
         <li
           className="w-full text-left p-4 hover:bg-backgroundLight cursor-pointer"
