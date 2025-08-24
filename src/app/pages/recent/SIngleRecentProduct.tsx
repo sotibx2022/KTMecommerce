@@ -20,7 +20,7 @@ const SIngleRecentProduct: React.FC<{ productId: string }> = ({ productId }) => 
     return (
         <div>
             {isProductPending && <SingleProductPageSkeleton />}
-            {productDatas && <SingleProduct {...productDatas} />}
+            {productDatas && <VerticalProductCard {...productDatas} />}
         </div>
     )
 }
