@@ -1,5 +1,6 @@
 "use client"
 import SingleProductPageSkeleton from '@/app/_components/loadingComponent/SingleProductPageSkeleton';
+import VerticalProductCardSkeleton from '@/app/_components/productCard/VerticalProductCardSkeleton';
 import VerticalProductCard from '@/app/_components/productCard/VertivalProductCard';
 import SingleProduct from '@/app/_components/singleProduct/SingleProduct';
 import { getSingleProduct } from '@/app/services/queryFunctions/products';
@@ -19,7 +20,7 @@ const SIngleRecentProduct: React.FC<{ productId: string }> = ({ productId }) => 
     const productDatas = (!isProductPending && productDetails?.success) && productDetails.data
     return (
         <div>
-            {isProductPending && <SingleProductPageSkeleton />}
+            {isProductPending && <VerticalProductCardSkeleton />}
             {productDatas && <VerticalProductCard {...productDatas} />}
         </div>
     )
