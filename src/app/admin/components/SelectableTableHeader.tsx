@@ -16,7 +16,6 @@ const SelectableTableHeader: React.FC<SelectableTableHeader> = ({ title }) => {
     const [showAbsoluteComponent, setShowAbsoluteComponent] = useState(false)
     const { filterState } = useContext(ProductFilterContext)
     const [clickedEvent, setClickedEvent] = useState<MouseEvent | null>(null)
-    const categoryNotSelected = title === 'Sub-Category' && filterState.categoryText === 'Category'
     const toggleAbsoluteComponent = () => {
         setShowAbsoluteComponent(prev => !prev)
     }
@@ -37,7 +36,7 @@ const SelectableTableHeader: React.FC<SelectableTableHeader> = ({ title }) => {
             <div className="flex items-center gap-2" ref={dropdownRef}>
                 <>
                     {title === "Category" && <span >{filterState.categoryText}</span>}
-                    {title === "Sub-Category" && <span>{filterState.categoryText === "Category" ? "Sub-Category" : filterState.subCategoryText}</span>}
+                    {title === "Sub-Category" && <span className='min-w-[100px]'>{filterState.categoryText === "Category" ? "Sub-Category" : filterState.subCategoryText}</span>}
                     {title === "Highlights" && <span className='relative'>{filterState.highlights}</span>}
                     {title === "Stock" && <span>{filterState.stock}</span>}
                 </>
@@ -45,7 +44,7 @@ const SelectableTableHeader: React.FC<SelectableTableHeader> = ({ title }) => {
                     className="h-4 w-4 cursor-pointer hover:text-helper transition-transform  duration-200"
                     onClick={toggleAbsoluteComponent}
                 />}
-                {!filterState.loading && !categoryNotSelected && <Menu
+                {!filterState.loading && title ==='Sub-Category'  && filterState.categoryText !=='Category' && <Menu
                     className="h-4 w-4 cursor-pointer hover:text-helper transition-transform  duration-200"
                     onClick={toggleAbsoluteComponent}
                 />}

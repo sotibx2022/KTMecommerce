@@ -7,7 +7,9 @@ const SubCategoriesSelection = () => {
   const { filterState, setFilterState } = useContext(ProductFilterContext);
   const { data: subCategories, isPending: subCategoriesPending } = useSubCategory(filterState.categoryText)
   const onSelectionOfSubCategory = (subCategoryValue: string):void => {
-    setFilterState((prev) => ({ ...prev, subCategoryText: subCategoryValue }))
+    if(subCategoryValue !=='Sub-Category'){
+setFilterState((prev) => ({ ...prev, subCategoryText: subCategoryValue }))
+    }
   }
   const subCategoryLoading = subCategoriesPending && filterState.categoryText !== "Category";
   return (

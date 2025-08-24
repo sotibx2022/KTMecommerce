@@ -36,7 +36,7 @@ export const ProductFilterContext = createContext<ProductFilterContextType>(defa
 const ProductFilterProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [filterState, setFilterState] = useState<FilterState>({
     categoryText: 'Category',
-    subCategoryText: 'Type',
+    subCategoryText: 'Sub-Category',
     price: 'Price',
     stock: 'Stock',
     highlights: 'HighLights',

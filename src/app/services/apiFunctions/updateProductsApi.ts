@@ -10,7 +10,7 @@ export const updatePageURL = (filterState: FilterState): URLSearchParams => {
     params.set('category', filterState.categoryText);
   }
   // Subcategory
-  if (filterState.subCategoryText && filterState.subCategoryText !== "Type") {
+  if (filterState.subCategoryText && filterState.subCategoryText !== "Sub-Category") {
     params.set('subCategory', filterState.subCategoryText);
   }
   // Price
@@ -24,20 +24,20 @@ export const updatePageURL = (filterState: FilterState): URLSearchParams => {
   // Highlights
   if (filterState.highlights && filterState.highlights !== "HighLights") {
     switch (filterState.highlights) {
-      case 'new':
+      case 'isNewArrival':
         params.set('isNewArrival', "true");
         break;
-      case 'Trending':
+      case 'isTrendingNow':
         params.set('isTrendingNow', "true");
         break;
-      case 'Top':
+      case 'isTopSell':
         params.set('isTopSell', "true");
         break;
-      case 'offer':
+      case 'isOfferItem':
         params.set('isOfferItem', "true");
         break;
-        default:
-            params.set('isRegular',"true")
+      default:
+        params.set('isRegular', "true")
     }
   }
   // Rating
