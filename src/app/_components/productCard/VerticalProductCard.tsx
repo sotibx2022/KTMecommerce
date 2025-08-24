@@ -37,7 +37,7 @@ const VerticalProductCard: React.FC<IProductDisplay> = ({
                             </span>
                         )}
                     </div>
-                    <div className="productDetails p-4 flex flex-col w-[40vw] border-2 border-dotted border-r-helper justify-center text-wrap">
+                    <div className="productDetails p-4 flex flex-col w-[40vw] border-2 border-transparent border-dotted border-r-helper justify-center text-wrap">
                         <div className="productTitle p-2 rounded-lg"
                             style={{ background: "var(--gradientwithOpacity)" }}>
                             <h2 className="text-background font-bold text-lg">{productName}</h2>
@@ -51,7 +51,7 @@ const VerticalProductCard: React.FC<IProductDisplay> = ({
                         <p className="text-primaryDark font-bold bg-helper p-2 rounded-lg">{categoryName}</p>
                         <p className="text-primaryDark font-bold bg-helper p-2 rounded-lg">{brand}</p>
                     </div>
-                    <div className="price-highlight flex justify-center items-center w-[10vw]">
+                    <div className="flex justify-center items-center w-[10vw]">
                         <p className="price-highlight">
                             ${parseFloat(price).toFixed(2)}
                         </p>

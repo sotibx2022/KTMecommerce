@@ -1,5 +1,5 @@
 "use client"
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import SecondaryButton from '../secondaryButton/SecondaryButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faCaretUp, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
@@ -17,31 +17,33 @@ const RegisteredUsersOption = () => {
   const { userDetails } = useUserDetails();
   const logout = useLogout();
   const dispatch = useDispatch();
-  const { data: cartItems, isPending } = useCartItems();
-  const { data: wishListItems, isPending: wishListItemsPending } = useWishListItems();
-  const cartItemsArray = !isPending && cartItems?.success && cartItems.data && cartItems.data.length > 0;
-  const wishListArray = !wishListItemsPending && wishListItems?.success && wishListItems.data && wishListItems.data.length > 0;
+  const { data: cartItems, isPending: cartPending, isSuccess: cartSuccess } = useCartItems();
+  const { data: wishListItems, isPending: wishPending, isSuccess: wishSuccess } = useWishListItems();
   useEffect(() => {
-    console.log("---- RegisteredUsersOption useEffect ----");
-    console.log("userDetails:", userDetails);
-    console.log("cartItems:", cartItems);
-    console.log("cartItemsArray:", cartItemsArray);
-    console.log("isPending:", isPending);
     if (!userDetails) {
-      console.log("User is not logged in, clearing cart and wishlist");
       dispatch(clearCartItems());
       dispatch(clearWishListItems());
+      return;
     }
-    if (cartItemsArray && cartItems.data) {
-      console.log("Dispatching setCart with data:", cartItems.data, "isLoading:", isPending);
-      dispatch(setCart({ cartItems: cartItems.data, isLoading: isPending }));
+    // Set Cart
+    if (cartItems?.success && cartItems.data) {
+      dispatch(setCart({
+        cartItems: cartItems.data,
+        isLoading: !(cartSuccess && !cartPending)  // true if still pending or not successful
+      }));
     } else {
-      console.log("CartItems not ready or empty, skipping setCart dispatch for now");
+      dispatch(setCart({ cartItems: [], isLoading: false }));
     }
-    if (wishListArray && wishListItems.data) {
-      dispatch(setWishList({ wishListItems: wishListItems.data, wishListLoading: wishListItemsPending }));
+    // Set WishList
+    if (wishListItems?.success && wishListItems.data) {
+      dispatch(setWishList({
+        wishListItems: wishListItems.data,
+        wishListLoading: !(wishSuccess && !wishPending) // true if still pending or not successful
+      }));
+    } else {
+      dispatch(setWishList({ wishListItems: [], wishListLoading: false }));
     }
-  }, [cartItems, wishListItems, userDetails]);
+  }, [cartItems, wishListItems, userDetails, cartPending, cartSuccess, wishPending, wishSuccess, dispatch]);
   return (
     <div className="flex-center gap-4">
       <div
@@ -52,7 +54,7 @@ const RegisteredUsersOption = () => {
         <UserProfileImage />
         <p className="text-white capitalize">
           <span className='text-helper'>Welcome</span> {
-            userDetails && (userDetails.fullName.split(" ")[0] || userDetails?.email.split("@")[0])
+            userDetails && (userDetails.fullName.split(" ")[0] || userDetails.email.split("@")[0])
           }
         </p>
         <FontAwesomeIcon

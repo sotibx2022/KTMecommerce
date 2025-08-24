@@ -1,8 +1,6 @@
 "use client"
-import SingleProductPageSkeleton from '@/app/_components/loadingComponent/SingleProductPageSkeleton';
+import VerticalProductCard from '@/app/_components/productCard/VerticalProductCard';
 import VerticalProductCardSkeleton from '@/app/_components/productCard/VerticalProductCardSkeleton';
-import VerticalProductCard from '@/app/_components/productCard/VertivalProductCard';
-import SingleProduct from '@/app/_components/singleProduct/SingleProduct';
 import { getSingleProduct } from '@/app/services/queryFunctions/products';
 import { APIResponseSuccess } from '@/app/services/queryFunctions/users';
 import { IProductDisplay } from '@/app/types/products';

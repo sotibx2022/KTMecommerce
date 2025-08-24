@@ -10,7 +10,6 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { updateUrl } from './updateUrl'
 import { IProductDisplay } from '@/app/types/products'
 import ProductCard from '@/app/_components/productCard/ProductCard'
-import VerticalProductCard from '@/app/_components/productCard/VertivalProductCard'
 import { AdvanceSearchProvider, SearchContext } from '@/app/context/AdvanceSearchContext'
 import AdvanceSearchSkeleton from './AdvanceSearchSkeleton'
 import ProductDetailsSkeleton from '@/app/admin/components/ProductDetailsSkeleton'
@@ -19,6 +18,7 @@ import NoData from '@/app/_components/noData/NoData'
 import { PackageX } from 'lucide-react'
 import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponent'
 import Navigation from '@/app/admin/components/Navigation'
+import VerticalProductCard from '@/app/_components/productCard/VerticalProductCard'
 const page = () => {
   const router = useRouter()
   const context = useContext(SearchContext);
