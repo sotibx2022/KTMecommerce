@@ -9,5 +9,5 @@ export const navigationLinks = [
   { href: "/admin", text: "Admin" },
   { href: '/pages/track', text: "Track" },
   { href: '/pages/categories', text: "Categories" },
-  { href: 'pages/recent', text: 'Recent' }
+  { href: '/pages/recent', text: 'Recent' }
 ];

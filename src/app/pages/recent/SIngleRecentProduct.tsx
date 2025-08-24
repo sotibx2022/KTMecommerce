@@ -1,0 +1,27 @@
+"use client"
+import SingleProductPageSkeleton from '@/app/_components/loadingComponent/SingleProductPageSkeleton';
+import VerticalProductCard from '@/app/_components/productCard/VertivalProductCard';
+import SingleProduct from '@/app/_components/singleProduct/SingleProduct';
+import { getSingleProduct } from '@/app/services/queryFunctions/products';
+import { APIResponseSuccess } from '@/app/services/queryFunctions/users';
+import { IProductDisplay } from '@/app/types/products';
+import { useQuery } from '@tanstack/react-query';
+import React from 'react'
+const SIngleRecentProduct: React.FC<{ productId: string }> = ({ productId }) => {
+    const {
+        data: productDetails,
+        isPending: isProductPending
+    } = useQuery<APIResponseSuccess<IProductDisplay>>({
+        queryKey: ['specificProduct', productId],
+        queryFn: () => getSingleProduct(productId!),
+        enabled: !!productId,
+    });
+    const productDatas = (!isProductPending && productDetails?.success) && productDetails.data
+    return (
+        <div>
+            {isProductPending && <SingleProductPageSkeleton />}
+            {productDatas && <SingleProduct {...productDatas} />}
+        </div>
+    )
+}
+export default SIngleRecentProduct
