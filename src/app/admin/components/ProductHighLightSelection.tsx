@@ -14,10 +14,12 @@ const ProductHighLightSelection = () => {
   }
   const { filterState, setFilterState } = context;
   const confirmHighlightSelection = (highlightValue: string) => {
-    setFilterState((prev) => ({
-      ...prev,
-      highlights: highlightValue,
-    }));
+    if (highlightValue !== 'Select') {
+      setFilterState((prev) => ({
+        ...prev,
+        highlights: highlightValue,
+      }));
+    }
   };
   return (
     <div className="absolute top-[30px] left-0 w-full selectAbleTableHead">

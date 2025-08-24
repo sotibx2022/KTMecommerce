@@ -16,7 +16,7 @@ const SelectableTableHeader: React.FC<SelectableTableHeader> = ({ title }) => {
     const [showAbsoluteComponent, setShowAbsoluteComponent] = useState(false)
     const { filterState } = useContext(ProductFilterContext)
     const [clickedEvent, setClickedEvent] = useState<MouseEvent | null>(null)
-    const categoryNotSelected = title ==='Sub-Category' && filterState.categoryText==='Category'
+    const categoryNotSelected = title === 'Sub-Category' && filterState.categoryText === 'Category'
     const toggleAbsoluteComponent = () => {
         setShowAbsoluteComponent(prev => !prev)
     }
@@ -41,7 +41,11 @@ const SelectableTableHeader: React.FC<SelectableTableHeader> = ({ title }) => {
                     {title === "Highlights" && <span className='relative'>{filterState.highlights}</span>}
                     {title === "Stock" && <span>{filterState.stock}</span>}
                 </>
-                {!filterState.loading && categoryNotSelected && <Menu
+                {!filterState.loading && (title !== "Sub-Category") && <Menu
+                    className="h-4 w-4 cursor-pointer hover:text-helper transition-transform  duration-200"
+                    onClick={toggleAbsoluteComponent}
+                />}
+                {!filterState.loading && !categoryNotSelected && <Menu
                     className="h-4 w-4 cursor-pointer hover:text-helper transition-transform  duration-200"
                     onClick={toggleAbsoluteComponent}
                 />}
