@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { config } from "@/config/configuration";
 import SingleProductPageClient from "./SIngleProductClientPage";
+import SetRecentProducts from "./SetRecentProducts";
 async function getSingleProduct(productId: string) {
   const response = await fetch(`${config.websiteUrl}/api/products/${productId}`, {
     next: { revalidate: 3600 },
