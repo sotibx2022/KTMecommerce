@@ -29,7 +29,7 @@ const AddCategoryTemplate: React.FC<AddCategoryTemplateProps> = ({ categoryId })
       const response = await axios.get(`/api/categories/singleCategory/${categoryId}`);
       return response.data;
     },
-    queryKey: ['categoryDetail'],
+    queryKey: ['categoryDetail',categoryId],
     enabled: !!categoryId
   })
   const categoryData = categoryDetails?.data;

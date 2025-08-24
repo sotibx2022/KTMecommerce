@@ -31,13 +31,13 @@ const AddSubCategoryTemplate: React.FC<IAddSubCategoryProps> = ({ categoryId }) 
     const router = useRouter()
     const upateSubCategoryAPIURl = categoryId ? `/api/categories/singleSubCategory/${categoryId}` : `/api/categories/addSubCategory`
     const { data: categoryDetails, isPending: subCategoryDataPending } = useQuery({
-        queryFn: async () => {
-            const response = await axios.get(`/api/categories/singleSubCategory/${categoryId}`);
-            return response.data;
-        },
-        queryKey: ['categoryDetail'],
-        enabled: !!categoryId
-    })
+  queryFn: async () => {
+    const response = await axios.get(`/api/categories/singleSubCategory/${categoryId}`);
+    return response.data;
+  },
+  queryKey: ['categoryDetail', categoryId],
+  enabled: !!categoryId,
+});
     const subcategoryData = categoryDetails?.data;
     const categoryImageUrl = subCategoryDataPending ? "https://media.tenor.com/JwPW0tw69vAAAAAj/cargando-loading.gif" : subcategoryData?.image_url
     const addSubCategoryMutation = useMutation({

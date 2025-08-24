@@ -17,7 +17,7 @@ interface IEditSliderProps {
     sliderId: string
 }
 const EditSliderForm: React.FC<IEditSliderProps> = ({ sliderId }) => {
-    const {refetch} = useSlidersData()
+    const { refetch } = useSlidersData()
     const router = useRouter()
     const {
         register,
@@ -39,7 +39,7 @@ const EditSliderForm: React.FC<IEditSliderProps> = ({ sliderId }) => {
             const response = await axios.get(`/api/sliders/${sliderId}`)
             return response.data
         },
-        queryKey: ['sliderItem'],
+        queryKey: ['sliderItem', sliderId],
         enabled: !!sliderId
     })
     const singleSlideItem = SliderItem?.success && SliderItem.data
