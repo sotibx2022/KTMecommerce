@@ -42,7 +42,7 @@ const TableTop = () => {
           title="Category" 
         />
         <SelectableTableHeader
-          title="Type" 
+          title="Sub-Catgegory" 
         />
         <SelectableTableHeader 
           title="Highlights" 

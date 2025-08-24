@@ -117,6 +117,9 @@ How to login and logout other active tabs when one tab changes.
 -------------------
 ADMIN SIDE:-
 -------------------
+the admin/products- highlight filter not working.
+i want subcategory instead of Item.
+the option to select subcategory need to be disabled untill user selects the category.
 i want to Edit one subcategory but the form filled with someother subcategory,and  need actual images of categories and subcategories- 2 hours same to the edit slider as well?
 Typesence in search bar need to show more results.
 need to navigate in direct products page.
