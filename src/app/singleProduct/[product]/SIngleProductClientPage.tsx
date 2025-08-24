@@ -17,6 +17,7 @@ import { IProductDisplay } from '@/app/types/products';
 import { APIResponseError, APIResponseSuccess } from '@/app/services/queryFunctions/users';
 import { useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
+import SetRecentProducts from './SetRecentProducts';
 const SingleProductPageClient = () => {
     const searchParams = useSearchParams();
     const productId = searchParams.get("id") || ""
@@ -104,6 +105,7 @@ const SingleProductPageClient = () => {
                 <EditSingleProductReview productIdentifier={productIdentifier} />
             )}
         </div >
+        <SetRecentProducts productId={productId}/>
         </>
     );
 };

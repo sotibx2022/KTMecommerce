@@ -48,7 +48,7 @@ const EditSliderForm: React.FC<IEditSliderProps> = ({ sliderId }) => {
             setValue('sliderTitle', singleSlideItem.sliderTitle ?? "Loading...")
             setValue('sliderSlogan', singleSlideItem.sliderSlogan ?? "Loading...")
         }
-    }, [singleSlideItem, setValue,sliderId])
+    }, [singleSlideItem, setValue, sliderId])
     const existingImage = singleSlideItem?.sliderImage ?? "https://media.tenor.com/JwPW0tw69vAAAAAj/cargando-loading.gif"
     const editSliderMutation = useMutation({
         mutationFn: async (formData: FormData) => {
