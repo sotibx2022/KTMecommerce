@@ -8,8 +8,8 @@ export interface FilterState {
   highlights: string;
   rating: "Rating" | "ascending" | "descending";
   keyword: string;
-  page:number;
-  loading:boolean,
+  page: number;
+  loading: boolean,
 }
 export const defaultFilterState: FilterState = {
   categoryText: 'Category',
@@ -19,8 +19,8 @@ export const defaultFilterState: FilterState = {
   highlights: 'HighLights',
   rating: 'Rating',
   keyword: 'Search Keywords...',
-  page:1,
-  loading:true,
+  page: 1,
+  loading: true,
 };
 const defaultContextValue: ProductFilterContextType = {
   filterState: defaultFilterState,
@@ -42,8 +42,8 @@ const ProductFilterProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     highlights: 'HighLights',
     rating: 'Rating',
     keyword: 'Search Keywords...',
-    page:1,
-    loading:true,
+    page: 1,
+    loading: true,
   });
   return (
     <ProductFilterContext.Provider value={{ filterState, setFilterState }}>

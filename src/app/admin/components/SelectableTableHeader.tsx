@@ -44,7 +44,7 @@ const SelectableTableHeader: React.FC<SelectableTableHeader> = ({ title }) => {
                     className="h-4 w-4 cursor-pointer hover:text-helper transition-transform  duration-200"
                     onClick={toggleAbsoluteComponent}
                 />}
-                {!filterState.loading && title ==='Sub-Category'  && filterState.categoryText !=='Category' && <Menu
+                {!filterState.loading && title === 'Sub-Category' && filterState.categoryText !== 'Category' && <Menu
                     className="h-4 w-4 cursor-pointer hover:text-helper transition-transform  duration-200"
                     onClick={toggleAbsoluteComponent}
                 />}

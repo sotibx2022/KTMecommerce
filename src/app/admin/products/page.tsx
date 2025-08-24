@@ -3,7 +3,7 @@ import {
   Table,
   TableBody,
 } from "@/components/ui/table";
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { IProductDisplay } from "@/app/types/products";
@@ -21,6 +21,7 @@ import LoadingComponent from "@/app/_components/loadingComponent/LoadingComponen
 import { useProductDelete } from "@/app/context/ProductDeleteContext";
 import { ThemeProvider, ThemeProviderContext } from "@/app/context/ThemeProvider";
 import Navigation from "../components/Navigation";
+import { useSidebar } from "@/components/ui/sidebar";
 const page = () => {
   const themeContext = useContext(ThemeProviderContext);
   if (!themeContext) {
@@ -64,7 +65,12 @@ const page = () => {
       setFilterState((prev) => ({ ...prev, loading: false }))
     }
   }, [isPending])
+  // ✅ NEW: refs + sidebar + screen width
   const screenWidth = useScreenWidth();
+  const { state: sidebarState } = useSidebar();
+  const isCollapsed = sidebarState === "collapsed";
+  const tableWrapperRef = useRef<HTMLDivElement>(null);
+  const tableRef = useRef<HTMLTableElement>(null);
   const products = productsResponse?.success ? productsResponse.data!.products : [];
   const pagination = productsResponse?.success ? productsResponse.data!.pagination : {
     currentPage: 1,
@@ -76,11 +82,26 @@ const page = () => {
     <div className="relative py-10">
       {deleteProductPending && <LoadingComponent />}
       <ProductsPageHeader />
-      <div className={screenWidth > 1000
-        ? "overflow-x-hidden w-full"
-        : "overflow-x-auto max-w-[800px]"}>
-        <div >
-          <Table className={`${theme === 'dark' ? "darkTable" : "lightTable"}`}>
+      <div
+        className="tableContainer ml-4"
+        ref={tableWrapperRef}
+        style={{
+          maxWidth: isCollapsed ? "85vw" : "70vw",
+        }}
+      >
+        <div
+          className={
+            tableWrapperRef.current?.clientWidth &&
+              tableRef.current?.clientWidth &&
+              tableWrapperRef.current.clientWidth > tableRef.current.clientWidth
+              ? "overflow-x-hidden w-full "
+              : `overflow-x-auto w-full`
+          }
+        >
+          <Table
+            ref={tableRef}
+            className={`${theme === 'dark' ? "darkTable" : "lightTable"}`}
+          >
             <TableTop />
             <TableBody >
               {isPending ? <TableRowSkleton rowNumber={10} /> : (<>
