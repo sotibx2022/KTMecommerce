@@ -22,6 +22,7 @@ import { useProductDelete } from "@/app/context/ProductDeleteContext";
 import { ThemeProvider, ThemeProviderContext } from "@/app/context/ThemeProvider";
 import Navigation from "../components/Navigation";
 import { useSidebar } from "@/components/ui/sidebar";
+import ScrollContainer from "react-indiana-drag-scroll";
 const page = () => {
   const themeContext = useContext(ThemeProviderContext);
   if (!themeContext) {
@@ -79,6 +80,7 @@ const page = () => {
     totalPages: 1
   };
   return (
+    <ScrollContainer className="overflow-x-auto cursor-grab">
     <div className="relative py-10">
       {deleteProductPending && <LoadingComponent />}
       <ProductsPageHeader />
@@ -117,6 +119,7 @@ const page = () => {
         setFilterState((prev) => ({ ...prev, page: pageNumber }))
       }} />
     </div>
+    </ScrollContainer>
   );
 }
 export default page;
