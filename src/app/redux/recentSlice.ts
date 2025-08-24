@@ -24,8 +24,8 @@ const recentSlice = createSlice({
             }
             // Add new product
             state.push({ productId });
-            if(typeof window !== "undefined"){
-                localStorage.setItem('recentProductsArray',JSON.stringify(state))
+            if (typeof window !== "undefined") {
+                localStorage.setItem('recentProductsArray', JSON.stringify(state))
             }
         },
         setToRecent: (state, action: PayloadAction<IRecentState>) => {

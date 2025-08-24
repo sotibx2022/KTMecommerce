@@ -10,7 +10,7 @@ const SetRecentProducts: React.FC<{ productId: string }> = ({ productId }) => {
         dispatch(addToRecent({ productId }))
     }, [])
     return (
-        <div>We store recently viewed product IDs in your browser to improve your browsing experience.</div>
+        <></>
     )
 }
 export default SetRecentProducts
