@@ -1,3 +1,4 @@
+"use client"
 import { IRecentItem } from '@/app/redux/recentSlice'
 import { ReduxState } from '@/app/redux/store'
 import React from 'react'

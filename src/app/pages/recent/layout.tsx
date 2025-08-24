@@ -4,7 +4,7 @@ interface IRootLayout{
     children:React.ReactNode
 }
 export const metadata:Metadata={
-title:"Track Order | EcommerceKTM"
+title:"Recently Visited Products | EcommerceKTM"
 }
 const RootLayout:React.FC<IRootLayout> = ({children}) => {
   return (
