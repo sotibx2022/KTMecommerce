@@ -20,30 +20,27 @@ const RegisteredUsersOption = () => {
   const { data: cartItems, isPending: cartPending, isSuccess: cartSuccess } = useCartItems();
   const { data: wishListItems, isPending: wishPending, isSuccess: wishSuccess } = useWishListItems();
   useEffect(() => {
-    if (!userDetails) {
-      dispatch(clearCartItems());
-      dispatch(clearWishListItems());
-      return;
-    }
-    // Set Cart
-    if (cartItems?.success && cartItems.data) {
-      dispatch(setCart({
-        cartItems: cartItems.data,
-        isLoading: !(cartSuccess && !cartPending)  // true if still pending or not successful
-      }));
-    } else {
-      dispatch(setCart({ cartItems: [], isLoading: false }));
-    }
-    // Set WishList
-    if (wishListItems?.success && wishListItems.data) {
-      dispatch(setWishList({
-        wishListItems: wishListItems.data,
-        wishListLoading: !(wishSuccess && !wishPending) // true if still pending or not successful
-      }));
-    } else {
-      dispatch(setWishList({ wishListItems: [], wishListLoading: false }));
-    }
-  }, [cartItems, wishListItems, userDetails, cartPending, cartSuccess, wishPending, wishSuccess, dispatch]);
+  if (!userDetails) {
+    dispatch(clearCartItems());
+    dispatch(clearWishListItems());
+    return;
+  }
+  // Cart hydration
+  if (cartItems?.success && cartItems.data) {
+    dispatch(setCart({
+      cartItems: cartItems.data,
+      isLoading: false,
+      initialized: true // only here, after API data ready
+    }));
+  }
+  // WishList hydration
+  if (wishListItems?.success && wishListItems.data) {
+    dispatch(setWishList({
+      wishListItems: wishListItems.data,
+      wishListLoading: false
+    }));
+  }
+}, [cartItems, wishListItems, userDetails, dispatch]);
   return (
     <div className="flex-center gap-4">
       <div

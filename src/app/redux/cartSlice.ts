@@ -3,14 +3,15 @@ import { ICartItem } from '../types/cart';
 export interface CartState {
   cartItems: ICartItem[];
   loading: boolean;
-  initialized: boolean;
+  initialized: boolean; // true only after hydration
 }
 interface ISetCartPayload {
   cartItems: ICartItem[];
   isLoading: boolean;
+  initialized?: boolean; // optional, only true when hydration done
 }
 const initialState: CartState = {
-  cartItems: [],       // changed from undefined to empty array
+  cartItems: [],
   loading: true,
   initialized: false,
 };
@@ -21,60 +22,33 @@ const cartSlice = createSlice({
     setCart: (state, action: PayloadAction<ISetCartPayload>) => {
       state.cartItems = action.payload.cartItems;
       state.loading = action.payload.isLoading;
-      if (!state.loading) {
-        state.initialized = true;
+      if (action.payload.initialized) {
+        state.initialized = true; // only set after hydration
       }
     },
     addToCart: (state, action: PayloadAction<ICartItem[]>) => {
-      const payloadItems = action.payload;
-      const newItems = payloadItems.filter(payloadItem =>
-        !state.cartItems.some(cartItem =>
-          cartItem.productId === payloadItem.productId
-        )
+      const newItems = action.payload.filter(
+        (item) => !state.cartItems.some(ci => ci.productId === item.productId)
       );
       if (newItems.length > 0) {
         state.cartItems = [...state.cartItems, ...newItems];
       }
-      state.loading = false;
-      if (!state.loading) {
-        state.initialized = true;
-      }
+      state.loading = false; // keep initialized untouched
     },
     removeFromCart: (state, action: PayloadAction<string>) => {
-      state.cartItems = state.cartItems.filter(
-        (item) => item.productId !== action.payload
-      );
+      state.cartItems = state.cartItems.filter(item => item.productId !== action.payload);
       state.loading = false;
-      if (!state.loading) {
-        state.initialized = true;
-      }
     },
     updateCartItem: (state, action: PayloadAction<{ productId: string; quantity: number }>) => {
-      const existingItemIndex = state.cartItems.findIndex(
-        (item) => item.productId === action.payload.productId
-      );
-      if (existingItemIndex !== -1) {
-        state.cartItems[existingItemIndex].quantity = action.payload.quantity;
-      }
+      const idx = state.cartItems.findIndex(item => item.productId === action.payload.productId);
+      if (idx !== -1) state.cartItems[idx].quantity = action.payload.quantity;
       state.loading = false;
-      if (!state.loading) {
-        state.initialized = true;
-      }
     },
     clearCartItems: (state) => {
       state.cartItems = [];
       state.loading = false;
-      if (!state.loading) {
-        state.initialized = true;
-      }
     },
   },
 });
-export const {
-  setCart,
-  addToCart,
-  removeFromCart,
-  updateCartItem,
-  clearCartItems,
-} = cartSlice.actions;
+export const { setCart, addToCart, removeFromCart, updateCartItem, clearCartItems } = cartSlice.actions;
 export default cartSlice.reducer;

@@ -117,7 +117,8 @@ How to login and logout other active tabs when one tab changes.
 -------------------
 ADMIN SIDE:-
 -------------------
-Image zooming effect is requried.
+Must do : Save recent in DB for registered users.
+Must do : Browser API to communicate using redux.
 sentiment analysis of reviews using AI.
 list remarks on admin/remarks, approve & reject the remarks.
 Browser communication
