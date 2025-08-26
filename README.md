@@ -117,8 +117,6 @@ How to login and logout other active tabs when one tab changes.
 -------------------
 ADMIN SIDE:-
 -------------------
-Typesence in search bar need to show more results.
-need to navigate in direct products page.
 Image zooming effect is requried.
 sentiment analysis of reviews using AI.
 list remarks on admin/remarks, approve & reject the remarks.

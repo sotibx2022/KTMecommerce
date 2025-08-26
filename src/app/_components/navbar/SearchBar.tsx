@@ -67,7 +67,7 @@ const SearchBar = () => {
       setTypesenceLoading(false);
       return response.data;
     },
-    delay: 300,
+    delay: 200,
     dependencies: [searchValue, searchBarUsed],
   });
   return (
