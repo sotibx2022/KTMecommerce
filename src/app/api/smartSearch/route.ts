@@ -15,7 +15,6 @@ export async function POST(request: NextRequest) {
             .search({
                 q: searchValue,
                 query_by: "productName,brand,categoryName,subCategoryName",
-                per_page: 5,
             });
         const suggestions = searchResponse.hits?.map(
             (hit: any) => hit.document.productName

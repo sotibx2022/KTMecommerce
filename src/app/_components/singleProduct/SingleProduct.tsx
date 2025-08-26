@@ -21,6 +21,8 @@ import ProductTitle from "../productCard/ProductTitle";
 import ProductInformations from "./ProductInformations";
 import { useUserDetails } from "@/app/context/UserDetailsContextComponent";
 import { IWishListState } from "@/app/redux/wishListSlice";
+import Zoom from "react-medium-image-zoom";
+import "react-medium-image-zoom/dist/styles.css";
 const SingleProduct: React.FC<IProductDisplay> = ({ ...productDetails }) => {
   const { visibleComponent, setVisibleComponent } = useContext(DisplayContext);
   const cartItems = useSelector((state: { cart: CartState }) => state.cart.cartItems);
@@ -95,12 +97,14 @@ const SingleProduct: React.FC<IProductDisplay> = ({ ...productDetails }) => {
             </ul>
           </div>
           <div className="md:w-1/2 h-auto">
-            <img
-              src={image}
-              alt={productName}
-              className="max-w-[300px] h-auto rounded-lg"
-              loading="lazy"
-            />
+            <Zoom>
+              <img
+                src={image}
+                alt={productName}
+                className="max-w-[300px] h-auto rounded-lg"
+                loading="lazy"
+              />
+            </Zoom>
           </div>
         </div>
         <div className="flex flex-col gap-2">
