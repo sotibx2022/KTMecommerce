@@ -11,7 +11,7 @@ interface EmptyStateProps {
 const EmptyState: React.FC<EmptyStateProps> = ({ icon, message, className }) => {
     const router = useRouter();
     return (
-        <div className={`flex-1 flex flex-col`}>
+        <div className={`flex-1 flex flex-col max-w-[500px]`}>
             <NoData icon={icon} notFoundMessage={message} />
             <div className="mt-6 grid grid-cols-1  gap-4">
                 {/* Browse Products */}

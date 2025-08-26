@@ -6,7 +6,7 @@ interface NoDataProps {
   notFoundMessage: string;
   buttonText?: string;
   onButtonClick?: () => void;
-  buttonLink?: string; // New prop for link URL
+  buttonLink?: string; // Optional link URL
 }
 const NoData = ({ 
   icon, 
@@ -16,19 +16,22 @@ const NoData = ({
   buttonLink
 }: NoDataProps) => {
   return (
-    <div className="flex flex-col  gap-4 py-12 text-center">
-      <div className="text-red-500">
+    <div className="flex flex-col items-center justify-center gap-6 py-16 px-4 sm:px-6 lg:px-8">
+      <div className="text-red-500 text-6xl sm:text-7xl flex items-center justify-center p-4 rounded-full bg-red-100">
         {icon}
       </div>
-      <h3 className="text-lg font-medium text-red-500">
+      <h3 className="text-xl sm:text-2xl font-semibold text-red-500 text-center max-w-md">
         {notFoundMessage}
       </h3>
       {buttonText && (
-          <Link href={buttonLink!} passHref>
+        buttonLink ? (
+          <Link href={buttonLink} passHref>
             <PrimaryButton searchText={buttonText} />
           </Link>
-        ) 
-      }
+        ) : (
+          <PrimaryButton searchText={buttonText} onClick={onButtonClick} />
+        )
+      )}
     </div>
   );
 };
