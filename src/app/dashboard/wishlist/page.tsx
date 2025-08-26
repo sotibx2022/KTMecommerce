@@ -23,8 +23,8 @@ const WishListItemsPage = () => {
   const isLoading = wishListLoading || userDetailsLoading || !initialized;
   const isEmpty = !isLoading && wishListItems.length === 0;
   return (
-    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8 w-full">
-      <h2 className="secondaryHeading">Cart</h2>
+    <div className="container">
+      <h2 className="secondaryHeading">WishList</h2>
       {isLoading ? (
         <>
           <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">

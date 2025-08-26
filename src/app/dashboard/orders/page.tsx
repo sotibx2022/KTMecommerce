@@ -1,6 +1,4 @@
 "use client"
-import { fetchAllOrders } from '@/app/services/queryFunctions/orders';
-import { useQuery } from '@tanstack/react-query';
 import { OrderDetailsProps } from '@/app/types/orders';
 import React, { useContext } from 'react';
 import OrderDetails from '@/app/_components/orderDetails/OrderDetails';
@@ -20,7 +18,7 @@ const Page = () => {
     return <div>Error loading orders: {error.message}</div>;
   }
   return (
-    <div className="min-h-screen bg-background md:p-8 w-full">
+    <div className="container">
       <h2 className="secondaryHeading">Orders</h2>
       {Array.isArray(orders) && orders.length > 0 ? (
         orders.map((order: OrderDetailsProps, index: number) => (

@@ -103,7 +103,7 @@ const page = () => {
   };
   return (
     <>
-      <div className="container mx-auto px-4 py-8">
+      <div className="container">
         <div className="grid md:grid-cols-3 gap-8">
           <div className="md:col-span-2">
             <h2 className="secondaryHeading">CheckOut</h2>

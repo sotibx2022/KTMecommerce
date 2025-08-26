@@ -5,7 +5,7 @@ import UpdateDeliveryDetails from './DashboardSettingComponents/UpdateDeliveryDe
 import DeleteUserAccount from './DashboardSettingComponents/DeleteUserAccount';
 const SettingsPage = () => {
   return (
-    <div className="max-w-[500px]">
+    <div className="container">
       <h2 className="secondaryHeading">Account Settings</h2>
       <Tabs defaultValue="delivery" className="w-full">
         <TabsList className="grid w-full max-w-[300px] grid-cols-3">

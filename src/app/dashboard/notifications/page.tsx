@@ -114,7 +114,7 @@ const readNotifications = notifications?.filter(n => n.read) ?? [];
     return <SkeletonNotifications />;
   }
   return (
-    <div className="p-4 w-full max-w-[400px]">
+    <div className="container">
       <div className="notificationTitle flex flex-col mb-6">
         <div className="flex items-center justify-between w-full flex-col md:flex-row">
           <div className="flex items-center ">
