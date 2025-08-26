@@ -122,7 +122,6 @@ need to navigate in direct products page.
 Image zooming effect is requried.
 sentiment analysis of reviews using AI.
 list remarks on admin/remarks, approve & reject the remarks.
-Recently visited products.
 Browser communication
 Ecommerce KTM Development documentation.
 - all libraries

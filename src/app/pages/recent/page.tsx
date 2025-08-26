@@ -14,7 +14,7 @@ const Page = () => {
             {/* Info banner for non-registered users */}
             <PageHeader headerText={'Recently Visited Products'} headerTagline={'Only stored in this browser. Register to save products permanently and add to cart or wishlist.'} icon={Clock}/>
             {/* Recent products list */}
-            <div className='flex flex-col gap-4'>
+            <div className='gridCards'>
                 {recents.length === 0 ? (
                     <NoData
                         icon={<Clock />}
