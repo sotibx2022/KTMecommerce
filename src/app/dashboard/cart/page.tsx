@@ -11,6 +11,7 @@ import { useUserDetails } from "@/app/context/UserDetailsContextComponent";
 import PrimaryButton from "@/app/_components/primaryButton/PrimaryButton";
 import { useRouter } from "next/navigation";
 import SecondaryButton from "@/app/_components/secondaryButton/SecondaryButton";
+import LinkComponent from "@/app/_components/linkComponent/LinkComponent";
 const Page = () => {
   const { cartItems, loading: cartLoading, initialized } = useSelector(
     (state: { cart: CartState }) => state.cart
@@ -29,20 +30,16 @@ const Page = () => {
       ) : isEmpty ? (
         <div className="flex-1 flex flex-col items-center justify-center">
           <NoData
-            icon={<ShoppingCart/>}
+            icon={<ShoppingCart />}
             notFoundMessage="There are no items in the cart. Please browse and add products"
           />
-          <div className="mt-6 flex flex-col sm:flex-row gap-4 browserButtons">
-            <SecondaryButton
+          <div className="mt-6 flex flex-col gap-4 browserButtons">
+            <LinkComponent
               text="Browse Products"
-              onClick={() =>
-                router.push("/catalog/advanceSearch?highlighted=none")
-              }
-            />
-            <SecondaryButton
+              href={"/catalog/advanceSearch?highlighted=none"} />
+            <LinkComponent
               text="Check Recently Visited Products"
-              onClick={() => router.push("/pages/recent")}
-            />
+              href={"/pages/recent"} />
           </div>
         </div>
       ) : (

@@ -31,8 +31,6 @@ const UserDetailsContextComponent: React.FC<UserDetailsProviderProps> = ({ child
   const { data: userData, isPending } = useQuery({
     queryKey: ['user'],
     queryFn: getUserDetails,
-    staleTime: 300000,
-    gcTime: 1800000,
   })
 useEffect(() => {
   if (userData) {

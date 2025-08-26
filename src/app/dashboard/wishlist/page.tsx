@@ -13,6 +13,7 @@ import SingleWishListCard from '@/app/_components/wishlistCard/SingleWIshListCar
 import { useUserDetails } from '@/app/context/UserDetailsContextComponent';
 import SecondaryButton from '@/app/_components/secondaryButton/SecondaryButton';
 import { useRouter } from 'next/navigation';
+import LinkComponent from '@/app/_components/linkComponent/LinkComponent';
 const WishListItemsPage = () => {
   const router = useRouter()
   const { visibleComponent, setVisibleComponent } = useContext(DisplayContext);
@@ -35,19 +36,17 @@ const WishListItemsPage = () => {
         <div className="flex-1 flex flex-col items-center justify-center">
           <NoData
             icon={<HeartOff />}
-            notFoundMessage="There are no items in the cart. Please browse and add products"
+            notFoundMessage="There are no items in the WishList. Please browse and add products"
           />
           <div className="mt-6 flex flex-col sm:flex-row gap-4 browserButtons">
-            <SecondaryButton
-              text="Browse Products"
-              onClick={() =>
-                router.push("/catalog/advanceSearch?highlighted=none")
-              }
-            />
-            <SecondaryButton
-              text="Check Recently Visited Products"
-              onClick={() => router.push("/pages/recent")}
-            />
+            <div className="mt-6 flex flex-col gap-4 browserButtons">
+              <LinkComponent
+                text="Browse Products"
+                href={"/catalog/advanceSearch?highlighted=none"} />
+              <LinkComponent
+                text="Check Recently Visited Products"
+                href={"/pages/recent"} />
+            </div>
           </div>
         </div>
       ) : (

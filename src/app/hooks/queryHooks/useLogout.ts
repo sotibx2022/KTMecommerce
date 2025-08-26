@@ -3,7 +3,6 @@ import { DisplayContext } from "@/app/context/DisplayComponents";
 import { useUserDetails } from "@/app/context/UserDetailsContextComponent";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useContext } from "react";
 import toast from "react-hot-toast";
@@ -31,8 +30,6 @@ export const useLogout = () => {
         toast.success(response.message);
         router.push('/');
       } catch (error) {
-        console.error("Logout cleanup error:", error);
-        toast.error("Logged out, but some cleanup failed");
       } finally {
         setVisibleComponent('');
       }
@@ -40,7 +37,6 @@ export const useLogout = () => {
     onError: (error: Error) => {
       setVisibleComponent('');
       toast.error(error.message || "Failed to log out");
-      console.error("Logout error:", error);
     },
     onSettled: () => {
       // Ensure loading is always removed
