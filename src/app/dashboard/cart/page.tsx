@@ -6,12 +6,9 @@ import CartSummary from "@/app/_components/cartSummary/CartSummary";
 import CartTable from "@/app/_components/cartTable/CartTable";
 import CartSkeleton from "@/app/_components/skeletontext/CartSkleton";
 import NoData from "@/app/_components/noData/NoData";
-import { ShoppingCart } from "lucide-react";
+import { ShoppingBag, ShoppingCart,History } from "lucide-react";
 import { useUserDetails } from "@/app/context/UserDetailsContextComponent";
-import PrimaryButton from "@/app/_components/primaryButton/PrimaryButton";
 import { useRouter } from "next/navigation";
-import SecondaryButton from "@/app/_components/secondaryButton/SecondaryButton";
-import LinkComponent from "@/app/_components/linkComponent/LinkComponent";
 const Page = () => {
   const { cartItems, loading: cartLoading, initialized } = useSelector(
     (state: { cart: CartState }) => state.cart
@@ -28,19 +25,45 @@ const Page = () => {
       {isLoading ? (
         <CartSkeleton />
       ) : isEmpty ? (
-        <div className="flex-1 flex flex-col items-center justify-center">
+        <div className="flex-1 flex flex-col">
           <NoData
             icon={<ShoppingCart />}
             notFoundMessage="There are no items in the cart. Please browse and add products"
           />
-          <div className="mt-6 flex flex-col gap-4 browserButtons">
-            <LinkComponent
-              text="Browse Products"
-              href={"/catalog/advanceSearch?highlighted=none"} />
-            <LinkComponent
-              text="Check Recently Visited Products"
-              href={"/pages/recent"} />
-          </div>
+          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+      {/* Browse Products */}
+      <div
+        onClick={() => router.push("/catalog/advanceSearch?highlighted=none")}
+        className="
+          flex items-center gap-3 p-4 rounded-2xl cursor-pointer
+          border border-[var(--primary)]
+          bg-[var(--background)] shadow-sm
+          transition-all duration-300
+          hover:bg-[var(--primary)] hover:text-[var(--background)]
+          hover:shadow-lg hover:scale-[1.02]
+          active:scale-95
+        "
+      >
+        <ShoppingBag className="w-6 h-6 text-[var(--helper)]" />
+        <span className="font-medium">Browse Products</span>
+      </div>
+      {/* Check Recently Visited Products */}
+      <div
+        onClick={() => router.push("/pages/recent")}
+        className="
+          flex items-center gap-3 p-4 rounded-2xl cursor-pointer
+          border border-[var(--primary)]
+          bg-[var(--background)] shadow-sm
+          transition-all duration-300
+          hover:bg-[var(--primary)] hover:text-[var(--background)]
+          hover:shadow-lg hover:scale-[1.02]
+          active:scale-95
+        "
+      >
+        <History className="w-6 h-6 text-[var(--helper)]" />
+        <span className="font-medium">Check Recently Visited Products</span>
+      </div>
+    </div>
         </div>
       ) : (
         <div className="cartDetailsWrapper">
