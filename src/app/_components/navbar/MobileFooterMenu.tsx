@@ -49,7 +49,7 @@ const MobileFooterMenu = () => {
       initial="visible"
       animate={controls}
       variants={footerMenuVariant}
-      className="lg:hidden w-full fixed -bottom-[100px] shadow-primaryDark z-50 rounded-tl-lg rounded-tr-lg"
+      className="lg:hidden w-full sticky -bottom-0 shadow-primaryDark z-50 rounded-tl-lg rounded-tr-lg"
       style={{ background: 'var(--backgroundGradientWithHelper)' }}
     >
       <div className="container py-2">

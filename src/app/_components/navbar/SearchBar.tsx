@@ -52,6 +52,7 @@ const SearchBar = () => {
   const resetSearch = () => {
     setSearchValue("");
     setSearchValues({ ...searchValues, keyword: '' })
+    setSearchBarUsed(false);
   }
   function handleTypesenceResult(event: ChangeEvent<HTMLInputElement>): void {
     setSearchValue(event.target.value);
@@ -62,6 +63,7 @@ const SearchBar = () => {
     callback: async () => {
       if (!searchBarUsed) return;
       if (searchValue === "") return;
+      if (searchValue.length < 3) return;
       const response = await axios.post('/api/smartSearch', { searchValue });
       setSearchResults(response.data);
       setTypesenceLoading(false);
@@ -70,6 +72,11 @@ const SearchBar = () => {
     delay: 200,
     dependencies: [searchValue, searchBarUsed],
   });
+  useEffect(() => {
+    if (searchValue.length < 3) {
+      setSearchBarUsed(false);
+    }
+  }, [searchValue])
   return (
     <>
       <div className='container flex justify-between items-center gap-4 my-4 flex-wrap'>
