@@ -18,7 +18,7 @@ export default function RootLayout({
     <DashboardLayout>
       <div className="dashboard flex gap-2 container my-4">
         <DashboardSidebar />
-        <div className="dashboardChildren w-full">
+        <div className="dashboardChildren w-full ml-4">
           {children}
         </div>
       </div>

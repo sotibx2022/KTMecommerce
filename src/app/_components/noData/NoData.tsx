@@ -16,7 +16,7 @@ const NoData = ({
   buttonLink
 }: NoDataProps) => {
   return (
-    <div className="flex flex-col items-center justify-center gap-4 py-12 text-center">
+    <div className="flex flex-col  gap-4 py-12 text-center">
       <div className="text-red-500">
         {icon}
       </div>
