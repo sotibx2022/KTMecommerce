@@ -30,7 +30,7 @@ const ContactPage = () => {
       icon: <MapPin className="w-5 h-5 text-helper" />,
       title: "Office Visit",
       description: "Visit our headquarters",
-      details: "KTM Plaza, Kathmandu",
+      details: "Bharatpur-05, Kalyanpur, Chitwan",
       link: "https://maps.google.com",
       availability: "10AM-5PM, Weekdays"
     }

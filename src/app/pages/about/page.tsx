@@ -1,5 +1,6 @@
 import PageHeader from '@/app/_components/pageHeader/PageHeader';
 import { Users, Globe, Award, Shield, Truck, Heart, Mail, BookOpen } from 'lucide-react';
+import Link from 'next/link';
 const AboutPage = () => {
   const stats = [
     { value: "1,000+", label: "Happy Customers" },
@@ -68,11 +69,11 @@ const AboutPage = () => {
   return (
     <div className="bg-background min-h-screen">
       {/* Hero Section */}
-<PageHeader 
-  headerText="Our Story" 
-  icon={BookOpen} 
-  headerTagline="Revolutionizing online shopping in Nepal with a local touch and global standards." 
-/>
+      <PageHeader
+        headerText="Our Story"
+        icon={BookOpen}
+        headerTagline="Revolutionizing online shopping in Nepal with a local touch and global standards."
+      />
       {/* Main Content */}
       <div className="container mx-auto px-4 py-16">
         {/* Mission Section */}
@@ -82,7 +83,7 @@ const AboutPage = () => {
               <h2 className="text-3xl font-bold text-primaryDark mb-6">Who We Are</h2>
               <div className="space-y-4 text-primaryLight">
                 <p>
-                  Founded in 2020, Ecommerce KTM began as a passion project to connect Kathmandu's vibrant local businesses with tech-savvy shoppers. 
+                  Founded in 2020, Ecommerce KTM began as a passion project to connect Kathmandu's vibrant local businesses with tech-savvy shoppers.
                 </p>
                 <p>
                   Today, we've grown into Nepal's most trusted online marketplace, bridging the gap between traditional commerce and digital convenience.
@@ -92,15 +93,15 @@ const AboutPage = () => {
                 </p>
               </div>
             </div>
-            <div className="bg-primaryLight/10 rounded-xl overflow-hidden aspect-video flex items-center justify-center">
-              <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-                <span className="text-primaryLight">Founder's story video or office image</span>
+            <div className="bg-primaryLight rounded-xl overflow-hidden aspect-video flex items-center justify-center">
+              <div className="w-full h-full bg-backgroundLight flex items-center justify-center">
+                <img src='/assets/office.png' />
               </div>
             </div>
           </div>
         </section>
         {/* Stats Section */}
-        <section className="py-12 bg-white rounded-xl shadow-sm mb-20">
+        <section className="py-12 bg-background rounded-xl shadow-sm mb-20">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             {stats.map((stat, index) => (
               <div key={index} className="p-4">
@@ -115,9 +116,9 @@ const AboutPage = () => {
           <h2 className="text-3xl font-bold text-primaryDark mb-12 text-center">Our Core Values</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {values.map((value, index) => (
-              <div key={index} className="bg-white p-6 rounded-lg shadow-sm border border-primaryLight hover:border-helper transition-colors">
+              <div key={index} className="bg-background p-6 rounded-lg shadow-sm border border-primaryLight hover:border-helper transition-colors">
                 <div className="flex items-center mb-4">
-                  <div className="p-2 rounded-full bg-primaryDark/10 mr-4">
+                  <div className="p-2 rounded-full bg-primaryDark mr-4">
                     {value.icon}
                   </div>
                   <h3 className="text-xl font-bold text-primaryDark">{value.title}</h3>
@@ -128,42 +129,19 @@ const AboutPage = () => {
           </div>
         </section>
         {/* Team Section */}
-        <section className="mb-20">
-          <h2 className="text-3xl font-bold text-primaryDark mb-12 text-center">Meet Our Team</h2>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {team.map((member, index) => (
-              <div key={index} className="text-center">
-                <div className="bg-primaryLight/10 rounded-full aspect-square w-48 mx-auto mb-4 overflow-hidden flex items-center justify-center">
-                  <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-                    <span className="text-primaryLight">Team member photo</span>
-                  </div>
-                </div>
-                <h3 className="text-xl font-bold text-primaryDark">{member.name}</h3>
-                <p className="text-helper mb-2">{member.role}</p>
-                <p className="text-primaryLight">{member.bio}</p>
-              </div>
-            ))}
-          </div>
-        </section>
         {/* CTA Section */}
-        <section className="bg-primaryDark text-white rounded-xl p-12 text-center">
+        <section className="bg-primaryDark text-background rounded-xl p-12 text-center">
           <h2 className="text-3xl font-bold mb-4">Join Our Journey</h2>
           <p className="text-xl mb-8 max-w-2xl mx-auto">
             Whether you're a shopper or seller, we'd love to have you be part of our growing community.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a 
-              href="/sell-with-us" 
+          <div className="flex justify-center items-center">
+            <Link
+              href="/pages/contact"
               className="bg-helper text-primaryDark font-bold py-3 px-8 rounded-lg hover:bg-yellow-500 transition-colors"
             >
-              Sell With Us
-            </a>
-            <a 
-              href="/contact" 
-              className="bg-white text-primaryDark font-bold py-3 px-8 rounded-lg hover:bg-gray-100 transition-colors"
-            >
               Contact Team
-            </a>
+            </Link>
           </div>
         </section>
       </div>
