@@ -26,6 +26,11 @@ html {
   overflow-x: hidden;
   height: 100%;
 }
+@media screen and (min-width: 600px) {
+  html {
+    height: calc(100% + 100px);
+  }
+}
 body {
   background-color: var(--background);
 }
@@ -58,7 +63,7 @@ option {
   @apply text-primaryDark sm:text-3xl md:text-5xl text-2xl;
 }
 .secondaryHeading {
-  @apply text-primaryDark text-lg;
+  @apply text-xl font-bold text-primaryDark;
 }
 .subHeading {
   @apply text-2xl text-primaryDark font-bold my-4 mb-4 capitalize relative;
