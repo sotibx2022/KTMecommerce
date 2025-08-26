@@ -11,7 +11,10 @@ import { DisplayContext } from '@/app/context/DisplayComponents';
 import { Button } from '@/components/ui/button';
 import SingleWishListCard from '@/app/_components/wishlistCard/SingleWIshListCard';
 import { useUserDetails } from '@/app/context/UserDetailsContextComponent';
+import SecondaryButton from '@/app/_components/secondaryButton/SecondaryButton';
+import { useRouter } from 'next/navigation';
 const WishListItemsPage = () => {
+  const router = useRouter()
   const { visibleComponent, setVisibleComponent } = useContext(DisplayContext);
   const { userDetailsLoading } = useUserDetails();
   const { wishListItems, wishListLoading, initialized } = useSelector((state: ReduxState) => state.wishList);
@@ -29,15 +32,24 @@ const WishListItemsPage = () => {
           </div>
         </>
       ) : isEmpty ? (
-        <>
-          {console.log("Rendering: No Data UI")}
+        <div className="flex-1 flex flex-col items-center justify-center">
           <NoData
-            icon={<HeartOff className="w-12 h-12 text-red-500" strokeWidth={1.5} />}
-            notFoundMessage="No Wishlist Items found"
-            buttonText="Browse Products"
-            buttonLink="/catalog/advanceSearch?highlighted=none"
+            icon={<HeartOff />}
+            notFoundMessage="There are no items in the cart. Please browse and add products"
           />
-        </>
+          <div className="mt-6 flex flex-col sm:flex-row gap-4 browserButtons">
+            <SecondaryButton
+              text="Browse Products"
+              onClick={() =>
+                router.push("/catalog/advanceSearch?highlighted=none")
+              }
+            />
+            <SecondaryButton
+              text="Check Recently Visited Products"
+              onClick={() => router.push("/pages/recent")}
+            />
+          </div>
+        </div>
       ) : (
         <>
           {console.log("Rendering: Wishlist Items")}

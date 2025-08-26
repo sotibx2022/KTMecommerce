@@ -8,6 +8,9 @@ import CartSkeleton from "@/app/_components/skeletontext/CartSkleton";
 import NoData from "@/app/_components/noData/NoData";
 import { ShoppingCart } from "lucide-react";
 import { useUserDetails } from "@/app/context/UserDetailsContextComponent";
+import PrimaryButton from "@/app/_components/primaryButton/PrimaryButton";
+import { useRouter } from "next/navigation";
+import SecondaryButton from "@/app/_components/secondaryButton/SecondaryButton";
 const Page = () => {
   const { cartItems, loading: cartLoading, initialized } = useSelector(
     (state: { cart: CartState }) => state.cart
@@ -15,11 +18,7 @@ const Page = () => {
   const { userDetailsLoading } = useUserDetails();
   // Compute loading state
   const isLoading = cartLoading || userDetailsLoading || !initialized;
-  console.log({
-  cartLoading: { value: cartLoading, type: typeof cartLoading },
-  userDetailsLoading: { value: userDetailsLoading, type: typeof userDetailsLoading },
-  initialized: { value: initialized, type: typeof initialized }
-});
+  const router = useRouter()
   // Compute empty state safely
   const isEmpty = !isLoading && cartItems.length === 0;
   return (
@@ -28,12 +27,24 @@ const Page = () => {
       {isLoading ? (
         <CartSkeleton />
       ) : isEmpty ? (
-        <NoData
-          icon={<ShoppingCart className="w-12 h-12 text-gray-400" />}
-          notFoundMessage="There are no items in the cart. Please browse and add products"
-          buttonText="Browse"
-          buttonLink="/catalog/advanceSearch?highlighted=none"
-        />
+        <div className="flex-1 flex flex-col items-center justify-center">
+          <NoData
+            icon={<ShoppingCart/>}
+            notFoundMessage="There are no items in the cart. Please browse and add products"
+          />
+          <div className="mt-6 flex flex-col sm:flex-row gap-4 browserButtons">
+            <SecondaryButton
+              text="Browse Products"
+              onClick={() =>
+                router.push("/catalog/advanceSearch?highlighted=none")
+              }
+            />
+            <SecondaryButton
+              text="Check Recently Visited Products"
+              onClick={() => router.push("/pages/recent")}
+            />
+          </div>
+        </div>
       ) : (
         <div className="cartDetailsWrapper">
           <div className="cartTableandSummary">
