@@ -12,20 +12,20 @@ const Page = () => {
     return (
         <div className='container flex flex-col gap-4'>
             {/* Info banner for non-registered users */}
-            <PageHeader headerText={'Recently Visited Products'} headerTagline={'Only stored in this browser. Register to save products permanently and add to cart or wishlist.'} icon={Clock}/>
+            <PageHeader headerText={'Recently Visited Products'} headerTagline={'Only stored in this browser. Register to save products permanently and add to cart or wishlist.'} icon={Clock} />
             {/* Recent products list */}
-            <div className='gridCards'>
-                {recents.length === 0 ? (
-                    <NoData
-                        icon={<Clock />}
-                        notFoundMessage="No recently viewed products found."
-                    />
-                ) : (
-                    recents.map((recentItem: IRecentItem, index: number) => (
+            {recents.length === 0 ? (
+                <NoData
+                    icon={<Clock />}
+                    notFoundMessage="No recently viewed products found."
+                />
+            ) :
+                (<div className='gridCards'>
+                    {recents.map((recentItem: IRecentItem, index: number) => (
                         <SingleRecentProduct key={index} productId={recentItem.productId} />
                     ))
-                )}
-            </div>
+                    }
+                </div>)}
         </div>
     )
 }

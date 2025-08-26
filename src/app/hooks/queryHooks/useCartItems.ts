@@ -9,7 +9,7 @@ export const useCartItems = () => {
     return useQuery<APIResponseSuccess<ICartItem[]>| APIResponseError>({
       queryKey: ['cartItems'],
       queryFn: fetchCartFromDatabase,
-      staleTime: 0,
+      staleTime: 30*60*1000,
       gcTime: 30 * 60 * 1000,
       enabled: !!userId, // Only fetch if userId exists
     });
