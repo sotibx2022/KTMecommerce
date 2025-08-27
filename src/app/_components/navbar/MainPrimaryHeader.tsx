@@ -18,25 +18,17 @@ const MainPrimaryHeader: React.FC = () => {
   const router = useRouter();
   useEffect(() => {
     const handleLogout = (event: MessageEvent) => {
-      console.log("[BroadcastChannel] Received message:", event.data);
       if (event.data === 'logout') {
-        console.log("[Logout] Clearing user context...");
         setUserDetails(null);
-        console.log("[Logout] Clearing React Query cache for 'user' and 'cartItems'...");
         queryClient.setQueryData(['user'], null);
         queryClient.setQueryData(['cartItems'], null);
-        console.log("[Logout] Removing persisted Redux state from localStorage...");
+        queryClient.setQueryData(['wishlistItems'], null);
         localStorage.removeItem('persist:root');
-        console.log("[Logout] Redirecting to homepage...");
         router.push('/');
-      } else {
-        console.log("[BroadcastChannel] Message ignored:", event.data);
       }
     };
-    console.log("[MainPrimaryHeader] Adding BroadcastChannel listener for logout");
     authChannel.addEventListener('message', handleLogout);
     return () => {
-      console.log("[MainPrimaryHeader] Removing BroadcastChannel listener");
       authChannel.removeEventListener('message', handleLogout);
     };
   }, [queryClient, router, setUserDetails]);
