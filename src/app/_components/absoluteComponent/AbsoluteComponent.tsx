@@ -10,10 +10,12 @@ interface AbsoluteModalProps {
 }
 export const AbsoluteComponent = ({ children }: AbsoluteModalProps) => {
   const { visibleComponent, setVisibleComponent } = useContext(DisplayContext);
-  useEffect(() => {
-    if (typeof document !== 'undefined') {
-      document.body.style.overflow = 'hidden';     }
-  }, []);
+ useEffect(() => {
+  document.body.style.overflowY = 'hidden'; // lock
+  return () => {
+    document.body.style.overflowY = 'auto'; // restore
+  };
+}, []);
   return (
     <motion.div
       initial={{ x: "-100vw", }}
