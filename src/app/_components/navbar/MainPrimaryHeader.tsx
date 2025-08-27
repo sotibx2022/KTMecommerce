@@ -7,9 +7,34 @@ import LoginComponent from "../authComponent/LoginComponent";
 import RegisterComponent from "../authComponent/RegisterComponent";
 import PureSearch from "../pureSearch/PureSearch";
 import { DisplayContext } from "@/app/context/DisplayComponents";
-import { useLogout } from "@/app/hooks/queryHooks/useLogout";
+import { useUserDetails } from "@/app/context/UserDetailsContextComponent";
+import { authChannel } from "@/config/broadcastChannel";
+import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 const MainPrimaryHeader: React.FC = () => {
+  const { setUserDetails } = useUserDetails();
   const { visibleComponent } = useContext(DisplayContext);
+  const queryClient = useQueryClient();
+  const router = useRouter();
+  useEffect(() => {
+    const handleLogout = (event: MessageEvent) => {
+      if (event.data === 'logout') {
+        // Clear user context
+        setUserDetails(null);
+        // Clear React Query cache
+        queryClient.setQueryData(['user'], null);
+        queryClient.setQueryData(['cartItems'], null);
+        // Optional: clear persisted Redux state
+        localStorage.removeItem('persist:root');
+        // Redirect to homepage or login
+        router.push('/');
+      }
+    };
+    // Add listener
+    authChannel.addEventListener('message', handleLogout);
+    // Cleanup on unmount
+    return () => authChannel.removeEventListener('message', handleLogout);
+  }, [queryClient, router, setUserDetails]);
   return (
     <>
       <DesktopHeader />
@@ -21,4 +46,4 @@ const MainPrimaryHeader: React.FC = () => {
     </>
   );
 };
-export default MainPrimaryHeader
+export default MainPrimaryHeader;
