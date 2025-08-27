@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ICartItem } from '../types/cart';
+import { REHYDRATE } from 'redux-persist';
 export interface CartState {
   cartItems: ICartItem[];
   loading: boolean;
@@ -48,6 +49,15 @@ const cartSlice = createSlice({
       state.cartItems = [];
       state.loading = false;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(REHYDRATE, (state, action: any) => {
+      if (action.payload?.cart) {
+        state.cartItems = action.payload.cart.cartItems || [];
+        state.loading = false;
+        state.initialized = true;
+      }
+    });
   },
 });
 export const { setCart, addToCart, removeFromCart, updateCartItem, clearCartItems } = cartSlice.actions;
