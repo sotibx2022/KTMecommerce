@@ -19,7 +19,7 @@ import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
 import { DisplayContext } from '@/app/context/DisplayComponents'
 import { Provider } from 'react-redux'
-import store from '@/app/redux/store'
+import { persistor, store } from '@/app/redux/store'
 import SkeletonOrdersTable from './ordersComponents/SkeletonOrdersTable'
 import NoData from '@/app/_components/noData/NoData'
 import { ThemeProviderContext } from '@/app/context/ThemeProvider'
@@ -31,6 +31,8 @@ import Navigation from '../components/Navigation'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import OrderDetails from '@/app/_components/orderDetails/OrderDetails'
+import { PersistGate } from 'redux-persist/integration/react'
+import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponent'
 const Page = () => {
   const [statusValue, setStatusValue] = useState('')
   const { state: sidebarState } = useSidebar();
@@ -66,6 +68,7 @@ const Page = () => {
         maxWidth: isCollapsed ? "85vw" : "70vw",
       }}>
       <Provider store={store}>
+        <PersistGate loading={<LoadingComponent />} persistor={persistor}>
         <div
           className={
             tableWrapperRef.current?.clientWidth &&
@@ -151,6 +154,7 @@ const Page = () => {
             <OrderDetails order={orderDetails} expandAble={false} />
           </div>
         </div>}
+        </PersistGate>
       </Provider>
     </div>
   )

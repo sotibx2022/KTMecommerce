@@ -10,29 +10,33 @@ import LoginComponent from '../_components/authComponent/LoginComponent'
 import RegisterComponent from '../_components/authComponent/RegisterComponent'
 import QueryProvider from '../provider/queryProvider'
 import { Provider } from 'react-redux'
-import store from '../redux/store'
+import { persistor, store } from '../redux/store'
 import ConditionalComponents from '../_components/conditionalVisibleComponents/ConditionalComponents'
-interface DashboardLayoutProps{
-    children:ReactNode
+import { PersistGate } from 'redux-persist/integration/react'
+import LoadingComponent from '../_components/loadingComponent/LoadingComponent'
+interface DashboardLayoutProps {
+  children: ReactNode
 }
-const DashboardLayout:React.FC<DashboardLayoutProps> = ({children}) => {
-    const { visibleComponent } = useContext(DisplayContext) || {};
+const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
+  const { visibleComponent } = useContext(DisplayContext) || {};
   return (
     <>
-    <Provider store={store}>
-    <QueryProvider>
-    <UserDetailsContextComponent>
-        <DisplayComponents>
-    <NavBar />
-{children}
-    <Toaster />
-    <Footer />
-   <ConditionalComponents/>
-    </DisplayComponents>
-    </UserDetailsContextComponent>
-    </QueryProvider>
-    </Provider>
-  </>
+      <Provider store={store}>
+        <PersistGate loading={<LoadingComponent />} persistor={persistor}>
+          <QueryProvider>
+            <UserDetailsContextComponent>
+              <DisplayComponents>
+                <NavBar />
+                {children}
+                <Toaster />
+                <Footer />
+                <ConditionalComponents />
+              </DisplayComponents>
+            </UserDetailsContextComponent>
+          </QueryProvider>
+        </PersistGate>
+      </Provider>
+    </>
   )
 }
 export default DashboardLayout
