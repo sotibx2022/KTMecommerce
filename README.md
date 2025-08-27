@@ -117,11 +117,11 @@ How to login and logout other active tabs when one tab changes.
 -------------------
 ADMIN SIDE:-
 -------------------
-Must do : Save recent in DB for registered users.
-Must do : Browser API to communicate using redux.
+Must do : In my next project, i will implement complex redux setup and implementation,
+using redux presistance, createAsync thunk etc and i will comeback to this project to resolve the issue.
 sentiment analysis of reviews using AI.
 list remarks on admin/remarks, approve & reject the remarks.
-Browser communication
+--------------
 Ecommerce KTM Development documentation.
 - all libraries
 -lesson learned

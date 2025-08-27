@@ -1,6 +1,6 @@
 "use client"
 import { DisplayContext } from '@/app/context/DisplayComponents'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import ResponsiveHeader from '../navbar/responsiveHeader/ResponsiveHeader'
 import LoginComponent from '../authComponent/LoginComponent'
 import RegisterComponent from '../authComponent/RegisterComponent'
@@ -15,6 +15,20 @@ import AdminLogin from '../authComponent/AdminLogin'
 import ProductRecommendation from '../langchain/ProductRecommendation'
 const ConditionalComponents = () => {
   const { visibleComponent, setVisibleComponent } = useContext(DisplayContext)
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      if (visibleComponent !== '') {
+        document.body.style.overflow = 'hidden'; // lock scroll
+      } else {
+        document.body.style.overflow = 'auto';   // unlock scroll
+      }
+    }
+    return () => {
+      if (typeof document !== 'undefined') {
+        document.body.style.overflow = 'auto'; // always restore on unmount
+      }
+    };
+  }, [visibleComponent]);
   return (
     <div>
       {visibleComponent === 'responsiveHeader' && <ResponsiveHeader />}
