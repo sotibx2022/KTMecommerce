@@ -25,92 +25,92 @@ export const postSingleProductReview = async (
   }
 };
 export const getSpecificRemarks = async (
-    productId: string
-  ): Promise<APIResponseSuccess<IRemarksBase[]>| APIResponseError> => {
-    try {
-      const response = await axios.get(`/api/remarks/${productId}`);
-      return response.data;
-    } catch (error) {
-     throw new Error('Something wrong to get the data.')
-    }
-  };
-  export const deleteSpecificReview = async (datasToDelete: { productId: string, userId: string }): Promise<APIResponseSuccess | APIResponseError> => {
-    try {
-      const response = await axios.post(
-        `/api/remarks/${datasToDelete.productId}`,
-        { action: 'delete', ...datasToDelete },
-        {
-          headers: { 'Content-Type': 'application/json' }
-        }
-      );
-      return response.data;
-    } catch (error) {
-      throw new Error("Something went wrong while deleting the specific remark");
-    }
-  };
-  export const getSpecificReviewofProductbyUser = async (
-    userEmail: string, productId: string 
-  ): Promise<APIResponseSuccess<IRemarksBase> | APIResponseError> => {
-    try {
-      const response = await axios.get('/api/remarks/specificRemark', {
-        headers: {  
-          productId,
-          userEmail
-        }
-      });
-      return response.data;
-    } catch (error) {
-      const axiosError = error as AxiosError<APIResponseError>;
-      if (axiosError.response) {
-        return {
-          message: axiosError.response.data.message || "Failed to fetch review",
-          success: false,
-          status: axiosError.response.status
-        };
-      }
-      return {
-        message: "Network error occurred",
-        success: false,
-        status: 500
-      };
-    }
-  };
-  export const updateSingleProductReview = async (
-    data: IRemarksBase  // Accept single object instead of separate params
-  ): Promise<APIResponseSuccess | APIResponseError> => {
-    try {
-      const response = await axios.post(`/api/remarks/${data.productIdentifier.productId}`, {...data,action:'edit'}, {
+  productId: string
+): Promise<APIResponseSuccess<IRemarksBase[]> | APIResponseError> => {
+  try {
+    const response = await axios.get(`/api/remarks/${productId}`);
+    return response.data;
+  } catch (error) {
+    throw new Error('Something wrong to get the data.')
+  }
+};
+export const deleteSpecificReview = async (datasToDelete: { productId: string, userId: string }): Promise<APIResponseSuccess | APIResponseError> => {
+  try {
+    const response = await axios.post(
+      `/api/remarks/${datasToDelete.productId}`,
+      { action: 'delete', ...datasToDelete },
+      {
         headers: { 'Content-Type': 'application/json' }
-      });
-      return response.data;
-    } catch (error) {
-      return {
-        message: "There is something wrong.",
-        status: 500,
-        success: false
-      };
-    }
-  };
-  export const getSpecificRemarksofUser = async (
-    userEmail: string
-  ): Promise<APIResponseSuccess<IRemarksBase[]> | APIResponseError> => {
-    try {
-      const response = await axios.get('/api/remarks/specificUserRemarks', {
-        headers: { userEmail }
-      });
-      if (!response.data.success) {
-        return {
-          message: "Failed to fetch remarks data",
-          success: false,
-          status: response.status || 400
-        };
       }
-      return response.data;
-    } catch (error) {
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error("Something went wrong while deleting the specific remark");
+  }
+};
+export const getSpecificReviewofProductbyUser = async (
+  userEmail: string, productId: string
+): Promise<APIResponseSuccess<IRemarksBase> | APIResponseError> => {
+  try {
+    const response = await axios.get('/api/remarks/specificRemark', {
+      headers: {
+        productId,
+        userEmail
+      }
+    });
+    return response.data;
+  } catch (error) {
+    const axiosError = error as AxiosError<APIResponseError>;
+    if (axiosError.response) {
       return {
-        message: "There was an error while fetching data",
+        message: axiosError.response.data.message || "Failed to fetch review",
         success: false,
-        status: (error as any)?.response?.status || 500
+        status: axiosError.response.status
       };
     }
-  };
+    return {
+      message: "Network error occurred",
+      success: false,
+      status: 500
+    };
+  }
+};
+export const updateSingleProductReview = async (
+  data: IRemarksBase  // Accept single object instead of separate params
+): Promise<APIResponseSuccess | APIResponseError> => {
+  try {
+    const response = await axios.post(`/api/remarks/${data.productIdentifier.productId}`, { ...data, action: 'edit' }, {
+      headers: { 'Content-Type': 'application/json' }
+    });
+    return response.data;
+  } catch (error) {
+    return {
+      message: "There is something wrong.",
+      status: 500,
+      success: false
+    };
+  }
+};
+export const getSpecificRemarksofUser = async (
+  userEmail: string
+): Promise<APIResponseSuccess<IRemarksBase[]> | APIResponseError> => {
+  try {
+    const response = await axios.get('/api/remarks/specificUserRemarks', {
+      headers: { userEmail }
+    });
+    if (!response.data.success) {
+      return {
+        message: "Failed to fetch remarks data",
+        success: false,
+        status: response.status || 400
+      };
+    }
+    return response.data;
+  } catch (error) {
+    return {
+      message: "There was an error while fetching data",
+      success: false,
+      status: (error as any)?.response?.status || 500
+    };
+  }
+};
