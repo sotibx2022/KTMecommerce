@@ -1,44 +1,8 @@
 import { remarksModel } from "@/models/remarks.model";
 import { NextRequest, NextResponse } from "next/server";
 import mongoose from "mongoose";
-import { productModel } from "@/models/products.model";
 import updateRating from "@/app/services/apiFunctions/updateOverallRating";
-export async function GET(req: NextRequest) {
-  try {
-    const url = new URL(req.url);
-    const pathSegments = url.pathname.split('/');
-    const productId = pathSegments.pop();
-    if (!productId) {
-      return NextResponse.json(
-        { message: "Product ID is required", success: false },
-        { status: 400 }
-      );
-    }
-    if (!mongoose.Types.ObjectId.isValid(productId)) {
-      return NextResponse.json(
-        { message: "Invalid product ID format", success: false },
-        { status: 400 }
-      );
-    }
-    const productObjectId = new mongoose.Types.ObjectId(productId);
-    const remarks = await remarksModel.find({ 'productIdentifier.productId': productObjectId });
-    return NextResponse.json({
-      message: "Remarks found successfully",
-      success: true,
-      data: remarks,
-      status: 200
-    });
-  } catch (error: any) {
-    return NextResponse.json(
-      { 
-        message: "Failed to fetch remarks",
-        success: false,
-        error: error.message,
-      },
-      { status: 500 }
-    );
-  }
-}
+import { analyzeRemarks } from "../addRemarks/analyzeRemark";
 export async function POST(req: NextRequest) {
   try {
     const { action, productId, userId, reviewDescription } = await req.json();
@@ -48,10 +12,12 @@ export async function POST(req: NextRequest) {
         { status: 400 }
       );
     }
-    const productObjectId = new Object(productId)
+    // Convert IDs to ObjectId for matching
+    const productObjectId = new mongoose.Types.ObjectId(productId);
+    const userObjectId = new mongoose.Types.ObjectId(userId);
     const remark = await remarksModel.findOne({
       'productIdentifier.productId': productObjectId,
-      'reviewedBy.userId': userId
+      'reviewedBy.userId': userObjectId
     });
     if (!remark) {
       return NextResponse.json(
@@ -74,11 +40,31 @@ export async function POST(req: NextRequest) {
             { status: 400 }
           );
         }
+        // Run sentiment analyzer
+        const productName = remark.productIdentifier.productName;
+        const rating = parseInt(remark.rating as any) || 3; // fallback rating if not available
+        const reviewSentiment = await analyzeRemarks(productName, reviewDescription, rating);
+        // If negative, reject without saving
+        if (reviewSentiment === 'Negative') {
+          return NextResponse.json(
+            {
+              message: "Your review was rejected by the analyzer. Please provide constructive, product-related feedback.",
+              success: false,
+            },
+            { status: 422 }
+          );
+        }
+        // Otherwise, update and save
         remark.reviewDescription = reviewDescription;
+        remark.reviewSentiment = reviewSentiment as 'Positive' | 'Neutral'
         await remark.save();
         await updateRating(productId);
         return NextResponse.json(
-          { message: "Updated successfully", success: true, data: remark },
+          {
+            message: "Updated successfully",
+            success: true,
+            data: remark,
+          },
           { status: 200 }
         );
       default:
@@ -87,9 +73,9 @@ export async function POST(req: NextRequest) {
           { status: 400 }
         );
     }
-  } catch (error) {
+  } catch (error: any) {
     return NextResponse.json(
-      { message: "Internal server error", success: false },
+      { message: "Internal server error", success: false, error: error.message },
       { status: 500 }
     );
   }

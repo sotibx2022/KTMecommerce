@@ -13,30 +13,21 @@ export async function POST(req: NextRequest) {
     const userId = await getUserIdFromCookies(req);
     const { reviewedBy, reviewDescription, productIdentifier, rating, reviewerImage } = requestBody;
     const { productId, productName, productImage } = productIdentifier || {};
-    const userEmail = reviewedBy?.email;
     // Validation
     if (!reviewedBy || !reviewDescription || !productId || !rating) {
-      return NextResponse.json(
-        { message: "Missing required fields", success: false },
-        { status: 400 }
-      );
+      return NextResponse.json({ message: "Missing required fields", success: false }, { status: 400 });
     }
-    const reviewerObject = {
-      ...reviewedBy,
-      userId: userId?.toString(),
-    };
+    const reviewerObject = { ...reviewedBy, userId: userId?.toString() };
     const productObjectId = new ObjectId(productId);
+    const userObjectId = new ObjectId(userId);
     const product = await productModel.findById(productObjectId);
     if (!product) {
-      return NextResponse.json(
-        { message: "Product not found", success: false },
-        { status: 404 }
-      );
+      return NextResponse.json({ message: "Product not found", success: false }, { status: 404 });
     }
-    // Check if user already reviewed this product
+    // Check if user already reviewed this product (convert IDs to ObjectId)
     const existingReview = await remarksModel.findOne({
-      "reviewedBy.userId": userId,
-      productId: productId,
+      "reviewedBy.userId": userObjectId,
+      "productIdentifier.productId": productObjectId,
     });
     if (existingReview) {
       return NextResponse.json(
@@ -51,9 +42,10 @@ export async function POST(req: NextRequest) {
     let statusCode = 200;
     let successFlag = true;
     if (reviewSentiment === "Negative") {
-      userMessage = "Your review was rejected by the analyzer. Please provide constructive, product-related feedback.";
-      statusCode = 422;
-      successFlag = false;
+      return NextResponse.json({
+        message: "Your review was rejected by the analyzer. Please provide constructive, product-related feedback.",
+        success: false,
+      }, { status: 422 });
     } else if (reviewSentiment === "Neutral") {
       userMessage = "Your review submitted for approval by Admin";
       statusCode = 200;
@@ -78,24 +70,10 @@ export async function POST(req: NextRequest) {
     });
     await remark.save();
     // Update product rating
-    await updateRating(productIdentifier.productId);
-    return NextResponse.json(
-      {
-        message: userMessage,
-        success: successFlag,
-        data: remark,
-      },
-      { status: statusCode }
-    );
+    await updateRating(productId);
+    return NextResponse.json({ message: userMessage, success: successFlag, data: remark }, { status: statusCode });
   } catch (error: any) {
     console.error("Error submitting review:", error);
-    return NextResponse.json(
-      {
-        message: "Failed to submit review",
-        success: false,
-        error: error.message,
-      },
-      { status: 500 }
-    );
+    return NextResponse.json({ message: "Failed to submit review", success: false, error: error.message }, { status: 500 });
   }
 }
