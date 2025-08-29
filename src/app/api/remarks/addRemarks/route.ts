@@ -1,11 +1,11 @@
 import updateRating from "@/app/services/apiFunctions/updateOverallRating";
-import { productModel } from "@/models/products.model";
 import { remarksModel } from "@/models/remarks.model";
 import { NextRequest, NextResponse } from "next/server";
-import { getUserIdFromCookies } from "../../auth/authFunctions/getUserIdFromCookies";
-import { connectToDB } from "@/config/db";
 import { analyzeRemarks } from "./analyzeRemark";
 import { ObjectId } from "mongodb";
+import { productModel } from "@/models/products.model";
+import { getUserIdFromCookies } from "../../auth/authFunctions/getUserIdFromCookies";
+import { connectToDB } from "@/config/db";
 export async function POST(req: NextRequest) {
   try {
     await connectToDB();
@@ -18,22 +18,19 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ message: "Missing required fields", success: false }, { status: 400 });
     }
     const reviewerObject = { ...reviewedBy, userId: userId?.toString() };
-    const productObjectId = new ObjectId(productId);
-    const userObjectId = new ObjectId(userId);
+    const productObjectId = new ObjectId(productId as string);
+    const userObjectId = new ObjectId(userId as string);
     const product = await productModel.findById(productObjectId);
     if (!product) {
       return NextResponse.json({ message: "Product not found", success: false }, { status: 404 });
     }
-    // Check if user already reviewed this product (convert IDs to ObjectId)
+    // Check if user already reviewed this product
     const existingReview = await remarksModel.findOne({
       "reviewedBy.userId": userObjectId,
       "productIdentifier.productId": productObjectId,
     });
     if (existingReview) {
-      return NextResponse.json(
-        { message: "Only one review allowed per product", success: false },
-        { status: 400 }
-      );
+      return NextResponse.json({ message: "Only one review allowed per product", success: false }, { status: 400 });
     }
     // Analyze sentiment
     const reviewSentiment = await analyzeRemarks(productName, reviewDescription, rating);
@@ -73,7 +70,6 @@ export async function POST(req: NextRequest) {
     await updateRating(productId);
     return NextResponse.json({ message: userMessage, success: successFlag, data: remark }, { status: statusCode });
   } catch (error: any) {
-    console.error("Error submitting review:", error);
     return NextResponse.json({ message: "Failed to submit review", success: false, error: error.message }, { status: 500 });
   }
 }

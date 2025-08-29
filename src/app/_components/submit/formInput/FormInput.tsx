@@ -14,8 +14,8 @@ interface IFormInputProps {
     rules?: any;
     error?: string;
     passwordToogle?: boolean;
-    disabled?:boolean;
-    readonly?:boolean;
+    disabled?: boolean;
+    readonly?: boolean;
 }
 const FormInput: React.FC<IFormInputProps> = ({
     icon: Icon,
@@ -28,7 +28,7 @@ const FormInput: React.FC<IFormInputProps> = ({
     rules,
     error,
     passwordToogle,
-    disabled,readonly
+    disabled, readonly
 }) => {
     const [showPassword, setShowPassword] = useState(false);
     const [inputValue, setInputValue] = useState("");
@@ -77,6 +77,7 @@ const FormInput: React.FC<IFormInputProps> = ({
                         inputChangeHandler(e);
                         onChange(e);
                     }}
+                    autoComplete={type === 'password' ? "off" : 'on'}
                 />
                 {passwordToogle && (
                     <div

@@ -7,7 +7,8 @@ export const postSingleProductReview = async (
 ): Promise<APIResponseSuccess | APIResponseError> => {
   try {
     const response = await axios.post('/api/remarks/addRemarks', data, {
-      headers: { 'Content-Type': 'application/json' }
+      headers: { 'Content-Type': 'application/json' },
+      validateStatus: (status) => { return status >= 200 && status < 500 }
     });
     return response.data;
   } catch (error) {
