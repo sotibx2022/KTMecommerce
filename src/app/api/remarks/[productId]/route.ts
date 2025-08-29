@@ -13,8 +13,8 @@ export async function POST(req: NextRequest) {
       );
     }
     // Convert IDs to ObjectId for matching
-    const productObjectId = new mongoose.Types.ObjectId(productId);
-    const userObjectId = new mongoose.Types.ObjectId(userId);
+    const productObjectId = new mongoose.Types.ObjectId(productId as string);
+    const userObjectId = new mongoose.Types.ObjectId(userId as string);
     const remark = await remarksModel.findOne({
       'productIdentifier.productId': productObjectId,
       'reviewedBy.userId': userObjectId
@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
         }
         // Run sentiment analyzer
         const productName = remark.productIdentifier.productName;
-        const rating = parseInt(remark.rating as any) || 3; // fallback rating if not available
+        const rating = parseInt(remark.rating as string) || 3; 
         const reviewSentiment = await analyzeRemarks(productName, reviewDescription, rating);
         // If negative, reject without saving
         if (reviewSentiment === 'Negative') {
