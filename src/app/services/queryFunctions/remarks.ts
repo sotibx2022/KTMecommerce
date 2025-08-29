@@ -79,7 +79,7 @@ export const getSpecificRemarks = async (
     data: IRemarksBase  // Accept single object instead of separate params
   ): Promise<APIResponseSuccess | APIResponseError> => {
     try {
-      const response = await axios.post(`/api/remarks/${data.productIdentifier.productId}`, data, {
+      const response = await axios.post(`/api/remarks/${data.productIdentifier.productId}`, {...data,action:'edit'}, {
         headers: { 'Content-Type': 'application/json' }
       });
       return response.data;
