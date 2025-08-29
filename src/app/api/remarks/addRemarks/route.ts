@@ -5,21 +5,16 @@ import { NextRequest, NextResponse } from "next/server";
 import { getUserIdFromCookies } from "../../auth/authFunctions/getUserIdFromCookies";
 import { connectToDB } from "@/config/db";
 import { analyzeRemarks } from "./analyzeRemark";
+import { ObjectId } from "mongodb";
 export async function POST(req: NextRequest) {
   try {
-    connectToDB()
+    await connectToDB();
     const requestBody = await req.json();
     const userId = await getUserIdFromCookies(req);
-    const {
-      reviewedBy,
-      reviewDescription,
-      productIdentifier,
-      rating,
-      reviewerImage,
-    } = requestBody;
+    const { reviewedBy, reviewDescription, productIdentifier, rating, reviewerImage } = requestBody;
     const { productId, productName, productImage } = productIdentifier || {};
     const userEmail = reviewedBy?.email;
-    // Validation checks
+    // Validation
     if (!reviewedBy || !reviewDescription || !productId || !rating) {
       return NextResponse.json(
         { message: "Missing required fields", success: false },
@@ -30,7 +25,7 @@ export async function POST(req: NextRequest) {
       ...reviewedBy,
       userId: userId?.toString(),
     };
-    const productObjectId = new Object(productId);
+    const productObjectId = new ObjectId(productId);
     const product = await productModel.findById(productObjectId);
     if (!product) {
       return NextResponse.json(
@@ -38,46 +33,37 @@ export async function POST(req: NextRequest) {
         { status: 404 }
       );
     }
-    const review = await remarksModel.findOne({
+    // Check if user already reviewed this product
+    const existingReview = await remarksModel.findOne({
       "reviewedBy.userId": userId,
       productId: productId,
     });
-    if (review) {
-      return NextResponse.json({
-        message: "Only single review allowed for the same product",
-        success: false,
-        status: 400,
-      });
+    if (existingReview) {
+      return NextResponse.json(
+        { message: "Only one review allowed per product", success: false },
+        { status: 400 }
+      );
     }
-    const remarkAnalyzer = await analyzeRemarks(productName, reviewDescription, rating);
-    const responseMessage = (message: string, status: number, success: boolean) => {
-      return {
-        message,
-        status,
-        success,
-      };
-    };
-    let message;
-    if (remarkAnalyzer === "Negative") {
-      message =  responseMessage(
-        "Your review  rejected by the analyzer. Please provide constructive, product-related feedback.",
-        422, // Unprocessable Entity
-        false
-      );
-    } else if (remarkAnalyzer === "Neutral") {
-      message =  responseMessage(
-        "Your Review Submitted for Approval by Admin",
-        200, // OK
-        true
-      );
+    // Analyze sentiment
+    const reviewSentiment = await analyzeRemarks(productName, reviewDescription, rating);
+    // Prepare user-friendly message
+    let userMessage = "";
+    let statusCode = 200;
+    let successFlag = true;
+    if (reviewSentiment === "Negative") {
+      userMessage = "Your review was rejected by the analyzer. Please provide constructive, product-related feedback.";
+      statusCode = 422;
+      successFlag = false;
+    } else if (reviewSentiment === "Neutral") {
+      userMessage = "Your review submitted for approval by Admin";
+      statusCode = 200;
+      successFlag = true;
     } else {
-      // Positive case
-      message = responseMessage(
-        "Thank you for your positive review!",
-        200, // OK
-        true
-      );
+      userMessage = "Thank you for your positive review!";
+      statusCode = 200;
+      successFlag = true;
     }
+    // Save remark
     const remark = new remarksModel({
       reviewedBy: reviewerObject,
       reviewDescription,
@@ -88,17 +74,21 @@ export async function POST(req: NextRequest) {
       },
       rating,
       reviewerImage,
-      reviewSentiment:remarkAnalyzer
+      reviewSentiment,
     });
     await remark.save();
+    // Update product rating
     await updateRating(productIdentifier.productId);
     return NextResponse.json(
       {
-        message,
+        message: userMessage,
+        success: successFlag,
         data: remark,
       },
+      { status: statusCode }
     );
   } catch (error: any) {
+    console.error("Error submitting review:", error);
     return NextResponse.json(
       {
         message: "Failed to submit review",
