@@ -80,9 +80,9 @@ const AddSingleProductReviews: React.FC<AddSingleProductReviewsProps> = ({ readO
         <form className='w-full flex flex-col gap-4' onSubmit={handleSubmit(onSubmit)}>
           <h1 className='text-xl font-bold text-primaryDark mb-2'>Add Your Review</h1>
           {userDetails?.accountStatus === 'registered' && (
-            <h2 className="text-lg text-red-600 bg-red-100 p-4 rounded-md border border-red-300 flex flex-col">
-              <p>Your profile is incomplete to add Review.</p>
-              <Link href='/dashboard/profile' className='text-helper font-bold underline'>Please update</Link>
+            <h2 className="text-md text-red-600 bg-red-100 p-4 rounded-md border border-red-300 flex flex-col">
+              <p>Your profile is incomplete to Review.</p>
+              <Link href='/dashboard/profile' className='text-helper'>Please update</Link>
             </h2>
           )}
           {readOnly && <SubmitError message='Please Login to Add Reviews' />}
