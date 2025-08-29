@@ -4,6 +4,7 @@ import { remarksModel } from "@/models/remarks.model";
 import { NextRequest, NextResponse } from "next/server";
 import { getUserIdFromCookies } from "../../auth/authFunctions/getUserIdFromCookies";
 import { connectToDB } from "@/config/db";
+import { analyzeRemarks } from "./analyzeRemark";
 export async function POST(req: NextRequest) {
   try {
     connectToDB()
@@ -48,6 +49,35 @@ export async function POST(req: NextRequest) {
         status: 400,
       });
     }
+    const remarkAnalyzer = await analyzeRemarks(productName, reviewDescription, rating);
+    const responseMessage = (message: string, status: number, success: boolean) => {
+      return {
+        message,
+        status,
+        success,
+      };
+    };
+    let message;
+    if (remarkAnalyzer === "Negative") {
+      message =  responseMessage(
+        "Your review  rejected by the analyzer. Please provide constructive, product-related feedback.",
+        422, // Unprocessable Entity
+        false
+      );
+    } else if (remarkAnalyzer === "Neutral") {
+      message =  responseMessage(
+        "Your Review Submitted for Approval by Admin",
+        200, // OK
+        true
+      );
+    } else {
+      // Positive case
+      message = responseMessage(
+        "Thank you for your positive review!",
+        200, // OK
+        true
+      );
+    }
     const remark = new remarksModel({
       reviewedBy: reviewerObject,
       reviewDescription,
@@ -58,16 +88,15 @@ export async function POST(req: NextRequest) {
       },
       rating,
       reviewerImage,
+      reviewSentiment:remarkAnalyzer
     });
     await remark.save();
     await updateRating(productIdentifier.productId);
     return NextResponse.json(
       {
-        message: "Review submitted successfully",
-        success: true,
+        message,
         data: remark,
       },
-      { status: 201 }
     );
   } catch (error: any) {
     return NextResponse.json(

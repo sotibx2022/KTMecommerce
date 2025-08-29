@@ -9,7 +9,7 @@ export interface IRemarksBase {
   reviewedBy: {
     userId: string;
     fullName: string;
-    email?:string;
+    email?: string;
   };
   reviewDescription: string;
   rating: string;
@@ -17,8 +17,9 @@ export interface IRemarksBase {
   createdAt?: Date;
   updatedAt?: Date;
   readOnly?: boolean;
+  reviewSentiment?: 'Negative' | 'Positive' | 'Neutral'
 }
-export interface IRemarksBaseForDB 
+export interface IRemarksBaseForDB
   extends Omit<IRemarksBase, 'productIdentifier' | 'reviewedBy'> {
   productIdentifier: {
     productId: Types.ObjectId;  // Override with ObjectId

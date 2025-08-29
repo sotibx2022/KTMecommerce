@@ -1,8 +1,13 @@
 import { z } from "zod";
 import { StructuredOutputParser } from "langchain/output_parsers";
-import { llmConfig } from "@/config/llmConfig";
 import { extractText, findJson } from "./extractText";
+import { ChatGroq } from "@langchain/groq";
+import { config } from "@/config/configuration";
 // Define schema for validation
+const llmConfig = () => new ChatGroq({
+    apiKey: config.groqSecretKey,
+    model: "llama3-70b-8192",
+});
 const productDetailsSchema = z.object({
     productDetails: z.object({
         productName: z.string(),
@@ -34,7 +39,7 @@ Return ONLY valid JSON that follows this schema:
 ${parser.getFormatInstructions()}
 `;
     try {
-        const response = await llmConfig.invoke(prompt);
+        const response = await llmConfig().invoke(prompt);
         const text = extractText(response.content)
         const jsonText = findJson(text)
         try {
@@ -51,7 +56,7 @@ ${text}
 Please return ONLY valid JSON that strictly matches this schema:
 ${parser.getFormatInstructions()}
       `;
-            const repairResponse = await llmConfig.invoke(repairPrompt);
+            const repairResponse = await llmConfig().invoke(repairPrompt);
             const repairedText = extractText(repairResponse.content)
             const jsonString = findJson(repairedText)
             return await parser.parse(jsonString);

@@ -27,12 +27,12 @@ export const classifyProductCategory = async (
         // 2. Create the processing chain
         const chain = prompt
             .pipe(llmConfig)
-            .pipe(new StringOutputParser());
+            .pipe(new StringOutputParser() as any);
         // 3. Execute with user input
         const result = await chain.invoke({
             input: userInput,
             categories: categories.join(", ")
-        });
+        }) as string;
         // 4. Validate the response
         const matchedCategory = categories.includes(result.trim())
             ? result.trim().includes("null") ? "uncategorized" : result.trim()

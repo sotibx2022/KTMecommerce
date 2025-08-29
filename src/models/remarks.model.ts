@@ -1,5 +1,6 @@
 import mongoose, { Model, ObjectId, Schema } from "mongoose";
 import { IRemarksBaseForDB } from "@/app/types/remarks";
+import { required } from "node_modules/zod/dist/types/v4/core/util";
 const RemarkSchema = new Schema<IRemarksBaseForDB>({
   productIdentifier: {
     productId: { type: mongoose.Schema.Types.ObjectId, ref: "Product", required: true },
@@ -13,6 +14,12 @@ const RemarkSchema = new Schema<IRemarksBaseForDB>({
   },
   reviewerImage: { type: String },
   reviewDescription: { type: String, required: true },
+  reviewSentiment: {
+    type: String,
+    default:'Positive',
+    enum: ['Positive', 'Negative', 'Neutral'],
+    required: true,
+  },
 },
   {
     timestamps: true,

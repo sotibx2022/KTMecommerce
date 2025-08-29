@@ -19,7 +19,6 @@ const MainPrimaryHeader: React.FC = () => {
   useEffect(() => {
     const handleLogout = (event: MessageEvent) => {
       if (event.data === 'logout') {
-        setUserDetails(null);
         queryClient.setQueryData(['user'], null);
         queryClient.setQueryData(['cartItems'], null);
         queryClient.setQueryData(['wishlistItems'], null);

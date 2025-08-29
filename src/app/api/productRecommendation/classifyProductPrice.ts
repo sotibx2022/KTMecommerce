@@ -36,7 +36,7 @@ Input: "most expensive watches" → {{ "priceOrder": "desc" }}
   `]
     ]);
     const chain = prompt
-        .pipe(llmConfig)
+        .pipe(llmConfig())
         .pipe(parser);
     try {
         const result = await chain.invoke({
