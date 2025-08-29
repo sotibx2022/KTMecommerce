@@ -1,13 +1,13 @@
 import dynamic from 'next/dynamic';
 import PrimaryButton from '../primaryButton/PrimaryButton';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, useRef } from 'react';
 import { DisplayContext } from '@/app/context/DisplayComponents';
 import { useForm } from 'react-hook-form';
-import { Mutation, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { IRemarksBase, IProductIdentifier, } from '@/app/types/remarks';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { IRemarksBase, IProductIdentifier } from '@/app/types/remarks';
 import { APIResponseError, APIResponseSuccess } from '@/app/services/queryFunctions/users';
 import { AbsoluteComponent } from '../absoluteComponent/AbsoluteComponent';
-import { getSpecificRemarksofUser, getSpecificReviewofProductbyUser, updateSingleProductReview } from '@/app/services/queryFunctions/remarks';
+import { getSpecificReviewofProductbyUser, updateSingleProductReview } from '@/app/services/queryFunctions/remarks';
 import toast from 'react-hot-toast';
 import LoadingButton from '../primaryButton/LoadingButton';
 import ReadOnlyUserProfile from './ReadOnlyUserProfile';
@@ -15,91 +15,62 @@ import LoadingComponent from '../loadingComponent/LoadingComponent';
 import { useUserDetails } from '@/app/context/UserDetailsContextComponent';
 const AddSingleProductRating = dynamic(() => import('./AddSingleProductRating'), { ssr: false });
 interface EditSingleProductReviewProps {
-  productIdentifier: IProductIdentifier
+  productIdentifier: IProductIdentifier;
 }
 const EditSingleProductReview: React.FC<EditSingleProductReviewProps> = ({ productIdentifier }) => {
   const queryClient = useQueryClient();
-  const { productId, productName, productImage } = productIdentifier;
+  const { productId } = productIdentifier;
   const { setVisibleComponent } = useContext(DisplayContext);
-  const [reviewSubmitted, setReviewSubmitted] = useState(false);
   const { userDetails } = useUserDetails();
   const userId = userDetails?._id;
   const updateMutation = useMutation<APIResponseSuccess | APIResponseError, Error, IRemarksBase>({
     mutationFn: updateSingleProductReview,
     onSuccess: async (response) => {
-      toast.success(response.message);
+      if (response.success) toast.success(response.message);
+      else toast.error(response.message);
       setVisibleComponent('');
-      // Get current route context
       const isSingleProductPage = window.location.pathname.includes('/singleProduct');
       const isRemarksPage = window.location.pathname.includes('/reviews');
-      // Invalidate queries based on current page context
       const invalidations = [];
       if (isSingleProductPage) {
-        invalidations.push(
-          queryClient.invalidateQueries({
-            queryKey: ['specificRemarks', productId],
-            refetchType: 'active' // Only refetch if currently being observed
-          })
-        );
+        invalidations.push(queryClient.invalidateQueries({ queryKey: ['specificRemarks', productId], refetchType: 'active' }));
       }
       if (isRemarksPage) {
-        invalidations.push(
-          queryClient.invalidateQueries({
-            queryKey: ['specificUserRemarks', userId],
-            refetchType: 'active'
-          })
-        );
+        invalidations.push(queryClient.invalidateQueries({ queryKey: ['specificUserRemarks', userId], refetchType: 'active' }));
       }
-      // Always invalidate product data
-      invalidations.push(
-        queryClient.invalidateQueries({
-          queryKey: ['specificProduct', productId],
-          refetchType: 'active'
-        })
-      );
+      invalidations.push(queryClient.invalidateQueries({ queryKey: ['specificProduct', productId], refetchType: 'active' }));
       await Promise.all(invalidations);
     },
     onError: (error) => {
       toast.error(error.message);
     }
   });
-  const {
-    register,
-    formState: { errors },
-    handleSubmit,
-    setValue
-  } = useForm<IRemarksBase>({ mode: 'onBlur' });
-  const { data: remarks, isPending } = useQuery<
-    APIResponseSuccess<IRemarksBase> | APIResponseError
-  >({
+  const { register, formState: { errors }, handleSubmit, setValue } = useForm<IRemarksBase>({ mode: 'onBlur' });
+  const { data: remarks, isPending } = useQuery<APIResponseSuccess<IRemarksBase> | APIResponseError>({
     queryKey: ['specificRemark', userId, productId],
     queryFn: () => getSpecificReviewofProductbyUser(userId!, productId),
     enabled: !!userId && !!productId
   });
+  const initialValuesSet = useRef(false); // Prevent overwriting user input
   useEffect(() => {
-    if (isPending) {
-      setValue('reviewedBy.fullName', 'Loading...');
-      setValue('reviewedBy.userId', 'Loading...');
-      setValue('reviewDescription', 'Loading...');
-      return;
-    }
-    if (remarks && remarks.success && remarks.data) {
-      setValue('reviewedBy.fullName', isPending ? 'Loading ...' : remarks.data.reviewedBy.fullName);
-      setValue('reviewedBy.userId', isPending ? 'Loading ...' : remarks.data.reviewedBy.userId);
-      setValue('productIdentifier.productId', isPending ? 'Loading ...' : remarks.data.productIdentifier.productId);
-      setValue('reviewDescription', isPending ? 'Loading ...' : remarks.data.reviewDescription);
+    if (remarks && remarks.success && remarks.data && !initialValuesSet.current) {
+      setValue('reviewedBy.fullName', remarks.data.reviewedBy.fullName);
+      setValue('reviewedBy.userId', remarks.data.reviewedBy.userId);
+      setValue('productIdentifier.productId', remarks.data.productIdentifier.productId);
+      setValue('productIdentifier.productName', remarks.data.productIdentifier.productName);
+      setValue('productIdentifier.productImage', remarks.data.productIdentifier.productImage);
+      setValue('reviewDescription', remarks.data.reviewDescription);
       setValue('rating', remarks.data.rating);
       if (userDetails?.profileImage) {
         setValue('reviewerImage', userDetails.profileImage);
       }
+      initialValuesSet.current = true; // Mark as set
     }
-  }, [remarks, isPending, setValue, userDetails?.profileImage]);
+  }, [remarks, setValue, userDetails?.profileImage]);
   const receiveProductRating = (rating: number) => {
-    const ratingInString = rating.toString();
-    setValue('rating', ratingInString);
+    setValue('rating', rating.toString());
   };
   const onSubmit = (formData: IRemarksBase) => {
-    setReviewSubmitted(true);
     updateMutation.mutate({
       rating: formData.rating,
       productIdentifier: {
@@ -108,22 +79,18 @@ const EditSingleProductReview: React.FC<EditSingleProductReviewProps> = ({ produ
         productImage: formData.productIdentifier.productImage
       },
       reviewedBy: {
-        userId: userId || "",
-        fullName: userDetails?.fullName || ""
+        userId: userId || '',
+        fullName: userDetails?.fullName || ''
       },
-      reviewDescription: formData.reviewDescription,
-    })
+      reviewDescription: formData.reviewDescription
+    });
   };
-  if (updateMutation.isPending) {
-    return <LoadingComponent />
-  }
+  if (updateMutation.isPending) return <LoadingComponent />;
   return (
     <AbsoluteComponent>
-      <form className='w-full flex flex-col gap-4' onSubmit={handleSubmit(onSubmit)}>
-        <h1 className='text-xl font-bold text-primaryDark mb-2'>Update Your Review</h1>
-        {/* User Profile Section - Display Only */}
+      <form className="w-full flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
+        <h1 className="text-xl font-bold text-primaryDark mb-2">Update Your Review</h1>
         <ReadOnlyUserProfile />
-        {/* Editable Review Section */}
         <div className="space-y-4">
           <div>
             <label htmlFor="reviewDescription" className="block text-lg font-bold text-primaryDark mb-1">
@@ -148,9 +115,8 @@ const EditSingleProductReview: React.FC<EditSingleProductReviewProps> = ({ produ
             <AddSingleProductRating getProductRating={receiveProductRating} />
           </div>
         </div>
-        {/* Submit Button */}
         <div className="mt-4">
-          {updateMutation.isPending ? <LoadingButton /> : <PrimaryButton searchText='Update' />}
+          {updateMutation.isPending ? <LoadingButton /> : <PrimaryButton searchText="Update" />}
         </div>
       </form>
     </AbsoluteComponent>

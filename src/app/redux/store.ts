@@ -20,12 +20,17 @@ const rootReducer = combineReducers({
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['cart', 'wishList', 'recent'], // ✅ choose which slices to persist
+  whitelist: ['cart', 'wishList', 'recent'], 
 };
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 // configure store
 export const store = configureStore({
   reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({
+    serializableCheck: {
+      ignoredActions: ['persist/PERSIST', 'persist/REHYDRATE', 'persist/REGISTER', 'persist/FLUSH'],
+    },
+  }),
 });
 export const persistor = persistStore(store);
 export type AppDispatch = typeof store.dispatch;

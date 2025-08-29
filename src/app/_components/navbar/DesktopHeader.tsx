@@ -22,7 +22,6 @@ const DesktopHeader = () => {
       dispatch(clearWishListItems());
     }
   }, [userDetails, dispatch]);
-  console.log(userDetails)
   return (
     <header className="hidden lg:flex bg-primaryDark w-full">
       <div className="container flex justify-between items-center">

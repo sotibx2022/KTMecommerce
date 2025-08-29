@@ -80,7 +80,8 @@ export const updateSingleProductReview = async (
 ): Promise<APIResponseSuccess | APIResponseError> => {
   try {
     const response = await axios.post(`/api/remarks/${data.productIdentifier.productId}`, { ...data, action: 'edit' }, {
-      headers: { 'Content-Type': 'application/json' }
+      headers: { 'Content-Type': 'application/json' },
+      validateStatus: (status) => status >= 200 && status < 500
     });
     return response.data;
   } catch (error) {

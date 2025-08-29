@@ -3,18 +3,25 @@ import { NextRequest, NextResponse } from "next/server";
 import mongoose from "mongoose";
 import updateRating from "@/app/services/apiFunctions/updateOverallRating";
 import { analyzeRemarks } from "../addRemarks/analyzeRemark";
+import { getUserIdFromCookies } from "../../auth/authFunctions/getUserIdFromCookies";
 export async function POST(req: NextRequest) {
   try {
-    const { action, productId, userId, reviewDescription } = await req.json();
+    const url = new URL(req.url);
+    const pathSegments = url.pathname.split('/');
+    const productId = pathSegments.pop();
+    const userId = await getUserIdFromCookies(req);
+    const { action, reviewDescription } = await req.json();
+    // Validate required fields
     if (!action || !productId || !userId) {
       return NextResponse.json(
         { message: "Required fields missing", success: false },
         { status: 400 }
       );
     }
-    // Convert IDs to ObjectId for matching
+    // Convert IDs to ObjectId for DB lookup
     const productObjectId = new mongoose.Types.ObjectId(productId as string);
     const userObjectId = new mongoose.Types.ObjectId(userId as string);
+    // Fetch existing remark
     const remark = await remarksModel.findOne({
       'productIdentifier.productId': productObjectId,
       'reviewedBy.userId': userObjectId
@@ -40,11 +47,9 @@ export async function POST(req: NextRequest) {
             { status: 400 }
           );
         }
-        // Run sentiment analyzer
         const productName = remark.productIdentifier.productName;
-        const rating = parseInt(remark.rating as string) || 3; 
+        const rating = parseInt(remark.rating as string) || 3;
         const reviewSentiment = await analyzeRemarks(productName, reviewDescription, rating);
-        // If negative, reject without saving
         if (reviewSentiment === 'Negative') {
           return NextResponse.json(
             {
@@ -54,9 +59,8 @@ export async function POST(req: NextRequest) {
             { status: 422 }
           );
         }
-        // Otherwise, update and save
         remark.reviewDescription = reviewDescription;
-        remark.reviewSentiment = reviewSentiment as 'Positive' | 'Neutral'
+        remark.reviewSentiment = reviewSentiment as 'Positive' | 'Neutral';
         await remark.save();
         await updateRating(productId);
         return NextResponse.json(
@@ -98,9 +102,10 @@ export async function GET(req: NextRequest) {
       );
     }
     const productObjectId = new mongoose.Types.ObjectId(productId);
-    const remarks = await remarksModel.find({ 'productIdentifier.productId': productObjectId,
-      reviewSentiment:'Positive'
-     });
+    const remarks = await remarksModel.find({
+      'productIdentifier.productId': productObjectId,
+      reviewSentiment: 'Positive'
+    });
     return NextResponse.json({
       message: "Remarks found successfully",
       success: true,
@@ -109,7 +114,7 @@ export async function GET(req: NextRequest) {
     });
   } catch (error: any) {
     return NextResponse.json(
-      { 
+      {
         message: "Failed to fetch remarks",
         success: false,
         error: error.message,

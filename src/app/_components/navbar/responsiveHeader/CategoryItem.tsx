@@ -40,9 +40,9 @@ export const CategoryItem = ({
       </div>
       {isActive && item.subcategories?.length > 0 && (
         <ul className="pl-4 pb-2 space-y-2">
-          {item.subcategories.map((subItem) => (
+          {item.subcategories.map((subItem,index:number) => (
             <SubcategoryItem 
-              key={subItem.url_slug} 
+              key={index} 
               subItem={subItem} 
               parentCategory={item.category_name} 
             />
