@@ -1,4 +1,4 @@
-import dynamic from 'next/dynamic';  
+import dynamic from 'next/dynamic';
 import PrimaryButton from '../primaryButton/PrimaryButton';
 import { useContext, useState } from 'react';
 import { DisplayContext } from '@/app/context/DisplayComponents';
@@ -15,129 +15,135 @@ import ReadOnlyUserProfile from './ReadOnlyUserProfile';
 import LoadingComponent from '../loadingComponent/LoadingComponent';
 import { IProductIdentifier, IRemarksBase } from '@/app/types/remarks';
 import { useUserDetails } from '@/app/context/UserDetailsContextComponent';
+import Link from 'next/link';
 const AddSingleProductRating = dynamic(() => import('./AddSingleProductRating'), { ssr: false });
 const DisplaySingleProductRating = dynamic(() => import('./DisplaySingleProductRating'), { ssr: false });
-interface AddSingleProductReviewsProps{
-  productIdentifier:IProductIdentifier,
-  readOnly:boolean,
+interface AddSingleProductReviewsProps {
+  productIdentifier: IProductIdentifier,
+  readOnly: boolean,
 }
 const AddSingleProductReviews: React.FC<AddSingleProductReviewsProps> = ({ readOnly, productIdentifier }) => {
   const queryClient = useQueryClient()
-  const {productId, productName, productImage} = productIdentifier;
-  const { visibleComponent,setVisibleComponent } = useContext(DisplayContext);
+  const { productId, productName, productImage } = productIdentifier;
+  const { visibleComponent, setVisibleComponent } = useContext(DisplayContext);
   const router = useRouter()
-  const mutation = useMutation<APIResponseSuccess| APIResponseError , Error , IRemarksBase>({
-    mutationFn:postSingleProductReview,
-    onSuccess:async(response)=>{
-toast.success(response.message)
-setVisibleComponent('');
-await Promise.all([
-  queryClient.invalidateQueries({ queryKey: ['specificRemarks', productId] }),
-  queryClient.invalidateQueries({ queryKey: ['specificProduct', productId] })
-]);
-router.refresh();
-    },onError:(error)=>{
+  const mutation = useMutation<APIResponseSuccess | APIResponseError, Error, IRemarksBase>({
+    mutationFn: postSingleProductReview,
+    onSuccess: async (response) => {
+      toast.success(response.message)
+      setVisibleComponent('');
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ['specificRemarks', productId] }),
+        queryClient.invalidateQueries({ queryKey: ['specificProduct', productId] })
+      ]);
+      router.refresh();
+    }, onError: (error) => {
       toast.error(error.message)
     }
   })
-  const[reviewSubmitted,setReviewSubmitted] = useState(false);
-  const[rating,setRating] = useState(0)
+  const [reviewSubmitted, setReviewSubmitted] = useState(false);
+  const [rating, setRating] = useState(0)
   const { userDetails } = useUserDetails();
-  const { register, formState: { errors },handleSubmit,setValue } = useForm<IRemarksBase>({ mode: 'onBlur' });
+  const { register, formState: { errors }, handleSubmit, setValue } = useForm<IRemarksBase>({ mode: 'onBlur' });
   const addReviews = () => {
-    setValue('productIdentifier.productId',productIdentifier.productId);
-    setValue('productIdentifier.productImage',productIdentifier.productImage);
-    setValue('productIdentifier.productName',productIdentifier.productName);
+    setValue('productIdentifier.productId', productIdentifier.productId);
+    setValue('productIdentifier.productImage', productIdentifier.productImage);
+    setValue('productIdentifier.productName', productIdentifier.productName);
     if (readOnly) {
       setVisibleComponent('login');
-    } 
+    }
   };
-if(userDetails){
-  setValue('reviewedBy.fullName',userDetails!.fullName);
-  if(userDetails!.profileImage){
-    setValue('reviewerImage',userDetails!.profileImage)
+  if (userDetails) {
+    setValue('reviewedBy.fullName', userDetails!.fullName);
+    if (userDetails!.profileImage) {
+      setValue('reviewerImage', userDetails!.profileImage)
+    }
   }
-}
-const receiveProductRating =(rating:number) =>{
-  const ratingInString = rating.toString();
-  setRating(rating)
-setValue('rating',ratingInString)
-}
-  const onSubmit =(data:IRemarksBase) =>{
+  const receiveProductRating = (rating: number) => {
+    const ratingInString = rating.toString();
+    setRating(rating)
+    setValue('rating', ratingInString)
+  }
+  const onSubmit = (data: IRemarksBase) => {
     setReviewSubmitted(true);
-    if(!rating){
-      toast.error("Please Select the Rating."); 
+    if (!rating) {
+      toast.error("Please Select the Rating.");
     }
     mutation.mutate(data)
   }
-  if(mutation.isPending){
-    return <LoadingComponent/>
+  if (mutation.isPending) {
+    return <LoadingComponent />
   }
   return (
-  <AbsoluteComponent>
-    <div className='bg-background max-w-[450px] p-6 rounded-lg shadow-lg relative'>
-    <form className='w-full flex flex-col gap-4' onSubmit={handleSubmit(onSubmit)}>
-      <h1 className='text-xl font-bold text-primaryDark mb-2'>Add Your Review</h1>
-      {readOnly && <SubmitError message='Please Login to Add Reviews' />}
-      {/* User Profile Section - Display Only */}
-      <ReadOnlyUserProfile/>
-      {/* Editable Review Section */}
-      <div className="space-y-4">
-        <div>
-          <label htmlFor="reviewDescription" className="block text-lg font-bold text-primaryDark mb-1">
-            Your Review
-          </label>
-          <textarea
-            id="reviewDescription"
-            placeholder="Share your thoughts about this product (10-100 characters)..."
-            className="formItem w-full min-h-[120px]"
-            readOnly={readOnly}
-            {...register('reviewDescription', {
-              required: { value: true, message: "Please enter your review" },
-              minLength: { value: 10, message: "Minimum 10 characters required" },
-              maxLength: { value: 100, message: "Maximum 100 characters allowed" }
-            })}
-          />
-          {errors.reviewDescription?.message && (
-            <SubmitError message={errors.reviewDescription.message} />
+    <AbsoluteComponent>
+      <div className='bg-background max-w-[450px] p-6 rounded-lg shadow-lg relative'>
+        <form className='w-full flex flex-col gap-4' onSubmit={handleSubmit(onSubmit)}>
+          <h1 className='text-xl font-bold text-primaryDark mb-2'>Add Your Review</h1>
+          {userDetails?.accountStatus === 'registered' && (
+            <Link href='/dashboard/profile' className="text-lg md:text-xl font-semibold text-red-600 bg-red-100 p-4 rounded-md border border-red-300">
+              Your profile is incomplete. Please update before adding a review.
+            </Link>
           )}
-        </div>
-        <div>
-          <h3 className="text-lg font-bold text-primaryDark mb-2">
-            {readOnly ? 'Product Rating' : 'Your Rating'}
-          </h3>
-          {readOnly ? (
-            <DisplaySingleProductRating rating={0} />
-          ) : (
-            <>
-              <AddSingleProductRating getProductRating={receiveProductRating} />
-              {rating === 0 && reviewSubmitted && (
-                <SubmitError message='Please Rate the Product.' />
+          {readOnly && <SubmitError message='Please Login to Add Reviews' />}
+          {/* User Profile Section - Display Only */}
+          <ReadOnlyUserProfile />
+          {/* Editable Review Section */}
+          <div className="space-y-4">
+            <div>
+              <label htmlFor="reviewDescription" className="block text-lg font-bold text-primaryDark mb-1">
+                Your Review
+              </label>
+              <textarea
+                id="reviewDescription"
+                placeholder="Share your thoughts about this product (10-100 characters)..."
+                className="formItem w-full min-h-[120px]"
+                readOnly={readOnly}
+                {...register('reviewDescription', {
+                  required: { value: true, message: "Please enter your review" },
+                  minLength: { value: 10, message: "Minimum 10 characters required" },
+                  maxLength: { value: 100, message: "Maximum 100 characters allowed" }
+                })}
+              />
+              {errors.reviewDescription?.message && (
+                <SubmitError message={errors.reviewDescription.message} />
               )}
-            </>
-          )}
-        </div>
+            </div>
+            <div>
+              <h3 className="text-lg font-bold text-primaryDark mb-2">
+                {readOnly ? 'Product Rating' : 'Your Rating'}
+              </h3>
+              {readOnly ? (
+                <DisplaySingleProductRating rating={0} />
+              ) : (
+                <>
+                  <AddSingleProductRating getProductRating={receiveProductRating} />
+                  {rating === 0 && reviewSubmitted && (
+                    <SubmitError message='Please Rate the Product.' />
+                  )}
+                </>
+              )}
+            </div>
+          </div>
+          {/* Submit Buttons */}
+          <div className="mt-4 flex gap-4">
+            {mutation.isPending ? (
+              <LoadingButton />
+            ) : (
+              <PrimaryButton
+                searchText='Add Review'
+                onClick={addReviews}
+                disabled={readOnly}
+              />
+            )}
+            <PrimaryButton
+              searchText='Login'
+              onClick={addReviews}
+              disabled={!readOnly}
+            />
+          </div>
+        </form>
       </div>
-      {/* Submit Buttons */}
-      <div className="mt-4 flex gap-4">
-        {mutation.isPending ? (
-          <LoadingButton />
-        ) : (
-          <PrimaryButton 
-            searchText='Add Review' 
-            onClick={addReviews} 
-            disabled={readOnly}
-          />
-        )}
-        <PrimaryButton 
-          searchText='Login' 
-          onClick={addReviews} 
-          disabled={!readOnly}
-        />
-      </div>
-    </form>
-  </div>
-  </AbsoluteComponent>
+    </AbsoluteComponent>
   );
 };
 export default AddSingleProductReviews;
