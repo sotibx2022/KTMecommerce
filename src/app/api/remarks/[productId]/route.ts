@@ -80,3 +80,41 @@ export async function POST(req: NextRequest) {
     );
   }
 }
+export async function GET(req: NextRequest) {
+  try {
+    const url = new URL(req.url);
+    const pathSegments = url.pathname.split('/');
+    const productId = pathSegments.pop();
+    if (!productId) {
+      return NextResponse.json(
+        { message: "Product ID is required", success: false },
+        { status: 400 }
+      );
+    }
+    if (!mongoose.Types.ObjectId.isValid(productId)) {
+      return NextResponse.json(
+        { message: "Invalid product ID format", success: false },
+        { status: 400 }
+      );
+    }
+    const productObjectId = new mongoose.Types.ObjectId(productId);
+    const remarks = await remarksModel.find({ 'productIdentifier.productId': productObjectId,
+      reviewSentiment:'Positive'
+     });
+    return NextResponse.json({
+      message: "Remarks found successfully",
+      success: true,
+      data: remarks,
+      status: 200
+    });
+  } catch (error: any) {
+    return NextResponse.json(
+      { 
+        message: "Failed to fetch remarks",
+        success: false,
+        error: error.message,
+      },
+      { status: 500 }
+    );
+  }
+}
