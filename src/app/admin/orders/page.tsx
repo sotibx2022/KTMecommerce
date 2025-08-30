@@ -37,7 +37,6 @@ const Page = () => {
   const [statusValue, setStatusValue] = useState('')
   const { state: sidebarState } = useSidebar();
   const isCollapsed = sidebarState === "collapsed";
-  const screenWidth = useScreenWidth();
   const themeContext = useContext(ThemeProviderContext);
   if (!themeContext) {
     throw new Error("Theme Context is not Defined here")

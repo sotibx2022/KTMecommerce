@@ -61,7 +61,7 @@ const Page = () => {
         <SkeletonReviewsTable />
       ) : data && data.allRemarks.length > 0 ? (
         <>
-          <h2 className="secondaryHeading">
+          <h2 className="secondaryHeading mb-4">
             Neutral Remarks - Requires Admin's action
           </h2>
           <Table
@@ -74,7 +74,6 @@ const Page = () => {
               <TableRow>
                 <TableHead className="min-w-[150px]">User</TableHead>
                 <TableHead className="min-w-[200px]">Product</TableHead>
-                <TableHead className="min-w-[100px]">Rating</TableHead>
                 <TableHead className="min-w-[300px]">Review</TableHead>
                 <TableHead className="min-w-[150px]">Date</TableHead>
                 <TableHead className="min-w-[180px]">Action</TableHead>
@@ -91,10 +90,6 @@ const Page = () => {
                       className="h-10 w-10 rounded-md object-cover"
                     />
                     <span className="truncate">{remark.productIdentifier.productName}</span>
-                  </TableCell>
-                  <TableCell className="flex items-center gap-1">
-                    <span>{remark.rating}</span>
-                    <Star className="w-4 h-4 text-helper" />
                   </TableCell>
                   <TableCell className="truncate max-w-[300px]">{remark.reviewDescription}</TableCell>
                   <TableCell>{DateFormator(remark.createdAt!)}</TableCell>
