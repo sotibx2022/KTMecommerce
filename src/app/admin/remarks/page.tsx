@@ -56,7 +56,7 @@ const Page = () => {
   return (
     <div className="p-4 rounded-xl">
       <TotalReviews />
-      {data.allRemarks.length>0?<Table>
+      {data && data.allRemarks.length > 0 ? <Table>
         <TableCaption>Customer Reviews</TableCaption>
         <TableHeader>
           <TableRow>
@@ -123,7 +123,7 @@ const Page = () => {
               ))}
           </TableBody>
         )}
-      </Table>:<NoData icon={<MessageCircleQuestion/>} notFoundMessage={"There are No Neutral Remarks found."}/>}
+      </Table> : <NoData icon={<MessageCircleQuestion />} notFoundMessage={"There are No Neutral Remarks found."} />}
     </div>
   )
 }
