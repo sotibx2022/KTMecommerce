@@ -74,7 +74,7 @@ const Page = () => {
               <TableRow>
                 <TableHead className="min-w-[100px]">User</TableHead>
                 <TableHead className="min-w-[200px]">Product</TableHead>
-                <TableHead className="max-w-[300px]">Review</TableHead>
+                <TableHead className="w-[300px]">Review</TableHead>
                 <TableHead className="min-w-[100px]">Date</TableHead>
                 <TableHead className="min-w-[100px]">Rating</TableHead>
                 <TableHead className="min-w-[180px]">Action</TableHead>
@@ -92,36 +92,36 @@ const Page = () => {
                     />
                     <span className="truncate">{remark.productIdentifier.productName}</span>
                   </TableCell>
-                  <TableCell className="max-w-[300px]">{remark.reviewDescription}</TableCell>
+                  <TableCell className="w-[300px]">{remark.reviewDescription}</TableCell>
                   <TableCell>{DateFormator(remark.createdAt!)}</TableCell>
-                  <TableCell><div className="flex gap-2"><span>{remark.rating}</span>
+                  <TableCell><div className="flex gap-2 justify-between items-center"><span>{remark.rating}</span>
                   <Star className="text-helper"/></div></TableCell>
-                  <TableCell className="flex flex-col gap-2">
-                    <span
-                      className="flex items-center gap-1 text-red-500 cursor-pointer"
-                      onClick={() =>
-                        updateReviewMutation.mutate({
-                          reviewAction: "delete",
-                          reviewId: remark._id!.toString(),
-                        })
-                      }
-                    >
-                      <Trash2 className="w-4 h-4" />
-                      Delete
-                    </span>
-                    <span
-                      className="flex items-center gap-1 text-green-600 cursor-pointer"
-                      onClick={() =>
-                        updateReviewMutation.mutate({
-                          reviewAction: "approve",
-                          reviewId: remark._id!.toString(),
-                        })
-                      }
-                    >
-                      <Check className="w-4 h-4" />
-                      Approve
-                    </span>
-                  </TableCell>
+                    <TableCell className="flex flex-col justify-center items-center gap-4">
+  <div
+    className="flex items-center gap-1 text-red-500 cursor-pointer"
+    onClick={() =>
+      updateReviewMutation.mutate({
+        reviewAction: "delete",
+        reviewId: remark._id!.toString(),
+      })
+    }
+  >
+    <Trash2 className="w-4 h-4" />
+    <span>Delete</span>
+  </div>
+  <div
+    className="flex items-center gap-1 text-green-600 cursor-pointer"
+    onClick={() =>
+      updateReviewMutation.mutate({
+        reviewAction: "approve",
+        reviewId: remark._id!.toString(),
+      })
+    }
+  >
+    <Check className="w-4 h-4" />
+    <span>Approve</span>
+  </div>
+</TableCell>
                 </TableRow>
               ))}
             </TableBody>
