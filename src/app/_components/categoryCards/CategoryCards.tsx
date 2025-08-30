@@ -71,7 +71,7 @@ const CategoryCards = ({ categoryType, title }: CategoryCardsProps) => {
                           {product.brand}
                         </span>
                         <span className="price-highlight">
-                          <Rupee/>{parseFloat(product.price).toFixed(2)}
+                          <Rupee price={product.price}/>
                         </span>
                       </div>
                       <p className="text-sm text-primaryDark line-clamp-2">

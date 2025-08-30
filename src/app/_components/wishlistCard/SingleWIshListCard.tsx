@@ -64,7 +64,7 @@ const SingleWishListCard: React.FC<WishlistItemProps> = ({ item, actionAble }) =
           <Badge variant={'outline'}>{item.brand}</Badge>
           <Badge variant={'secondary'}>{item.category}</Badge>
           <p className="price-highlight text-lg font-semibold">
-            <Rupee />{item.price}
+            <Rupee price={item.price}/>
           </p>
         </div>
       </div>

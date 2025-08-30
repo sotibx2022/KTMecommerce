@@ -21,12 +21,12 @@ const OrderSummary = ({ items }: OrderSummaryProps) => {
               <img src={item.image} alt={item.productName} className="w-12 h-12 object-cover rounded" />
               <span className="text-primaryDark">{item.productName}</span>
             </div>
-            <span className="text-primaryDark"><Rupee/>{item.price} × {item.quantity}</span>
+            <span className="text-primaryDark"><Rupee price={Number(item.price)*item.quantity}/></span>
           </div>
         ))}
          <div className="summaryLine flex justify-between items-center">
       <span className="cartSummaryTitle secondaryHeading  uppercase">Gross Total</span>
-      <span className="cartSummaryData secondaryHeading price-highlight"><Rupee/>{grossTotal.toFixed(2)}</span>
+      <span className="cartSummaryData secondaryHeading price-highlight"><Rupee price={grossTotal}/></span>
     </div>
       </div>
     </div>

@@ -34,7 +34,7 @@ const TableData: React.FC<ITableData> = ({ product, index, theme }) => {
         {product.productName}
       </TableCell>
       <TableCell className={`${generateClassName(theme)}`}>
-        <Rupee/>{Number(product.price).toFixed(2)}
+        <Rupee price={product.price}/>
       </TableCell>
       <TableCell className={`${generateClassName(theme)}`}>
         <Badge variant={product.stockAvailability ? "success" : "failure"}>

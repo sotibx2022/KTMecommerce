@@ -58,7 +58,7 @@ const ProductCard: React.FC<IProductDisplay> = ({
             <p className="text-primaryDark font-bold bg-helper p-2 rounded-lg">{brand}</p>
           </div>
           <p className="price-highlight my-2">
-            <Rupee/>{parseFloat(price).toFixed(2)}
+            <Rupee price={price}/>
           </p>
           <div className="productRatingArea flex justify-center items-center mb-2">
             <DisplaySingleProductRating rating={overallRating} />

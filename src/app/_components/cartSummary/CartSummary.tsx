@@ -31,15 +31,15 @@ const CartSummary: React.FC<ICartSummary> = ({ order, items }) => {
         : calculateTotals(datatoRender);
     // Helper function to display values with loading state
     const displayValue = (value: number, isCurrency = false) => {
-    if (cartLoading && !items) return "Loading...";
-    return isCurrency ? (
-        <span>
-            <Rupee /> {value.toFixed(2)}
-        </span>
-    ) : (
-        value.toString()
-    );
-};
+        if (cartLoading && !items) return "Loading...";
+        return isCurrency ? (
+            <span>
+                <Rupee price={value}/>
+            </span>
+        ) : (
+            value.toString()
+        );
+    };
     return (
         <div className="CartSummary flex flex-col gap-2 my-5 max-w-[500px]">
             {datatoRender === cartItems && <h2 className="subHeading">Cart Summary</h2>}

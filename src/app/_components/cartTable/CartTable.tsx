@@ -119,7 +119,7 @@ const CartTable = () => {
                     </button>
                   </div>
               <div className="flex-1">
-                <div className="mt-2 text-primaryDark font-semibold"><Rupee/>{item.price}</div>
+                <div className="mt-2 text-primaryDark font-semibold"><Rupee price={item.price}/></div>
                 <div className="flex items-center justify-between mt-3">
                 </div>
               </div>

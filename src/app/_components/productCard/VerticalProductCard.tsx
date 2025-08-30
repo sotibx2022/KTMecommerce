@@ -54,7 +54,7 @@ const VerticalProductCard: React.FC<IProductDisplay> = ({
                     </div>
                     <div className="flex justify-center items-center w-[10vw]">
                         <p className="price-highlight">
-                            <Rupee/>{parseFloat(price).toFixed(2)}
+                            <Rupee price={price}/>
                         </p>
                     </div>
                 </div>
