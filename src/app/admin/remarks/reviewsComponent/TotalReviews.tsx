@@ -24,7 +24,7 @@ const TotalReviews: React.FC<ITotalReviewsProps> = ({ totalRemarks, averageRatin
     );
   }
   return (
-    <div className="text-primaryDark rounded-lg p-6 w-64" style={{ background: "var(--primaryLight)" }}>
+    <div className="text-primaryDark rounded-lg p-6 shadow-primaryLight" >
       <h3 className="secondaryHeading">Total Reviews</h3>
       <p className="primaryHeading">{totalRemarks}</p>
       <div className="mt-3 flex items-center gap-2">
