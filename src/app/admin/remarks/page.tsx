@@ -1,5 +1,5 @@
 "use client"
-import React from "react"
+import React, { useContext } from "react"
 import TotalReviews from "./reviewsComponent/TotalReviews"
 import { useMutation, useQuery } from "@tanstack/react-query"
 import axios from "axios"
@@ -20,7 +20,13 @@ import toast from "react-hot-toast"
 import { APIResponseSuccess } from "@/app/services/queryFunctions/users"
 import NoData from "@/app/_components/noData/NoData"
 import { useSidebar } from "@/components/ui/sidebar"
+import { ThemeProviderContext } from "@/app/context/ThemeProvider"
 const Page = () => {
+  const themeContext = useContext(ThemeProviderContext);
+  if (!themeContext) {
+    throw new Error("Theme Context is not Defined here")
+  }
+  const { theme } = themeContext
   const { state: sidebarState } = useSidebar()
   const isCollapsed = sidebarState === "collapsed"
   // Fetch all remarks
@@ -68,6 +74,7 @@ const Page = () => {
             style={{
               maxWidth: isCollapsed ? "85vw" : "70vw",
             }}
+            className={`${theme === "dark" ? "table darkTable" : "lightTable"} my-4 w-[90%]`}
           >
             <TableCaption>Customer Reviews</TableCaption>
             <TableHeader>
@@ -77,7 +84,7 @@ const Page = () => {
                 <TableHead className="w-[300px]">Review</TableHead>
                 <TableHead className="min-w-[100px]">Date</TableHead>
                 <TableHead className="min-w-[100px]">Rating</TableHead>
-                <TableHead className="min-w-[180px]">Action</TableHead>
+                <TableHead className="min-w-[100px]">Action</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -92,36 +99,36 @@ const Page = () => {
                     />
                     <span className="truncate">{remark.productIdentifier.productName}</span>
                   </TableCell>
-                  <TableCell className="w-[300px]">{remark.reviewDescription}</TableCell>
+                  <TableCell className="w-[300px]"><span>{remark.reviewDescription}</span></TableCell>
                   <TableCell>{DateFormator(remark.createdAt!)}</TableCell>
                   <TableCell><div className="flex gap-2 justify-between items-center"><span>{remark.rating}</span>
-                  <Star className="text-helper"/></div></TableCell>
-                    <TableCell className="flex flex-col justify-center items-center gap-4">
-  <div
-    className="flex items-center gap-1 text-red-500 cursor-pointer"
-    onClick={() =>
-      updateReviewMutation.mutate({
-        reviewAction: "delete",
-        reviewId: remark._id!.toString(),
-      })
-    }
-  >
-    <Trash2 className="w-4 h-4" />
-    <span>Delete</span>
-  </div>
-  <div
-    className="flex items-center gap-1 text-green-600 cursor-pointer"
-    onClick={() =>
-      updateReviewMutation.mutate({
-        reviewAction: "approve",
-        reviewId: remark._id!.toString(),
-      })
-    }
-  >
-    <Check className="w-4 h-4" />
-    <span>Approve</span>
-  </div>
-</TableCell>
+                    <Star className="text-helper" /></div></TableCell>
+                  <TableCell className="flex flex-col justify-center items-center gap-4">
+                    <div
+                      className="flex items-center gap-1 text-red-500 cursor-pointer"
+                      onClick={() =>
+                        updateReviewMutation.mutate({
+                          reviewAction: "delete",
+                          reviewId: remark._id!.toString(),
+                        })
+                      }
+                    >
+                      <Trash2 className="w-4 h-4" />
+                      <span>Delete</span>
+                    </div>
+                    <div
+                      className="flex items-center gap-1 text-green-600 cursor-pointer"
+                      onClick={() =>
+                        updateReviewMutation.mutate({
+                          reviewAction: "approve",
+                          reviewId: remark._id!.toString(),
+                        })
+                      }
+                    >
+                      <Check className="w-4 h-4" />
+                      <span>Approve</span>
+                    </div>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
