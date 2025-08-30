@@ -7,7 +7,7 @@ import axios from 'axios'
 const page = () => {
   const { data: allReviews, isPending } = useQuery({
     queryFn: async () => {
-      const response = await axios.get('/api/allRemarks');
+      const response = await axios.get('/api/remarks/allRemarks');
       return response.data;
     },
     queryKey: ['allRemarks']
