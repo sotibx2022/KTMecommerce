@@ -72,10 +72,11 @@ const Page = () => {
             <TableCaption>Customer Reviews</TableCaption>
             <TableHeader>
               <TableRow>
-                <TableHead className="min-w-[150px]">User</TableHead>
+                <TableHead className="min-w-[100px]">User</TableHead>
                 <TableHead className="min-w-[200px]">Product</TableHead>
-                <TableHead className="min-w-[300px]">Review</TableHead>
-                <TableHead className="min-w-[150px]">Date</TableHead>
+                <TableHead className="max-w-[300px]">Review</TableHead>
+                <TableHead className="min-w-[100px]">Date</TableHead>
+                <TableHead className="min-w-[100px]">Rating</TableHead>
                 <TableHead className="min-w-[180px]">Action</TableHead>
               </TableRow>
             </TableHeader>
@@ -91,9 +92,11 @@ const Page = () => {
                     />
                     <span className="truncate">{remark.productIdentifier.productName}</span>
                   </TableCell>
-                  <TableCell className="truncate max-w-[300px]">{remark.reviewDescription}</TableCell>
+                  <TableCell className="max-w-[300px]">{remark.reviewDescription}</TableCell>
                   <TableCell>{DateFormator(remark.createdAt!)}</TableCell>
-                  <TableCell className="flex gap-2">
+                  <TableCell><div className="flex gap-2"><span>{remark.rating}</span>
+                  <Star className="text-helper"/></div></TableCell>
+                  <TableCell className="flex flex-col gap-2">
                     <span
                       className="flex items-center gap-1 text-red-500 cursor-pointer"
                       onClick={() =>
