@@ -41,7 +41,7 @@ const VerticalProductCard: React.FC<IProductDisplay> = ({
                     <div className="productDetails p-4 flex flex-col w-[40vw] border-2 border-transparent border-dotted border-r-helper justify-center text-wrap">
                         <div className="productTitle p-2 rounded-lg"
                             style={{ background: "var(--gradientwithOpacity)" }}>
-                            <h2 className="text-background font-bold text-lg">{productName}</h2>
+                            <h2 className="text-background font-bold text-lg truncate">{productName}</h2>
                         </div>
                         <div className="productDescription">{truncateText(productDescription)}</div>
                         <div className="productRating">

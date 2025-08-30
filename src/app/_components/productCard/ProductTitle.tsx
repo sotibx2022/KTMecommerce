@@ -22,7 +22,7 @@ const ProductTitle: React.FC<ProductTitleProps> = ({ productName, productHighlig
   const badgeProps = getBadgeProps();
   return (
     <div className="relative mb-1 p-2">
-      <h2 className="secondaryHeading">{productName}</h2>
+      <h2 className="secondaryHeading truncate">{productName}</h2>
       <div className="absolute -top-3 -right-3">
         <Badge 
           variant={badgeProps.variant as any} 
