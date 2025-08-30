@@ -1,6 +1,7 @@
 import { remarksModel } from "@/models/remarks.model";
 import { NextRequest, NextResponse } from "next/server";
 import { getUserIdFromCookies } from "../../auth/authFunctions/getUserIdFromCookies";
+import { connectToDB } from "@/config/db";
 export async function GET(req: NextRequest) {
   try {
     const userId = await getUserIdFromCookies(req);
@@ -37,6 +38,7 @@ export async function GET(req: NextRequest) {
   }
 }
 export async function POST(req: NextRequest) {
+  connectToDB()
   try {
     const reviewAction = req.headers.get("reviewAction") as string;
     const reviewId = req.headers.get("reviewId") as string;

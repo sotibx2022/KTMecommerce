@@ -14,10 +14,11 @@ import {
 } from "@/components/ui/table"
 import { IRemarksBaseForDB } from "@/app/types/remarks"
 import { DateFormator } from "@/app/services/helperFunctions/functions"
-import { Check, Star, Trash2 } from "lucide-react"
+import { Check, MessageCircleQuestion, Star, Trash2 } from "lucide-react"
 import SkeletonReviewsTable from "./reviewsComponent/SkletonReviewsTable"
 import toast from "react-hot-toast"
 import { APIResponseSuccess } from "@/app/services/queryFunctions/users"
+import NoData from "@/app/_components/noData/NoData"
 const Page = () => {
   // Fetch all remarks
   const { data, isPending: reviewsListPending, refetch } = useQuery({
@@ -55,14 +56,13 @@ const Page = () => {
   return (
     <div className="p-4 rounded-xl">
       <TotalReviews />
-      <Table>
+      {data.allRemarks.length>0?<Table>
         <TableCaption>Customer Reviews</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead className="w-[150px]">User</TableHead>
             <TableHead>Product</TableHead>
             <TableHead>Rating</TableHead>
-            <TableHead>Sentiment</TableHead>
             <TableHead>Review</TableHead>
             <TableHead>Date</TableHead>
             <TableHead>Action</TableHead>
@@ -123,7 +123,7 @@ const Page = () => {
               ))}
           </TableBody>
         )}
-      </Table>
+      </Table>:<NoData icon={<MessageCircleQuestion/>} notFoundMessage={"There are No Neutral Remarks found."}/>}
     </div>
   )
 }
