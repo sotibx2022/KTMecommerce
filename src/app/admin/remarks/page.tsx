@@ -19,7 +19,10 @@ import SkeletonReviewsTable from "./reviewsComponent/SkletonReviewsTable"
 import toast from "react-hot-toast"
 import { APIResponseSuccess } from "@/app/services/queryFunctions/users"
 import NoData from "@/app/_components/noData/NoData"
+import { useSidebar } from "@/components/ui/sidebar"
 const Page = () => {
+  const { state: sidebarState } = useSidebar()
+  const isCollapsed = sidebarState === "collapsed"
   // Fetch all remarks
   const { data, isPending: reviewsListPending, refetch } = useQuery({
     queryFn: async () => {
@@ -61,7 +64,11 @@ const Page = () => {
           <h2 className="secondaryHeading">
             Neutral Remarks - Requires Admin's action
           </h2>
-          <Table>
+          <Table
+            style={{
+              maxWidth: isCollapsed ? "85vw" : "70vw",
+            }}
+          >
             <TableCaption>Customer Reviews</TableCaption>
             <TableHeader>
               <TableRow>
@@ -86,7 +93,7 @@ const Page = () => {
                     <span className="truncate">{remark.productIdentifier.productName}</span>
                   </TableCell>
                   <TableCell className="flex items-center gap-1">
-                    {remark.rating}
+                    <span>{remark.rating}</span>
                     <Star className="w-4 h-4 text-helper" />
                   </TableCell>
                   <TableCell className="truncate max-w-[300px]">{remark.reviewDescription}</TableCell>
