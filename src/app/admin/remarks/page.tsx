@@ -1,3 +1,4 @@
+"use client"
 import React from 'react'
 import TotalReviews from './reviewsComponent/TotalReviews'
 import UnderDevelopment from '@/app/_components/UnderDevelopment/UnderDevelopment'
