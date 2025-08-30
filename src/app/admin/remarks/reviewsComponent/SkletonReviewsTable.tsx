@@ -52,6 +52,18 @@ const SkeletonReviewsTable = () => {
                             style={{ background: "var(--primaryLight)" }}
                         />
                     </TableCell>
+                    <TableCell>
+                        <div className="flex flex-col gap-4">
+                            <div
+                            className="h-4 w-20 rounded-md animate-pulse"
+                            style={{ background: "var(--primaryLight)" }}
+                        />
+                        <div
+                            className="h-4 w-20 rounded-md animate-pulse"
+                            style={{ background: "var(--primaryLight)" }}
+                        />
+                        </div>
+                    </TableCell>
                 </TableRow>
             ))}
         </TableBody>

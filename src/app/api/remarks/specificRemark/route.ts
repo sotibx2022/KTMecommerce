@@ -3,38 +3,24 @@ import { NextRequest, NextResponse } from "next/server";
 import { getUserIdFromCookies } from "../../auth/authFunctions/getUserIdFromCookies";
 export async function GET(req: NextRequest) {
   try {
-    console.log("📥 Incoming GET request to fetch specific remark");
     const userId = await getUserIdFromCookies(req);
     const productId = req.headers.get("productId");
-    console.log("🔍 Extracted Headers:");
-    console.log("  - userId:", userId);
-    console.log("  - productId:", productId);
-    // Validate required parameters
     if (!userId || !productId) {
-      console.warn("⚠️ Missing required parameters");
       return NextResponse.json(
         { message: "Missing required parameters", success: false },
         { status: 400 }
       );
     }
-    console.log("🔄 Converting productId to Object");
-    console.log("🔎 Searching for remark with:");
-    console.log("  - productIdentifier.productId:", productId);
-    console.log("  - reviewedBy.id:", userId);
-    // Query the database
     const remark = await remarksModel.findOne({
       "productIdentifier.productId": productId,
       "reviewedBy.userId": userId,
     });
     if (!remark) {
-      console.warn("❌ Remark not found for given user and product");
       return NextResponse.json(
         { message: "Remark not found", success: false },
         { status: 404 }
       );
     }
-    console.log("✅ Remark found:", remark);
-    // Return successful response
     return NextResponse.json(
       {
         message: "Specific Remark Found",
@@ -44,7 +30,59 @@ export async function GET(req: NextRequest) {
       { status: 200 }
     );
   } catch (error: any) {
-    console.error("❌ Internal server error:", error.message);
+    return NextResponse.json(
+      { message: "Internal server error", success: false },
+      { status: 500 }
+    );
+  }
+}
+export async function POST(req: NextRequest) {
+  try {
+    const reviewAction = req.headers.get("reviewAction") as string;
+    const reviewId = req.headers.get("reviewId") as string;
+    if (!reviewAction || !reviewId) {
+      return NextResponse.json(
+        { message: "Missing required parameters", success: false },
+        { status: 400 }
+      );
+    }
+    let message: string;
+    let status: number;
+    if (reviewAction === "approve") {
+      const targetReview = await remarksModel.findOneAndUpdate(
+        { _id: reviewId },
+        { reviewSentiment: "Positive" },
+        { new: true }
+      );
+      if (!targetReview) {
+        return NextResponse.json(
+          { message: "Review not found", success: false },
+          { status: 404 }
+        );
+      }
+      message = "Review Approved";
+      status = 200;
+    } else if (reviewAction === "delete") {
+      const targetReview = await remarksModel.findOneAndDelete({ _id: reviewId });
+      if (!targetReview) {
+        return NextResponse.json(
+          { message: "Review not found", success: false },
+          { status: 404 }
+        );
+      }
+      message = "Review Deleted";
+      status = 204;
+    } else {
+      return NextResponse.json(
+        { message: "Invalid reviewAction value", success: false },
+        { status: 400 }
+      );
+    }
+    return NextResponse.json(
+      { message, success: true },
+      { status }
+    );
+  } catch (error: any) {
     return NextResponse.json(
       { message: "Internal server error", success: false },
       { status: 500 }

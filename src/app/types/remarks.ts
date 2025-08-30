@@ -31,4 +31,5 @@ export interface IRemarksBaseForDB
     fullName: string;
     email?: string;
   };
+  _id?:Types.ObjectId;
 }
