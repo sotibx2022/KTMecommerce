@@ -15,6 +15,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { APIResponseError, APIResponseSuccess } from '@/app/services/queryFunctions/users';
 import { useUserDetails } from '@/app/context/UserDetailsContextComponent';
 import { Badge } from '@/components/ui/badge';
+import { Rupee } from '../productCard/Rupee';
 const CartTable = () => {
   const { userDetails } = useUserDetails()
   const queryClient = useQueryClient();
@@ -118,7 +119,7 @@ const CartTable = () => {
                     </button>
                   </div>
               <div className="flex-1">
-                <div className="mt-2 text-primaryDark font-semibold">${item.price}</div>
+                <div className="mt-2 text-primaryDark font-semibold"><Rupee/>{item.price}</div>
                 <div className="flex items-center justify-between mt-3">
                 </div>
               </div>

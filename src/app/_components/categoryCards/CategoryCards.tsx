@@ -8,6 +8,7 @@ import "swiper/css/autoplay";
 import Link from "next/link";
 import { useSpecificCataegory } from "@/app/hooks/queryHooks/useSpecificCategory";
 import SkeletonSlide from "../loadingComponent/SkeletonSlide";
+import { Rupee } from "../productCard/Rupee";
 interface CategoryCardsProps {
   categoryType: "isNewArrival" | "isTrendingNow" | "isTopSell" | "isOfferItem";
   title: string;
@@ -70,7 +71,7 @@ const CategoryCards = ({ categoryType, title }: CategoryCardsProps) => {
                           {product.brand}
                         </span>
                         <span className="price-highlight">
-                          ${parseFloat(product.price).toFixed(2)}
+                          <Rupee/>{parseFloat(product.price).toFixed(2)}
                         </span>
                       </div>
                       <p className="text-sm text-primaryDark line-clamp-2">

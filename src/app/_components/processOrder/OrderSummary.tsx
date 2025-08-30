@@ -3,12 +3,12 @@ import { CartState } from '@/app/redux/cartSlice'
 import { calculateTotals } from '@/app/services/helperFunctions/cartFunctions'
 import { IOrderItem } from '@/app/types/orders';
 import { useSelector } from 'react-redux'
+import { Rupee } from '../productCard/Rupee';
 interface OrderSummaryProps {
   items?: IOrderItem[]; // Make items prop optional
 }
 const OrderSummary = ({ items }: OrderSummaryProps) => {
   const cartItems = useSelector((state: { cart: CartState }) => state.cart.cartItems);
-  
   const dataToRender = items || cartItems;
   const {grossTotal}  = calculateTotals(cartItems);
   return (
@@ -21,12 +21,12 @@ const OrderSummary = ({ items }: OrderSummaryProps) => {
               <img src={item.image} alt={item.productName} className="w-12 h-12 object-cover rounded" />
               <span className="text-primaryDark">{item.productName}</span>
             </div>
-            <span className="text-primaryDark">${item.price} × {item.quantity}</span>
+            <span className="text-primaryDark"><Rupee/>{item.price} × {item.quantity}</span>
           </div>
         ))}
          <div className="summaryLine flex justify-between items-center">
       <span className="cartSummaryTitle secondaryHeading  uppercase">Gross Total</span>
-      <span className="cartSummaryData secondaryHeading price-highlight">${grossTotal.toFixed(2)}</span>
+      <span className="cartSummaryData secondaryHeading price-highlight"><Rupee/>{grossTotal.toFixed(2)}</span>
     </div>
       </div>
     </div>

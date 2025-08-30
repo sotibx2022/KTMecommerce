@@ -4,6 +4,7 @@ import DisplaySingleProductRating from '../singleProductReviews/DisplaySinglePro
 import { IProductDisplay } from '@/app/types/products';
 import ProductCardAction from './ProductCardAction';
 import Image from 'next/image';
+import { Rupee } from './Rupee';
 const VerticalProductCard: React.FC<IProductDisplay> = ({
     brand,
     productName,
@@ -53,7 +54,7 @@ const VerticalProductCard: React.FC<IProductDisplay> = ({
                     </div>
                     <div className="flex justify-center items-center w-[10vw]">
                         <p className="price-highlight">
-                            ${parseFloat(price).toFixed(2)}
+                            <Rupee/>{parseFloat(price).toFixed(2)}
                         </p>
                     </div>
                 </div>

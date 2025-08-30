@@ -60,18 +60,18 @@ const Page = () => {
     },
   })
   const isPending = reviewsListPending || updateReviewMutation.isPending
-  const totalRemarks:number|undefined = data?.totalRemarks??undefined
-  const averageRating:number|undefined = data?.averageRating?? undefined
+  const totalRemarks: number | undefined = data?.totalRemarks ?? undefined
+  const averageRating: number | undefined = data?.averageRating ?? undefined
   return (
     <div className="p-4 rounded-xl">
-      <TotalReviews totalRemarks={totalRemarks} averageRating={averageRating} theme={theme}/>
+      <TotalReviews totalRemarks={totalRemarks} averageRating={averageRating} theme={theme} />
       <div
         ref={tableWrapperRef}
         style={{ maxWidth: isCollapsed ? "85vw" : "70vw" }}
         className={
           tableWrapperRef.current?.clientWidth &&
-          tableRef.current?.clientWidth &&
-          tableWrapperRef.current.clientWidth > tableRef.current.clientWidth
+            tableRef.current?.clientWidth &&
+            tableWrapperRef.current.clientWidth > tableRef.current.clientWidth
             ? "overflow-x-hidden w-full"
             : "overflow-x-auto w-full"
         }

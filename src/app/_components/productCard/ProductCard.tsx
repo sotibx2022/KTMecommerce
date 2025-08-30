@@ -6,6 +6,7 @@ import ProductCardAction from './ProductCardAction';
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
 import ProductTitle from './ProductTitle';
+import { Rupee } from './Rupee';
 const ProductCard: React.FC<IProductDisplay> = ({
   brand,
   productName,
@@ -57,7 +58,7 @@ const ProductCard: React.FC<IProductDisplay> = ({
             <p className="text-primaryDark font-bold bg-helper p-2 rounded-lg">{brand}</p>
           </div>
           <p className="price-highlight my-2">
-            ${parseFloat(price).toFixed(2)}
+            <Rupee/>{parseFloat(price).toFixed(2)}
           </p>
           <div className="productRatingArea flex justify-center items-center mb-2">
             <DisplaySingleProductRating rating={overallRating} />

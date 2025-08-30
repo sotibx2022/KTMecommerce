@@ -7,6 +7,7 @@ import { FaEdit, FaEye, FaTrash } from 'react-icons/fa'
 import ProductAction from './ProductAction'
 import { HandMetal } from 'lucide-react'
 import { generateClassName } from '@/app/services/helperFunctions/generateClassNames'
+import { Rupee } from '@/app/_components/productCard/Rupee'
 interface ITableData {
     product: IProductDisplay,
     index: number,
@@ -33,7 +34,7 @@ const TableData: React.FC<ITableData> = ({ product, index, theme }) => {
         {product.productName}
       </TableCell>
       <TableCell className={`${generateClassName(theme)}`}>
-        ${Number(product.price).toFixed(2)}
+        <Rupee/>{Number(product.price).toFixed(2)}
       </TableCell>
       <TableCell className={`${generateClassName(theme)}`}>
         <Badge variant={product.stockAvailability ? "success" : "failure"}>
