@@ -60,9 +60,11 @@ const Page = () => {
     },
   })
   const isPending = reviewsListPending || updateReviewMutation.isPending
+  const totalRemarks:number|undefined = data?.totalRemarks??undefined
+  const averageRating:number|undefined = data?.averageRating?? undefined
   return (
     <div className="p-4 rounded-xl">
-      <TotalReviews />
+      <TotalReviews totalRemarks={totalRemarks} averageRating={averageRating}/>
       <div
         ref={tableWrapperRef}
         style={{ maxWidth: isCollapsed ? "85vw" : "70vw" }}
@@ -85,7 +87,6 @@ const Page = () => {
               ref={tableRef}
               className={`${theme === "dark" ? "table darkTable" : "lightTable"} my-4 w-[90%]`}
             >
-              <TableCaption>Customer Reviews</TableCaption>
               <TableHeader>
                 <TableRow>
                   <TableHead className="min-w-[150px]">User</TableHead>
@@ -108,7 +109,7 @@ const Page = () => {
                       />
                       <span className="truncate">{remark.productIdentifier.productName}</span>
                     </TableCell>
-                    <TableCell className="truncate max-w-[300px]">{remark.reviewDescription}</TableCell>
+                    <TableCell className="max-w-[300px]">{remark.reviewDescription}</TableCell>
                     <TableCell>{DateFormator(remark.createdAt!)}</TableCell>
                     <TableCell>
                       <div className="flex gap-2 justify-center items-center">

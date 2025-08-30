@@ -5,16 +5,31 @@ const DisplaySingleProductRating = dynamic(
   () => import('@/app/_components/singleProductReviews/DisplaySingleProductRating'),
   { ssr: false }
 );
-const TotalReviews = () => {
-  const totalReviews = 1256;
-  const averageRating = 4.3; // out of 5
+interface ITotalReviewsProps {
+  totalRemarks: number | undefined,
+  averageRating: number | undefined
+}
+const TotalReviews: React.FC<ITotalReviewsProps> = ({ totalRemarks, averageRating }) => {
+  const isLoading = totalRemarks === undefined || averageRating === undefined;
+  if (isLoading) {
+    return (
+      <div className="rounded-lg p-6 w-64" style={{ background: "var(--primaryLight)" }}>
+        <div className="h-6 w-32 mb-2 rounded-md animate-pulse" style={{ background: "var(--primaryDark)" }} />
+        <div className="h-10 w-16 rounded-md animate-pulse" style={{ background: "var(--primary)" }} />
+        <div className="mt-3 flex flex-col gap-2">
+          <div className="h-4 w-24 rounded-md animate-pulse" style={{ background: "var(--primaryDark)" }} />
+          <div className="h-4 w-32 rounded-md animate-pulse" style={{ background: "var(--helper)" }} />
+        </div>
+      </div>
+    );
+  }
   return (
-    <div className=" text-primaryDark rounded-lg p-6 w-64">
-      <h3 className="text-xl font-semibold mb-2">Total Reviews</h3>
-      <p className="text-4xl font-bold">{totalReviews}</p>
-      <div className=" mt-3">
-        <span className="mr-2 text-sm font-medium">Average Rating:</span>
-        <DisplaySingleProductRating rating={averageRating}/>
+    <div className="text-primaryDark rounded-lg p-6 w-64" style={{ background: "var(--primaryLight)" }}>
+      <h3 className="secondaryHeading">Total Reviews</h3>
+      <p className="primaryHeading">{totalRemarks}</p>
+      <div className="mt-3 flex items-center gap-2">
+        <span className="primaryParagraph">Average Rating:</span>
+        <DisplaySingleProductRating rating={averageRating} />
       </div>
     </div>
   );
