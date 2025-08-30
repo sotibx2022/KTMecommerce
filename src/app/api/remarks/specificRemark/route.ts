@@ -2,6 +2,7 @@ import { remarksModel } from "@/models/remarks.model";
 import { NextRequest, NextResponse } from "next/server";
 import { getUserIdFromCookies } from "../../auth/authFunctions/getUserIdFromCookies";
 import { connectToDB } from "@/config/db";
+import { checkAdminAuthorization } from "@/app/services/apiFunctions/checkAdminAuthorization";
 export async function GET(req: NextRequest) {
   try {
     const userId = await getUserIdFromCookies(req);
@@ -42,6 +43,7 @@ export async function POST(req: NextRequest) {
   try {
     const reviewAction = req.headers.get("reviewAction") as string;
     const reviewId = req.headers.get("reviewId") as string;
+    await checkAdminAuthorization(req);
     if (!reviewAction || !reviewId) {
       return NextResponse.json(
         { message: "Missing required parameters", success: false },
