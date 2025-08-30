@@ -14,52 +14,8 @@ import {
 } from "@/components/ui/table"
 import { IRemarksBase } from '@/app/types/remarks'
 import { DateFormator } from '@/app/services/helperFunctions/functions'
-const SkeletonTable = () => {
-  // let's show 5 placeholder rows
-  const rows = Array.from({ length: 5 })
-  return (
-    <Table>
-      <TableCaption>Loading Reviews...</TableCaption>
-      <TableHeader>
-        <TableRow>
-          <TableHead className="w-[150px]">User</TableHead>
-          <TableHead>Product</TableHead>
-          <TableHead>Rating</TableHead>
-          <TableHead>Sentiment</TableHead>
-          <TableHead>Review</TableHead>
-          <TableHead>Date</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {rows.map((_, idx) => (
-          <TableRow key={idx}>
-            <TableCell>
-              <div className="h-4 w-24 rounded-md animate-pulse" style={{ background: "var(--primaryLight)" }} />
-            </TableCell>
-            <TableCell>
-              <div className="flex items-center gap-2">
-                <div className="h-10 w-10 rounded-md animate-pulse" style={{ background: "var(--primaryLight)" }} />
-                <div className="h-4 w-28 rounded-md animate-pulse" style={{ background: "var(--primaryLight)" }} />
-              </div>
-            </TableCell>
-            <TableCell>
-              <div className="h-4 w-10 rounded-md animate-pulse" style={{ background: "var(--primaryLight)" }} />
-            </TableCell>
-            <TableCell>
-              <div className="h-4 w-20 rounded-md animate-pulse" style={{ background: "var(--primaryLight)" }} />
-            </TableCell>
-            <TableCell>
-              <div className="h-4 w-40 rounded-md animate-pulse" style={{ background: "var(--primaryLight)" }} />
-            </TableCell>
-            <TableCell>
-              <div className="h-4 w-20 rounded-md animate-pulse" style={{ background: "var(--primaryLight)" }} />
-            </TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
-  )
-}
+import { Check, Star, Trash2 } from 'lucide-react'
+import SkeletonReviewsTable from './reviewsComponent/SkletonReviewsTable'
 const Page = () => {
   const { data, isPending } = useQuery({
     queryFn: async () => {
@@ -69,11 +25,8 @@ const Page = () => {
     queryKey: ['allRemarks']
   })
   return (
-    <div style={{ background: "var(--primaryDark)" }} className="p-4 rounded-xl">
+    <div className="p-4 rounded-xl">
       <TotalReviews />
-      {isPending ? (
-        <SkeletonTable />
-      ) : (
         <Table>
           <TableCaption>Customer Reviews</TableCaption>
           <TableHeader>
@@ -84,9 +37,10 @@ const Page = () => {
               <TableHead>Sentiment</TableHead>
               <TableHead>Review</TableHead>
               <TableHead>Date</TableHead>
+              <TableHead>Action</TableHead>
             </TableRow>
           </TableHeader>
-          <TableBody>
+          {isPending ? <SkeletonReviewsTable/>: <TableBody>
             {data && data.allRemarks.map((remark: IRemarksBase, index: number) => (
               <TableRow key={index}>
                 <TableCell className="font-medium">
@@ -100,17 +54,29 @@ const Page = () => {
                   />
                   {remark.productIdentifier.productName}
                 </TableCell>
-                <TableCell>{remark.rating} ⭐</TableCell>
+                <TableCell className="flex items-center gap-1">
+                  {remark.rating}
+                  <Star className="w-4 h-4 text-helper" />
+                </TableCell>
                 <TableCell>{remark.reviewSentiment}</TableCell>
                 <TableCell>{remark.reviewDescription}</TableCell>
                 <TableCell>
                   {DateFormator(remark.createdAt!)}
                 </TableCell>
+                <TableCell className="flex flex-col gap-4">
+                  <span className="flex items-center gap-1 text-red-500 cursor-pointer">
+                    <Trash2 className="w-4 h-4" />
+                    Delete
+                  </span>
+                  <span className="flex items-center gap-1 text-green-600 cursor-pointer">
+                    <Check className="w-4 h-4" />
+                    Approve
+                  </span>
+                </TableCell>
               </TableRow>
             ))}
-          </TableBody>
+          </TableBody>}
         </Table>
-      )}
     </div>
   )
 }
