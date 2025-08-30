@@ -76,7 +76,6 @@ const Page = () => {
             }}
             className={`${theme === "dark" ? "table darkTable" : "lightTable"} my-4 w-[90%]`}
           >
-            <TableCaption>Customer Reviews</TableCaption>
             <TableHeader>
               <TableRow>
                 <TableHead className="min-w-[100px]">User</TableHead>
@@ -91,42 +90,46 @@ const Page = () => {
               {data.allRemarks.map((remark: IRemarksBaseForDB, index: number) => (
                 <TableRow key={index}>
                   <TableCell className="font-medium">{remark.reviewedBy.fullName}</TableCell>
-                  <TableCell className="flex items-center gap-2 min-w-0">
-                    <img
-                      src={remark.productIdentifier.productImage}
-                      alt={remark.productIdentifier.productName}
-                      className="h-10 w-10 rounded-md object-cover"
-                    />
-                    <span className="truncate">{remark.productIdentifier.productName}</span>
+                  <TableCell className="min-w-[200px]">
+                    <div className="flex items-center gap-2 w-full min-w-0">
+                      <img
+                        src={remark.productIdentifier.productImage}
+                        alt={remark.productIdentifier.productName}
+                        className="h-10 w-10 rounded-md object-cover"
+                      />
+                      <span className="truncate">{remark.productIdentifier.productName}</span>
+                    </div>
                   </TableCell>
                   <TableCell className="w-[300px]"><span>{remark.reviewDescription}</span></TableCell>
                   <TableCell>{DateFormator(remark.createdAt!)}</TableCell>
-                  <TableCell><div className="flex gap-2 justify-between items-center"><span>{remark.rating}</span>
+                  <TableCell><div className="flex gap-2 justify-center items-center"><span>{remark.rating}</span>
                     <Star className="text-helper" /></div></TableCell>
-                  <TableCell className="flex flex-col justify-center items-center gap-4">
-                    <div
-                      className="flex items-center gap-1 text-red-500 cursor-pointer"
-                      onClick={() =>
-                        updateReviewMutation.mutate({
-                          reviewAction: "delete",
-                          reviewId: remark._id!.toString(),
-                        })
-                      }
-                    >
-                      <Trash2 className="w-4 h-4" />
-                      <span>Delete</span>
-                    </div>
-                    <div
-                      className="flex items-center gap-1 text-green-600 cursor-pointer"
-                      onClick={() =>
-                        updateReviewMutation.mutate({
-                          reviewAction: "approve",
-                          reviewId: remark._id!.toString(),
-                        })
-                      }
-                    >
-                      <Check className="w-4 h-4" />
-                      <span>Approve</span>
+                  <TableCell className="min-w-[100px]">
+                    <div className="flex flex-col gap-2 w-full items-center justify-center">
+                      <div
+                        className="flex items-center gap-1 text-red-500 cursor-pointer"
+                        onClick={() =>
+                          updateReviewMutation.mutate({
+                            reviewAction: "delete",
+                            reviewId: remark._id!.toString(),
+                          })
+                        }
+                      >
+                        <Trash2 className="w-4 h-4" />
+                        <span>Delete</span>
+                      </div>
+                      <div
+                        className="flex items-center gap-1 text-green-600 cursor-pointer"
+                        onClick={() =>
+                          updateReviewMutation.mutate({
+                            reviewAction: "approve",
+                            reviewId: remark._id!.toString(),
+                          })
+                        }
+                      >
+                        <Check className="w-4 h-4" />
+                        <span>Approve</span>
+                      </div>
                     </div>
                   </TableCell>
                 </TableRow>
