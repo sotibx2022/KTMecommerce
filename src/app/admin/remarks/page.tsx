@@ -56,77 +56,82 @@ const Page = () => {
   return (
     <div className="p-4 rounded-xl">
       <TotalReviews />
-      {data && data.allRemarks.length > 0 ?
-      <>
-      <h2 className="subHeading">Neutral Remarks - Requires Admin's action</h2>
-      <Table>
-        <TableCaption>Customer Reviews</TableCaption>
-        <TableHeader>
-          <TableRow>
-           <TableHead className="min-w-[150px]">User</TableHead>
-<TableHead className="min-w-[200px]">Product</TableHead>
-<TableHead className="min-w-[100px]">Rating</TableHead>
-<TableHead className="min-w-[300px]">Review</TableHead>
-<TableHead className="min-w-[150px]">Date</TableHead>
-<TableHead className="min-w-[180px]">Action</TableHead>
-          </TableRow>
-        </TableHeader>
-        {isPending ? (
-          <SkeletonReviewsTable />
-        ) : (
-          <TableBody>
-            {data &&
-              data.allRemarks.map((remark: IRemarksBaseForDB, index: number) => (
-                <TableRow key={index}>
-                  <TableCell className="font-medium">
-                    {remark.reviewedBy.fullName}
-                  </TableCell>
-                  <TableCell className="flex items-center gap-2">
-                    <img
-                      src={remark.productIdentifier.productImage}
-                      alt={remark.productIdentifier.productName}
-                      className="h-10 w-10 rounded-md object-cover"
-                    />
-                    {remark.productIdentifier.productName}
-                  </TableCell>
-                  <TableCell className="flex items-center gap-1">
-                    {remark.rating}
-                    <Star className="w-4 h-4 text-helper" />
-                  </TableCell>
-                  <TableCell>{remark.reviewDescription}</TableCell>
-                  <TableCell>{DateFormator(remark.createdAt!)}</TableCell>
-                  <TableCell className="flex flex-col gap-4">
-                    <span
-                      className="flex items-center gap-1 text-red-500 cursor-pointer"
-                      onClick={() =>
-                        updateReviewMutation.mutate({
-                          reviewAction: "delete",
-                          reviewId: remark._id!.toString(),
-                        })
-                      }
-                    >
-                      <Trash2 className="w-4 h-4" />
-                      Delete
-                    </span>
-                    <span
-                      className="flex items-center gap-1 text-green-600 cursor-pointer"
-                      onClick={() =>
-                        updateReviewMutation.mutate({
-                          reviewAction: "approve",
-                          reviewId: remark._id!.toString(),
-                        })
-                      }
-                    >
-                      <Check className="w-4 h-4" />
-                      Approve
-                    </span>
-                  </TableCell>
-                </TableRow>
-              ))}
-          </TableBody>
-        )}
-      </Table>
-      </> : <NoData icon={<MessageCircleQuestion />} notFoundMessage={"There are No Neutral Remarks found."} />}
+      {data && data.allRemarks.length > 0 ? (
+        <>
+          <h2 className="secondaryHeading">
+            Neutral Remarks - Requires Admin's action
+          </h2>
+          <Table>
+            <TableCaption>Customer Reviews</TableCaption>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="min-w-[150px]">User</TableHead>
+                <TableHead className="min-w-[200px]">Product</TableHead>
+                <TableHead className="min-w-[100px]">Rating</TableHead>
+                <TableHead className="min-w-[300px]">Review</TableHead>
+                <TableHead className="min-w-[150px]">Date</TableHead>
+                <TableHead className="min-w-[180px]">Action</TableHead>
+              </TableRow>
+            </TableHeader>
+            {isPending ? (
+              <SkeletonReviewsTable />
+            ) : (
+              <TableBody>
+                {data.allRemarks.map((remark: IRemarksBaseForDB, index: number) => (
+                  <TableRow key={index}>
+                    <TableCell className="font-medium">{remark.reviewedBy.fullName}</TableCell>
+                    <TableCell className="flex items-center gap-2 min-w-0">
+                      <img
+                        src={remark.productIdentifier.productImage}
+                        alt={remark.productIdentifier.productName}
+                        className="h-10 w-10 rounded-md object-cover"
+                      />
+                      <span className="truncate">{remark.productIdentifier.productName}</span>
+                    </TableCell>
+                    <TableCell className="flex items-center gap-1">
+                      {remark.rating}
+                      <Star className="w-4 h-4 text-helper" />
+                    </TableCell>
+                    <TableCell className="truncate max-w-[300px]">{remark.reviewDescription}</TableCell>
+                    <TableCell>{DateFormator(remark.createdAt!)}</TableCell>
+                    <TableCell className="flex flex-col gap-2">
+                      <span
+                        className="flex items-center gap-1 text-red-500 cursor-pointer"
+                        onClick={() =>
+                          updateReviewMutation.mutate({
+                            reviewAction: "delete",
+                            reviewId: remark._id!.toString(),
+                          })
+                        }
+                      >
+                        <Trash2 className="w-4 h-4" />
+                        Delete
+                      </span>
+                      <span
+                        className="flex items-center gap-1 text-green-600 cursor-pointer"
+                        onClick={() =>
+                          updateReviewMutation.mutate({
+                            reviewAction: "approve",
+                            reviewId: remark._id!.toString(),
+                          })
+                        }
+                      >
+                        <Check className="w-4 h-4" />
+                        Approve
+                      </span>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            )}
+          </Table>
+        </>
+      ) : (
+        <NoData
+          icon={<MessageCircleQuestion />}
+          notFoundMessage={"There are No Neutral Remarks found."}
+        />
+      )}
     </div>
   )
 }

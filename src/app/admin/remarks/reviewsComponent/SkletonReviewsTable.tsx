@@ -42,12 +42,6 @@ const SkeletonReviewsTable = () => {
                     </TableCell>
                     <TableCell>
                         <div
-                            className="h-4 w-40 rounded-md animate-pulse"
-                            style={{ background: "var(--primaryLight)" }}
-                        />
-                    </TableCell>
-                    <TableCell>
-                        <div
                             className="h-4 w-20 rounded-md animate-pulse"
                             style={{ background: "var(--primaryLight)" }}
                         />
