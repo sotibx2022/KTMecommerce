@@ -64,7 +64,7 @@ const Page = () => {
   const averageRating:number|undefined = data?.averageRating?? undefined
   return (
     <div className="p-4 rounded-xl">
-      <TotalReviews totalRemarks={totalRemarks} averageRating={averageRating}/>
+      <TotalReviews totalRemarks={totalRemarks} averageRating={averageRating} theme={theme}/>
       <div
         ref={tableWrapperRef}
         style={{ maxWidth: isCollapsed ? "85vw" : "70vw" }}
