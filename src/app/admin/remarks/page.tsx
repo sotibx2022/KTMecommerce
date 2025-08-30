@@ -56,16 +56,19 @@ const Page = () => {
   return (
     <div className="p-4 rounded-xl">
       <TotalReviews />
-      {data && data.allRemarks.length > 0 ? <Table>
+      {data && data.allRemarks.length > 0 ?
+      <>
+      <h2 className="subHeading">Neutral Remarks - Requires Admin's action</h2>
+      <Table>
         <TableCaption>Customer Reviews</TableCaption>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[150px]">User</TableHead>
-            <TableHead>Product</TableHead>
-            <TableHead>Rating</TableHead>
-            <TableHead>Review</TableHead>
-            <TableHead>Date</TableHead>
-            <TableHead>Action</TableHead>
+           <TableHead className="min-w-[150px]">User</TableHead>
+<TableHead className="min-w-[200px]">Product</TableHead>
+<TableHead className="min-w-[100px]">Rating</TableHead>
+<TableHead className="min-w-[300px]">Review</TableHead>
+<TableHead className="min-w-[150px]">Date</TableHead>
+<TableHead className="min-w-[180px]">Action</TableHead>
           </TableRow>
         </TableHeader>
         {isPending ? (
@@ -90,7 +93,6 @@ const Page = () => {
                     {remark.rating}
                     <Star className="w-4 h-4 text-helper" />
                   </TableCell>
-                  <TableCell>{remark.reviewSentiment}</TableCell>
                   <TableCell>{remark.reviewDescription}</TableCell>
                   <TableCell>{DateFormator(remark.createdAt!)}</TableCell>
                   <TableCell className="flex flex-col gap-4">
@@ -123,7 +125,8 @@ const Page = () => {
               ))}
           </TableBody>
         )}
-      </Table> : <NoData icon={<MessageCircleQuestion />} notFoundMessage={"There are No Neutral Remarks found."} />}
+      </Table>
+      </> : <NoData icon={<MessageCircleQuestion />} notFoundMessage={"There are No Neutral Remarks found."} />}
     </div>
   )
 }
