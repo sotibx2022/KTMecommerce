@@ -1,10 +1,9 @@
 "use client"
 import { Table, TableBody, TableCell, TableCaption, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-const SkeletonReviewsTable = () => {
+const SkeletonReviewsTable: React.FC<{ theme: string }> = ({ theme }) => {
     const rows = Array.from({ length: 5 })
     return (
-        <Table>
-            <TableCaption>Customer Reviews</TableCaption>
+        <Table className={`${theme === "dark" ? "table darkTable" : "lightTable"}`}>
             <TableHeader>
                 <TableRow>
                     <TableHead className="min-w-[150px]">User</TableHead>

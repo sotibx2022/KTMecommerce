@@ -64,7 +64,7 @@ const Page = () => {
     <div className="p-4 rounded-xl">
       <TotalReviews />
       {isPending ? (
-        <SkeletonReviewsTable />
+        <SkeletonReviewsTable theme={theme} />
       ) : data && data.allRemarks.length > 0 ? (
         <>
           <h2 className="secondaryHeading mb-4">
@@ -78,9 +78,9 @@ const Page = () => {
           >
             <TableHeader>
               <TableRow>
-                <TableHead className="min-w-[100px]">User</TableHead>
+                <TableHead className="min-w-[180px]">User</TableHead>
                 <TableHead className="min-w-[200px]">Product</TableHead>
-                <TableHead className="w-[300px]">Review</TableHead>
+                <TableHead className="min-w-[300px]">Review</TableHead>
                 <TableHead className="min-w-[100px]">Date</TableHead>
                 <TableHead className="min-w-[100px]">Rating</TableHead>
                 <TableHead className="min-w-[100px]">Action</TableHead>
@@ -100,7 +100,7 @@ const Page = () => {
                       <span className="truncate">{remark.productIdentifier.productName}</span>
                     </div>
                   </TableCell>
-                  <TableCell className="w-[300px]"><span>{remark.reviewDescription}</span></TableCell>
+                  <TableCell><span>{remark.reviewDescription}</span></TableCell>
                   <TableCell>{DateFormator(remark.createdAt!)}</TableCell>
                   <TableCell><div className="flex gap-2 justify-center items-center"><span>{remark.rating}</span>
                     <Star className="text-helper" /></div></TableCell>
