@@ -7,28 +7,29 @@ const DisplaySingleProductRating = dynamic(
 );
 interface ITotalReviewsProps {
   totalRemarks: number | undefined,
-  averageRating: number | undefined
+  averageRating: number | undefined,
+  theme:string,
 }
-const TotalReviews: React.FC<ITotalReviewsProps> = ({ totalRemarks, averageRating }) => {
+const TotalReviews: React.FC<ITotalReviewsProps> = ({ totalRemarks, averageRating,theme }) => {
   const isLoading = totalRemarks === undefined || averageRating === undefined;
   if (isLoading) {
     return (
-      <div className="rounded-lg p-6 w-64" style={{ background: "var(--primaryLight)" }}>
-        <div className="h-6 w-32 mb-2 rounded-md animate-pulse" style={{ background: "var(--primaryDark)" }} />
-        <div className="h-10 w-16 rounded-md animate-pulse" style={{ background: "var(--primary)" }} />
-        <div className="mt-3 flex flex-col gap-2">
-          <div className="h-4 w-24 rounded-md animate-pulse" style={{ background: "var(--primaryDark)" }} />
-          <div className="h-4 w-32 rounded-md animate-pulse" style={{ background: "var(--helper)" }} />
+      <div className="rounded-lg p-6 max-w-[500px] shadow-primaryLight mb-4" >
+        <div className="h-6 w-32 mb-2 rounded-md animate-pulse text-primaryLight"  />
+        <div className="h-10 w-16 rounded-md animate-pulse text-primaryLight"  />
+        <div className="mt-3 flex flex-col gap-2 text-primaryDark">
+          <div className="h-4 w-24 rounded-md animate-pulse text-helper"  />
+          <div className="h-4 w-32 rounded-md animate-pulse text-helper"  />
         </div>
       </div>
     );
   }
   return (
-    <div className="text-primaryDark rounded-lg p-6 shadow-primaryLight" >
-      <h3 className="secondaryHeading">Total Reviews</h3>
+    <div className="text-primaryDark rounded-lg p-6 shadow-primaryLight max-w-[500px]" >
+       <h1 className={`${theme === 'dark' ? 'text-background' : 'text-primaryDark'} text-xl`}>Total Reviews</h1>
       <p className="primaryHeading">{totalRemarks}</p>
       <div className="mt-3 flex items-center gap-2">
-        <span className="primaryParagraph">Average Rating:</span>
+        <span className={theme==="dark"?"text-white":"text-primaryDark"}>Average Rating:</span>
         <DisplaySingleProductRating rating={averageRating} />
       </div>
     </div>
