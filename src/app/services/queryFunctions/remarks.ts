@@ -2,11 +2,12 @@ import axios, { AxiosError } from "axios";
 import { APIResponseError, APIResponseSuccess } from "./users";
 import { ApiError } from "next/dist/server/api-utils";
 import { IRemarksBase } from "@/app/types/remarks";
+import { config } from "@/config/configuration"; // Import your config
 export const postSingleProductReview = async (
   data: IRemarksBase
 ): Promise<APIResponseSuccess | APIResponseError> => {
   try {
-    const response = await axios.post('/api/remarks/addRemarks', data, {
+    const response = await axios.post(`${config.websiteUrl}/api/remarks/addRemarks`, data, {
       headers: { 'Content-Type': 'application/json' },
       validateStatus: (status) => { return status >= 200 && status < 500 }
     });
@@ -29,7 +30,7 @@ export const getSpecificRemarks = async (
   productId: string
 ): Promise<APIResponseSuccess<IRemarksBase[]> | APIResponseError> => {
   try {
-    const response = await axios.get(`/api/remarks/${productId}`);
+    const response = await axios.get(`${config.websiteUrl}/api/remarks/${productId}`);
     return response.data;
   } catch (error) {
     throw new Error('Something wrong to get the data.')
@@ -38,7 +39,7 @@ export const getSpecificRemarks = async (
 export const deleteSpecificReview = async (datasToDelete: { productId: string, userId: string }): Promise<APIResponseSuccess | APIResponseError> => {
   try {
     const response = await axios.post(
-      `/api/remarks/${datasToDelete.productId}`,
+      `${config.websiteUrl}/api/remarks/${datasToDelete.productId}`,
       { action: 'delete', ...datasToDelete },
       {
         headers: { 'Content-Type': 'application/json' }
@@ -53,7 +54,7 @@ export const getSpecificReviewofProductbyUser = async (
   userEmail: string, productId: string
 ): Promise<APIResponseSuccess<IRemarksBase> | APIResponseError> => {
   try {
-    const response = await axios.get('/api/remarks/specificRemark', {
+    const response = await axios.get(`${config.websiteUrl}/api/remarks/specificRemark`, {
       headers: {
         productId,
         userEmail
@@ -77,10 +78,10 @@ export const getSpecificReviewofProductbyUser = async (
   }
 };
 export const updateSingleProductReview = async (
-  data: IRemarksBase  // Accept single object instead of separate params
+  data: IRemarksBase
 ): Promise<APIResponseSuccess | APIResponseError> => {
   try {
-    const response = await axios.post(`/api/remarks/${data.productIdentifier.productId}`, { ...data, action: 'edit' }, {
+    const response = await axios.post(`${config.websiteUrl}/api/remarks/${data.productIdentifier.productId}`, { ...data, action: 'edit' }, {
       headers: { 'Content-Type': 'application/json' },
       validateStatus: (status) => status >= 200 && status < 500
     });
@@ -97,7 +98,7 @@ export const getSpecificRemarksofUser = async (
   userEmail: string
 ): Promise<APIResponseSuccess<IRemarksBase[]> | APIResponseError> => {
   try {
-    const response = await axios.get('/api/remarks/specificUserRemarks', {
+    const response = await axios.get(`${config.websiteUrl}/api/remarks/specificUserRemarks`, {
       headers: { userEmail }
     });
     if (!response.data.success) {

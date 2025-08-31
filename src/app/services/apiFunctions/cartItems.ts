@@ -5,7 +5,7 @@ import { ICartItem } from "@/app/types/cart";
 import { IWishListItem, IWishListItemDisplay } from "@/app/types/wishlist";
 export const fetchCartFromDatabase = async ():Promise<APIResponseSuccess<ICartItem[]>|APIResponseError> => {
     try {
-      const response = await axios.get(`/api/cart/cartItems`);
+      const response = await axios.get(`${config.websiteUrl}/api/cart/cartItems`);
       return response.data;
     } catch (error) {
       return {
@@ -15,9 +15,9 @@ export const fetchCartFromDatabase = async ():Promise<APIResponseSuccess<ICartIt
       }
     }
   };
-  export const fetchWishListFromDashboard = async ():Promise<APIResponseSuccess<IWishListItemDisplay[]>|APIResponseError> => {
+export const fetchWishListFromDashboard = async ():Promise<APIResponseSuccess<IWishListItemDisplay[]>|APIResponseError> => {
     try {
-      const response = await axios.get(`/api/wishList/wishListItems`);
+      const response = await axios.get(`${config.websiteUrl}/api/wishList/wishListItems`);
       return response.data;
     } catch (error) {
       return {
