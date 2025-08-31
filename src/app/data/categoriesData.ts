@@ -12,6 +12,11 @@ export const useInitialCategories = () => {
   return useQuery<CategoriesResponse>({
     queryKey: ["initialCategories"],
     queryFn: fetchInitialCategories,
-    staleTime: 1000 * 60 * 60, // 1 hour
+     staleTime: Infinity,     // 🛑 Data never becomes stale
+    gcTime: Infinity,        // 🛑 Data is never garbage collected
+    refetchOnMount: false,   // 🛑
+    refetchOnWindowFocus: false, // 🛑
+    refetchOnReconnect: false,   // 🛑
+    retry: false,   
   });
 };
