@@ -6,14 +6,7 @@ import DeveloperDetails from './DeveloperDetails';
 import dynamic from 'next/dynamic';
 import FooterSkeleton from './FooterSkeleton';
 import MobileFooterMenu from '../navbar/MobileFooterMenu';
-// Correct dynamic import syntax
-const Footer2 = dynamic(
-  () => import('./Footer2'),
-  {
-    ssr: false,
-    loading: () => <FooterSkeleton /> // Fixed syntax for loading component
-  }
-);
+import Footer2 from './Footer2';
 const Footer = () => {
   return (
     <div className='bg-primaryDark mt-4'>

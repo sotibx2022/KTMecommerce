@@ -1,27 +1,19 @@
-"use client";
-import { Suspense } from 'react';
-import { DisplayComponents } from './context/DisplayComponents';
-import ClientPage from './_components/clientPage/ClientPage';
-import { Toaster } from 'react-hot-toast';
-import { UserDetailsContextComponent } from './context/UserDetailsContextComponent';
-import { Provider } from "react-redux";
-import { PersistGate } from 'redux-persist/integration/react';
-import { store, persistor } from './redux/store';
-import LoadingComponent from './_components/loadingComponent/LoadingComponent';
-const Page = () => {
+import React from 'react'
+import { getQueryClient } from './services/helperFunctions/getQueryClient'
+import { fetchInitialCategories } from './data/fetchInitialCategories';
+import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
+import HomePage from './HomePage';
+const page = async () => {
+  const queryClient = getQueryClient();
+  await queryClient.prefetchQuery({
+    queryKey: ["initialCategories"],
+    queryFn: fetchInitialCategories,
+  })
+  const dehydratedState = dehydrate(queryClient)
   return (
-    <Provider store={store}>
-      <PersistGate loading={<LoadingComponent />} persistor={persistor}>
-        <UserDetailsContextComponent>
-          <DisplayComponents>
-            <Suspense fallback={<LoadingComponent />}>
-              <ClientPage />
-            </Suspense>
-          </DisplayComponents>
-          <Toaster />
-        </UserDetailsContextComponent>
-      </PersistGate>
-    </Provider>
+    <HydrationBoundary state={dehydratedState}>
+      <HomePage/>
+    </HydrationBoundary>
   )
-};
-export default Page;
+}
+export default page
