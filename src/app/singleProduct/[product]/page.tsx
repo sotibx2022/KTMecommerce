@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { config } from "@/config/configuration";
 import SingleProductPageClient from "./SIngleProductClientPage";
-import SetRecentProducts from "./SetRecentProducts";
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
+import { getQueryClient } from "@/app/services/helperFunctions/getQueryClient";
+import { getSpecificRemarks } from "@/app/services/queryFunctions/remarks";
 async function getSingleProduct(productId: string) {
   const response = await fetch(`${config.websiteUrl}/api/products/${productId}`, {
     next: { revalidate: 3600 },
@@ -45,10 +47,32 @@ export async function generateMetadata({
     };
   }
 }
-export default async function Page() {
+// The key fix: Add searchParams to the Page component props
+export default async function Page({ searchParams: mysearchParams }: ISearchParams) {
+  // Await the searchParams to get the actual values
+  const searchParams = await mysearchParams;
+  const productId = searchParams.id;
+  if (!productId) {
+    return <div>Product not found</div>;
+  }
+  const queryClient = getQueryClient();
+  // Prefetch both product and remarks data
+  await Promise.all([
+    queryClient.prefetchQuery({
+      queryKey: ['specificProduct', productId],
+      queryFn: () => getSingleProduct(productId),
+    }),
+    queryClient.prefetchQuery({
+      queryKey: ['specificRemarks', productId],
+      queryFn: () => getSpecificRemarks(productId),
+    })
+  ]);
+  const dehydratedState = dehydrate(queryClient);
   return (
     <div>
-      <SingleProductPageClient />
+      <HydrationBoundary state={dehydratedState}>
+        <SingleProductPageClient />
+      </HydrationBoundary>
     </div>
   );
 }
