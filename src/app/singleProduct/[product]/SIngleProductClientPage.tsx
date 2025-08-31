@@ -42,7 +42,7 @@ const SingleProductPageClient = () => {
     useEffect(() => {
         if (productDatas) {
             setProductIdentifier({
-                productId: productDatas._id,
+                productId: productDatas?._id,
                 productName: productDatas.productName,
                 productImage: productDatas.image,
                 productLoadingComplete: true,

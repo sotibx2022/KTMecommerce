@@ -1,4 +1,3 @@
-"use client"
 import React from 'react'
 import NavBar from '../navbar/Navbar'
 import HeroLayout from '../heroLayout/HeroLayout'
@@ -7,8 +6,7 @@ import CategoryCards from '../categoryCards/CategoryCards'
 import AllProductsBanner from '../allProductsBanner/AllProductsBanner'
 import BrandCaurosel from '../brandCaurosel/BrandCaurosel'
 import ConditionalComponents from '../conditionalVisibleComponents/ConditionalComponents'
-import MobileFooterMenu from '../navbar/MobileFooterMenu'
-const ClientPage = () => {
+const HomeContent = () => {
   return (
     <>
       <NavBar />
@@ -36,4 +34,4 @@ const ClientPage = () => {
     </>
   )
 }
-export default ClientPage
+export default HomeContent
