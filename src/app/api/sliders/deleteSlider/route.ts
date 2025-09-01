@@ -5,11 +5,7 @@ import { SliderModel } from "@/models/sliders.model";
 import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
     try {
-        const authorizationResponse = await checkAdminAuthorization(req);
-    const { message, success, status } = authorizationResponse;
-    if (!success) {
-      return NextResponse.json({ message: message, success: success, status: status || 400 })
-    }
+        await checkAdminAuthorization(req);
         await connectToDB();
         // Extract sliderId from headers
         const sliderId = req.headers.get('sliderId');

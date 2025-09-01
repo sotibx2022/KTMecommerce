@@ -46,11 +46,7 @@ export async function GET(req: NextRequest) {
 }
 export async function POST(req: NextRequest) {
     try {
-        const authorizationResponse = await checkAdminAuthorization(req);
-    const { message, success, status } = authorizationResponse;
-    if (!success) {
-      return NextResponse.json({ message: message, success: success, status: status || 400 })
-    }
+        await checkAdminAuthorization(req);
         await connectToDB();
         // Extract sliderId from URL
         const url = new URL(req.url);
