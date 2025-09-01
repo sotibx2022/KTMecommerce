@@ -10,17 +10,17 @@ import { useUserDetails } from "@/app/context/UserDetailsContextComponent";
 import EmptyState from "./EmptyState";
 const Page: React.FC = () => {
   const dispatch = useDispatch();
-  const { cartItems, loading: cartLoading, initialized } = useSelector(
+  const { cartItems, } = useSelector(
     (state: { cart: CartState }) => state.cart
   );
   const { userDetails, userDetailsLoading } = useUserDetails();
-  const isLoading = cartLoading || userDetailsLoading;
-  const isEmpty = initialized && !isLoading && cartItems.length === 0;
-  const hasItems = initialized && !isLoading && cartItems.length > 0;
+  const isLoading =  userDetailsLoading;
+  const isEmpty = cartItems.length === 0;
+  const hasItems = cartItems.length > 0;
   return (
     <div className="container">
       <h2 className="secondaryHeading">Cart</h2>
-      {!initialized && isLoading ? (
+      {isLoading ? (
         <CartSkeleton />
       ) : isEmpty ? (
         <EmptyState

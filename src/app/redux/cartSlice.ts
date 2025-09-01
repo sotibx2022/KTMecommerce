@@ -3,9 +3,6 @@ import { ICartItem } from '../types/cart';
 import { fetchCartFromDatabase } from '@/app/services/apiFunctions/cartItems';
 export interface CartState {
   cartItems: ICartItem[];
-  loading: boolean;
-  initialized: boolean;
-  error: string | null;
 }
 const saveCartToLocalStorage = (cartItems: ICartItem[]) => {
   try {
@@ -27,9 +24,6 @@ const loadCartFromLocalStorage = (): ICartItem[] => {
 const initialCartItems = loadCartFromLocalStorage();
 const initialState: CartState = {
   cartItems: initialCartItems,
-  loading: false, // Start with false since we have localStorage data
-  initialized: initialCartItems.length > 0, // Mark as initialized if we have items
-  error: null,
 };
 const cartSlice = createSlice({
   name: 'cart',
@@ -37,9 +31,7 @@ const cartSlice = createSlice({
   reducers: {
     setCart: (state, action: PayloadAction<{ cartItems: ICartItem[]; isLoading: boolean; initialized?: boolean }>) => {
       state.cartItems = action.payload.cartItems;
-      state.loading = action.payload.isLoading;
       if (action.payload.initialized) {
-        state.initialized = true;
       }
       saveCartToLocalStorage(state.cartItems);
     },
@@ -51,12 +43,10 @@ const cartSlice = createSlice({
         state.cartItems = [...state.cartItems, ...newItems];
         saveCartToLocalStorage(state.cartItems);
       }
-      state.loading = false;
     },
     removeFromCart: (state, action: PayloadAction<string>) => {
       state.cartItems = state.cartItems.filter(item => item.productId !== action.payload);
       saveCartToLocalStorage(state.cartItems);
-      state.loading = false;
     },
     updateCartItem: (state, action: PayloadAction<{ productId: string; quantity: number }>) => {
       const idx = state.cartItems.findIndex(item => item.productId === action.payload.productId);
@@ -64,16 +54,12 @@ const cartSlice = createSlice({
         state.cartItems[idx].quantity = action.payload.quantity;
         saveCartToLocalStorage(state.cartItems);
       }
-      state.loading = false;
     },
     clearCartItems: (state) => {
       state.cartItems = [];
       localStorage.removeItem("cart_items");
-      state.loading = false;
-      state.error = null;
     },
     clearCartError: (state) => {
-      state.error = null;
     },
   },
 });
