@@ -5,10 +5,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faCaretUp, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import UserOptions from './UserOptions';
 import { useDispatch } from 'react-redux';
-import { clearCartItems, setCart } from '@/app/redux/cartSlice';
-import { useCartItems } from '@/app/hooks/queryHooks/useCartItems';
-import { useWishListItems } from '@/app/hooks/queryHooks/useWishListItems';
-import { clearWishListItems, setWishList } from '@/app/redux/wishListSlice';
+import { clearCartItems } from '@/app/redux/cartSlice';
+import { clearWishListItems } from '@/app/redux/wishListSlice';
 import { useUserDetails } from '@/app/context/UserDetailsContextComponent';
 import UserProfileImage from './UserProfileImage';
 import { useLogout } from '@/app/hooks/queryHooks/useLogout';
@@ -17,28 +15,12 @@ const RegisteredUsersOption = () => {
   const { userDetails } = useUserDetails();
   const logout = useLogout();
   const dispatch = useDispatch();
-  const { data: cartItems, isPending: cartPending, isSuccess: cartSuccess } = useCartItems();
-  const { data: wishListItems, isPending: wishPending, isSuccess: wishSuccess } = useWishListItems();
-  useEffect(() => {
-    if (!userDetails) {
-      dispatch(clearCartItems());
-      dispatch(clearWishListItems());
-      return;
-    }
-    if (cartItems?.success && cartItems.data) {
-      dispatch(setCart({
-        cartItems: cartItems.data,
-        isLoading: false,
-        initialized:true,
-      }));
-    }
-    if (wishListItems?.success && wishListItems.data) {
-      dispatch(setWishList({
-        wishListItems: wishListItems.data,
-        wishListLoading: false
-      }));
-    }
-  }, [cartItems, wishListItems, userDetails, dispatch]);
+  // Clear cart and wishlist when user logs out
+  const handleLogout = () => {
+    dispatch(clearCartItems());
+    dispatch(clearWishListItems());
+    logout.mutate();
+  };
   return (
     <div className="flex-center gap-4">
       <div
@@ -61,9 +43,9 @@ const RegisteredUsersOption = () => {
       <SecondaryButton
         text="Log Out"
         icon={faSignOutAlt}
-        onClick={logout.mutate}
+        onClick={handleLogout}
       />
     </div>
   )
 }
-export default RegisteredUsersOption
+export default RegisteredUsersOption;

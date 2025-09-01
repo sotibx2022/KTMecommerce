@@ -1,41 +1,56 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { ICartItem } from '../types/cart';
 import { fetchCartFromDatabase } from '@/app/services/apiFunctions/cartItems';
-import { APIResponseSuccess, APIResponseError } from '@/app/services/queryFunctions/users';
 export interface CartState {
   cartItems: ICartItem[];
   loading: boolean;
   initialized: boolean;
   error: string | null;
 }
-// Define the return type for the async thunk
-interface FetchCartResult {
-  data: ICartItem[];
-  error?: string;
-}
-// Async thunk with proper typing
+// localStorage key
+const CART_STORAGE_KEY = 'cart_items';
+// Helper functions for localStorage
+const saveCartToLocalStorage = (cartItems: ICartItem[]) => {
+  try {
+    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cartItems));
+  } catch (error) {
+    console.warn('Could not save cart to localStorage', error);
+  }
+};
+const loadCartFromLocalStorage = (): ICartItem[] => {
+  try {
+    const stored = localStorage.getItem(CART_STORAGE_KEY);
+    return stored ? JSON.parse(stored) : [];
+  } catch (error) {
+    console.warn('Could not load cart from localStorage', error);
+    return [];
+  }
+};
+// Load initial state from localStorage
+const initialCartItems = loadCartFromLocalStorage();
+const initialState: CartState = {
+  cartItems: initialCartItems,
+  loading: false, // Start with false since we have localStorage data
+  initialized: initialCartItems.length > 0, // Mark as initialized if we have items
+  error: null,
+};
+// Async thunk
 export const fetchCartItems = createAsyncThunk(
   'cart/fetchCartItems',
-  async (userId: string, { rejectWithValue }): Promise<ICartItem[] | ReturnType<typeof rejectWithValue>> => {
+  async (userId: string, { rejectWithValue }) => {
     try {
-      const response = await fetchCartFromDatabase();
-      // Handle the API response structure
-      if (response.success) {
-        return response.data!; // Return the actual cart items array
+      const response = await fetchCartFromDatabase(userId);
+      if (response && 'data' in response) {
+        return response.data;
       } else {
-        return rejectWithValue('Failed to fetch cart items');
+        const errorMessage = (response as any)?.error || 'Failed to fetch cart items';
+        return rejectWithValue(errorMessage);
       }
     } catch (error) {
       return rejectWithValue(error instanceof Error ? error.message : 'Unknown error occurred');
     }
   }
 );
-const initialState: CartState = {
-  cartItems: [],
-  loading: true,
-  initialized: false,
-  error: null,
-};
 const cartSlice = createSlice({
   name: 'cart',
   initialState,
@@ -46,6 +61,7 @@ const cartSlice = createSlice({
       if (action.payload.initialized) {
         state.initialized = true;
       }
+      saveCartToLocalStorage(state.cartItems);
     },
     addToCart: (state, action: PayloadAction<ICartItem[]>) => {
       const newItems = action.payload.filter(
@@ -53,20 +69,26 @@ const cartSlice = createSlice({
       );
       if (newItems.length > 0) {
         state.cartItems = [...state.cartItems, ...newItems];
+        saveCartToLocalStorage(state.cartItems);
       }
       state.loading = false;
     },
     removeFromCart: (state, action: PayloadAction<string>) => {
       state.cartItems = state.cartItems.filter(item => item.productId !== action.payload);
+      saveCartToLocalStorage(state.cartItems);
       state.loading = false;
     },
     updateCartItem: (state, action: PayloadAction<{ productId: string; quantity: number }>) => {
       const idx = state.cartItems.findIndex(item => item.productId === action.payload.productId);
-      if (idx !== -1) state.cartItems[idx].quantity = action.payload.quantity;
+      if (idx !== -1) {
+        state.cartItems[idx].quantity = action.payload.quantity;
+        saveCartToLocalStorage(state.cartItems);
+      }
       state.loading = false;
     },
     clearCartItems: (state) => {
       state.cartItems = [];
+      localStorage.removeItem(CART_STORAGE_KEY);
       state.loading = false;
       state.error = null;
     },
@@ -80,17 +102,21 @@ const cartSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchCartItems.fulfilled, (state, action: PayloadAction<ICartItem[]>) => {
+      .addCase(fetchCartItems.fulfilled, (state, action) => {
         state.loading = false;
         state.initialized = true;
-        state.cartItems = action.payload;
+        // Only update if we get new data, otherwise keep localStorage data
+        if (action.payload && action.payload.length > 0) {
+          state.cartItems = action.payload;
+          saveCartToLocalStorage(action.payload);
+        }
         state.error = null;
       })
       .addCase(fetchCartItems.rejected, (state, action) => {
         state.loading = false;
         state.initialized = true;
         state.error = action.payload as string;
-        state.cartItems = state.cartItems.length > 0 ? state.cartItems : [];
+        // Keep the localStorage items even if fetch fails
       });
   },
 });
