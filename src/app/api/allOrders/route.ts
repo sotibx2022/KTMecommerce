@@ -1,9 +1,11 @@
 import TotalOrders from "@/app/admin/orders/ordersComponents/TotalOrders";
+import { validateAdmin } from "@/app/services/apiFunctions/validateAdmin";
 import { connectToDB } from "@/config/db";
 import OrderModel from "@/models/orders.model";
 import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
   try {
+    await validateAdmin(req);
     await connectToDB();
     const url = new URL(req.url);
     const queryString = url.searchParams.get("orderStatus");

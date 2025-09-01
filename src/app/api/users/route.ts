@@ -1,8 +1,10 @@
+import { validateAdmin } from "@/app/services/apiFunctions/validateAdmin";
 import { connectToDB } from "@/config/db";
 import UserModel from "@/models/users.model";
 import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
     try {
+        await validateAdmin(req)
         await connectToDB();
         const url = new URL(req.url);
         const status = url.searchParams.get('status');

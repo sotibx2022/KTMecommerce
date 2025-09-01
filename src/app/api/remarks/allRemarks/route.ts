@@ -1,8 +1,10 @@
+import { validateAdmin } from "@/app/services/apiFunctions/validateAdmin";
 import { connectToDB } from "@/config/db";
 import { remarksModel } from "@/models/remarks.model";
-import { NextResponse } from "next/server";
-export async function GET() {
+import { NextRequest, NextResponse } from "next/server";
+export async function GET(req:NextRequest) {
     await connectToDB();
+    await validateAdmin(req)
     const allRemarks = await remarksModel.find({ reviewSentiment: "Neutral" });
     const totalRemarks = await remarksModel.countDocuments();
     const averageResult = await remarksModel.aggregate([{

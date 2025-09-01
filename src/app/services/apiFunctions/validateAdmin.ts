@@ -1,54 +1,57 @@
-import { NextRequest, NextResponse } from "next/server";
-import jwt, { JwtPayload } from 'jsonwebtoken';
 import { connectToDB } from "@/config/db";
+import { NextRequest } from "next/server";
+import jwt, { JwtPayload } from 'jsonwebtoken';
 import AdminModel from "@/models/admin.model";
-import { validateAdmin } from "@/app/services/apiFunctions/validateAdmin";
-export async function GET(req: NextRequest) {
+interface AuthResult {
+    message: string;
+    success: boolean;
+    status?: number; // Optional status if needed
+}
+export const validateAdmin = async (request: NextRequest): Promise<AuthResult> => {
     try {
         await connectToDB();
-        await validateAdmin(req);
         const JWT_SECRET = process.env.NEXTJS_COOKIE_SECRET;
         if (!JWT_SECRET) {
-            return NextResponse.json({
+            return {
                 message: "JWT secret is not configured",
                 success: false,
                 status: 500
-            });
+            };
         }
-        const cookie = req.cookies.get('adminDetails')?.value;
+        const cookie = request.cookies.get('adminDetails')?.value;
         if (!cookie) {
-            return NextResponse.json({
+            return {
                 message: "Admin cookie not found",
                 success: false,
                 status: 401
-            });
+            };
         }
         const decoded = jwt.verify(cookie, JWT_SECRET) as JwtPayload;
         const adminUser = await AdminModel.findOne({ adminUserName: decoded.userName });
         if (!adminUser) {
-            return NextResponse.json({
+            return {
                 message: "Admin not found",
                 success: false,
                 status: 404
-            });
+            };
         }
-        return NextResponse.json({
-            data: adminUser,
+        return {
+            message: "Admin is authorized",
             success: true,
             status: 200
-        });
+        };
     } catch (error: any) {
         if (error.name === 'JsonWebTokenError') {
-            return NextResponse.json({
+            return {
                 message: "Invalid token",
                 success: false,
                 status: 401
-            });
+            };
         }
-        return NextResponse.json({
-            message: "Error fetching adminDetails",
+        return {
+            message: "Internal server error",
             success: false,
             status: 500
-        });
+        };
     }
-}
+};

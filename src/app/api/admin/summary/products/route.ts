@@ -3,10 +3,12 @@ import { productModel } from "@/models/products.model";
 import { remarksModel } from "@/models/remarks.model";
 import { NextRequest, NextResponse } from "next/server";
 import { startOfMonth } from 'date-fns';
+import { validateAdmin } from "@/app/services/apiFunctions/validateAdmin";
 export async function GET(req: NextRequest) {
     try {
         // Connect to database
         await connectToDB();
+        await validateAdmin(req);
         // Fetch all data in parallel for better performance
         const [
             activeProducts,

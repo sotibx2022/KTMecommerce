@@ -1,4 +1,5 @@
 import { checkAdminAuthorization } from "@/app/services/apiFunctions/checkAdminAuthorization";
+import { validateAdmin } from "@/app/services/apiFunctions/validateAdmin";
 import { IAddAdminData } from "@/app/types/admin";
 import { connectToDB } from "@/config/db";
 import AdminModel from "@/models/admin.model";
@@ -42,6 +43,7 @@ export async function POST(req: NextRequest) {
 export async function GET(req: NextRequest) {
     try {
         await connectToDB();
+        await validateAdmin(req);
         const allAdmins = await AdminModel.find();
         if (!allAdmins || allAdmins.length === 0) {
             return NextResponse.json({

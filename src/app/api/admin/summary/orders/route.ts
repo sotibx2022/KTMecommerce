@@ -7,8 +7,10 @@ import {
     endOfDay,
 } from "date-fns";
 import { getOrdersByTime } from "./ordersByTime";
+import { validateAdmin } from "@/app/services/apiFunctions/validateAdmin";
 export async function GET(req: NextRequest) {
     await connectToDB();
+    await validateAdmin(req);
     const now = new Date();
     // Today
     const startOfToday = startOfDay(now);

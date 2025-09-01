@@ -1,8 +1,10 @@
+import { validateAdmin } from "@/app/services/apiFunctions/validateAdmin";
 import { connectToDB } from "@/config/db";
 import { SliderModel } from "@/models/sliders.model";
 import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
   try {
+    await validateAdmin(req);
     await connectToDB();
     const sliders = await SliderModel.find().sort({ createdAt: -1 });
     return NextResponse.json({

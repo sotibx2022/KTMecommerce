@@ -65,14 +65,6 @@ export default async function Page({ searchParams: mysearchParams }: ISearchPara
       queryKey: ['specificRemarks', productId],
       queryFn: () => getSpecificRemarks(productId),
     }),
-    queryClient.prefetchQuery({
-      queryKey: ['user'],
-      queryFn: getUserDetails,
-    }),
-    queryClient.prefetchQuery({
-      queryKey: ["initialCategories"],
-      queryFn: fetchInitialCategories,
-    })
   ]);
   const dehydratedState = dehydrate(queryClient);
   return (

@@ -1,4 +1,5 @@
 import { checkAdminAuthorization } from "@/app/services/apiFunctions/checkAdminAuthorization";
+import { validateAdmin } from "@/app/services/apiFunctions/validateAdmin";
 import { uploadImage } from "@/app/services/helperFunctions/uploadImage";
 import { getPublicId } from "@/app/services/helperFunctions/uploadImageHelpers";
 import { connectToDB } from "@/config/db";
@@ -6,6 +7,7 @@ import { SliderModel } from "@/models/sliders.model";
 import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
     try {
+        await validateAdmin(req);
         await connectToDB();
         const url = new URL(req.url);
         const pathSegments = url.pathname.split("/");
