@@ -10,7 +10,7 @@ import { useRemoveWishListFromDB } from '@/app/dashboard/wishlist/useRemoveWIshL
 import { useContext } from 'react';
 import { useUserDetails } from '@/app/context/UserDetailsContextComponent';
 const useAddItemToCart = () => {
-  const { cartItems, loading: cartLoading } = useSelector((state: { cart: CartState }) => state.cart);
+  const { cartItems } = useSelector((state: { cart: CartState }) => state.cart);
   const { userDetails } = useUserDetails();
   const dispatch = useDispatch();
   const removeItemFromWishList = useRemoveWishListFromDB();

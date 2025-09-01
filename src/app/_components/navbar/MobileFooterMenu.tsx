@@ -14,7 +14,7 @@ const MobileFooterMenu = () => {
   const { userDetails, userDetailsLoading } = useUserDetails()
   const { setVisibleComponent } = useContext(DisplayContext)
   const router = useRouter()
-  const { cartItems, loading } = useSelector((state: { cart: CartState }) => state.cart)
+  const { cartItems } = useSelector((state: { cart: CartState }) => state.cart)
   const { wishListItems, wishListLoading } = useSelector((state: { wishList: IWishListState }) => state.wishList)
   // Animation variants
   const footerMenuVariant = {
@@ -60,7 +60,7 @@ const MobileFooterMenu = () => {
           cartCount={userDetails ? (cartItems?.length ?? 0) : 0}
           wishlistCount={userDetails ? (wishListItems.length ?? 0) : 0}
           wishlistLoading={userDetails ? wishListLoading : userDetailsLoading}
-          cartListLoading={userDetails ? loading : userDetailsLoading}
+          cartListLoading={userDetailsLoading}
         />
       </div>
     </motion.div>

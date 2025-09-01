@@ -13,14 +13,14 @@ interface ICartSummary {
     items?: IOrderItem[]
 }
 const CartSummary: React.FC<ICartSummary> = ({ order, items }) => {
-    const { cartItems, loading: cartLoading } = useSelector((state: { cart: CartState }) => state.cart);
+    const { cartItems } = useSelector((state: { cart: CartState }) => state.cart);
     const datatoRender = items || cartItems;
     const router = useRouter();
     const handleOrderProducts = () => {
         router.push(`/dashboard/cartProcess`)
     }
     // Calculate totals or return loading state
-    const { totalItems, totalCost, discount, shippingPrice, grossTotal } = cartLoading && !items
+    const { totalItems, totalCost, discount, shippingPrice, grossTotal } =  !items
         ? {
             totalItems: 0,
             totalCost: 0,
@@ -31,7 +31,7 @@ const CartSummary: React.FC<ICartSummary> = ({ order, items }) => {
         : calculateTotals(datatoRender);
     // Helper function to display values with loading state
     const displayValue = (value: number, isCurrency = false) => {
-        if (cartLoading && !items) return "Loading...";
+        if (!items) return "Loading...";
         return isCurrency ? (
             <span>
                 <Rupee price={value}/>
@@ -64,7 +64,7 @@ const CartSummary: React.FC<ICartSummary> = ({ order, items }) => {
                     <p className="secondaryHeading">
                         <FontAwesomeIcon icon={faSquareCheck} className="mr-2" />Discount
                     </p>
-                    {datatoRender === cartItems && !cartLoading && (
+                    {datatoRender === cartItems && (
                         <span className="primaryParagraph italic text-green-500">10% off above $200</span>
                     )}
                 </div>
@@ -77,7 +77,7 @@ const CartSummary: React.FC<ICartSummary> = ({ order, items }) => {
                     <p className="secondaryHeading">
                         <FontAwesomeIcon icon={faSquareCheck} className="mr-2" />Shipping Price
                     </p>
-                    {datatoRender === cartItems && !cartLoading && (
+                    {datatoRender === cartItems && (
                         <span className="primaryParagraph italic text-green-500">Free shipping over $1000</span>
                     )}
                 </div>
@@ -91,7 +91,7 @@ const CartSummary: React.FC<ICartSummary> = ({ order, items }) => {
                     {displayValue(grossTotal, true)}
                 </span>
             </div>
-            {order && !cartLoading && <PrimaryButton searchText="Order" onClick={handleOrderProducts} />}
+            {order  && <PrimaryButton searchText="Order" onClick={handleOrderProducts} />}
         </div>
     )
 }
