@@ -5,14 +5,7 @@ import Category from "@/models/categories.model";
 import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
     try {
-        const authorizationResponse = await checkAdminAuthorization(req);
-        const { message, success: authorizationCheckSuccess, status } = authorizationResponse;
-        if (!authorizationCheckSuccess) {
-            return NextResponse.json(
-                { message, authorizationCheckSuccess, status: status || 401 },
-                { status: status || 401 }
-            );
-        }
+        await checkAdminAuthorization(req);
         // 1. Connect to DB (await the connection)
         await connectToDB();
         // 2. Parse form data with validation
