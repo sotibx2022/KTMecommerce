@@ -16,16 +16,15 @@ const RegisteredUsersOption = () => {
   const { userDetails } = useUserDetails();
   const logout = useLogout();
   const dispatch = useDispatch();
+  const { data: cartDetails } = useCartItems();
   useEffect(() => {
     const storeItems = localStorage.getItem("cart_items");
     if (!storeItems) {
-      const { data: cartDetails } = useCartItems();
       if (cartDetails?.success && cartDetails.data) {
         localStorage.setItem("cart_items", JSON.stringify(cartDetails?.data))
       }
     }
-  }, [
-  ])
+  }, [cartDetails])
   const handleLogout = () => {
     dispatch(clearCartItems());
     dispatch(clearWishListItems());
