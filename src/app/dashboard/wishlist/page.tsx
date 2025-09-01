@@ -40,7 +40,6 @@ const WishListItemsPage = () => {
         <>
           {console.log("Rendering: Wishlist Items")}
           <div className="wishlistPageHeader mb-4">
-            <h2 className="secondaryHeading">Wishlists</h2>
             <Button onClick={() => setVisibleComponent('publicWishlist')}>
               <UnlockIcon className="mr-2" /> Public
             </Button>
