@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faCaretUp, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import UserOptions from './UserOptions';
 import { useDispatch } from 'react-redux';
-import { clearCartItems } from '@/app/redux/cartSlice';
+import { clearCartItems, setCart } from '@/app/redux/cartSlice';
 import { clearWishListItems } from '@/app/redux/wishListSlice';
 import { useUserDetails } from '@/app/context/UserDetailsContextComponent';
 import UserProfileImage from './UserProfileImage';
@@ -22,6 +22,7 @@ const RegisteredUsersOption = () => {
     if (!storeItems) {
       if (cartDetails?.success && cartDetails.data) {
         localStorage.setItem("cart_items", JSON.stringify(cartDetails?.data))
+        dispatch(setCart(cartDetails.data))
       }
     }
   }, [cartDetails])

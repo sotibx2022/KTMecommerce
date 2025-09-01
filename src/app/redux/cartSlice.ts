@@ -1,6 +1,5 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ICartItem } from '../types/cart';
-import { fetchCartFromDatabase } from '@/app/services/apiFunctions/cartItems';
 export interface CartState {
   cartItems: ICartItem[];
 }
@@ -29,10 +28,8 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    setCart: (state, action: PayloadAction<{ cartItems: ICartItem[]; isLoading: boolean; initialized?: boolean }>) => {
-      state.cartItems = action.payload.cartItems;
-      if (action.payload.initialized) {
-      }
+    setCart: (state, action: PayloadAction<ICartItem[]>) => {
+      state.cartItems = action.payload;
       saveCartToLocalStorage(state.cartItems);
     },
     addToCart: (state, action: PayloadAction<ICartItem[]>) => {
@@ -60,6 +57,7 @@ const cartSlice = createSlice({
       localStorage.removeItem("cart_items");
     },
     clearCartError: (state) => {
+      // This function can be removed if it's not doing anything
     },
   },
 });
