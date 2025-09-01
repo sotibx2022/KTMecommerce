@@ -7,14 +7,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(req: NextRequest) {
   try {
     connectToDB();
-    const authorizationResponse = await checkAdminAuthorization(req);
-    const { message, success: authorizationCheckSuccess, status } = authorizationResponse;
-    if (!authorizationCheckSuccess) {
-      return NextResponse.json(
-        { message, authorizationCheckSuccess, status: status || 401 },
-        { status: status || 401 }
-      );
-    }
+    await checkAdminAuthorization(req);
     const formData = await req.formData();
     const subCategoryName = formData.get('subCategoryName') as string;
     const parentCategory = formData.get('parentCategory') as string;

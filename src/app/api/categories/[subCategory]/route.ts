@@ -49,14 +49,7 @@ export async function GET(req: NextRequest) {
 }
 export async function POST(req:NextRequest){
    try {
-          const authorizationResponse = await checkAdminAuthorization(req);
-          const { message, success: authorizationCheckSuccess, status } = authorizationResponse;
-          if (!authorizationCheckSuccess) {
-              return NextResponse.json(
-                  { message, authorizationCheckSuccess, status: status || 401 },
-                  { status: status || 401 }
-              );
-          }
+          await checkAdminAuthorization(req);
           // 1. Connect to database
           await connectToDB();
           // 2. Extract category ID from URL

@@ -10,14 +10,7 @@ export async function POST(req: NextRequest) {
         const parentCategoryId = pathSegments.pop();
         const { subCategoryId } = await req.json();
         // 1. Verify admin authorization
-        const authorizationResponse = await checkAdminAuthorization(req);
-        const { message, success, status } = authorizationResponse;
-        if (!success) {
-            return NextResponse.json(
-                { message, success, status: status || 401 },
-                { status: status || 401 }
-            );
-        }
+        await checkAdminAuthorization(req);
         // 2. Validate category ID format
         if (!parentCategoryId || !subCategoryId) {
             return NextResponse.json(

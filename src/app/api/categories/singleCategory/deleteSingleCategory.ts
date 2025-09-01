@@ -4,14 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 export const deleteSingleCategory = async (req: NextRequest, categoryId: string) => {
     try {
         // 1. Verify admin authorization
-        const authorizationResponse = await checkAdminAuthorization(req);
-        const { message, success, status } = authorizationResponse;
-        if (!success) {
-            return NextResponse.json(
-                { message, success, status: status || 401 },
-                { status: status || 401 }
-            );
-        }
+      await checkAdminAuthorization(req);
         // 2. Validate category ID format
         if (!categoryId || !/^[0-9a-fA-F]{24}$/.test(categoryId)) {
             return NextResponse.json(
