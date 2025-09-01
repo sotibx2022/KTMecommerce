@@ -12,7 +12,6 @@ import QueryProvider from '../provider/queryProvider'
 import { Provider } from 'react-redux'
 import { store } from '../redux/store'
 import ConditionalComponents from '../_components/conditionalVisibleComponents/ConditionalComponents'
-import { PersistGate } from 'redux-persist/integration/react'
 import LoadingComponent from '../_components/loadingComponent/LoadingComponent'
 interface DashboardLayoutProps {
   children: ReactNode

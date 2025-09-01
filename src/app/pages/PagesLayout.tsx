@@ -11,7 +11,6 @@ import { UserDetailsContextComponent } from '../context/UserDetailsContextCompon
 import {store} from '../redux/store';
 import { Provider } from 'react-redux';
 import ConditionalComponents from '../_components/conditionalVisibleComponents/ConditionalComponents';
-import { PersistGate } from 'redux-persist/integration/react';
 import LoadingComponent from '../_components/loadingComponent/LoadingComponent';
 interface PagesLayoutProps {
   children: ReactNode;

@@ -10,7 +10,6 @@ import {store} from '@/app/redux/store'
 import React, { ReactNode, useContext } from 'react'
 import { Toaster } from 'react-hot-toast'
 import { Provider } from 'react-redux'
-import { PersistGate } from 'redux-persist/integration/react'
 interface SingleProductLayoutProps {
   children: ReactNode
 }

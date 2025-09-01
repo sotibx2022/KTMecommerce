@@ -31,7 +31,6 @@ import Navigation from '../components/Navigation'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTimes } from '@fortawesome/free-solid-svg-icons'
 import OrderDetails from '@/app/_components/orderDetails/OrderDetails'
-import { PersistGate } from 'redux-persist/integration/react'
 import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponent'
 const Page = () => {
   const [statusValue, setStatusValue] = useState('')

@@ -8,7 +8,6 @@ import QueryProvider from '@/app/provider/queryProvider'
 import React, { ReactNode, useContext } from 'react'
 import { Provider } from 'react-redux'
 import { AdvanceSearchProvider } from '@/app/context/AdvanceSearchContext'
-import { PersistGate } from 'redux-persist/integration/react'
 import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponent'
 import { store } from '@/app/redux/store'
 interface CatalogPageLayout {
