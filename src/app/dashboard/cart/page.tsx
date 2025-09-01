@@ -8,19 +8,12 @@ import CartSkeleton from "@/app/_components/skeletontext/CartSkleton";
 import { ShoppingCart } from "lucide-react";
 import { useUserDetails } from "@/app/context/UserDetailsContextComponent";
 import EmptyState from "./EmptyState";
-import { fetchCartItems } from "@/app/redux/cartSlice";
 const Page: React.FC = () => {
   const dispatch = useDispatch();
   const { cartItems, loading: cartLoading, initialized } = useSelector(
     (state: { cart: CartState }) => state.cart
   );
   const { userDetails, userDetailsLoading } = useUserDetails();
-  // Fetch cart items when user is available
-  useEffect(() => {
-    if (userDetails?._id && !initialized) {
-      dispatch(fetchCartItems(userDetails._id) as any);
-    }
-  }, [userDetails?._id, initialized, dispatch]);
   const isLoading = cartLoading || userDetailsLoading;
   const isEmpty = initialized && !isLoading && cartItems.length === 0;
   const hasItems = initialized && !isLoading && cartItems.length > 0;
