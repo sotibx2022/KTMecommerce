@@ -7,19 +7,16 @@ export interface CartState {
   initialized: boolean;
   error: string | null;
 }
-// localStorage key
-const CART_STORAGE_KEY = 'cart_items';
-// Helper functions for localStorage
 const saveCartToLocalStorage = (cartItems: ICartItem[]) => {
   try {
-    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cartItems));
+    localStorage.setItem("cart_items", JSON.stringify(cartItems));
   } catch (error) {
     console.warn('Could not save cart to localStorage', error);
   }
 };
 const loadCartFromLocalStorage = (): ICartItem[] => {
   try {
-    const stored = localStorage.getItem(CART_STORAGE_KEY);
+    const stored = localStorage.getItem("cart_items");
     return stored ? JSON.parse(stored) : [];
   } catch (error) {
     console.warn('Could not load cart from localStorage', error);
@@ -34,23 +31,6 @@ const initialState: CartState = {
   initialized: initialCartItems.length > 0, // Mark as initialized if we have items
   error: null,
 };
-// Async thunk
-export const fetchCartItems = createAsyncThunk(
-  'cart/fetchCartItems',
-  async (userId: string, { rejectWithValue }) => {
-    try {
-      const response = await fetchCartFromDatabase();
-      if (response && 'data' in response) {
-        return response.data;
-      } else {
-        const errorMessage = (response as any)?.error || 'Failed to fetch cart items';
-        return rejectWithValue(errorMessage);
-      }
-    } catch (error) {
-      return rejectWithValue(error instanceof Error ? error.message : 'Unknown error occurred');
-    }
-  }
-);
 const cartSlice = createSlice({
   name: 'cart',
   initialState,
@@ -88,7 +68,7 @@ const cartSlice = createSlice({
     },
     clearCartItems: (state) => {
       state.cartItems = [];
-      localStorage.removeItem(CART_STORAGE_KEY);
+      localStorage.removeItem("cart_items");
       state.loading = false;
       state.error = null;
     },
@@ -96,35 +76,12 @@ const cartSlice = createSlice({
       state.error = null;
     },
   },
-  extraReducers: (builder) => {
-    builder
-      .addCase(fetchCartItems.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(fetchCartItems.fulfilled, (state, action) => {
-        state.loading = false;
-        state.initialized = true;
-        // Only update if we get new data, otherwise keep localStorage data
-        if (action.payload && action.payload.length > 0) {
-          state.cartItems = action.payload;
-          saveCartToLocalStorage(action.payload);
-        }
-        state.error = null;
-      })
-      .addCase(fetchCartItems.rejected, (state, action) => {
-        state.loading = false;
-        state.initialized = true;
-        state.error = action.payload as string;
-        // Keep the localStorage items even if fetch fails
-      });
-  },
 });
-export const { 
-  setCart, 
-  addToCart, 
-  removeFromCart, 
-  updateCartItem, 
+export const {
+  setCart,
+  addToCart,
+  removeFromCart,
+  updateCartItem,
   clearCartItems,
   clearCartError
 } = cartSlice.actions;

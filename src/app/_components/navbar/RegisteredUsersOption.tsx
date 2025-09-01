@@ -10,12 +10,22 @@ import { clearWishListItems } from '@/app/redux/wishListSlice';
 import { useUserDetails } from '@/app/context/UserDetailsContextComponent';
 import UserProfileImage from './UserProfileImage';
 import { useLogout } from '@/app/hooks/queryHooks/useLogout';
+import { useCartItems } from '@/app/hooks/queryHooks/useCartItems';
 const RegisteredUsersOption = () => {
   const [showUserOptions, setShowUserOptions] = useState(false);
   const { userDetails } = useUserDetails();
   const logout = useLogout();
   const dispatch = useDispatch();
-  // Clear cart and wishlist when user logs out
+  useEffect(() => {
+    const storeItems = localStorage.getItem("cart_items");
+    if (!storeItems) {
+      const { data: cartDetails } = useCartItems();
+      if (cartDetails?.success && cartDetails.data) {
+        localStorage.setItem("cart_items", JSON.stringify(cartDetails?.data))
+      }
+    }
+  }, [
+  ])
   const handleLogout = () => {
     dispatch(clearCartItems());
     dispatch(clearWishListItems());
