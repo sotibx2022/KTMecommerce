@@ -8,7 +8,7 @@ import RegisterComponent from '../_components/authComponent/RegisterComponent';
 import NavBar from '../_components/navbar/Navbar';
 import Footer from '../_components/footer/Footer';
 import { UserDetailsContextComponent } from '../context/UserDetailsContextComponent';
-import {persistor, store} from '../redux/store';
+import {store} from '../redux/store';
 import { Provider } from 'react-redux';
 import ConditionalComponents from '../_components/conditionalVisibleComponents/ConditionalComponents';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -20,7 +20,6 @@ const PagesLayout: React.FC<PagesLayoutProps> = ({ children }) => {
   const { visibleComponent } = useContext(DisplayContext) || {};
   return (
     <Provider store={store}>
-      <PersistGate loading={<LoadingComponent />} persistor={persistor}>
     <UserDetailsContextComponent>
         <DisplayComponents>
           <NavBar />
@@ -30,7 +29,6 @@ const PagesLayout: React.FC<PagesLayoutProps> = ({ children }) => {
           <ConditionalComponents/>
         </DisplayComponents>
     </UserDetailsContextComponent>
-    </PersistGate>
     </Provider>
   );
 };

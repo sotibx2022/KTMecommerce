@@ -10,7 +10,7 @@ import LoginComponent from '../_components/authComponent/LoginComponent'
 import RegisterComponent from '../_components/authComponent/RegisterComponent'
 import QueryProvider from '../provider/queryProvider'
 import { Provider } from 'react-redux'
-import { persistor, store } from '../redux/store'
+import { store } from '../redux/store'
 import ConditionalComponents from '../_components/conditionalVisibleComponents/ConditionalComponents'
 import { PersistGate } from 'redux-persist/integration/react'
 import LoadingComponent from '../_components/loadingComponent/LoadingComponent'
@@ -22,7 +22,6 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   return (
     <>
       <Provider store={store}>
-        <PersistGate loading={<LoadingComponent />} persistor={persistor}>
           <QueryProvider>
             <UserDetailsContextComponent>
               <DisplayComponents>
@@ -34,7 +33,6 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
               </DisplayComponents>
             </UserDetailsContextComponent>
           </QueryProvider>
-        </PersistGate>
       </Provider>
     </>
   )

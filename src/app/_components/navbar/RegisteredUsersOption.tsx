@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faCaretUp, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import UserOptions from './UserOptions';
 import { useDispatch } from 'react-redux';
-import { clearCartItems, setCart } from '@/app/redux/cartSlice';
+import { clearCartItems, setCart, loadCartFromStorage } from '@/app/redux/cartSlice';
 import { useCartItems } from '@/app/hooks/queryHooks/useCartItems';
 import { useWishListItems } from '@/app/hooks/queryHooks/useWishListItems';
 import { clearWishListItems, setWishList } from '@/app/redux/wishListSlice';
@@ -14,32 +14,50 @@ import UserProfileImage from './UserProfileImage';
 import { useLogout } from '@/app/hooks/queryHooks/useLogout';
 const RegisteredUsersOption = () => {
   const [showUserOptions, setShowUserOptions] = useState(false);
+  const [hasHydratedFromLocalStorage, setHasHydratedFromLocalStorage] = useState(false);
   const { userDetails } = useUserDetails();
   const logout = useLogout();
   const dispatch = useDispatch();
   const { data: cartItems, isPending: cartPending, isSuccess: cartSuccess } = useCartItems();
   const { data: wishListItems, isPending: wishPending, isSuccess: wishSuccess } = useWishListItems();
   useEffect(() => {
+    // Load from localStorage on component mount (for both logged in and logged out users)
+    dispatch(loadCartFromStorage());
+    setHasHydratedFromLocalStorage(true);
+  }, [dispatch]);
+  useEffect(() => {
+    if (!hasHydratedFromLocalStorage) return;
     if (!userDetails) {
-      dispatch(clearCartItems());
-      dispatch(clearWishListItems());
+      // User is logged out - we already have localStorage data from initial hydration
+      // No need to clear cart/wishlist as they contain guest data from localStorage
       return;
     }
-    // Cart hydration
-    if (cartItems?.success && cartItems.data) {
-      dispatch(setCart({
-        cartItems: cartItems.data,
-        isLoading: false,
-      }));
+    // User is logged in - decide whether to use localStorage or fetch from server
+    const shouldFetchFromServer = true; // You can add logic here if needed
+    if (shouldFetchFromServer) {
+      // Cart hydration from server
+      if (cartItems?.success && cartItems.data) {
+        dispatch(setCart({
+          cartItems: cartItems.data,
+          isLoading: false,
+          initialized: true
+        }));
+      } else if (cartSuccess && !cartItems?.success) {
+        // Handle case where fetch failed but we have localStorage data
+        console.log('Using localStorage cart data due to fetch failure');
+      }
+      // WishList hydration from server
+      if (wishListItems?.success && wishListItems.data) {
+        dispatch(setWishList({
+          wishListItems: wishListItems.data,
+          wishListLoading: false,
+        }));
+      } else if (wishSuccess && !wishListItems?.success) {
+        // Handle case where fetch failed but we have localStorage data
+        console.log('Using localStorage wishlist data due to fetch failure');
+      }
     }
-    // WishList hydration
-    if (wishListItems?.success && wishListItems.data) {
-      dispatch(setWishList({
-        wishListItems: wishListItems.data,
-        wishListLoading: false
-      }));
-    }
-  }, [cartItems, wishListItems, userDetails, dispatch]);
+  }, [cartItems, wishListItems, userDetails, dispatch, cartSuccess, wishSuccess, hasHydratedFromLocalStorage]);
   return (
     <div className="flex-center gap-4">
       <div

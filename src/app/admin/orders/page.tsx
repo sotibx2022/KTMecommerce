@@ -19,7 +19,7 @@ import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
 import { DisplayContext } from '@/app/context/DisplayComponents'
 import { Provider } from 'react-redux'
-import { persistor, store } from '@/app/redux/store'
+import {store } from '@/app/redux/store'
 import SkeletonOrdersTable from './ordersComponents/SkeletonOrdersTable'
 import NoData from '@/app/_components/noData/NoData'
 import { ThemeProviderContext } from '@/app/context/ThemeProvider'
@@ -67,7 +67,6 @@ const Page = () => {
         maxWidth: isCollapsed ? "85vw" : "70vw",
       }}>
       <Provider store={store}>
-        <PersistGate loading={<LoadingComponent />} persistor={persistor}>
         <div
           className={
             tableWrapperRef.current?.clientWidth &&
@@ -153,7 +152,6 @@ const Page = () => {
             <OrderDetails order={orderDetails} expandAble={false} />
           </div>
         </div>}
-        </PersistGate>
       </Provider>
     </div>
   )

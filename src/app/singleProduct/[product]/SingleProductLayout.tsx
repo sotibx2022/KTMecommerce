@@ -6,7 +6,7 @@ import NavBar from '@/app/_components/navbar/Navbar'
 import { DisplayComponents, DisplayContext } from '@/app/context/DisplayComponents'
 import { UserDetailsContextComponent } from '@/app/context/UserDetailsContextComponent'
 import QueryProvider from '@/app/provider/queryProvider'
-import {persistor, store} from '@/app/redux/store'
+import {store} from '@/app/redux/store'
 import React, { ReactNode, useContext } from 'react'
 import { Toaster } from 'react-hot-toast'
 import { Provider } from 'react-redux'
@@ -20,7 +20,6 @@ const SingleProductLayout: React.FC<SingleProductLayoutProps> = ({
   return (
     <div>
       <Provider store={store}>
-        <PersistGate loading={<LoadingComponent />} persistor={persistor}>
         <DisplayComponents>
           <QueryProvider>
             <UserDetailsContextComponent>
@@ -32,7 +31,6 @@ const SingleProductLayout: React.FC<SingleProductLayoutProps> = ({
             </UserDetailsContextComponent>
           </QueryProvider>
         </DisplayComponents>
-        </PersistGate>
       </Provider>
     </div>
   )
