@@ -30,7 +30,6 @@ const RegisteredUsersOption = () => {
       dispatch(setCart({
         cartItems: cartItems.data,
         isLoading: false,
-        initialized: true // only here, after API data ready
       }));
     }
     // WishList hydration
