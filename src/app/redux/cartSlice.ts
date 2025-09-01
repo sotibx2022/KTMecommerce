@@ -39,7 +39,7 @@ export const fetchCartItems = createAsyncThunk(
   'cart/fetchCartItems',
   async (userId: string, { rejectWithValue }) => {
     try {
-      const response = await fetchCartFromDatabase(userId);
+      const response = await fetchCartFromDatabase();
       if (response && 'data' in response) {
         return response.data;
       } else {
