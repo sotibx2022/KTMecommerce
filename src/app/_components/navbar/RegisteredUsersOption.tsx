@@ -29,6 +29,7 @@ const RegisteredUsersOption = () => {
       dispatch(setCart({
         cartItems: cartItems.data,
         isLoading: false,
+        initialized:true,
       }));
     }
     if (wishListItems?.success && wishListItems.data) {
