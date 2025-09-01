@@ -20,7 +20,7 @@ const CartSummary: React.FC<ICartSummary> = ({ order, items }) => {
         router.push(`/dashboard/cartProcess`)
     }
     // Calculate totals or return loading state
-    const { totalItems, totalCost, discount, shippingPrice, grossTotal } =  !items
+    const { totalItems, totalCost, discount, shippingPrice, grossTotal } = !items
         ? {
             totalItems: 0,
             totalCost: 0,
@@ -34,7 +34,7 @@ const CartSummary: React.FC<ICartSummary> = ({ order, items }) => {
         if (!items) return "Loading...";
         return isCurrency ? (
             <span>
-                <Rupee price={value}/>
+                <Rupee price={value} />
             </span>
         ) : (
             value.toString()
@@ -91,7 +91,7 @@ const CartSummary: React.FC<ICartSummary> = ({ order, items }) => {
                     {displayValue(grossTotal, true)}
                 </span>
             </div>
-            {order  && <PrimaryButton searchText="Order" onClick={handleOrderProducts} />}
+            {order && <PrimaryButton searchText="Order" onClick={handleOrderProducts} />}
         </div>
     )
 }

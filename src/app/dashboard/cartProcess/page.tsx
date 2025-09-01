@@ -36,7 +36,7 @@ const page = () => {
   const [showConfetti, setShowConfetti] = useState(false);
   const { userDetails } = useUserDetails();
   const router = useRouter();
-  const { cartItems} = useSelector((state: { cart: CartState }) => state.cart);
+  const { cartItems } = useSelector((state: { cart: CartState }) => state.cart);
   const dispatch = useDispatch()
   const mutation = useMutation<
     APIResponseSuccess<IOrderDetails> | IStripeResponseData | APIResponseError,
@@ -108,7 +108,7 @@ const page = () => {
           <div className="md:col-span-2">
             <h2 className="secondaryHeading">CheckOut</h2>
             <div className="md:col-span-1">
-            <OrderSummary />
+              <OrderSummary />
             </div>
             <FormProvider {...method}>
               <form className="space-y-6" onSubmit={method.handleSubmit(onSubmit)}>

@@ -1,4 +1,3 @@
-import { IUser } from '@/app/types/user'
 import Link from 'next/link'
 import React from 'react'
 import SecondaryButton from '../../secondaryButton/SecondaryButton'
