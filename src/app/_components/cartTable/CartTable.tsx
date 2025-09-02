@@ -143,7 +143,7 @@ const CartTable = () => {
           <Tbody>
             {cartItems.map((item, index) => (
               <Tr
-                key={`${item.productId}+${item.productName}`}
+                key={index}
                 className="border-b border-b-helper hover:bg-primaryLight hover:text-background"
               >
                 <Td className="p-3">
@@ -159,7 +159,7 @@ const CartTable = () => {
                     text={item.productName}
                   />
                 </Td>
-                <Td className="p-3">${item.price}</Td>
+                <Td className="p-3"><Rupee price={item.price}/></Td>
                 <Td className="p-3">
                   <div className="flex items-center gap-2">
                     <button
