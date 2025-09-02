@@ -18,6 +18,11 @@ const initialState: CartState = {
   cartItems: initialCartItems,
   isInitialized: false, // Start as false
 };
+// Payload type for updating cart item
+interface UpdateCartItemPayload {
+  productId: string;
+  quantity: number;
+}
 const cartSlice = createSlice({
   name: "cart",
   initialState,
@@ -37,7 +42,7 @@ const cartSlice = createSlice({
       state.isInitialized = true;
     },
     // Add an item
-    addCartItem: (state, action: PayloadAction<ICartItem>) => {
+    addToCart: (state, action: PayloadAction<ICartItem>) => {
       state.cartItems.push(action.payload);
       saveCartToLocalStorage(state.cartItems);
     },
@@ -48,16 +53,13 @@ const cartSlice = createSlice({
       );
       saveCartToLocalStorage(state.cartItems);
     },
-    // Update an item by productId
-    updateCartItem: (state, action: PayloadAction<ICartItem>) => {
+    // Update item quantity by productId
+    updateCartItem: (state, action: PayloadAction<UpdateCartItemPayload>) => {
       const index = state.cartItems.findIndex(
         (item) => item.productId === action.payload.productId
       );
       if (index !== -1) {
-        state.cartItems[index] = {
-          ...state.cartItems[index],
-          ...action.payload,
-        };
+        state.cartItems[index].quantity = action.payload.quantity;
         saveCartToLocalStorage(state.cartItems);
       }
     },
@@ -68,7 +70,7 @@ export const {
   setCart,
   clearCartItems,
   markCartAsInitialized,
-  addCartItem,
+  addToCart,
   removeFromCart,
   updateCartItem,
 } = cartSlice.actions;

@@ -45,7 +45,7 @@ const useAddItemToCart = () => {
       // Add only new items
       mutation.mutate(newItems);
       newItems.forEach(item => {
-        dispatch(addToCart([item]));
+        dispatch(addToCart(item));
         if (userDetails?._id.toString() === item.wishersId.toString()) {
           removeItemFromWishList.mutate(item.productId);
         }
