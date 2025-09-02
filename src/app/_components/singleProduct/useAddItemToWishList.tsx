@@ -14,7 +14,6 @@ const useAddItemToWishList = () => {
   const mutation = useMutation<APIResponseSuccess | APIResponseError, Error, IWishListItemDisplay>({
     mutationFn: updateWishListItem,
     onSuccess: (response: APIResponseSuccess | APIResponseError) => {
-      toast.success(response.message);
     },
     onError: (error) => {
       toast.error(error.message);

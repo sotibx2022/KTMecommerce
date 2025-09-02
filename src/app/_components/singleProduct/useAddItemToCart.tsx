@@ -17,7 +17,6 @@ const useAddItemToCart = () => {
   const mutation = useMutation<APIResponseSuccess | APIResponseError, Error, ICartItem[]>({
     mutationFn: updatedCartItems,
     onSuccess: (response: APIResponseSuccess | APIResponseError) => {
-      toast.success(response.message);
     },
     onError: (error) => {
       toast.error(error.message);
