@@ -36,17 +36,30 @@ const cartSlice = createSlice({
     markCartAsInitialized: (state) => {
       state.isInitialized = true;
     },
-    // Example extra reducer: add an item
+    // Add an item
     addCartItem: (state, action: PayloadAction<ICartItem>) => {
       state.cartItems.push(action.payload);
       saveCartToLocalStorage(state.cartItems);
     },
-    // Example extra reducer: remove item by id
+    // Remove item by productId
     removeFromCart: (state, action: PayloadAction<string>) => {
       state.cartItems = state.cartItems.filter(
         (item) => item.productId !== action.payload
       );
       saveCartToLocalStorage(state.cartItems);
+    },
+    // Update an item by productId
+    updateCartItem: (state, action: PayloadAction<ICartItem>) => {
+      const index = state.cartItems.findIndex(
+        (item) => item.productId === action.payload.productId
+      );
+      if (index !== -1) {
+        state.cartItems[index] = {
+          ...state.cartItems[index],
+          ...action.payload,
+        };
+        saveCartToLocalStorage(state.cartItems);
+      }
     },
   },
 });
@@ -57,6 +70,7 @@ export const {
   markCartAsInitialized,
   addCartItem,
   removeFromCart,
+  updateCartItem,
 } = cartSlice.actions;
 // Export reducer
 export default cartSlice.reducer;
