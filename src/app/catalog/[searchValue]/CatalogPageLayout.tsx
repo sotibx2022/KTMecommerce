@@ -17,7 +17,6 @@ const CatalogPageLayout: React.FC<CatalogPageLayout> = ({ children }) => {
   const { visibleComponent } = useContext(DisplayContext);
   return (
     <div>
-      <Provider store={store}>
           <DisplayComponents>
             <QueryProvider>
               <UserDetailsContextComponent>
@@ -28,7 +27,6 @@ const CatalogPageLayout: React.FC<CatalogPageLayout> = ({ children }) => {
               </UserDetailsContextComponent>
             </QueryProvider>
           </DisplayComponents>
-      </Provider>
     </div>
   )
 }

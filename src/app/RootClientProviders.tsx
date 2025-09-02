@@ -12,17 +12,17 @@ import { DisplayComponents } from "./context/DisplayComponents";
 export default function RootClientProviders({ children }: { children: React.ReactNode }) {
   return (
     <Provider store={store}>
-        <UserDetailsContextComponent>
-            <DisplayComponents>
       <QueryProvider>
-        <Suspense fallback={<LoadingComponent />}>
-          <AdvanceSearchProvider>
-            <AdminDetailsContext>{children}</AdminDetailsContext>
-          </AdvanceSearchProvider>
-        </Suspense>
-      </QueryProvider>
-      </DisplayComponents>
+      <UserDetailsContextComponent>
+        <DisplayComponents>
+            <Suspense fallback={<LoadingComponent />}>
+              <AdvanceSearchProvider>
+                <AdminDetailsContext>{children}</AdminDetailsContext>
+              </AdvanceSearchProvider>
+            </Suspense>
+        </DisplayComponents>
       </UserDetailsContextComponent>
+      </QueryProvider>
     </Provider>
   );
 }

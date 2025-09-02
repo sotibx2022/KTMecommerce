@@ -1,13 +1,18 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ICartItem } from "../types/cart"; // adjust path based on your project
-// Utility: save cart items to local storage
+// Utility: save cart items to local storage safely
 const saveCartToLocalStorage = (cartItems: ICartItem[]) => {
-  localStorage.setItem("cart_items", JSON.stringify(cartItems));
+  if (typeof localStorage !== "undefined") {
+    localStorage.setItem("cart_items", JSON.stringify(cartItems));
+  }
 };
-// Utility: load cart items from local storage
+// Utility: load cart items from local storage safely
 const loadCartFromLocalStorage = (): ICartItem[] => {
-  const stored = localStorage.getItem("cart_items");
-  return stored ? JSON.parse(stored) : [];
+  if (typeof localStorage !== "undefined") {
+    const stored = localStorage.getItem("cart_items");
+    return stored ? JSON.parse(stored) : [];
+  }
+  return [];
 };
 export interface CartState {
   cartItems: ICartItem[];
@@ -16,7 +21,7 @@ export interface CartState {
 const initialCartItems = loadCartFromLocalStorage();
 const initialState: CartState = {
   cartItems: initialCartItems,
-  isInitialized: true, // ✅ mark as initialized immediately after hydration
+  isInitialized: true, // mark as initialized immediately after hydration
 };
 // Payload type for updating cart item
 interface UpdateCartItemPayload {
@@ -35,7 +40,9 @@ const cartSlice = createSlice({
     clearCartItems: (state) => {
       state.cartItems = [];
       state.isInitialized = true;
-      localStorage.removeItem("cart_items");
+      if (typeof localStorage !== "undefined") {
+        localStorage.removeItem("cart_items");
+      }
     },
     // Add an item
     addToCart: (state, action: PayloadAction<ICartItem>) => {
