@@ -21,10 +21,16 @@ const RegisteredUsersOption = () => {
   );
   const { data: cartDetails, isPending, error } = useCartItems();
   useEffect(() => {
-    if (userDetails && !isPending && cartDetails?.success && cartDetails.data) {
+    if (
+      userDetails &&
+      !isPending &&
+      cartDetails?.success &&
+      cartDetails.data &&
+      cartItems.length === 0
+    ) {
       dispatch(setCart(cartDetails.data));
     }
-  }, [cartDetails, dispatch, isPending, userDetails]);
+  }, [cartDetails, dispatch, isPending, userDetails, cartItems]);
   const handleLogout = () => {
     dispatch(clearCartItems());
     dispatch(clearWishListItems());
