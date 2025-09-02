@@ -4,7 +4,7 @@ import SecondaryButton from '../secondaryButton/SecondaryButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faCaretUp, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import UserOptions from './UserOptions';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux'; // Import useSelector
 import { clearCartItems, setCart } from '@/app/redux/cartSlice';
 import { clearWishListItems } from '@/app/redux/wishListSlice';
 import { useUserDetails } from '@/app/context/UserDetailsContextComponent';
@@ -16,16 +16,17 @@ const RegisteredUsersOption = () => {
   const { userDetails } = useUserDetails();
   const logout = useLogout();
   const dispatch = useDispatch();
+  // Get the current cart items from Redux, not localStorage
+  const cartItems = useSelector((state: { cart: { cartItems: any[] } }) => state.cart.cartItems);
   const { data: cartDetails } = useCartItems();
   useEffect(() => {
-    const storeItems = localStorage.getItem("cart_items");
-    if (!storeItems) {
-      if (cartDetails?.success && cartDetails.data) {
-        localStorage.setItem("cart_items", JSON.stringify(cartDetails?.data))
-        dispatch(setCart(cartDetails.data))
-      }
+    // Only fetch from API if the user is logged in, the Redux cart is empty, and the API call succeeded
+    if (cartItems.length === 0 && cartDetails?.success && cartDetails.data) {
+      // Update both localStorage and Redux state
+      localStorage.setItem("cart_items", JSON.stringify(cartDetails.data));
+      dispatch(setCart(cartDetails.data));
     }
-  }, [cartDetails])
+  }, [cartDetails, cartItems.length, dispatch]); // Add cartItems.length as a dependency
   const handleLogout = () => {
     dispatch(clearCartItems());
     dispatch(clearWishListItems());

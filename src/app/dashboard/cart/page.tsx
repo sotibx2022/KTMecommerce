@@ -10,13 +10,16 @@ import { useUserDetails } from "@/app/context/UserDetailsContextComponent";
 import EmptyState from "./EmptyState";
 const Page: React.FC = () => {
   const dispatch = useDispatch();
-  const { cartItems, } = useSelector(
+  // Get the isInitialized flag from the Redux store
+  const { cartItems, isInitialized } = useSelector(
     (state: { cart: CartState }) => state.cart
   );
   const { userDetails, userDetailsLoading } = useUserDetails();
-  const isLoading =  userDetailsLoading;
-  const isEmpty = cartItems.length === 0;
-  const hasItems = cartItems.length > 0;
+  // Show skeleton until we're sure the cart state is fully initialized
+  // (either from localStorage or from the API sync)
+  const isLoading = userDetailsLoading || !isInitialized;
+  const isEmpty = isInitialized && cartItems.length === 0;
+  const hasItems = isInitialized && cartItems.length > 0;
   return (
     <div className="container">
       <h2 className="secondaryHeading">Cart</h2>
@@ -34,10 +37,7 @@ const Page: React.FC = () => {
             <CartSummary order={true} />
           </div>
         </div>
-      ) : (
-        // Show skeleton while we're still initializing
-        <CartSkeleton />
-      )}
+      ) : null}
     </div>
   );
 };
