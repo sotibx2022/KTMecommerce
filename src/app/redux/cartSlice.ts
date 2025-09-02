@@ -44,9 +44,6 @@ const cartSlice = createSlice({
         state.cartItems[index].quantity = action.payload.quantity;
       }
     },
-    setInitialized: (state, action: PayloadAction<boolean>) => {
-      state.isInitialized = action.payload;
-    },
   },
 });
 // Export actions
@@ -56,7 +53,6 @@ export const {
   addToCart,
   removeFromCart,
   updateCartItem,
-  setInitialized,
 } = cartSlice.actions;
 // Export reducer
 export default cartSlice.reducer;

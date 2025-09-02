@@ -19,14 +19,12 @@ const RegisteredUsersOption = () => {
   const { cartItems, isInitialized } = useSelector(
     (state: { cart: CartState }) => state.cart
   );
-  // Fetch cart items from the server
-  const { data: cartDetails } = useCartItems();
-  // Set cart data when cartDetails is available and cart is not initialized
+  const { data: cartDetails, isPending } = useCartItems();
   useEffect(() => {
     if (cartDetails?.success && cartDetails.data && !isInitialized) {
       dispatch(setCart(cartDetails.data));
     }
-  }, [cartDetails, isInitialized, dispatch]);
+  }, [cartDetails, isInitialized, dispatch, isPending]);
   const handleLogout = () => {
     dispatch(clearCartItems());
     dispatch(clearWishListItems());
