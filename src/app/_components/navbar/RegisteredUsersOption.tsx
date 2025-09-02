@@ -1,11 +1,11 @@
 "use client"
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import SecondaryButton from '../secondaryButton/SecondaryButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faCaretUp, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import UserOptions from './UserOptions';
 import { useDispatch, useSelector } from 'react-redux';
-import { CartState, clearCartItems, setCart } from '@/app/redux/cartSlice';
+import { CartState, clearCartItems, setCart, setIsInitialized } from '@/app/redux/cartSlice';
 import { clearWishListItems } from '@/app/redux/wishListSlice';
 import { useUserDetails } from '@/app/context/UserDetailsContextComponent';
 import UserProfileImage from './UserProfileImage';
@@ -20,15 +20,14 @@ const RegisteredUsersOption = () => {
     (state: { cart: CartState }) => state.cart
   );
   const { data: cartDetails, isPending, error } = useCartItems();
+  // Initialize cart or mark initialized
   useEffect(() => {
-    if (
-      userDetails &&
-      !isPending &&
-      cartDetails?.success &&
-      cartDetails.data &&
-      cartItems.length === 0
-    ) {
-      dispatch(setCart(cartDetails.data));
+    if (userDetails && !isPending) {
+      if (cartDetails?.success && cartDetails.data && cartItems.length === 0) {
+        dispatch(setCart(cartDetails.data)); // sets isInitialized = true
+      } else if (!cartDetails || !cartDetails.success) {
+        dispatch(setIsInitialized(true)); // mark initialized even if no data
+      }
     }
   }, [cartDetails, dispatch, isPending, userDetails, cartItems]);
   const handleLogout = () => {
@@ -36,6 +35,14 @@ const RegisteredUsersOption = () => {
     dispatch(clearWishListItems());
     logout.mutate();
   };
+  // Show loading state until cart is initialized
+  if (!isInitialized) {
+    return (
+      <div className="flex-center gap-4">
+        <p className="text-white">Loading cart...</p>
+      </div>
+    );
+  }
   return (
     <div className="flex-center gap-4">
       <div
