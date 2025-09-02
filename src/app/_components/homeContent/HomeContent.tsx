@@ -10,7 +10,7 @@ const HomeContent = () => {
   return (
     <>
       <NavBar />
-      <HeroLayout />
+      {/* <HeroLayout />
       <AllProductsBanner />
       <CategoryCards
         categoryType="isNewArrival"
@@ -30,7 +30,7 @@ const HomeContent = () => {
       />
       <BrandCaurosel />
       <ConditionalComponents />
-      <Footer />
+      <Footer /> */}
     </>
   )
 }

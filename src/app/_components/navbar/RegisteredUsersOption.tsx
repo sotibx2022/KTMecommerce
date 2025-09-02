@@ -12,6 +12,7 @@ import UserProfileImage from './UserProfileImage';
 import { useLogout } from '@/app/hooks/queryHooks/useLogout';
 import { useCartItems } from '@/app/hooks/queryHooks/useCartItems';
 const RegisteredUsersOption = () => {
+  console.log("1. Component rendering");
   const [showUserOptions, setShowUserOptions] = useState(false);
   const { userDetails } = useUserDetails();
   const logout = useLogout();
@@ -19,13 +20,35 @@ const RegisteredUsersOption = () => {
   const { cartItems, isInitialized } = useSelector(
     (state: { cart: CartState }) => state.cart
   );
-  const { data: cartDetails, isPending } = useCartItems();
+  console.log(userDetails);
+  console.log(userDetails?._id)
+  console.log("2. Redux state - cartItems:", cartItems, "isInitialized:", isInitialized);
+  const { data: cartDetails, isPending, error } = useCartItems();
+  console.log("3. useCartItems hook - data:", cartDetails, "isPending:", isPending, "error:", error);
   useEffect(() => {
-    if (cartDetails?.success && cartDetails.data && !isInitialized) {
-      dispatch(setCart(cartDetails.data));
+    console.log("4. useEffect triggered - isPending:", isPending, "cartDetails:", cartDetails);
+   if(userDetails){
+     if (!isPending) {
+      console.log("5. Data loading completed");
+      if (cartDetails) {
+        console.log("6. cartDetails exists:", cartDetails);
+        if (cartDetails.success && cartDetails.data) {
+          console.log("7. Dispatching setCart with data:", cartDetails.data);
+          dispatch(setCart(cartDetails.data));
+        } else {
+          console.log("8. cartDetails missing success or data properties");
+        }
+      } else {
+        console.log("9. cartDetails is null/undefined");
+      }
+    } else {
+      console.log("10. Data is still loading (isPending: true)");
     }
-  }, [cartDetails, isInitialized, dispatch, isPending]);
+   }
+  }, [cartDetails, dispatch, isPending, userDetails]);
+  console.log("11. Rendering UI - cartItems length:", cartItems.length);
   const handleLogout = () => {
+    console.log("12. Logout clicked");
     dispatch(clearCartItems());
     dispatch(clearWishListItems());
     logout.mutate();
