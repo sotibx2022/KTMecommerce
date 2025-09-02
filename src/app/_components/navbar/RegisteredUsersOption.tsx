@@ -20,13 +20,20 @@ const RegisteredUsersOption = () => {
   const cartItems = useSelector((state: { cart: { cartItems: any[] } }) => state.cart.cartItems);
   const { data: cartDetails } = useCartItems();
   useEffect(() => {
-    // Only fetch from API if the user is logged in, the Redux cart is empty, and the API call succeeded
-    if (cartItems.length === 0 && cartDetails?.success && cartDetails.data) {
-      // Update both localStorage and Redux state
-      localStorage.setItem("cart_items", JSON.stringify(cartDetails.data));
-      dispatch(setCart(cartDetails.data));
+    if (cartItems.length === 0) {
+      // 1️⃣ Try localStorage first
+      const stored = localStorage.getItem("cart_items");
+      if (stored) {
+        dispatch(setCart(JSON.parse(stored)));
+        return;
+      }
+      // 2️⃣ If nothing in localStorage, fall back to API
+      if (cartDetails?.success && cartDetails.data) {
+        localStorage.setItem("cart_items", JSON.stringify(cartDetails.data));
+        dispatch(setCart(cartDetails.data));
+      }
     }
-  }, [cartDetails, cartItems.length, dispatch]); // Add cartItems.length as a dependency
+  }, [cartItems.length, cartDetails, dispatch]);
   const handleLogout = () => {
     dispatch(clearCartItems());
     dispatch(clearWishListItems());
