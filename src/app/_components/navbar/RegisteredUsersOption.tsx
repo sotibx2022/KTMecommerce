@@ -22,11 +22,13 @@ const RegisteredUsersOption = () => {
   const { data: cartDetails, isPending, error } = useCartItems();
   // Initialize cart or mark initialized
   useEffect(() => {
-    if (userDetails && !isPending) {
+    if(isPending){
+       dispatch(setIsInitialized(false));
+    }
+    else{
       if (cartDetails?.success && cartDetails.data && cartItems.length === 0) {
-        dispatch(setCart(cartDetails.data)); // sets isInitialized = true
-      } else if (!cartDetails || !cartDetails.success) {
-        dispatch(setIsInitialized(true)); // mark initialized even if no data
+        dispatch(setCart(cartDetails.data));
+        dispatch(setIsInitialized(true));
       }
     }
   }, [cartDetails, dispatch, isPending, userDetails, cartItems]);
@@ -35,14 +37,6 @@ const RegisteredUsersOption = () => {
     dispatch(clearWishListItems());
     logout.mutate();
   };
-  // Show loading state until cart is initialized
-  if (!isInitialized) {
-    return (
-      <div className="flex-center gap-4">
-        <p className="text-white">Loading cart...</p>
-      </div>
-    );
-  }
   return (
     <div className="flex-center gap-4">
       <div
@@ -62,12 +56,6 @@ const RegisteredUsersOption = () => {
         />
         {showUserOptions && <UserOptions />}
       </div>
-      {/* Display cart count badge */}
-      {cartItems.length > 0 && (
-        <div className="cart-badge">
-          {cartItems.reduce((total, item) => total + item.quantity, 0)}
-        </div>
-      )}
       <SecondaryButton
         text="Log Out"
         icon={faSignOutAlt}
