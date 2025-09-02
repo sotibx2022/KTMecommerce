@@ -42,7 +42,7 @@ const cartSlice = createSlice({
       saveCartToLocalStorage(state.cartItems);
     },
     // Example extra reducer: remove item by id
-    removeCartItem: (state, action: PayloadAction<string>) => {
+    removeFromCart: (state, action: PayloadAction<string>) => {
       state.cartItems = state.cartItems.filter(
         (item) => item.productId !== action.payload
       );
@@ -56,7 +56,7 @@ export const {
   clearCartItems,
   markCartAsInitialized,
   addCartItem,
-  removeCartItem,
+  removeFromCart,
 } = cartSlice.actions;
 // Export reducer
 export default cartSlice.reducer;
