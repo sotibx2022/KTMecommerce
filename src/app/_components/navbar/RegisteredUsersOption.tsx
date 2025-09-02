@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faCaretUp, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import UserOptions from './UserOptions';
 import { useDispatch, useSelector } from 'react-redux'; // Import useSelector
-import { clearCartItems, setCart } from '@/app/redux/cartSlice';
+import { CartState, clearCartItems, setCart } from '@/app/redux/cartSlice';
 import { clearWishListItems } from '@/app/redux/wishListSlice';
 import { useUserDetails } from '@/app/context/UserDetailsContextComponent';
 import UserProfileImage from './UserProfileImage';
@@ -16,18 +16,17 @@ const RegisteredUsersOption = () => {
   const { userDetails } = useUserDetails();
   const logout = useLogout();
   const dispatch = useDispatch();
-  // Get the current cart items from Redux, not localStorage
-  const cartItems = useSelector((state: { cart: { cartItems: any[] } }) => state.cart.cartItems);
+  const { cartItems, isInitialized } = useSelector(
+     (state: { cart: CartState }) => state.cart
+   );
   const { data: cartDetails } = useCartItems();
   useEffect(() => {
     if (cartItems.length === 0) {
-      // 1️⃣ Try localStorage first
       const stored = localStorage.getItem("cart_items");
       if (stored) {
         dispatch(setCart(JSON.parse(stored)));
         return;
       }
-      // 2️⃣ If nothing in localStorage, fall back to API
       if (cartDetails?.success && cartDetails.data) {
         localStorage.setItem("cart_items", JSON.stringify(cartDetails.data));
         dispatch(setCart(cartDetails.data));

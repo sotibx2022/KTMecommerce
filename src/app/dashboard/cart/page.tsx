@@ -10,13 +10,10 @@ import { useUserDetails } from "@/app/context/UserDetailsContextComponent";
 import EmptyState from "./EmptyState";
 const Page: React.FC = () => {
   const dispatch = useDispatch();
-  // Get the isInitialized flag from the Redux store
   const { cartItems, isInitialized } = useSelector(
     (state: { cart: CartState }) => state.cart
   );
   const { userDetails, userDetailsLoading } = useUserDetails();
-  // Show skeleton until we're sure the cart state is fully initialized
-  // (either from localStorage or from the API sync)
   const isLoading = userDetailsLoading || !isInitialized;
   const isEmpty = isInitialized && cartItems.length === 0;
   const hasItems = isInitialized && cartItems.length > 0;
