@@ -17,7 +17,7 @@ const IconGroup = () => {
   const { setVisibleComponent } = useContext(DisplayContext)
   const { userDetails, userDetailsLoading } = useUserDetails();
   const router = useRouter();
-  const { cartItems, loading } = useSelector((state: { cart: any }) => state.cart);
+  const { cartItems, isInitialized } = useSelector((state: { cart: any }) => state.cart);
   const { wishListItems, wishListLoading } = useSelector((state: { wishList: any }) => state.wishList);
   const handleProtectedRoute = (path: string) => {
     if (!userDetails) setVisibleComponent('login')
@@ -30,7 +30,7 @@ const IconGroup = () => {
         name="Cart"
         onClick={() => handleProtectedRoute('/dashboard/cart')}
         number={userDetails ? cartItems.length : 0}
-        loading={userDetailsLoading ? userDetailsLoading : loading}
+        loading={userDetailsLoading ? userDetailsLoading : !isInitialized}
       />
       <IconButton
         icon={<Heart />} // Lucide icon as JSX
