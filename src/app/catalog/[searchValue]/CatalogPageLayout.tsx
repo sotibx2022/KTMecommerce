@@ -10,6 +10,7 @@ import { Provider } from 'react-redux'
 import { AdvanceSearchProvider } from '@/app/context/AdvanceSearchContext'
 import LoadingComponent from '@/app/_components/loadingComponent/LoadingComponent'
 import { store } from '@/app/redux/store'
+import RootClientProviders from '@/app/RootClientProviders'
 interface CatalogPageLayout {
   children: ReactNode
 }
@@ -17,16 +18,12 @@ const CatalogPageLayout: React.FC<CatalogPageLayout> = ({ children }) => {
   const { visibleComponent } = useContext(DisplayContext);
   return (
     <div>
-          <DisplayComponents>
-            <QueryProvider>
-              <UserDetailsContextComponent>
-                <NavBar />
-                {children}
-                <Footer />
-                <ConditionalComponents />
-              </UserDetailsContextComponent>
-            </QueryProvider>
-          </DisplayComponents>
+      <RootClientProviders>
+        <NavBar />
+        {children}
+        <Footer />
+        <ConditionalComponents />
+      </RootClientProviders>
     </div>
   )
 }

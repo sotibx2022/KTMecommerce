@@ -13,15 +13,15 @@ export default function RootClientProviders({ children }: { children: React.Reac
   return (
     <Provider store={store}>
       <QueryProvider>
-      <UserDetailsContextComponent>
-        <DisplayComponents>
+        <UserDetailsContextComponent>
+          <DisplayComponents>
             <Suspense fallback={<LoadingComponent />}>
               <AdvanceSearchProvider>
                 <AdminDetailsContext>{children}</AdminDetailsContext>
               </AdvanceSearchProvider>
             </Suspense>
-        </DisplayComponents>
-      </UserDetailsContextComponent>
+          </DisplayComponents>
+        </UserDetailsContextComponent>
       </QueryProvider>
     </Provider>
   );

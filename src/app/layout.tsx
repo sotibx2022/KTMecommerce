@@ -1,4 +1,3 @@
-// layout.tsx (server component)
 import localFont from "next/font/local";
 import "./globals.css";
 import QueryProvider from "./provider/queryProvider";

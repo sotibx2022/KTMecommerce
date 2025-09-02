@@ -13,6 +13,7 @@ import { Provider } from 'react-redux'
 import { store } from '../redux/store'
 import ConditionalComponents from '../_components/conditionalVisibleComponents/ConditionalComponents'
 import LoadingComponent from '../_components/loadingComponent/LoadingComponent'
+import RootClientProviders from '../RootClientProviders'
 interface DashboardLayoutProps {
   children: ReactNode
 }
@@ -20,19 +21,13 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   const { visibleComponent } = useContext(DisplayContext) || {};
   return (
     <>
-      <Provider store={store}>
-          <QueryProvider>
-            <UserDetailsContextComponent>
-              <DisplayComponents>
-                <NavBar />
-                {children}
-                <Toaster />
-                <Footer />
-                <ConditionalComponents />
-              </DisplayComponents>
-            </UserDetailsContextComponent>
-          </QueryProvider>
-      </Provider>
+      <RootClientProviders>
+        <NavBar />
+        {children}
+        <Toaster />
+        <Footer />
+        <ConditionalComponents />
+      </RootClientProviders>
     </>
   )
 }
