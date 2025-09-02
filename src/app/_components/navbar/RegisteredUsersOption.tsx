@@ -1,10 +1,10 @@
 "use client"
-import React, { useEffect, useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import SecondaryButton from '../secondaryButton/SecondaryButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown, faCaretUp, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import UserOptions from './UserOptions';
-import { useDispatch, useSelector } from 'react-redux'; // Import useSelector
+import { useDispatch, useSelector } from 'react-redux';
 import { CartState, clearCartItems, setCart } from '@/app/redux/cartSlice';
 import { clearWishListItems } from '@/app/redux/wishListSlice';
 import { useUserDetails } from '@/app/context/UserDetailsContextComponent';
@@ -17,22 +17,16 @@ const RegisteredUsersOption = () => {
   const logout = useLogout();
   const dispatch = useDispatch();
   const { cartItems, isInitialized } = useSelector(
-     (state: { cart: CartState }) => state.cart
-   );
+    (state: { cart: CartState }) => state.cart
+  );
+  // Fetch cart items from the server
   const { data: cartDetails } = useCartItems();
+  // Set cart data when cartDetails is available and cart is not initialized
   useEffect(() => {
-    if (cartItems.length === 0) {
-      const stored = localStorage.getItem("cart_items");
-      if (stored) {
-        dispatch(setCart(JSON.parse(stored)));
-        return;
-      }
-      if (cartDetails?.success && cartDetails.data) {
-        localStorage.setItem("cart_items", JSON.stringify(cartDetails.data));
-        dispatch(setCart(cartDetails.data));
-      }
+    if (cartDetails?.success && cartDetails.data && !isInitialized) {
+      dispatch(setCart(cartDetails.data));
     }
-  }, [cartItems.length, cartDetails, dispatch]);
+  }, [cartDetails, isInitialized, dispatch]);
   const handleLogout = () => {
     dispatch(clearCartItems());
     dispatch(clearWishListItems());
@@ -57,6 +51,12 @@ const RegisteredUsersOption = () => {
         />
         {showUserOptions && <UserOptions />}
       </div>
+      {/* Display cart count badge */}
+      {cartItems.length > 0 && (
+        <div className="cart-badge">
+          {cartItems.reduce((total, item) => total + item.quantity, 0)}
+        </div>
+      )}
       <SecondaryButton
         text="Log Out"
         icon={faSignOutAlt}
