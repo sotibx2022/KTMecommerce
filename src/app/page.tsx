@@ -18,22 +18,6 @@ const page = async () => {
       queryKey: ["initialCategories"],
       queryFn: fetchInitialCategories,
     }),
-    // Prefetch cart items
-    queryClient.prefetchQuery({
-      queryKey: ['cartItems'],
-      queryFn: fetchCartFromDatabase,
-    }),
-    // Prefetch wishlist items
-    queryClient.prefetchQuery({
-      queryKey: ['wishListItems'],
-      queryFn: fetchWishListFromDashboard,
-    }),
-    // Prefetch user details
-    queryClient.prefetchQuery({
-      queryKey: ['user'],
-      queryFn: getUserDetails,
-    }),
-    // Prefetch brands
     queryClient.prefetchQuery({
       queryKey: ['brands'],
       queryFn: async () => {
@@ -60,7 +44,7 @@ const page = async () => {
   const dehydratedState = dehydrate(queryClient);
   return (
     <HydrationBoundary state={dehydratedState}>
-        <HomePage />
+      <HomePage />
     </HydrationBoundary>
   )
 }
