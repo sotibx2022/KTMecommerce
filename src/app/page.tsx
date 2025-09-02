@@ -8,6 +8,8 @@ import axios from 'axios';
 import { SpecificProducts } from './services/apiFunctions/productsQuery';
 import { config } from '@/config/configuration';
 import { fetchCartFromDatabase, fetchWishListFromDashboard } from './services/apiFunctions/cartItems';
+import { Provider } from 'react-redux';
+import { store } from './redux/store';
 const page = async () => {
   const queryClient = getQueryClient();
   await Promise.all([
@@ -58,7 +60,9 @@ const page = async () => {
   const dehydratedState = dehydrate(queryClient);
   return (
     <HydrationBoundary state={dehydratedState}>
+      <Provider store={store}>
       <HomePage />
+      </Provider>
     </HydrationBoundary>
   )
 }
