@@ -19,12 +19,10 @@ const SingleProductLayout: React.FC<SingleProductLayoutProps> = ({
 }) => {
   return (
     <div>
-      <RootClientProviders>
         <NavBar />
         {children}
         <Footer />
         <ConditionalComponents />
-      </RootClientProviders>
     </div>
   )
 }

@@ -21,13 +21,11 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   const { visibleComponent } = useContext(DisplayContext) || {};
   return (
     <>
-      <RootClientProviders>
         <NavBar />
         {children}
         <Toaster />
         <Footer />
         <ConditionalComponents />
-      </RootClientProviders>
     </>
   )
 }

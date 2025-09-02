@@ -18,12 +18,10 @@ const CatalogPageLayout: React.FC<CatalogPageLayout> = ({ children }) => {
   const { visibleComponent } = useContext(DisplayContext);
   return (
     <div>
-      <RootClientProviders>
         <NavBar />
         {children}
         <Footer />
         <ConditionalComponents />
-      </RootClientProviders>
     </div>
   )
 }
