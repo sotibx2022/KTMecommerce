@@ -27,24 +27,24 @@ const RegisteredUsersOption = () => {
   console.log("3. useCartItems hook - data:", cartDetails, "isPending:", isPending, "error:", error);
   useEffect(() => {
     console.log("4. useEffect triggered - isPending:", isPending, "cartDetails:", cartDetails);
-   if(userDetails){
-     if (!isPending) {
-      console.log("5. Data loading completed");
-      if (cartDetails) {
-        console.log("6. cartDetails exists:", cartDetails);
-        if (cartDetails.success && cartDetails.data) {
-          console.log("7. Dispatching setCart with data:", cartDetails.data);
-          dispatch(setCart(cartDetails.data));
+    if (userDetails) {
+      if (!isPending) {
+        console.log("5. Data loading completed");
+        if (cartDetails) {
+          console.log("6. cartDetails exists:", cartDetails);
+          if (cartDetails.success && cartDetails.data) {
+            console.log("7. Dispatching setCart with data:", cartDetails.data);
+            dispatch(setCart(cartDetails.data));
+          } else {
+            console.log("8. cartDetails missing success or data properties");
+          }
         } else {
-          console.log("8. cartDetails missing success or data properties");
+          console.log("9. cartDetails is null/undefined");
         }
       } else {
-        console.log("9. cartDetails is null/undefined");
+        console.log("10. Data is still loading (isPending: true)");
       }
-    } else {
-      console.log("10. Data is still loading (isPending: true)");
     }
-   }
   }, [cartDetails, dispatch, isPending, userDetails]);
   console.log("11. Rendering UI - cartItems length:", cartItems.length);
   const handleLogout = () => {
