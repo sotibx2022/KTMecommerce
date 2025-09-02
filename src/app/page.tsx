@@ -60,9 +60,7 @@ const page = async () => {
   const dehydratedState = dehydrate(queryClient);
   return (
     <HydrationBoundary state={dehydratedState}>
-      <Provider store={store}>
-      <HomePage />
-      </Provider>
+        <HomePage />
     </HydrationBoundary>
   )
 }
