@@ -11,12 +11,12 @@ const loadCartFromLocalStorage = (): ICartItem[] => {
 };
 export interface CartState {
   cartItems: ICartItem[];
-  isInitialized: boolean; // Add this flag
+  isInitialized: boolean;
 }
 const initialCartItems = loadCartFromLocalStorage();
 const initialState: CartState = {
   cartItems: initialCartItems,
-  isInitialized: false, // Start as false
+  isInitialized: true, // ✅ mark as initialized immediately after hydration
 };
 // Payload type for updating cart item
 interface UpdateCartItemPayload {
@@ -29,17 +29,13 @@ const cartSlice = createSlice({
   reducers: {
     setCart: (state, action: PayloadAction<ICartItem[]>) => {
       state.cartItems = action.payload;
-      state.isInitialized = true; // Set to true when cart is set
+      state.isInitialized = true;
       saveCartToLocalStorage(state.cartItems);
     },
     clearCartItems: (state) => {
       state.cartItems = [];
-      state.isInitialized = true; // Also set to true on clear
-      localStorage.removeItem("cart_items");
-    },
-    // Add a new action to just set the initialized flag
-    markCartAsInitialized: (state) => {
       state.isInitialized = true;
+      localStorage.removeItem("cart_items");
     },
     // Add an item
     addToCart: (state, action: PayloadAction<ICartItem>) => {
@@ -69,7 +65,6 @@ const cartSlice = createSlice({
 export const {
   setCart,
   clearCartItems,
-  markCartAsInitialized,
   addToCart,
   removeFromCart,
   updateCartItem,
