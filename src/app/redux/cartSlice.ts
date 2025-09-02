@@ -19,11 +19,9 @@ const cartSlice = createSlice({
   reducers: {
     setCart: (state, action: PayloadAction<ICartItem[]>) => {
       state.cartItems = action.payload;
-      state.isInitialized = true;
     },
     clearCartItems: (state) => {
       state.cartItems = [];
-      state.isInitialized = true;
     },
     setIsInitialized: (state, action: PayloadAction<boolean>) => {
       state.isInitialized = action.payload;
