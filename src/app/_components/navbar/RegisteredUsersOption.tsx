@@ -2,11 +2,7 @@
 import React, { useState, useEffect } from "react";
 import SecondaryButton from "../secondaryButton/SecondaryButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCaretDown,
-  faCaretUp,
-  faSignOutAlt,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCaretDown, faCaretUp, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 import UserOptions from "./UserOptions";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -19,6 +15,7 @@ import {
   clearWishListItems,
   IWishListState,
   setWishList,
+  setWishlistInitialized,
 } from "@/app/redux/wishListSlice";
 import { useUserDetails } from "@/app/context/UserDetailsContextComponent";
 import UserProfileImage from "./UserProfileImage";
@@ -31,77 +28,41 @@ const RegisteredUsersOption = () => {
   const logout = useLogout();
   const dispatch = useDispatch();
   const { cartItems } = useSelector((state: { cart: CartState }) => state.cart);
-  const { wishListItems } = useSelector(
-    (state: { wishList: IWishListState }) => state.wishList
-  );
+  const { wishListItems } = useSelector((state: { wishList: IWishListState }) => state.wishList);
   const { data: cartDetails, isPending: isCartPending } = useCartItems();
-  const { data: wishlistDetails, isPending: isWishListPending } =
-    useWishListItems();
+  const { data: wishlistDetails, isPending: isWishListPending } = useWishListItems();
   // Initialize cart or mark initialized
   useEffect(() => {
     if (!userDetails) {
-      dispatch(setCartInitialized(true)); // no user, mark as initialized
+      dispatch(setCartInitialized(true));
       return;
     }
-    if (isCartPending) {
+    if (isCartPending && cartItems.length === 0) {
       dispatch(setCartInitialized(false));
       return;
     }
-    if (
-      cartDetails?.success &&
-      cartDetails.data &&
-      cartItems.length === 0
-    ) {
+    if (cartDetails?.success && cartDetails.data && cartItems.length === 0) {
       dispatch(setCart(cartDetails.data));
+      dispatch(setCartInitialized(true));
+      return;
     }
-    dispatch(setCartInitialized(true));
   }, [cartDetails, dispatch, isCartPending, userDetails, cartItems.length]);
   // Initialize wishlist or mark initialized
   useEffect(() => {
     if (!userDetails) {
-      dispatch(
-        setWishList({
-          wishListItems: [],
-          wishListLoading: false,
-        })
-      );
+      dispatch(setWishList([]));
+      dispatch(setWishlistInitialized(true));
       return;
     }
-    if (isWishListPending) {
-      dispatch(
-        setWishList({
-          wishListItems: [],
-          wishListLoading: true,
-        })
-      );
+    if (isWishListPending && wishListItems.length === 0) {
+      dispatch(setWishlistInitialized(false));
       return;
     }
-    if (
-      wishlistDetails?.success &&
-      wishlistDetails.data &&
-      wishListItems.length === 0
-    ) {
-      dispatch(
-        setWishList({
-          wishListItems: wishlistDetails.data,
-          wishListLoading: false,
-        })
-      );
-    } else {
-      dispatch(
-        setWishList({
-          wishListItems: [],
-          wishListLoading: false,
-        })
-      );
+    if (wishlistDetails?.success && wishlistDetails.data && wishListItems.length === 0) {
+      dispatch(setWishList(wishlistDetails.data));
     }
-  }, [
-    wishlistDetails,
-    dispatch,
-    isWishListPending,
-    userDetails,
-    wishListItems.length,
-  ]);
+    dispatch(setWishlistInitialized(true));
+  }, [wishlistDetails, dispatch, isWishListPending, userDetails, wishListItems.length]);
   const handleLogout = () => {
     dispatch(clearCartItems());
     dispatch(clearWishListItems());
@@ -118,8 +79,7 @@ const RegisteredUsersOption = () => {
         <p className="text-white capitalize">
           <span className="text-helper">Welcome</span>{" "}
           {userDetails &&
-            (userDetails.fullName.split(" ")[0] ||
-              userDetails.email.split("@")[0])}
+            (userDetails.fullName.split(" ")[0] || userDetails.email.split("@")[0])}
         </p>
         <FontAwesomeIcon
           icon={showUserOptions ? faCaretUp : faCaretDown}
@@ -127,11 +87,7 @@ const RegisteredUsersOption = () => {
         />
         {showUserOptions && <UserOptions />}
       </div>
-      <SecondaryButton
-        text="Log Out"
-        icon={faSignOutAlt}
-        onClick={handleLogout}
-      />
+      <SecondaryButton text="Log Out" icon={faSignOutAlt} onClick={handleLogout} />
     </div>
   );
 };
