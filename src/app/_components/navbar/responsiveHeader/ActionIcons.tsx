@@ -20,7 +20,7 @@ export const ActionIcons: React.FC<IActionIcons> = ({
   cartListLoading,
 }) => (
   <div className="flex justify-between w-full">
-    <IconButton icon={<Search />} name="Search" onClick={onSearch}/>
+    <IconButton icon={<Search />} name="Search" onClick={onSearch} />
     <IconButton
       icon={<ShoppingCart />}
       name="Cart"

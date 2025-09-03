@@ -1,10 +1,7 @@
 "use client";
 import React, { useContext, useState } from "react";
 import { useSelector } from "react-redux";
-import { useRouter } from "next/navigation";
 import { DisplayContext } from "@/app/context/DisplayComponents";
-import { useCategories } from "@/app/hooks/queryHooks/useCategory";
-import { useLogout } from "@/app/hooks/queryHooks/useLogout";
 import { HeaderSection } from "./HeaderSection";
 import { ActionIcons } from "./ActionIcons";
 import { CategoryItem } from "./CategoryItem";

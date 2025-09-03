@@ -88,10 +88,9 @@ const RegisteredUsersOption = () => {
         })
       );
     } else {
-      // ensure loading flag is false when request finished
       dispatch(
         setWishList({
-          wishListItems: wishListItems,
+          wishListItems: [],
           wishListLoading: false,
         })
       );

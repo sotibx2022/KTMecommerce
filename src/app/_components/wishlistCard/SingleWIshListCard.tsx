@@ -60,9 +60,11 @@ const SingleWishListCard: React.FC<WishlistItemProps> = ({ item, actionAble }) =
             />
           </h3>
         </div>
-        <div className="flex justify-between items-center">
-          <Badge variant={'outline'}>{item.brand}</Badge>
+        <div className="flex justify-center items-center flex-col gap-2">
+          <div>
+            <Badge variant={'outline'}>{item.brand}</Badge>
           <Badge variant={'secondary'}>{item.category}</Badge>
+          </div>
           <p className="price-highlight text-lg font-semibold">
             <Rupee price={item.price}/>
           </p>

@@ -22,7 +22,6 @@ const IconLoadingSkleton: React.FC<{ name: string }> = ({ name }) => {
                 {renderIcon()}
                 <div className="absolute inset-0 bg-[var(--primaryLight)] bg-opacity-20 rounded-full animate-pulse" />
             </div>
-            {/* Text skeleton */}
             <div className="bg-[var(--primaryLight)] bg-opacity-20 rounded-full w-12 h-4 mt-1 animate-pulse" />
         </div>
     );
