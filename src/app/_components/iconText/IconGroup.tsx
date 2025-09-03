@@ -2,17 +2,10 @@
 import { useRouter } from 'next/navigation';
 import React, { useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-// import IconButton from './IconButton';
 import { ShoppingCart, Heart } from 'lucide-react'; // Import Lucide icons
-import dynamic from 'next/dynamic';
-import IconLoadingSkleton from './IconLoadingSkleton';
 import { useUserDetails } from '@/app/context/UserDetailsContextComponent';
 import { DisplayContext } from '@/app/context/DisplayComponents';
-import LoginComponent from '../authComponent/LoginComponent';
-const IconButton = dynamic(() => import('./IconButton'), {
-  ssr: false,
-  loading: () => <IconLoadingSkleton />
-});
+import IconButton from './IconButton';
 const IconGroup = () => {
   const { setVisibleComponent } = useContext(DisplayContext)
   const { userDetails, userDetailsLoading } = useUserDetails();
