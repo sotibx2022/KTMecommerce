@@ -30,14 +30,14 @@ const IconGroup = () => {
         name="Cart"
         onClick={() => handleProtectedRoute('/dashboard/cart')}
         number={userDetails ? cartItems.length : 0}
-        loading={userDetailsLoading ? userDetailsLoading : !isInitialized}
+        loading={userDetailsLoading ? (userDetailsLoading||!isInitialized) : false}
       />
       <IconButton
         icon={<Heart />} // Lucide icon as JSX
         name="Wishlist"
         onClick={() => handleProtectedRoute('/dashboard/wishlist')}
         number={userDetails ? wishListItems.length : 0}
-        loading={userDetailsLoading ? userDetailsLoading : wishListLoading}
+        loading={userDetailsLoading ? (userDetailsLoading || wishListLoading):false}
       />
     </div>
   );
