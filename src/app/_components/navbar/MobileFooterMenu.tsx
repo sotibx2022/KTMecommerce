@@ -59,8 +59,8 @@ const MobileFooterMenu = () => {
           onWishlist={() => handleProtectedRoute('/dashboard/wishlist')}
           cartCount={userDetails ? (cartItems?.length ?? 0) : 0}
           wishlistCount={userDetails ? (wishListItems.length ?? 0) : 0}
-          wishlistLoading={userDetails ? (isWishlistInitialized||userDetailsLoading) : false}
-          cartListLoading={userDetails? (userDetailsLoading || isInitialized):false}
+          wishlistLoading={userDetails ? (!isWishlistInitialized||userDetailsLoading) : false}
+          cartListLoading={userDetails? (userDetailsLoading || !isInitialized):false}
         />
       </div>
     </motion.div>

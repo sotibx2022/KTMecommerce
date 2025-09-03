@@ -17,12 +17,8 @@ const IconLoadingSkleton: React.FC<{ name: string }> = ({ name }) => {
         }
     };
     return (
-        <div className="relative flex flex-col items-center justify-center p-1 rounded-lg border border-[var(--primaryLight)] w-[60px]">
-            <div className="relative flex items-center justify-center">
-                {renderIcon()}
-                <div className="absolute inset-0 bg-[var(--primaryLight)] bg-opacity-20 rounded-full animate-pulse" />
-            </div>
-            <div className="bg-[var(--primaryLight)] bg-opacity-20 rounded-full w-12 h-4 mt-1 animate-pulse" />
+        <div className="animate-pulse">
+            {renderIcon()}
         </div>
     );
 };

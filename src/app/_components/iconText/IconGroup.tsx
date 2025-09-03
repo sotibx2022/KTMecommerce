@@ -11,7 +11,7 @@ const IconGroup = () => {
   const { userDetails, userDetailsLoading } = useUserDetails();
   const router = useRouter();
   const { cartItems, isInitialized } = useSelector((state: { cart: any }) => state.cart);
-  const { wishListItems, wishListLoading } = useSelector((state: { wishList: any }) => state.wishList);
+  const { wishListItems, initialized:isWishlistInitialized } = useSelector((state: { wishList: any }) => state.wishList);
   const handleProtectedRoute = (path: string) => {
     if (!userDetails) setVisibleComponent('login')
     else router.push(path)
@@ -19,18 +19,18 @@ const IconGroup = () => {
   return (
     <div className='flex gap-2'>
       <IconButton
-        icon={<ShoppingCart />} // Lucide icon as JSX
+        icon={<ShoppingCart />} 
         name="Cart"
         onClick={() => handleProtectedRoute('/dashboard/cart')}
         number={userDetails ? cartItems.length : 0}
         loading={userDetailsLoading ? (userDetailsLoading||!isInitialized) : false}
       />
       <IconButton
-        icon={<Heart />} // Lucide icon as JSX
+        icon={<Heart />} 
         name="Wishlist"
         onClick={() => handleProtectedRoute('/dashboard/wishlist')}
         number={userDetails ? wishListItems.length : 0}
-        loading={userDetailsLoading ? (userDetailsLoading || wishListLoading):false}
+        loading={userDetailsLoading ? (userDetailsLoading || !isWishlistInitialized):false}
       />
     </div>
   );
