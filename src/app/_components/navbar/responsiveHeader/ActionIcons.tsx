@@ -1,11 +1,6 @@
 "use client"
 import { Search, ShoppingCart, Heart } from "lucide-react";
-import dynamic from "next/dynamic";
-import IconLoadingSkleton from "../../iconText/IconLoadingSkleton";
-const IconButton = dynamic(() => import('../../iconText/IconButton'), {
-  ssr: false,
-  loading: () => <IconLoadingSkleton /> // Loading component
-});
+import IconButton from "../../iconText/IconButton";
 interface IActionIcons {
   onSearch: () => void,
   onCart: () => void,
