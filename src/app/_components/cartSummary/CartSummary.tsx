@@ -68,7 +68,7 @@ const CartSummary: React.FC<ICartSummary> = ({ order, items }) => {
           </p>
           {datatoRender === cartItems && isInitialized && (
             <span className="primaryParagraph italic text-green-500">
-              10% off above $200
+              10% off above <Rupee price="2000"/>
             </span>
           )}
         </div>
@@ -84,7 +84,7 @@ const CartSummary: React.FC<ICartSummary> = ({ order, items }) => {
           </p>
           {datatoRender === cartItems && isInitialized && (
             <span className="primaryParagraph italic text-green-500">
-              Free shipping over $1000
+              Free shipping over <Rupee price={'10000'}/>
             </span>
           )}
         </div>
