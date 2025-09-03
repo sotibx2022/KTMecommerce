@@ -109,7 +109,7 @@ const CartTable = () => {
                     >
                       <FaMinus className="text-xs" />
                     </button>
-                    <span className="border border-helper px-3 py-1">{item.quantity}</span>
+                    <span className="border border-helper px-3 py-1">{item.quantity?item.quantity:1}</span>
                     <button
                       className="bg-primaryDark text-white w-8 h-8 rounded-full flex items-center justify-center"
                       onClick={() => updateQuantity(item.productId, item.quantity + 1)}
