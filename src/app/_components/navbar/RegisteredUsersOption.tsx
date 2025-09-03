@@ -47,6 +47,7 @@ const RegisteredUsersOption = () => {
     } else {
       if (cartDetails?.success && cartDetails.data && cartItems.length === 0) {
         dispatch(setCart(cartDetails.data));
+        dispatch(setCartInitialized(true));
       }
       dispatch(setCartInitialized(true));
     }
@@ -55,18 +56,18 @@ const RegisteredUsersOption = () => {
   useEffect(() => {
     if (!userDetails) {
       dispatch(setWishList({
-            wishListItems: [],
-            wishListLoading: false,
-          }));
+        wishListItems: [],
+        wishListLoading: false,
+      }));
       return;
     }
     if (isWishListPending) {
       dispatch(
-          setWishList({
-            wishListItems: [],
-            wishListLoading: true,
-          })
-        );
+        setWishList({
+          wishListItems: [],
+          wishListLoading: true,
+        })
+      );
     } else {
       if (
         wishlistDetails?.success &&
@@ -80,10 +81,10 @@ const RegisteredUsersOption = () => {
           })
         );
       }
-     dispatch(setWishList({
-            wishListItems: [],
-            wishListLoading: false,
-          }));
+      dispatch(setWishList({
+        wishListItems: [],
+        wishListLoading: false,
+      }));
     }
   }, [wishlistDetails, dispatch, isWishListPending, userDetails, wishListItems]);
   const handleLogout = () => {
