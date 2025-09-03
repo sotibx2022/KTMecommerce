@@ -10,7 +10,7 @@ import { addToWishList } from '@/app/redux/wishListSlice';
 import { ReduxState } from '@/app/redux/store';
 const useAddItemToWishList = () => {
   const dispatch = useDispatch();
-  const { wishListItems, wishListLoading } = useSelector((state: ReduxState) => state.wishList);
+  const { wishListItems} = useSelector((state: ReduxState) => state.wishList);
   const mutation = useMutation<APIResponseSuccess | APIResponseError, Error, IWishListItemDisplay>({
     mutationFn: updateWishListItem,
     onSuccess: (response: APIResponseSuccess | APIResponseError) => {

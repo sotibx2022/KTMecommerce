@@ -15,7 +15,7 @@ const MobileFooterMenu = () => {
   const { setVisibleComponent } = useContext(DisplayContext)
   const router = useRouter()
   const { cartItems,isInitialized } = useSelector((state: { cart: CartState }) => state.cart)
-  const { wishListItems, wishListLoading } = useSelector((state: { wishList: IWishListState }) => state.wishList)
+  const { wishListItems, initialized:isWishlistInitialized } = useSelector((state: { wishList: IWishListState }) => state.wishList)
   // Animation variants
   const footerMenuVariant = {
     hidden: { y: 100, transition: { duration: 0.3 } },
@@ -59,8 +59,8 @@ const MobileFooterMenu = () => {
           onWishlist={() => handleProtectedRoute('/dashboard/wishlist')}
           cartCount={userDetails ? (cartItems?.length ?? 0) : 0}
           wishlistCount={userDetails ? (wishListItems.length ?? 0) : 0}
-          wishlistLoading={userDetails ? wishListLoading : userDetailsLoading}
-          cartListLoading={userDetailsLoading && isInitialized}
+          wishlistLoading={userDetails ? (isWishlistInitialized||userDetailsLoading) : false}
+          cartListLoading={userDetails? (userDetailsLoading || isInitialized):false}
         />
       </div>
     </motion.div>

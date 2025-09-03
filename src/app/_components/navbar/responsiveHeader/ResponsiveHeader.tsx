@@ -3,14 +3,11 @@ import React, { useContext, useState } from "react";
 import { useSelector } from "react-redux";
 import { DisplayContext } from "@/app/context/DisplayComponents";
 import { HeaderSection } from "./HeaderSection";
-import { ActionIcons } from "./ActionIcons";
 import { CategoryItem } from "./CategoryItem";
 import { QuickLinks } from "./QuickLinks";
-import { UserSection } from "./UserSection";
 import LoginComponent from "../../authComponent/LoginComponent";
 import { CartState } from "@/app/redux/cartSlice";
 import { Category } from "@/app/types/categories";
-import { useUserDetails } from "@/app/context/UserDetailsContextComponent";
 import { useInitialCategories } from "@/app/data/categoriesData";
 const ResponsiveHeader = () => {
   const cartItems = useSelector((state: { cart: CartState }) => state.cart.cartItems);

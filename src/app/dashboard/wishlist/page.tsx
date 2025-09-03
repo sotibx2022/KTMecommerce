@@ -28,9 +28,9 @@ const WishListItemsPage = () => {
           <SkeletonSlide />
         </div>
       ) : isEmpty ? (
-        <EmptyState 
-          icon={<HeartOff />} 
-          message="There are no items in the WishList. Please browse and add products" 
+        <EmptyState
+          icon={<HeartOff />}
+          message="There are no items in the WishList. Please browse and add products"
         />
       ) : (
         <>
