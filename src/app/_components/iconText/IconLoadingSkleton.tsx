@@ -18,7 +18,6 @@ const IconLoadingSkleton: React.FC<{ name: string }> = ({ name }) => {
     };
     return (
         <div className="relative flex flex-col items-center justify-center p-1 rounded-lg border border-[var(--primaryLight)] w-[60px]">
-            {/* Icon with pulse skeleton overlay */}
             <div className="relative flex items-center justify-center">
                 {renderIcon()}
                 <div className="absolute inset-0 bg-[var(--primaryLight)] bg-opacity-20 rounded-full animate-pulse" />

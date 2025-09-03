@@ -2,7 +2,11 @@
 import React, { useState, useEffect } from "react";
 import SecondaryButton from "../secondaryButton/SecondaryButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCaretDown, faCaretUp, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCaretDown,
+  faCaretUp,
+  faSignOutAlt,
+} from "@fortawesome/free-solid-svg-icons";
 import UserOptions from "./UserOptions";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -27,38 +31,40 @@ const RegisteredUsersOption = () => {
   const logout = useLogout();
   const dispatch = useDispatch();
   const { cartItems } = useSelector((state: { cart: CartState }) => state.cart);
-  const { wishListItems } = useSelector((state: { wishList: IWishListState }) => state.wishList);
-  const {
-    data: cartDetails,
-    isPending: isCartPending,
-  } = useCartItems();
-  const {
-    data: wishlistDetails,
-    isPending: isWishListPending,
-  } = useWishListItems();
+  const { wishListItems } = useSelector(
+    (state: { wishList: IWishListState }) => state.wishList
+  );
+  const { data: cartDetails, isPending: isCartPending } = useCartItems();
+  const { data: wishlistDetails, isPending: isWishListPending } =
+    useWishListItems();
   // Initialize cart or mark initialized
   useEffect(() => {
     if (!userDetails) {
-      dispatch(setCartInitialized(true));
+      dispatch(setCartInitialized(true)); // no user, mark as initialized
       return;
     }
     if (isCartPending) {
       dispatch(setCartInitialized(false));
-    } else {
-      if (cartDetails?.success && cartDetails.data && cartItems.length === 0) {
-        dispatch(setCart(cartDetails.data));
-        dispatch(setCartInitialized(true));
-      }
-      dispatch(setCartInitialized(true));
+      return;
     }
-  }, [cartDetails, dispatch, isCartPending, userDetails, cartItems]);
+    if (
+      cartDetails?.success &&
+      cartDetails.data &&
+      cartItems.length === 0
+    ) {
+      dispatch(setCart(cartDetails.data));
+    }
+    dispatch(setCartInitialized(true));
+  }, [cartDetails, dispatch, isCartPending, userDetails, cartItems.length]);
   // Initialize wishlist or mark initialized
   useEffect(() => {
     if (!userDetails) {
-      dispatch(setWishList({
-        wishListItems: [],
-        wishListLoading: false,
-      }));
+      dispatch(
+        setWishList({
+          wishListItems: [],
+          wishListLoading: false,
+        })
+      );
       return;
     }
     if (isWishListPending) {
@@ -68,25 +74,35 @@ const RegisteredUsersOption = () => {
           wishListLoading: true,
         })
       );
-    } else {
-      if (
-        wishlistDetails?.success &&
-        wishlistDetails.data &&
-        wishListItems.length === 0
-      ) {
-        dispatch(
-          setWishList({
-            wishListItems: wishlistDetails.data,
-            wishListLoading: false,
-          })
-        );
-      }
-      dispatch(setWishList({
-        wishListItems: [],
-        wishListLoading: false,
-      }));
+      return;
     }
-  }, [wishlistDetails, dispatch, isWishListPending, userDetails, wishListItems]);
+    if (
+      wishlistDetails?.success &&
+      wishlistDetails.data &&
+      wishListItems.length === 0
+    ) {
+      dispatch(
+        setWishList({
+          wishListItems: wishlistDetails.data,
+          wishListLoading: false,
+        })
+      );
+    } else {
+      // ensure loading flag is false when request finished
+      dispatch(
+        setWishList({
+          wishListItems: wishListItems,
+          wishListLoading: false,
+        })
+      );
+    }
+  }, [
+    wishlistDetails,
+    dispatch,
+    isWishListPending,
+    userDetails,
+    wishListItems.length,
+  ]);
   const handleLogout = () => {
     dispatch(clearCartItems());
     dispatch(clearWishListItems());
