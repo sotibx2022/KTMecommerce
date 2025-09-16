@@ -18,10 +18,10 @@ const LogoComponent: React.FC<LogoComponentProps> = ({ theme }) => {
                         className='w-auto h-[50px]'
                     />
                     <img
-                        src='assets/brand/textlogo.png'
+                        src='/assets/brand/textlogo.png'
                         alt='text logo'
                         style={theme === "dark" ? { filter: 'invert(1) brightness(2)' } : undefined}
-                        className='w-auto h-[50px]'
+                        className='w-auto h-[30px]'
                     />
                 </div>
             ) : (
