@@ -19,7 +19,7 @@ export const analyzeRemarks = async (
     const llmModel = () =>
       new ChatGroq({
         apiKey: config.groqSecretKey,
-        model: "llama3-70b-8192",
+        model: "llama-3.1-8B-instant",
         temperature: 0,
       });
     console.log("Creating prompt template...");

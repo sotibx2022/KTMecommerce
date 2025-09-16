@@ -6,7 +6,7 @@ import { config } from "@/config/configuration";
 // Define schema for validation
 const llmConfig = () => new ChatGroq({
     apiKey: config.groqSecretKey,
-    model: "llama3-70b-8192",
+    model: "llama-3.1-8B-instant",
 });
 const productDetailsSchema = z.object({
     productDetails: z.object({
