@@ -26,7 +26,6 @@ const ProductBasicDetailsForm: React.FC<ProductBasicDetailsFormProps> = ({ actio
       return response.data;
     },
     onSuccess: (response) => {
-      console.log(response.data);
       setValue('productDescription', response.data.productDetails.productDescription, { shouldValidate: true });
       setValue('productFeatures', response.data.productDetails.productFeatures, { shouldValidate: true });
       setValue('price', response.data.productDetails.price, { shouldValidate: true })
