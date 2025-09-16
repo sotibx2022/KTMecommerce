@@ -1,3 +1,7 @@
+// Helper function to escape regex special characters
+function escapeRegex(str: string) {
+    return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // escape all special chars
+}
 import CategoryModel from "@/models/categories.model";
 import { NextRequest, NextResponse } from "next/server";
 import { classifyProductCategory } from "./classifyProductCategory";
@@ -47,12 +51,15 @@ export async function POST(req: NextRequest) {
     };
     // Multi-word partial search - STRICT (all words must match)
     const words = productModelResult?.split(/\s+/).filter(Boolean);
-    const strictConditions = words?.map(word => ({
-        $or: [
-            { productName: { $regex: word, $options: "i" } },
-            { productDescription: { $regex: word, $options: "i" } }
-        ]
-    }));
+    const strictConditions = words?.map(rawWord => {
+        const word = escapeRegex(rawWord);
+        return {
+            $or: [
+                { productName: { $regex: word, $options: "i" } },
+                { productDescription: { $regex: word, $options: "i" } }
+            ]
+        };
+    });
     let matchStage: Record<string, any> = { ...baseMatchStage, $or: strictConditions };
     // Add price filter
     if (minPrice != null || maxPrice != null) {
